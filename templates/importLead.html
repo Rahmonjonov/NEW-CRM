@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}
+    <title>{%if LANGUAGE_CODE == 'en' %}
+                                            CRM | Board
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Доска
+                                        {% else %}
+                                            CRM | Board
+                                        {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+
+{% endblock css %}
+{% block content %}
+    <section class="content">
+        <div class="col-md-6 col-12">
+            <div class="box">
+                <div class="box-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == "error" %}
+                                    <div class="alert alert-danger alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        {{ message }}</div>
+                                {% endif %}
+                                {% if message.tags == "success" %}
+                                    <div class="alert alert-success alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        {{ message }}</div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-2">
+                                {%if LANGUAGE_CODE == 'en' %}
+                                    Select the CSV file
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                    Выберите CSV-файл
+                                {% else %}
+                                    CSV faylni tanlang
+                                {% endif %}</label>
+                            <div class="col-lg-10">
+                                <input type="file" name="leads" class="form-control" accept=".xlsx">
+                            </div>
+                        </div>
+                        <div style="float: right">
+                            <input class="btn btn-primary" type="submit" value="{%if LANGUAGE_CODE == 'en' %}Import{% elif LANGUAGE_CODE == 'ru'%}Импорт{% else %}Import qilish{% endif %}">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+{% endblock content %}
+
+{% block js %}
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+
+{% endblock js %}

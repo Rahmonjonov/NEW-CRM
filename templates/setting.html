@@ -1,0 +1,796 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Settings
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Настройки
+                                        {% else %}
+                                            CRM | Sozlama
+                                        {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <!-- Vendors Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <!-- Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+    <style>
+        .texts {
+            color: #BDD1F8;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 22px;
+
+        }
+
+        .inputs {
+            background: #363E5C;
+            border: 0.5px solid rgba(189, 209, 248, 0.5);
+            border-radius: 13px;
+            box-sizing: border-box;
+        }
+    </style>
+{% endblock css %}
+{% block content %}
+    <section class="content">
+
+        <div class="box box-default">
+            <div class="box-body">
+                <!-- Nav tabs -->
+                <div class="vtabs" style="width: 100%">
+                    <ul class="nav nav-tabs tabs-vertical" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home4" role="tab"><span
+                                class="hidden-sm-up"><i class="ion-home"></i></span> <span
+                                class="hidden-xs-down">{% if LANGUAGE_CODE == 'en' %}
+                                            Integration
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Интеграция
+                                        {% else %}
+                                            Integratsiya
+                                        {% endif %}</span>
+                        </a></li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#profile4" role="tab"><span
+                                class="hidden-sm-up"><i class="ion-person"></i></span> <span
+                                class="hidden-xs-down">{% if LANGUAGE_CODE == 'en' %}
+                                            Staffs
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Персонал
+                                        {% else %}
+                                            Hodimlar
+                                        {% endif %}</span></a>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#info1" role="tab"><span
+                                        class="hidden-sm-up"><i class="ion-person"></i></span> <span
+                                        class="hidden-xs-down">{% if LANGUAGE_CODE == 'en' %}
+                                                    Information
+                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                    Информация
+                                                {% else %}
+                                                    Malumot
+                                                {% endif %}</span></a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home4" role="tabpanel">
+                            <div class="p-15">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        {% if message.tags == "error" %}
+                                            <div class="alert alert-error alert-dismissable">
+                                                <button type="button" class="close" data-dismiss="alert"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                {{ message }}
+                                            </div>
+                                        {% endif %}
+                                        {% if message.tags == "success" %}
+                                            <div class="alert alert-success alert-dismissable">
+                                                <button type="button" class="close" data-dismiss="alert"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                {{ message }}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+
+                                <div class="row">
+                                    <div class="col-xl-2 col-6" data-toggle="modal" data-target="#modal-centerbot">
+                                        <div class="box overflow-hidden pull-up hov-rs" style="margin: 0">
+                                            <div class="box-body text-center">
+                                                <div class="icon bg-primary-light rounded w-60 h-60 mx-auto">
+                                                    <i class="text-primary mr-0 font-size-24 mdi mdi-robot"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="text-mute mt-20 mb-0 font-size-16">{% if LANGUAGE_CODE == 'en' %}
+                                            Telegram
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Телеграмма
+                                        {% else %}
+                                            Telegram
+                                        {% endif %}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-6" data-toggle="modal" data-target="#modal-centersms">
+                                        <div class="box overflow-hidden pull-up hov-rs" style="margin: 0">
+                                            <div class="box-body text-center">
+                                                <div class="icon bg-info-light rounded w-60 h-60 mx-auto">
+                                                    <i class="text-info mr-0 font-size-24 mdi mdi-message-reply-text"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="text-mute mt-20 mb-0 font-size-16">SMS(Eskiz uz)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-2 col-6" data-toggle="modal" data-target="#modal-centersmsto">
+                                        <div class="box overflow-hidden pull-up hov-rs" style="margin: 0">
+                                            <div class="box-body text-center">
+                                                <div class="icon bg-info-light rounded w-60 h-60 mx-auto">
+                                                    <i class="text-info mr-0 font-size-24 mdi mdi-message-reply-text"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="text-mute mt-20 mb-0 font-size-16">SMS(SMSto)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="profile4" role="tabpanel">
+
+                            <div class="box" style="margin: 0;">
+                                <div class="box-header with-border" style="padding: 0.5rem 0.5rem;">
+
+                                    <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                            Staffs
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Персонал
+                                        {% else %}
+                                            Hodimlar
+                                        {% endif %}</h4>
+                                    <button style="float: right" type="button" class="btn btn-rounded btn-primary"
+                                            data-toggle="modal" data-target="#modal-center">{% if LANGUAGE_CODE == 'en' %}
+                                            Add
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Добавлять
+                                        {% else %}
+                                            Qo'shish
+                                        {% endif %}
+                                    </button>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover mb-0">
+                                            <tbody>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                {% if LANGUAGE_CODE == 'en' %}
+                                                <th scope="col">First</th>
+                                                <th scope="col">Last</th>
+                                                <th scope="col">Position</th>
+                                                <th scope="col">Delete</th>
+                                                <th scope="col">Edit</th>
+                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                <th scope="col">Имя</th>
+                                                <th scope="col">Фамилия</th>
+                                                <th scope="col">Позиция</th>
+                                                <th scope="col">Удалить</th>
+                                                <th scope="col">Редактировать</th>
+                                                {% else %}
+                                                <th scope="col">Ism</th>
+                                                <th scope="col">Familiya</th>
+                                                <th scope="col">Lavozim</th>
+                                                <th scope="col">O'chirish</th>
+                                                <th scope="col">Taxrirlash</th>
+                                                {% endif %}
+
+                                            </tr>
+                                            </tbody>
+                                            <tbody>
+                                            {% for u in users %}
+                                                <tr>
+                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                    <td>{{ u.first_name }}</td>
+                                                    <td>{{ u.last_name }}</td>
+                                                    <td>{% if u.is_director == True %}Director{% else %}
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                            Staff
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Персонал
+                                        {% else %}
+                                            Hodim
+                                        {% endif %}{% endif %}</td>
+                                                    <td onclick="deletehodim({{ u.id }})">
+                                                        {% if u.is_director == True %}{% else %}
+                                                            <i data-feather="trash-2" id="delete"></i>{% endif %}</td>
+                                                    <td onclick="edithodim({{ u.id }})" data-toggle="modal"
+                                                        data-target="#modal-center-edit">
+                                                        {% if u.is_director == True %}{% else %}
+                                                            <i data-feather="edit-2" id="edit"></i>{% endif %}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+
+                        </div>
+                        <div class="tab-pane" id="info1" role="tabpanel">
+
+                            <div class="box" style="margin: 0;">
+                                <form action="{% url 'change_company_informations' %}" method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="box-header with-border" style="padding: 0.5rem 0.5rem;">
+
+                                        <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                                Information
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Информация
+                                            {% else %}
+                                                Malumot
+                                            {% endif %}</h4>
+                                        <button style="float: right" type="submit" class="btn btn-rounded btn-primary">{% if LANGUAGE_CODE == 'en' %}
+                                                Submit
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Подтверждать
+                                            {% else %}
+                                                Saqlash
+                                            {% endif %}
+                                        </button>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-12" style="margin-bottom: 1rem;">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h4 class="texts">Kompaniya nomi</h4>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input name="name" value="{{company.name}}" type="text" class="form-control inputs" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12" style="margin-bottom: 1rem;">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h4 class="texts">Telefon raqam</h4>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input name="phone" value="{{company.phone}}"  type="text" class="form-control inputs" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12" style="margin-bottom: 1rem;">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h4 class="texts">Manzil</h4>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input name="manzil" value="{{company.manzil}}"  type="text" class="form-control inputs" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12" style="margin-bottom: 1rem;">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h4 class="texts">Logo</h4>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input name="logo" type="file" class="form-control inputs">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12" style="margin-bottom: 1rem;">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h4 class="texts">Biznes turi</h4>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <select name="type" id="" class="form-control" required>
+                                                                <option value="B2C"
+                                                                    {% if company.type == 'B2C' %}
+                                                                        selected
+                                                                    {% endif %}
+                                                                >Biznesdan mijozga (B2C)</option>
+                                                                <option value="B2B"
+                                                                    {% if company.type == 'B2B' %}
+                                                                        selected
+                                                                    {% endif %}
+                                                                >Biznesdan biznesga (B2B)</option>
+                                                                
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12" style="margin-bottom: 2rem;">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h4 class="texts">Info</h4>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <textarea name="info" type="text" class="form-control inputs" required>{{company.name}}</textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    
+                                </form>
+                        </div>
+                        <div class="tab-pane" id="messages4" role="tabpanel">
+                            <div class="box-body">
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    <textarea name="editor1" rows="30" cols="20"></textarea>
+                                    <button type="submit" class="btn btn-rounded btn-success pull-right mt-2">
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            Send
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Отправлять
+                                        {% else %}
+                                            Jo'natish
+                                        {% endif %}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+
+    </section>
+
+    <!-- Modal -->
+    <div class="modal center-modal fade" id="modal-centerbot" tabindex="-1">
+        <div class="modal-dialog">
+            <form action="{% url 'add_bot' %}" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Telegram bot token</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            {% if token %}
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Current token:
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Текущий токен:
+                                        {% else %}
+                                            Hozirgi token:
+                                        {% endif %} <span
+                                        style="color: green">{{ token|truncatechars:50 }}</span></label>
+                            {% endif %}
+                            <input type="text" class="form-control" name="token" placeholder="Token">
+                        </div>
+                    </div>
+                    <div class="modal-footer modal-footer-uniform">
+                        <button type="button" class="btn btn-rounded btn-secondary"
+                                data-dismiss="modal">{% if LANGUAGE_CODE == 'en' %}
+                                            Close
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Закрывать
+                                        {% else %}
+                                            Yopish
+                                        {% endif %}</button>
+                        <input type="submit" class="btn btn-rounded btn-primary float-right"
+                               value="{% if LANGUAGE_CODE == 'en' %}
+                                            Save
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Сохранять
+                                        {% else %}
+                                            Saqlash
+                                        {% endif %}">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /.modal -->
+    <!-- Modal -->
+    <div class="modal center-modal fade" id="modal-centersms" tabindex="-1">
+        <div class="modal-dialog">
+            <form action="{% url 'addsms' %}" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                            SMS configuration
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Конфигурация SMS
+                                        {% else %}
+                                            SMS konfiguratsiya
+                                        {% endif %}</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="row text-white">
+                                <div class="col-6">
+                                    Balans {{ user.company.sms_balans }}
+                                </div>
+                                <div class="col-6">
+                                    Holat {% if user.company.sms_activated %}
+                                    Faol{% else %}Faol emas
+                                {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-6"><input type="text" class="form-control" name="email"
+                                                          value="{{ user.company.sms_email|default_if_none:'' }}"
+                                                          placeholder="Email"></div>
+                                <div class="col-6"><input type="text" class="form-control" name="password"
+                                                          value="{{ user.company.sms_password|default_if_none:'' }}"
+                                                          placeholder="Password"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-6"><input type="text" class="form-control" name="nickname"
+                                                          value="{{ user.company.sms_from|default_if_none:'' }}"
+                                                          placeholder="4546"></div>
+                                <div class="col-6"><input type="text" class="form-control" name="callback"
+                                                          value="{{ user.company.sms_callback_url|default_if_none:'' }}"
+                                                          placeholder="Callback url"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer modal-footer-uniform">
+                        <button type="button" class="btn btn-rounded btn-secondary"
+                                data-dismiss="modal">{% if LANGUAGE_CODE == 'en' %}
+                                            Close
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Закрывать
+                                        {% else %}
+                                            Yopish
+                                        {% endif %}</button>
+                        <input type="submit" class="btn btn-rounded btn-primary float-right"
+                               value="{% if LANGUAGE_CODE == 'en' %}
+                                            Save
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Сохранять
+                                        {% else %}
+                                            Saqlash
+                                        {% endif %}">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /.modal -->
+    <!-- Modal SMS To -->
+    <div class="modal center-modal fade" id="modal-centersmsto" tabindex="-1">
+        <div class="modal-dialog">
+            <form action="{% url 'addsmsto' %}" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                            SMS configuration
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Конфигурация SMS
+                                        {% else %}
+                                            SMS konfiguratsiya
+                                        {% endif %}</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="row text-white">
+                                <div class="col-6">
+                                    Holat {% if user.company.smsto_activated %}
+                                    Faol{% else %}Faol emas
+                                {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-6"><input type="text" class="form-control" name="client_id"
+                                                          value="{{ user.company.smsto_client_id|default_if_none:'' }}"
+                                                          placeholder="client_id"></div>
+                                <div class="col-6"><input type="text" class="form-control" name="secret"
+                                                          value="{{ user.company.smsto_secret|default_if_none:'' }}"
+                                                          placeholder="secret"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-6"><input type="text" class="form-control" name="sender_id"
+                                                          value="{{ user.company.smsto_sender_id|default_if_none:'' }}"
+                                                          placeholder="sender_id" maxlength="11"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer modal-footer-uniform">
+                        <button type="button" class="btn btn-rounded btn-secondary"
+                                data-dismiss="modal">{% if LANGUAGE_CODE == 'en' %}
+                                            Close
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Закрывать
+                                        {% else %}
+                                            Yopish
+                                        {% endif %}</button>
+                        <input type="submit" class="btn btn-rounded btn-primary float-right"
+                               value="{% if LANGUAGE_CODE == 'en' %}
+                                            Save
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Сохранять
+                                        {% else %}
+                                            Saqlash
+                                        {% endif %}">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /.modal -->
+    <div class="modal center-modal fade" id="modal-center" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                            Add Employee
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Добавить сотрудника
+                                        {% else %}
+                                            Hodim Qo'shish
+                                        {% endif %}</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{% url 'addhodim' %}" method="post">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-6">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Last name
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Фамилия
+                                        {% else %}
+                                            Familiya
+                                        {% endif %}</label>
+                                <input type="text" name="fam" class="form-control">
+                            </div>
+                            <div class="col-6">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Name
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Имя
+                                        {% else %}
+                                            Ism
+                                        {% endif %}</label>
+                                <input type="text" name="ism" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-6">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Login
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Авторизоваться
+                                        {% else %}
+                                            Tizimga kirish
+                                        {% endif %}</label>
+                                <input type="text" name="username" class="form-control">
+                            </div>
+                            <div class="col-6">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Password
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Пароль
+                                        {% else %}
+                                            Parol
+                                        {% endif %}</label>
+                                <input type="text" name="password" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <button type="button" class="btn btn-rounded btn-secondary"
+                                data-dismiss="modal">{% if LANGUAGE_CODE == 'en' %}
+                                            Cancel
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Отмена
+                                        {% else %}
+                                            Bekor qilish
+                                        {% endif %}
+                        </button>
+                        <input type="submit" class="btn btn-rounded btn-primary float-right"
+                               value="{% if LANGUAGE_CODE == 'en' %}
+                                            Add
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Добавлять
+                                        {% else %}
+                                            Qo'shish
+                                        {% endif %}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal center-modal fade" id="modal-center-edit" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                            Employee editing
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Редактирование сотрудников
+                                        {% else %}
+                                            Hodimni taxrirlash
+                                        {% endif %}</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{% url 'edithodim' %}" method="post">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-6">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Last name
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Фамилия
+                                        {% else %}
+                                            Familiya
+                                        {% endif %}</label>
+                                <input type="text" name="fam" class="form-control" id="fam">
+                            </div>
+                            <div class="col-6">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Name
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Имя
+                                        {% else %}
+                                            Ism
+                                        {% endif %}</label>
+                                <input type="text" name="ism" class="form-control" id="ism">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-6">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Login
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Авторизоваться
+                                        {% else %}
+                                            Tizimga kirish
+                                        {% endif %}</label>
+                                <input type="text" name="username" class="form-control" id="username">
+                            </div>
+                            <div class="col-6">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Password
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Пароль
+                                        {% else %}
+                                            Parol
+                                        {% endif %}</label>
+                                <input type="text" name="password" class="form-control" id="password">
+                                <input type="hidden" name="id" class="form-control" id="id">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <button type="button" class="btn btn-rounded btn-secondary"
+                                data-dismiss="modal">{% if LANGUAGE_CODE == 'en' %}
+                                            Cancel
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Отмена
+                                        {% else %}
+                                            Bekor qilish
+                                        {% endif %}
+                        </button>
+                        <input type="submit" class="btn btn-rounded btn-primary float-right"
+                               value="{% if LANGUAGE_CODE == 'en' %}
+                                            Edit
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Редактировать
+                                        {% else %}
+                                            Taxrirlash
+                                        {% endif %}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block js %}
+    <!-- Vendor JS -->
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/easypiechart/dist/jquery.easypiechart.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/apexcharts-bundle/irregular-data-series.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/apexcharts-bundle/dist/apexcharts.js' %}"></script>
+    <!-- Sunny Admin App -->
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/dashboard.js' %}"></script>
+    <script src="{% static 'crm/task/sweeatalert.js' %}"></script>
+    <!-- Vendor JS -->
+    <script src="{% static 'crm/assets/vendor_components/ckeditor/ckeditor.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/editor.js' %}"></script>
+
+    <script src="{% static 'crm/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js' %}"></script>
+    <script src="{% static 'crm/main/pages/toastr.js' %}"></script>
+    <script src="{% static 'crm/main/pages/notification.js' %}"></script>
+
+    <script>
+        function deletehodim(id) {
+            swal({
+                title: "{% if LANGUAGE_CODE == 'en' %}
+                                            Do you really want to turn it off?
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Вы действительно хотите выключить его?
+                                        {% else %}
+                                            Chindan ham o'chirmoqchimisiz?
+                                        {% endif %}",
+                icon: "warning",
+                buttons: ["{% if LANGUAGE_CODE == 'en' %}
+                                            No
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Heт
+                                        {% else %}
+                                            Yo'q
+                                        {% endif %}", "{% if LANGUAGE_CODE == 'en' %}
+                                            Yes
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Дa
+                                        {% else %}
+                                            Ha
+                                        {% endif %}"],
+            }).then((willDelete) => {
+                if (willDelete) {
+                    location.href = `{% url 'deletehodim' %}?id=${id}`
+                }
+            });
+        }
+
+        function edithodim(id) {
+            $.ajax({
+                type: 'get',
+                url: `/gethodim/?id=` + String(id),
+                success: function (r) {
+                    u = r['user'];
+                    document.getElementById('fam').value = u['fam']
+                    document.getElementById('ism').value = u['ism']
+                    document.getElementById('id').value = u['id']
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
+    </script>
+{% endblock js %}

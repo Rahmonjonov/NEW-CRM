@@ -1,0 +1,250 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static 'crm/images/algo.png' %}">
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            ALgoCrm - Registration
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            ALgoCrm - Регистрация
+                                        {% else %}
+                                            ALgoCrm - Registratsiya
+                                        {% endif %}</title>
+    <link rel="stylesheet" href="{% static 'css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/skin_color.css' %}">
+</head>
+
+<body class="hold-transition theme-primary bg-gradient-primary" style="background: #1a233a;">
+
+<div class="container h-p100">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                <h4 style="color: white">{{ message }}</h4>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="row align-items-center justify-content-md-center h-p100">
+
+        <div class="col-12">
+            <div class="row justify-content-center no-gutters">
+                <div class="col-lg-5 col-md-5 col-12">
+                    <div class="content-top-agile p-10">
+                        <h2 class="text-white">{% if LANGUAGE_CODE == 'en' %}
+                                            Sign up
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Зарегистрироваться
+                                        {% else %}
+                                            Ro'yxatdan o'tish
+                                        {% endif %}</h2>
+                    </div>
+                    <div class="p-30 rounded15 box-shadowed b-1 b-dashed">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="content-top-agile p-10">
+                                <h4 class="text-white">{% if LANGUAGE_CODE == 'en' %}
+                                            Personal information
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Персональная информация
+                                        {% else %}
+                                            Shaxsiy ma'lumotlar
+                                        {% endif %}</h4>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-transparent text-white"><i class="ti-user"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control pl-15 bg-transparent text-white plc-white"
+                                           name="firstname" placeholder="Ism" required value="{{ post.firstname }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-transparent text-white"><i class="ti-user"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control pl-15 bg-transparent text-white plc-white"
+                                           name="lastname" placeholder="{% if LANGUAGE_CODE == 'en' %}Last name{% elif LANGUAGE_CODE == 'ru'%}Фамилия{% else %}Familiya{% endif %}" required value="{{ post.lastname }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-transparent text-white"><i class="ti-user"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control pl-15 bg-transparent text-white plc-white"
+                                           name="login" placeholder="{% if LANGUAGE_CODE == 'en' %}Login{% elif LANGUAGE_CODE == 'ru'%}Авторизоваться{% else %}Tizimga kirish{% endif %}" required value="{{ post.login }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-transparent text-white"><i class="ti-lock"></i></span>
+                                    </div>
+                                    <input type="password"
+                                           class="form-control pl-15 bg-transparent text-white plc-white"
+                                           name="password1"
+                                           placeholder="{% if LANGUAGE_CODE == 'en' %}Password{% elif LANGUAGE_CODE == 'ru'%}Пароль{% else %}Parol{% endif %}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-transparent text-white"><i class="ti-lock"></i></span>
+                                    </div>
+                                    <input type="password"
+                                           class="form-control pl-15 bg-transparent text-white plc-white"
+                                           name="password2"
+                                           placeholder="{% if LANGUAGE_CODE == 'en' %}Password reset{% elif LANGUAGE_CODE == 'ru'%}Сброс пароля{% else %}Parol qayta{% endif %}" required>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="content-top-agile p-10">
+                                <h4 class="text-white">{% if LANGUAGE_CODE == 'en' %}
+                                            Company information
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Информация о компании
+                                        {% else %}
+                                            Kompaniya ma'lumotlar
+                                        {% endif %}</h4>
+                            </div>
+                            <div class="form-group">
+                                <h5 class="text-white">{% if LANGUAGE_CODE == 'en' %}
+                                            Company name
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Название компании
+                                        {% else %}
+                                            Kompaniya nomi
+                                        {% endif %}</h5>
+                                <div class="controls">
+                                    <input type="text" class="form-control pl-15 bg-transparent text-white plc-white"
+                                           required name="comp_name" value="{{ post.comp_name }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h5 class="text-white">{% if LANGUAGE_CODE == 'en' %}
+                                            Company phone number
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Телефон компании
+                                        {% else %}
+                                            Kompaniya telefon raqami
+                                        {% endif %}</h5>
+                                <div class="controls">
+                                    <input type="text" class="form-control pl-15 bg-transparent text-white plc-white"
+                                           required value="{{ post.comp_tel }}"
+                                           name="comp_tel">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h5 class="text-white">{% if LANGUAGE_CODE == 'en' %}
+                                            Адрес
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Address
+                                        {% else %}
+                                            Manzil
+                                        {% endif %}</h5>
+                                <div class="controls">
+                                    <input type="text" class="form-control pl-15 bg-transparent text-white plc-white"
+                                           required name="comp_manzil" value="{{ post.comp_manzil }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h5 class="text-white">{% if LANGUAGE_CODE == 'en' %}
+                                            Founder
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Основатель
+                                        {% else %}
+                                            Asoschisi
+                                        {% endif %}</h5>
+                                <div class="controls">
+                                    <input type="text" class="form-control pl-15 bg-transparent text-white plc-white"
+                                           required name="comp_creator" value="{{ post.comp_creator }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h5>{% if LANGUAGE_CODE == 'en' %}
+                                            Company type
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Tип компании
+                                        {% else %}
+                                            Kompaniya turi
+                                        {% endif %}</h5>
+                                <div class="controls">
+                                    <select name="company_type" class="form-control">
+                                        {% for company_type in company_types %}
+                                            <option {% if user.company.type == company_type.0 %}selected{% endif %}
+                                                    value="{{ company_type.0 }}">{{ company_type.1 }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h5 class="text-white">{% if LANGUAGE_CODE == 'en' %}
+                                            Company information
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Информация о компании
+                                        {% else %}
+                                            Kompaniya haqida ma'lumot
+                                        {% endif %}</h5>
+                                <div class="controls">
+                                    <textarea rows="6" name="comp_about" required
+                                              class="form-control pl-15 bg-transparent text-white plc-white">{{ post.comp_about }}</textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button type="submit"
+                                            class="btn btn-info btn-rounded margin-top-10">{% if LANGUAGE_CODE == 'en' %}
+                                            Sign up
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Зарегистрироваться
+                                        {% else %}
+                                            Ro'yxatdan o'tish
+                                        {% endif %}
+                                    </button>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                        </form>
+
+                        <div class="text-center">
+                            <p class="mt-15 mb-0 text-white">{% if LANGUAGE_CODE == 'en' %}
+                                            If you are registered
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Если вы зарегистрированы
+                                        {% else %}
+                                            Ro'yxatdan o'tgan bo'lsangiz
+                                        {% endif %}<a href="{% url 'login' %}" class="text-danger ml-5">
+                                {% if LANGUAGE_CODE == 'en' %}
+                                            Login
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Авторизоваться
+                                        {% else %}
+                                            Kirish
+                                        {% endif %}</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Vendor JS -->
+<script src="{% static 'js/vendors.min.js' %}"></script>
+<script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load i18n %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Map
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Kарта
+                                        {% else %}
+                                            CRM | Karta
+                                        {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+{% endblock css %}
+{% block content %}
+
+    <!-- Main content -->
+    <section class="content">
+        <div id="card_step_1">
+            <div class="row" style="justify-content: center">
+                <h1>
+                    {% if card %}
+                        {% if LANGUAGE_CODE == 'en' %}
+                            Edit the card
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                            Изменить карту
+                        {% else %}
+                            Kartani taxrirlash
+                        {% endif %}
+                    {% else %}
+                        {% if LANGUAGE_CODE == 'en' %}
+                            Add a card
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                            Добавьте карту
+                        {% else %}
+                            Karta qo'shish
+                        {% endif %}
+                    {% endif %}
+                </h1>
+            </div>
+            <div class="row" style="justify-content: center">
+                <div class="col-lg-3">
+                    <div class="box">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <h5>{% if LANGUAGE_CODE == 'en' %}
+                            Card name
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                            Название карты
+                        {% else %}
+                            Karta nomi
+                        {% endif %}</h5>
+                                    </div>
+                                    <div class="col-sm">
+                                        <img class="float-right"
+                                             src="https://cdn.paycom.uz/documentation_assets/payme_05.png"
+                                             width="90"
+                                             height="28"
+                                             alt="Payme">
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="controls">
+                                    <input type="text" name="card_name" id="card_name" class="form-control"
+                                           value="{% if card %}{{ card.name }}{% endif %}">
+                                </div>
+                            </div>
+                            <h4>
+                                <div class="form-group">
+                                    <h5>{% if LANGUAGE_CODE == 'en' %}
+                            Card number
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                            Номер карты
+                        {% else %}
+                            Karta raqami
+                        {% endif %}</h5>
+                                    <div class="controls">
+                                        <input type="text" name="card_number" id="card_number" class="form-control"
+                                               placeholder="0000 0000 0000 0000"
+                                               value="{% if card %}{{ card.number }}{% endif %}">
+                                    </div>
+                                </div>
+                            </h4>
+                            <h4>
+                                <div class="form-group">
+                                    <h5>{% if LANGUAGE_CODE == 'en' %}
+                            Validity period
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                            Срок годности
+                        {% else %}
+                            Amal qilish muddati
+                        {% endif %}</h5>
+                                    <div class="controls">
+                                        <input type="text" name="card_expire" id="card_expire" class="form-control"
+                                               placeholder="12/25" value="{% if card %}{{ card.expire }}{% endif %}">
+                                    </div>
+                                </div>
+                            </h4>
+
+                            <button type="button" id="btn_next"
+                                    class="float-right btn btn-outline mb-5">{% if LANGUAGE_CODE == 'en' %}
+                            Continue
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                            Продолжать
+                        {% else %}
+                            Davom etish
+                        {% endif %}
+                            </button>
+                            <br>
+
+                            <br>
+                            <br>
+                            <p>
+                                <b>{% if LANGUAGE_CODE == 'en' %}
+                            To be continued
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                            Продолжение следует
+                        {% else %}
+                            Davom ettirish
+                        {% endif %}</b> {% if LANGUAGE_CODE == 'en' %}
+                            by pressing the button you
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                            нажав кнопку вы
+                        {% else %}
+                            tugmachasini bosish orqali siz
+                        {% endif %}
+                                <a target="_blank" href="https://cdn.payme.uz/terms/main.html">
+                                    <span style="color:#e3d400;">{% if LANGUAGE_CODE == 'en' %}
+                            Terms of use of Payme
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                            Условия использования PayMe
+                        {% else %}
+                            Paymedan foydalanish shartlariga
+                        {% endif %}</span>
+                                </a> {% if LANGUAGE_CODE == 'en' %}
+                            you agree
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                            ты согласен
+                        {% else %}
+                            qo'shilasiz
+                        {% endif %}
+                            </p>
+
+                        </div>
+                    </div> <!-- end col-->
+                </div>
+            </div>
+
+
+        </div>
+        <div id="card_step_2">
+            <div class="row" style="justify-content: center">
+                <h5>
+                    <span id="phone_number"></span>{% if LANGUAGE_CODE == 'en' %}
+                            An SMS was sent to
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                            СМС было отправлено на
+                        {% else %}
+                            ga sms jo'natildi.
+                        {% endif %}
+                </h5>
+            </div>
+            <div class="row" style="justify-content: center">
+                <div class="col-lg-3">
+                    <div class="box">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <h5>
+                                    <div>{% if LANGUAGE_CODE == 'en' %}
+                            The SMS is valid
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                            СМС действительна
+                        {% else %}
+                            Sms amal qilish muddatiga qoldi
+                        {% endif %} <span id="sms_time"></span>
+                                        <div class="float-right" id="sms_refresh">
+                                            <i class="fa fa-refresh fa-2x" aria-hidden="true"></i></div>
+                                    </div>
+                                </h5>
+                            </div>
+                            <h4>
+                                <div class="form-group">
+                                    <h5>{% if LANGUAGE_CODE == 'en' %}
+                            SMS code
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                            СМС-код
+                        {% else %}
+                            Sms kod
+                        {% endif %}</h5>
+                                    <div class="controls">
+                                        <input type="text" name="sms_code" id="sms_code" class="form-control">
+                                    </div>
+                                </div>
+                            </h4>
+                            <button type="button" id="btn_tasdiqlash" class="float-right btn btn-outline mb-5">
+                                {% if LANGUAGE_CODE == 'en' %}
+                            Confirmation
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                            Подтверждение
+                        {% else %}
+                            Tasdiqlash
+                        {% endif %}
+                            </button>
+                        </div>
+                    </div>
+                </div> <!-- end col-->
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock content %}
+{% block js %}
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/custom_js/jquery.mask.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js' %}"></script>
+
+    <script src="{% static 'crm/custom_js/card_verify.js' %}"></script>
+
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script>
+        let mer_id = "{{ merchant_id }}";
+        let url_f = "{% url 'update_or_create_card' %}";
+        let url_ff = "{% url 'cabinet' %}";
+        {% if paycom_is_test %}
+            let paycom_is_test = true;
+        {% else %}
+            let paycom_is_test = false;
+        {% endif %}
+    </script>
+{% endblock js %}

@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Add a client
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Добавить клиента
+                                        {% else %}
+                                            CRM | Mijoz qo'shish
+                                        {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <!-- Vendors Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+
+    <!-- Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+{% endblock css %}
+{% block content %}
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+            <div class="col-6">
+                {% if messages %}
+                    {% for message in messages %}
+                        <span style="color: green">{{ message }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="col-12">
+                <div class="box">
+
+                    <div class="box-header with-border">
+                        <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                            Registration
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Регистрация
+                                        {% else %}
+                                            Ro'yxatdan o'tkazish
+                                        {% endif %}</h4>
+                    </div>
+                    <form action="{% url 'adduser' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Last name
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Фамилия
+                                        {% else %}
+                                            Familiya
+                                        {% endif %}</label>
+                                        <input type="text" name="fam" class="form-control" placeholder="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Name
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Имя
+                                        {% else %}
+                                            Ism
+                                        {% endif %}</label>
+                                        <input type="text" name="ism" class="form-control" placeholder="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Phone
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Телефон
+                                        {% else %}
+                                            Telefon
+                                        {% endif %}</label><span style="color: green; float: right">{% if LANGUAGE_CODE == 'en' %}
+                                            Example
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Например
+                                        {% else %}
+                                            Namuna
+                                        {% endif %}: 998901234567</span>
+                                        <input type="text" name="tel" class="form-control" placeholder="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Extra phone
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Дополнительный телефон
+                                        {% else %}
+                                            Qo'shimcha telefon
+                                        {% endif %}</label>
+                                        <input type="text" name="tel2" class="form-control" placeholder="">
+                                    </div>
+                                    {% if user.company.type == "B2B" %}
+                                        <div class="form-group">
+                                            <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Organization
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Организация
+                                        {% else %}
+                                            Tashkilot
+                                        {% endif %}</label>
+                                            <input type="text" name="com" class="form-control" placeholder="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Organization address
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Адрес организации
+                                        {% else %}
+                                            Tashkilot manzili
+                                        {% endif %}</label>
+                                            <input type="text" name="comadd" class="form-control" placeholder="">
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="form-group">
+                                        <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Customer value
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Потребительская ценность
+                                        {% else %}
+                                            Mijoz qiymati
+                                        {% endif %}</label>
+                                        <input type="number" name="price" class="form-control" placeholder="">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label>ABC</label>
+                                        <select name="abc" required class="form-control">
+                                            <option value="A">A</option>
+                                            <option value="B">B</option>
+                                            <option value="C">C</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Where the customer came from
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Откуда пришел клиент
+                                        {% else %}
+                                            Mijoz kelgan joy
+                                        {% endif %}</label>
+                                        <input type="text" name="join_from" class="form-control" placeholder="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Region
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Oбласть
+                                        {% else %}
+                                            Viloyat
+                                        {% endif %}</label>
+                                        <select class="form-control select2" onchange="getRegion()" id="region"
+                                                name="region" style="width: 100%;">
+                                            <option value="1">{% if LANGUAGE_CODE == 'en' %}
+                                            Select a region
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Выберите регион
+                                        {% else %}
+                                            Viloyatni tanlang
+                                        {% endif %}</option>
+                                            {% for t in region %}
+                                                <option value="{{ t.id }}">{{ t.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>{% if LANGUAGE_CODE == 'en' %}
+                                            City / District
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Город/Район
+                                        {% else %}
+                                            Shahar/Tuman
+                                        {% endif %}</label>
+                                        <select class="form-control select2" id="district" name="district"
+                                                style="width: 100%;">
+                                            <option value="">{% if LANGUAGE_CODE == 'en' %}
+                                            Select a region
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Выберите регион
+                                        {% else %}
+                                            Viloyatni tanlang
+                                        {% endif %}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Birthday
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            День рождения
+                                        {% else %}
+                                            Tug'ilgan kun
+                                        {% endif %} </label>
+                                        <input class="form-control" required type="date" name="birth">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Condition
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Состояние
+                                        {% else %}
+                                            Holati
+                                        {% endif %}</label>
+                                        <select class="form-control select2" name="lead_pole"
+                                                style="width: 100%;">
+                                            {% for lead_pole in lead_poles %}
+                                                <option value="{{ lead_pole.id }}">{{ lead_pole.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-rounded btn-success pull-right"
+                                            style="margin-bottom: 10px">{% if LANGUAGE_CODE == 'en' %}
+                                            Save
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Сохранять
+                                        {% else %}
+                                            Saqlash
+                                        {% endif %}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.box -->
+            </div>
+            <!--/.col (left) -->
+
+        </div>
+        <!-- /.row -->
+
+    </section>
+    <!-- /.content -->
+{% endblock content %}
+{% block js %}
+
+    <!-- Vendor JS -->
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>    <!-- Sunny Admin App -->
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script>
+        function getRegion() {
+            var id = document.getElementById("region").value;
+            console.log(id)
+            $.ajax({
+                type: 'get',
+                url: `/getregion/?id=` + String(id),
+                success: function (r) {
+                    $("#district").empty();
+                    for (d of r['district']) {
+                        var op = `<option value="` + d.id + `">` + d.name + `</option>`
+                        $('#district').append(op);
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
+    </script>
+{% endblock js %}

@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{%if LANGUAGE_CODE == 'en' %}
+                CRM | Client Base
+            {% elif LANGUAGE_CODE == 'ru'%}
+                CRM | Клиентская база
+            {% else %}
+                CRM | Client Base
+            {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <!-- Vendors Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+
+    <!-- Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+
+    <!-- Style-->
+{% endblock css %}
+{% block content %}
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+
+            <div class="col-12">
+                <div class="box-body" style="padding: 0">
+                    <div class="tab-content">
+                        <form action="{% url 'importLead' %}" method="post" enctype="multipart/form-data">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    {% if message.tags == "error" %}
+                                        <div class="alert alert-danger">
+                                            {{ message }}</div>
+                                    {% endif %}
+                                    {% if message.tags == "success" %}
+                                        <div class="alert alert-success">
+                                            {{ message }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            {% csrf_token %}
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                </div>
+                                <div class="col-lg-2">
+                                    <input type="file" name="leads" class="form-control" accept=".xlsx">
+                                </div>
+                                <div class="col-lg-2">
+                                    <input class="btn btn-primary" type="submit" value="{%if LANGUAGE_CODE == 'en' %}Import {% elif LANGUAGE_CODE == 'ru'%}Импорт{% else %}Import qilish{% endif %}">
+                                </div>
+                                <div class="col-lg-2">
+                                    <a class="btn btn-primary" href="{{ template_excel.xlsx.url }}"
+                                       download>{%if LANGUAGE_CODE == 'en' %}
+                Sample download
+            {% elif LANGUAGE_CODE == 'ru'%}
+                Образец загрузки
+            {% else %}
+                Na'munani yuklab olish
+            {% endif %}</a>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- Tab panes -->
+                    </div>
+                    <div class="tab-content">
+                        <div class="col-12" style="padding: 0">
+                            <div class="box">
+                                <div class="box-body">
+                                    <div class="table-responsive">
+                                        <table id="example" class="table table-bordered table-striped">
+                                            <thead>
+                                            <tr class="text-center">
+                                                <th>№</th>
+                                                {% if LANGUAGE_CODE == 'en' %}
+                                                <th>First name</th>
+                                                <th>Last name</th>
+                                                <th>Birthsday</th>
+                                                <th>Address</th>
+                                                <th>Phone</th>
+                                                <th>Degree</th>
+                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                <th>Имя</th>
+                                                <th>Фамилия</th>
+                                                <th>Дата рождения</th>
+                                                <th>Адрес</th>
+                                                <th>Телефон</th>
+                                                <th>Степень</th>
+                                                {% else %}
+                                                <th>Ism</th>
+                                                <th>Familiya</th>
+                                                <th>Tug'ilgan sana</th>
+                                                <th>Manzil</th>
+                                                <th>Telefon</th>
+                                                <th>Daraja</th>
+                                                {% endif %}
+                                                <th>ABC</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for t in clients %}
+                                                <tr class="text-center">
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ t.surname }}</td>
+                                                    <td>{{ t.name }}</td>
+                                                    <td>{{ t.birthday|date:'d.m.Y' }}</td>
+                                                    <td>{{ t.district }}</td>
+                                                    <td>{{ t.phone }}</td>
+                                                    {% if t.degree == 1 %}
+                                                        <td>Past</td>
+                                                    {% elif t.degree == 2 %}
+                                                        <td>O`rta</td>
+                                                    {% else %}
+                                                        <td>Yuqori</td>
+                                                    {% endif %}
+                                                    <td>{{ t.abcxyz }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+{% endblock content %}
+{% block js %}
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/datatable/datatables.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/data-table.js' %}"></script>
+{% endblock js %}

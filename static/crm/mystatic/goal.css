@@ -1,0 +1,64 @@
+
+.date-btn{
+    height: 34px;
+    text-align: center;
+}
+
+
+#goal-title {
+    font-size: 36px;
+    color: green;
+    font-weight: bold;
+}
+#add-maqsad-title{
+    font-size: 24px;
+    color: green;
+    font-weight: bold;
+}
+
+#goal-col{
+    padding: 20px;
+}
+
+#add-goal{
+    float: right;
+}
+
+.inline-date {
+  display: inline-block;
+}
+#goal-type{
+    float: left;
+}
+.modal-fill .modal-content {
+    max-width: 800px;
+}
+.modal-fill .modal-dialog {
+justify-content: normal;
+    padding-top: 100px;
+}
+#servicer-data{
+    padding-top: 50px;
+}
+#row-user-input{
+    padding-top: 20px;
+}
+.input-add-goal{
+    align-content: center;
+    border-radius: 10px;
+    border:1px solid #b3c5d9;
+    font-size: 16px;
+    width: 220px;
+    height: 40px;
+    outline: none;
+    box-shadow: none;
+    line-height: 1.5;
+    text-align: center;
+    text-align-last:center;
+
+}
+.input-add-goal:focus{
+    border:1px solid #0aa5df;
+    outline: none;
+    border-radius: 10px;
+}

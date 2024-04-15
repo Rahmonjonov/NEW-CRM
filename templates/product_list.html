@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Products
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Товары
+                                        {% else %}
+                                            CRM | Mahsulotlar
+                                        {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+
+    <style>
+        table td {
+            font-size: 16px;
+            color: #c6cacb;
+        }
+
+        table th {
+            font-size: 16px;
+        }
+    </style>
+
+{% endblock css %}
+{% block content %}
+    <section class="content">
+
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="row">
+                    <div class="col-12">
+                        <a href="{% url 'add_product' %}" class="btn btn-rounded btn-success float-right m-15">
+                            {% if LANGUAGE_CODE == 'en' %}
+                                            Add product
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Добавить продукт
+                                        {% else %}
+                                            Mahsulot qo'shish
+                                        {% endif %}</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="box">
+                            <div class="box-body">
+                                <div class="table-responsive">
+                                    <table id="example11" class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th>№</th>
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                            <th>Name</th>
+                                            <th>Price</th>
+                                            <th>Note</th>
+                                            <th>Edit</th>
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                            <th>Hазвание</th>
+                                            <th>Расходы</th>
+                                            <th>Примечание</th>
+                                            <th>Редактировать</th>
+                                            {% else %}
+                                            <th>Nomi</th>
+                                            <th>Narxi</th>
+                                            <th>Izoh</th>
+                                            <th>Taxrirlash</th>
+                                            {% endif %}
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for product in products %}
+                                            <tr class="text-center">
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ product.name }}</td>
+                                                <td>{{ product.price }}</td>
+                                                <td>{{ product.comment }}</td>
+                                                <td>
+                                                    <a href="{% url 'edit_product' pk=product.id %}">
+                                                        <i class="fa fa-edit fa-lg"></i>
+                                                        <span>{% if LANGUAGE_CODE == 'en' %}
+                                            Edit
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Редактировать
+                                        {% else %}
+                                            Taxrirlash
+                                        {% endif %}</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-12">
+                        <a href="{% url 'add_payment_type' %}"
+                           class="btn btn-rounded btn-success float-right m-15">{% if LANGUAGE_CODE == 'en' %}
+                                            Add payment type
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Добавить тип оплаты
+                                        {% else %}
+                                            To'lov turi qo'shish
+                                        {% endif %}</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="box">
+                            <div class="box-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th>№</th>
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                            <th>Name</th>
+                                            <th>Edit</th>
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                            <th>Hазвание</th>
+                                            <th>Редактировать</th>
+                                            {% else %}
+                                            <th>Nomi</th>
+                                            <th>Taxrirlash</th>
+                                            {% endif %}
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for type in payment_types %}
+                                            <tr class="text-center">
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ type.name }}</td>
+                                                <td>
+                                                    <a href="{% url 'edit_payment_type' pk=type.id %}">
+                                                        <i class="fa fa-edit fa-lg"></i>
+                                                        <span>{% trans "Taxrirlash" %}</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+{% endblock content %}
+{% block js %}
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+
+    <script src="{% static 'crm/assets/vendor_components/datatable/datatables.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/data-table.js' %}"></script>
+
+{% endblock js %}

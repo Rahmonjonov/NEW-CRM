@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{% trans "CRM | Maqsad" %}</title>
+{% endblock title %}
+{% block css %}
+    <!-- Vendors Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <!-- Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/mystatic/goal.css' %}">
+{% endblock css %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="col-12" id="goal-col">
+            <span id="goal-title">{% if LANGUAGE_CODE == 'en' %}
+                                            The goal
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Цель
+                                        {% else %}
+                                            Maqsad
+                                        {% endif %}</span>
+        </div>
+        <div class="col-12" id="goal-filter-col">
+            <div class="row">
+                <div class="col-md-3">
+                    <div>
+                        <input name="goal_type" type="radio" class="with-gap" onchange="get_goals_table()" id="radio_3"
+                               checked/>
+                        <label for="radio_3" style="font-size: 20px;">{% if LANGUAGE_CODE == 'en' %}
+                                            Monthly
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Ежемесячно
+                                        {% else %}
+                                            Oylik
+                                        {% endif %}</label>
+                        <input name="goal_type" type="radio" class="with-gap" onchange="get_goals_table()"
+                               id="radio_4"/>
+                        <label for="radio_4" style="font-size: 20px;">{% if LANGUAGE_CODE == 'en' %}
+                                            Annual
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Ежегодный
+                                        {% else %}
+                                            Yillik
+                                        {% endif %}</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <input type="month" id="filter-date-goal" onchange="get_goals_table()" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <input name="goal_data_type" type="radio" onchange="get_goals_table()" class="with-gap" id="radio_5"
+                           checked/>
+                    <label for="radio_5" style="font-size: 20px;">{% if LANGUAGE_CODE == 'en' %}
+                                            Trade
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Торговля
+                                        {% else %}
+                                            Savdo
+                                        {% endif %}</label>
+                    <input name="goal_data_type" type="radio" onchange="get_goals_table()" class="with-gap"
+                           id="radio_6"/>
+                    <label for="radio_6" style="font-size: 20px;">{% if LANGUAGE_CODE == 'en' %}
+                                            Number of customers
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Количество клиентов
+                                        {% else %}
+                                            Mijoz soni
+                                        {% endif %}</label>
+                </div>
+
+                <div class="col-md-3">
+                    <button type="button" id="add-goal" data-toggle="modal" data-target="#modal-fill"
+                            class="btn btn-success"><i data-feather="settings"></i> {% if LANGUAGE_CODE == 'en' %}
+                                            Add a goal
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Добавить цель
+                                        {% else %}
+                                            Maqsad qo'shish
+                                        {% endif %}
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive-sm">
+                        <table class="table mb-0">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                {% if LANGUAGE_CODE == 'en' %}
+                                <th scope="col">Staffs</th>
+                                <th scope="col">Percentage of completion</th>
+                                <th scope="col">Done</th>
+                                <th scope="col">The goal</th>
+                                <th scope="col">Target time</th>
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                <th scope="col">Персонал</th>
+                                <th scope="col">Процент завершения</th>
+                                <th scope="col">Готово</th>
+                                <th scope="col">Цель</th>
+                                <th scope="col">Целевое время</th>
+                                {% else %}
+                                <th scope="col">Hodimlar</th>
+                                <th scope="col">Bajarish foizi</th>
+                                <th scope="col">Bajardi</th>
+                                <th scope="col">Maqsad</th>
+                                <th scope="col">Maqsad vaqti</th>
+                                {% endif %}
+
+                            </tr>
+                            </thead>
+                            <tbody id="table_body">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal modal-fill fade" data-backdrop="false" id="modal-fill" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-maqsad-title">{% if LANGUAGE_CODE == 'en' %}
+                                            Add a goal
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Добавить цель
+                                        {% else %}
+                                            Maqsad qo'shish
+                                        {% endif %}</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body add-maqsad">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <select class="input-add-goal" id="goal-type" onchange="change_goal_type()">
+                                    <option value="0">
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            Monthly
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Ежемесячно
+                                        {% else %}
+                                            Oylik
+                                        {% endif %}
+                                    </option>
+                                    <option value="1">
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            Annual
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Ежегодный
+                                        {% else %}
+                                            Yillik
+                                        {% endif %}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <div class="inline-date">
+                                    <button type="button" class="btn btn-primary" onclick="date_minus()"> <</button>
+                                    <input type="text" id="date_input" class="input-add-goal" value="Mart, 2021"
+                                           readonly>
+                                    <button type="button" class="btn btn-primary" onclick="date_plus()"> ></button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" id="servicer-data">
+                        <div class="row">
+                            <div class="col-4">
+                                <h3>{% if LANGUAGE_CODE == 'en' %}
+                                            General
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Общий
+                                        {% else %}
+                                            Umumiy
+                                        {% endif %}</h3>
+                            </div>
+                            <div class="col-4">
+                                <h4>
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                            Trade
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Торговля
+                                        {% else %}
+                                            Savdo
+                                        {% endif %}
+                                </h4>
+                                <h5 id="savdo-summa">$0</h5>
+                            </div>
+                            <div class="col-4">
+                                <h4>{% if LANGUAGE_CODE == 'en' %}
+                                            Number of customers
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Количество клиентов
+                                        {% else %}
+                                            Mijoz soni
+                                        {% endif %}</h4>
+                                <h5 id="client-count">0</h5>
+                            </div>
+                        </div>
+                        {% for user in users %}
+                            <div class="row" id="row-user-input">
+                                <div class="col-4">
+                                    <h4>{{ user.first_name }} {{ user.last_name }}</h4>
+                                </div>
+                                <div class="col-4">
+                                    <input type="search" placeholder="{% trans "savdo" %}"
+                                           id="savdo_input_{{ user.id }}"
+                                           class="form-control"
+                                           oninput="number_input(this)">
+                                </div>
+                                <div class="col-4">
+                                    <input type="search" placeholder="{% trans "mijoz soni" %}"
+                                           id="mijoz_input_{{ user.id }}"
+                                           class="form-control"
+                                           oninput="number_input(this)">
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-rounded btn-secondary"
+                            data-dismiss="modal">{% trans "" %}{% if LANGUAGE_CODE == 'en' %}
+                                            Close
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Закрывать
+                                        {% else %}
+                                            Yopish
+                                        {% endif %}</button>
+                    <button type="button" class="btn btn-rounded btn-primary float-right" onclick="submitHandler()">
+                        {% if LANGUAGE_CODE == 'en' %}
+                                                Save
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Сохранять
+                                            {% else %}
+                                                Saqlash
+                                            {% endif %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+    <div class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-success myadmin-alert-top alerttop"
+         style="text-align: center; font-size: 24px;"><i
+            class="ti-settings"></i> {% trans "" %}{% if LANGUAGE_CODE == 'en' %}
+                                                The goal has been set
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Цель была поставлена
+                                            {% else %}
+                                                Maqsad Qo'yildi
+                                            {% endif %}
+    </div>
+{% endblock content %}
+
+{% block js %}
+    <script>
+        var csrftoken = '{{ csrf_token }}'
+    </script>
+    <!-- Vendor JS -->
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script src="{% static 'crm/mystatic/goal.js' %}"></script>
+
+{% endblock js %}

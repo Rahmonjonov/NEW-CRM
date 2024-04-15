@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CRM | 404</title>
+<!-- for-mobile-apps -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- //for-mobile-apps -->
+<link href="{% static 'crm/css/style.css'%}" rel="stylesheet" type="text/css" media="all" />
+<link href='//fonts.googleapis.com/css?family=Viga' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<div class="main">
+        <h1><b>404</b></h1>
+		<h2>{% if LANGUAGE_CODE == 'en' %}
+                                            Home page
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Такой страницы не найдено
+                                        {% else %}
+                                            Bunday sahifa topilmadi
+                                        {% endif %}</h2>
+		<div class="more_w3ls">
+			<a href="{% url 'home' %}">{% if LANGUAGE_CODE == 'en' %}
+                                            No such page found
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Домашняя страница
+                                        {% else %}
+                                            Bosh sahifa
+                                        {% endif %}</a>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Client Base
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Клиентская база
+                                        {% else %}
+                                            CRM | Mijozlar bazasi
+                                        {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <!-- Vendors Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+
+    <!-- Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+
+{% endblock css %}
+{% block content %}
+    <!-- Main content -->
+    <section class="content">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    <h4 style="color: white">{{ message }}</h4>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="row">
+
+            <div class="col-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                            Staffs
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Персонал
+                                        {% else %}
+                                            Hodimlar
+                                        {% endif %}</h4>
+                        <button style="float: right" type="button" class="btn btn-rounded btn-primary"
+                                data-toggle="modal" data-target="#modal-center">{% if LANGUAGE_CODE == 'en' %}
+                                        Add
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Добавлять
+                                    {% else %}
+                                        Qo'shish
+                                    {% endif %}
+                        </button>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <tbody>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                    <th scope="col">First name</th>
+                                    <th scope="col">Last name</th>
+                                    <th scope="col">Staff</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                    <th scope="col">Имя</th>
+                                    <th scope="col">Фамилия</th>
+                                    <th scope="col">Персонал</th>
+                                    <th scope="col">Редактировать</th>
+                                    <th scope="col">Удалить</th>
+                                    {% else %}
+                                    <th scope="col">Ism</th>
+                                    <th scope="col">Familya</th>
+                                    <th scope="col">Lavozim</th>
+                                    <th scope="col">Taxrirlash</th>
+                                    <th scope="col">O'chirish</th>
+                                    {% endif %}
+
+                                </tr>
+                                </tbody>
+                                <tbody>
+                                {% for u in users %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>{{ u.first_name }}</td>
+                                        <td>{{ u.last_name }}</td>
+                                        <td>{% if u.is_director == True %}Director{% else %}Hodim{% endif %}</td>
+                                        {#                                    <td><i data-feather="edit" id="edit" data-toggle="modal" data-target="#modal-center"></i></td>#}
+                                        <td onclick="deletehodim('{{ u.id }}')">{% if u.is_director == True %}{% else %}
+                                            <i data-feather="trash-2" id="delete"></i>{% endif %}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+    </section>
+    <!-- /.content -->
+    <!-- Modal -->
+    <div class="modal center-modal fade" id="modal-center" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                        Add Staff
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Добавлять Персонал
+                                    {% else %}
+                                        Qo'Hodim Qo'shish
+                                    {% endif %}</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{% url 'addhodim' %}" method="post">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-6">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Last name
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Фамилия
+                                        {% else %}
+                                            Familiya
+                                        {% endif %}</label>
+                                <input type="text" name="fam" class="form-control">
+                            </div>
+                            <div class="col-6">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Name
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Имя
+                                        {% else %}
+                                            Ism
+                                        {% endif %}</label>
+                                <input type="text" name="ism" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-6">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Login
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Авторизоваться
+                                        {% else %}
+                                            Tizimga kirish
+                                        {% endif %}</label>
+                                <input type="text" name="username" class="form-control">
+                            </div>
+                            <div class="col-6">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Password
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Пароль
+                                        {% else %}
+                                            Parol
+                                        {% endif %}</label>
+                                <input type="text" name="password" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <button type="button" class="btn btn-rounded btn-secondary" data-dismiss="modal">
+                            {% if LANGUAGE_CODE == 'en' %}
+                                            Cancel
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Отмена
+                                        {% else %}
+                                            Bekor qilish
+                                        {% endif %}
+                        </button>
+                        <input type="submit" class="btn btn-rounded btn-primary float-right" value="{% if LANGUAGE_CODE == 'en' %}Add{% elif LANGUAGE_CODE == 'ru'%}Добавлять{% else %}Qo'shish{% endif %}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+{% endblock content %}
+{% block js %}
+    <!-- Vendor JS -->
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm//assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script src="{% static 'crm/task/sweeatalert.js' %}"></script>
+
+    <script>
+        function deletehodim(id) {
+            swal({
+                title: `{% if LANGUAGE_CODE == 'en' %}
+                                            Do you really want to turn it off?
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Вы действительно хотите выключить его?
+                                        {% else %}
+                                            Chindan ham o'chirmoqchimisiz?
+                                        {% endif %}`,
+                icon: "warning",
+                buttons: ["{% if LANGUAGE_CODE == 'en' %}
+                                            No
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Heт
+                                        {% else %}
+                                            Yo'q
+                                        {% endif %}", "{% if LANGUAGE_CODE == 'en' %}
+                                            Yes
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Дa
+                                        {% else %}
+                                            Ha
+                                        {% endif %}"],
+            }).then((willDelete) => {
+                if (willDelete) {
+                    location.href = `{% url 'deletehodim' %}?id=${id}`
+                }
+            });
+        }
+    </script>
+
+
+{% endblock js %}

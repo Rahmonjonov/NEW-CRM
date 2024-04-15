@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                CRM | Task
+            {% elif LANGUAGE_CODE == 'ru'%}
+                CRM | Задача
+            {% else %}
+                CRM | Vazifa
+            {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <!-- Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/board/bootstrap/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/task/style.css' %}">
+
+{% endblock css %}
+{% block content %}
+
+    <div id="dashboard_container">
+        <div id="custom-content">
+            <div class="main_container">
+                <div class="part-group">
+                    <div class="group_header">
+                        <div class="group_title">{% if LANGUAGE_CODE == 'en' %}
+                Primary
+            {% elif LANGUAGE_CODE == 'ru'%}
+                Начальный
+            {% else %}
+                Boshlang'ich
+            {% endif %}</div>
+                        <div id="info_group_1" class="group_info"></div>
+                    </div>
+                    <div id="group_body_1" class="group_body">
+                        <div id='new_task_button'>
+                            {% if LANGUAGE_CODE == 'en' %}
+                                Add new
+                            {% elif LANGUAGE_CODE == 'ru'%}
+                                Добавить новое
+                            {% else %}
+                                Yangi qo'shish
+                            {% endif %}
+                        </div>
+                        {% for task in group1 %}
+                            <div id="task_{{ task.id }}" pk={{ task.id }} class="task_card" draggable="true">
+                                <div class="task_date text-super">{{ task.date|date:'Y-m-d H:i' }}</div>
+                                <div class="task_name">{{ task.name }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="part-group">
+                    <div class="group_header">
+                        <div class="group_title">
+                            {% if LANGUAGE_CODE == 'en' %}
+                                In progress
+                            {% elif LANGUAGE_CODE == 'ru'%}
+                                В ходе выполнения
+                            {% else %}
+                                Bajarilmoqda
+                            {% endif %}
+                        </div>
+                        <div id="info_group_2" class="group_info"></div>
+                    </div>
+                    <div id="group_body_2" class="group_body">
+                        {% for task in group2 %}
+                            <div id="task_{{ task.id }}" pk={{ task.id }} class="task_card" draggable="true">
+                                <div class="task_date text-super">{{ task.date|date:'Y-m-d H:i' }}</div>
+                                <div class="task_name">{{ task.name }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="dashboard_footer">
+            <div class="footer_group">
+                <div id="task_delete_footer" class="footer_item footer_losed">
+                    {% if LANGUAGE_CODE == 'en' %}
+                                Close
+                            {% elif LANGUAGE_CODE == 'ru'%}
+                                Закрывать
+                            {% else %}
+                                O'chirish
+                            {% endif %}
+                </div>
+                <div id="task_finished_footer" class="footer_item footer_won">{% trans "" %}
+                    {% if LANGUAGE_CODE == 'en' %}
+                                It's over
+                            {% elif LANGUAGE_CODE == 'ru'%}
+                                Закончилось
+                            {% else %}
+                                Yakunlandi
+                            {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="new_task_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="newTaskForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{% trans "Yangi qo'shish" %}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="p-1">
+                            <input name="form_name" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                        Name
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Название
+                                    {% else %}
+                                        Nomi
+                                    {% endif %}" class="formStyle"
+                                   oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
+                                        Must be completed!
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Должен быть завершен!
+                                    {% else %}
+                                        To'ldirilishi shart!
+                                    {% endif %}`)"
+                                   oninput="setCustomValidity('')" required maxlength="255">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">{% if LANGUAGE_CODE == 'en' %}
+                                        Add
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Добавлять
+                                    {% else %}
+                                        Qo'shish
+                                    {% endif %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="task_note_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="task_note_form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                        Note
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Примечание
+                                    {% else %}
+                                        Izoh
+                                    {% endif %}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="p-1">
+                            <textarea class="formStyle" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                        Note
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Примечание
+                                    {% else %}
+                                        Izoh
+                                    {% endif %}" name="izoh"
+                                      oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
+                                        Must be completed!
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Должен быть завершен!
+                                    {% else %}
+                                        To'ldirilishi shart!
+                                    {% endif %}`)"
+                                      oninput="setCustomValidity('')" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">{% if LANGUAGE_CODE == 'en' %}
+                                        Save
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Сохранять
+                                    {% else %}
+                                        Saqlash
+                                    {% endif %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block js %}
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script src="{% static 'crm/board/bootstrap/script.js' %}"></script>
+    <script src="{% static 'crm/board/jquery/script.js' %}"></script>
+    <script src="{% static 'crm/task/sweeatalert.js' %}"></script>
+    <script>
+        let tasks_all = {{ all_tasks|safe }};
+        let currentUser = {{ user.id }};
+        let csrf_token = '{{ csrf_token }}'
+
+    </script>
+
+    <script src="{% static 'crm/task/new.js' %}"></script>
+{% endblock js %}

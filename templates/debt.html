@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{% trans "CRM | Qarzdorlik" %}</title>
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+{% endblock css %}
+{% block content %}
+    <section class="content">
+
+        <div class="row">
+            <div class="col-6">
+                {% if messages %}
+                    {% for message in messages %}
+                        <span style="color: green">{{ message }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="col-6">
+                <a href="{% url 'adddebtor' %}" class="btn btn-rounded btn-success float-right"
+                   style="margin-bottom: 10px;">{% if LANGUAGE_CODE == 'en' %}
+                                            Add
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Добавлять
+                                        {% else %}
+                                            Qo'shish
+                                        {% endif %}</a>
+            </div>
+            <div class="col-12">
+                <div class="box-body" style="padding: 0">
+                    <div class="tab-content">
+                        <div class="col-12" style="padding: 0">
+                            <div class="box">
+                                <div class="box-body">
+                                    <div class="table-responsive">
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                            <tr class="text-center">
+                                                <th>№</th>
+                                                {% if LANGUAGE_CODE == 'en' %}
+                                                <th>First name</th>
+                                                <th>Last name</th>
+                                                <th>Birthsday</th>
+                                                <th>Region</th>
+                                                <th>Phone</th>
+                                                <th>Debt</th>
+                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                <th>Имя</th>
+                                                <th>Фамилия</th>
+                                                <th>Дата рождения</th>
+                                                <th>Область</th>
+                                                <th>Телефон</th>
+                                                <th>Долг</th>
+                                                {% else %}
+                                                <th>Ism</th>
+                                                <th>Familiya</th>
+                                                <th>Tug'ilgan sana</th>
+                                                <th>Tuman</th>
+                                                <th>Telefon</th>
+                                                <th>Qarzi</th>
+                                                {% endif %}
+
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for t in debtors %}
+                                                <tr class="text-center">
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>
+                                                        <a href="{% url 'debthistory' %}?id={{ t.id }}">{{ t.surname }}</a>
+                                                    </td>
+                                                    <td><a href="{% url 'debthistory' %}?id={{ t.id }}">{{ t.name }}</a>
+                                                    </td>
+                                                    <td>{{ t.birthday|date:'d.m.Y' }}</td>
+                                                    <td>{{ t.district }}</td>
+                                                    <td>{{ t.phone }}</td>
+                                                    <td>{{ t.debt }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block js %}
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/datatable/datatables.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/data-table.js' %}"></script>
+{% endblock js %}

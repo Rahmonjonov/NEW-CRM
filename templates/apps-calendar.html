@@ -1,0 +1,284 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Calendar
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Календарь
+                                        {% else %}
+                                            CRM | Kalendar
+                                        {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <!-- Plugin css -->
+
+    <link href="{% static 'ubold/assets/libs/@fullcalendar/core/main.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'ubold/assets/libs/@fullcalendar/daygrid/main.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'ubold/assets/libs/@fullcalendar/bootstrap/main.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static 'ubold/assets/libs/@fullcalendar/timegrid/main.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'ubold/assets/libs/@fullcalendar/list/main.min.css' %}" rel="stylesheet" type="text/css"/>
+
+    <!-- App css -->
+    <link href="{% static 'ubold/assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"
+          id="bs-default-stylesheet"/>
+    <link href="{% static 'ubold/assets/css/app.min.css' %}" rel="stylesheet" type="text/css"
+          id="app-default-stylesheet"/>
+
+    <link href="{% static 'ubold/assets/css/bootstrap-dark.min.css' %}" rel="stylesheet" type="text/css"
+          id="bs-dark-stylesheet" disabled/>
+    <link href="{% static 'ubold/assets/css/app-dark.min.css' %}" rel="stylesheet" type="text/css"
+          id="app-dark-stylesheet" disabled/>
+
+    <!-- icons -->
+    <link href="{% static 'ubold/assets/css/icons.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+
+    <!-- Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+
+{% endblock css %}
+{% block content %}
+    <div class="content">
+        <!-- Start Content-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-0">
+                                    <div id="external-events" class="m-t-20"></div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div id="calendar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="event-modal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header py-3 px-4 border-bottom-0 d-block">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true">&times;
+                                    </button>
+                                    <h5 class="modal-title" id="modal-title">Event</h5>
+                                </div>
+                                <div class="modal-body p-4">
+                                    <form class="needs-validation" name="event-form" id="form-event" novalidate>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">{% if LANGUAGE_CODE == 'en' %}
+                                            Event
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Mероприятие
+                                        {% else %}
+                                            Hodisa
+                                        {% endif %}</label>
+                                                    <span id="user_name"></span>
+                                                    <select class="form-control select2" id="event-user"
+                                                            style="width: 100%;">
+                                                        {% for u in users %}
+                                                            <option value="{{ u.id }}">{{ u.name }}
+                                                                {% if u.surname is not None %}
+                                                                    {{ u.surname }}{% endif %}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <div class="invalid-feedback">{% if LANGUAGE_CODE == 'en' %}
+                                            You did not enter the event
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Вы не вошли в событие
+                                        {% else %}
+                                            Hodisa kiritmadingiz
+                                        {% endif %}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">{% if LANGUAGE_CODE == 'en' %}
+                                            Event
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Mероприятие
+                                        {% else %}
+                                            Hodisa
+                                        {% endif %}</label>
+                                                    <input class="form-control"
+                                                           placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                            Enter the event
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Участвуйте в событии
+                                        {% else %}
+                                            Hodisani kiriting
+                                        {% endif %}"
+                                                           type="text" name="title" id="event-title" required/>
+                                                    <div class="invalid-feedback">{% if LANGUAGE_CODE == 'en' %}
+                                            You did not enter the event
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Вы не вошли в событие
+                                        {% else %}
+                                            Hodisa kiritmadingiz
+                                        {% endif %}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">{% trans "Vaqt" %}</label>
+                                                    <input class="form-control"
+                                                           placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                            Enter the event
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Участвуйте в событии
+                                        {% else %}
+                                            Hodisani kiriting
+                                        {% endif %}"
+                                                           type="datetime-local" name="time" id="event-time" required/>
+                                                    <div class="invalid-feedback">{% if LANGUAGE_CODE == 'en' %}
+                                            You did not enter the time
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Вы не ввели время
+                                        {% else %}
+                                            Vaqtni kiritmadingiz
+                                        {% endif %}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">{% if LANGUAGE_CODE == 'en' %}
+                                            Significance
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Значение
+                                        {% else %}
+                                            Muhimligi
+                                        {% endif %}</label>
+                                                    <select class="form-control custom-select" name="category"
+                                                            id="event-category" required>
+                                                        <option value="bg-danger" selected>{% if LANGUAGE_CODE == 'en' %}
+                                            Danger
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Опасность
+                                        {% else %}
+                                            Xavfli
+                                        {% endif %}</option>
+                                                        <option value="bg-success">{% if LANGUAGE_CODE == 'en' %}
+                                            Success
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Успех
+                                        {% else %}
+                                            Muvaffaqiyat
+                                        {% endif %}</option>
+                                                        <option value="bg-primary">{% if LANGUAGE_CODE == 'en' %}
+                                            Primary
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Начальный
+                                        {% else %}
+                                            Asosiy
+                                        {% endif %}</option>
+                                                        <option value="bg-info">{% if LANGUAGE_CODE == 'en' %}
+                                            Info
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Информация
+                                        {% else %}
+                                            Ma'lumot
+                                        {% endif %}</option>
+                                                        <option value="bg-dark">{% if LANGUAGE_CODE == 'en' %}
+                                            Dark
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Темный
+                                        {% else %}
+                                            Qorong'i
+                                        {% endif %}</option>
+                                                        <option value="bg-warning">{% if LANGUAGE_CODE == 'en' %}
+                                            Warning
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Предупреждение
+                                        {% else %}
+                                            Ogohlantirish
+                                        {% endif %}</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">{% if LANGUAGE_CODE == 'en' %}
+                                            You did not select importance
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Вы не выбрали важность
+                                        {% else %}
+                                            Muhimlikni tanlamadingiz
+                                        {% endif %}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-6">
+                                                <button type="button" class="btn btn-danger" id="btn-delete-event">
+                                                    {% if LANGUAGE_CODE == 'en' %}
+                                            Delete
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Удалить
+                                        {% else %}
+                                            O'chirish
+                                        {% endif %}
+                                                </button>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <button type="button" class="btn btn-light mr-1" data-dismiss="modal">
+                                                    {% if LANGUAGE_CODE == 'en' %}
+                                            Close
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Закрывать
+                                        {% else %}
+                                            Yopish
+                                        {% endif %}
+                                                </button>
+                                                <button type="submit" class="btn btn-success" id="btn-save-event">
+                                                    {% if LANGUAGE_CODE == 'en' %}
+                                            Save
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Сохранять
+                                        {% else %}
+                                            Saqlash
+                                        {% endif %}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div> <!-- end modal-content-->
+                        </div> <!-- end modal dialog-->
+                    </div>
+                    <!-- end modal-->
+                </div>
+                <!-- end col-12 -->
+            </div> <!-- end row -->
+
+        </div> <!-- container -->
+
+    </div>
+
+{% endblock content %}
+{% block js %}
+
+    <script src="{% static 'ubold/assets/js/vendor.min.js' %}"></script>
+
+    <script src="{% static 'ubold/assets/libs/moment/min/moment.min.js' %}"></script>
+    <script src="{% static 'ubold/assets/libs/@fullcalendar/core/main.min.js' %}"></script>
+    <script src="{% static 'ubold/assets/libs/@fullcalendar/bootstrap/main.min.js' %}"></script>
+    <script src="{% static 'ubold/assets/libs/@fullcalendar/daygrid/main.min.js' %}"></script>
+    <script src="{% static 'ubold/assets/libs/@fullcalendar/timegrid/main.min.js' %}"></script>
+    <script src="{% static 'ubold/assets/libs/@fullcalendar/list/main.min.js' %}"></script>
+    <script src="{% static 'ubold/assets/libs/@fullcalendar/interaction/main.min.js' %}"></script>
+
+    <script src="{% static 'ubold/assets/js/pages/calendar.init.js' %}"></script>
+    <script src="{% static 'ubold/assets/js/app.min.js' %}"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+    <script>
+        $('select.select2').selectize({ normalize: true });
+    </script>
+
+
+{% endblock js %}

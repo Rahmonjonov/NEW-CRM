@@ -1,0 +1,326 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {#    <meta name="viewport" content="width=device-width, initial-scale=1">#}
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" href="{% static 'crm/images/algo.png' %}"> -->
+    {% block title %}
+    {% endblock title %}
+    {% block css %}
+    {% endblock css %}
+    <style>
+        .sidebar-menu > li > a > svg {
+            width: 35px;
+            margin: 5px 10px;
+        }
+
+        .sidebar-menu > li > a > svg {
+            color: #ffffff;
+        }
+
+        .theme-primary .text-primary {
+            color: #6B778D;
+        }
+
+        
+    </style>
+    <!-- ::-webkit-scrollbar {
+        width: 0;  /* Remove scrollbar space */
+        background: transparent;  /* Optional: just make scrollbar invisible */
+    }
+    /* Optional: show position indicator in red */
+    ::-webkit-scrollbar-thumb {
+        background: #FF0000;
+    } -->
+</head>
+
+<body class="hold-transition dark-skin sidebar-mini theme-primary sidebar-collapse">
+
+<div class="wrapper">
+
+    <header class="main-header">
+        <!-- Header Navbar -->
+        <nav class="navbar navbar-static-top pl-30">
+            <!-- Sidebar toggle button-->
+            <div>
+                <ul class="nav">
+                    <li style="display: flex; align-items: center">
+                        <div class="text-success" style="font-size: 18px">{{ user.company.name }}
+                            - {{ user.first_name }}</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="navbar-custom-menu r-side">
+                <ul class="nav navbar-nav">
+                    <!-- full Screen -->
+                    <li class="search-bar">
+                        <div class="lookup-right">
+                            <form action="{% url 'set_language' %}" method="post">
+                                {% csrf_token %}
+                                {% get_current_language as LANGUAGE_CODE %}
+                                {% get_available_languages as LANGUAGES %}
+
+                                <select class="form-control" onchange="this.form.submit()" name="language">
+                                    {% for language in LANGUAGES %}
+                                        <option value="{{ language.0 }}"
+                                                {% if language.0 == LANGUAGE_CODE %}selected{% endif %}>{{ language.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="{% url 'logout' %}" title="{%if LANGUAGE_CODE == 'en' %}
+                                            Exit
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Выход
+                                        {% else %}
+                                            Chiqish
+                                        {% endif %}" class="waves-effect waves-dark m-10">
+                            <i class="ti-lock"></i>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <aside class="main-sidebar" style="width: 75px;">
+    <!-- style="width: 75px; top: 0;
+                                                    bottom:0;
+                                                    position:fixed;
+                                                    overflow-y:scroll;
+                                                    overflow-x:hidden;
+                                                    " -->
+                                                    
+        <section class="sidebar">
+
+            <div class="user-profile">
+                <div class="ulogo">
+                    <a href="{% url 'home' %}">
+                        <div class="d-flex align-items-center justify-content-center">
+                            {% if company.logo %}
+                                <img style="height: 50px;" src="{{ company.logo.url }}" alt="">
+                            {% endif %}
+                            <h3><b>CRM</b></h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- sidebar menu-->
+            <ul class="sidebar-menu" data-widget="tree" style="margin:0; padding:0; background: #272e48">
+
+                <li class="{{ home }}" style="margin-top: 22px;">
+                    <a href="{% url 'home' %}">
+                        <i data-feather="home"></i>
+                        <span>{% if LANGUAGE_CODE == 'en' %}
+                                            Dashboard
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Панель приборов
+                                        {% else %}
+                                            Boshqaruv paneli
+                                        {% endif %}</span>
+                    </a>
+                </li>
+
+                <li class="{{ target }}">
+                    <a href="{% url 'target' %}">
+                        <i data-feather="filter"></i>
+                        <span>{% if LANGUAGE_CODE == 'en' %}
+                                            Pipeline
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Трубопровод
+                                        {% else %}
+                                            Target
+                                        {% endif %}</span>
+                    </a>
+                </li>
+                <li class="{{ Board }}">
+                    <a href="{% url 'board' %}">
+                        <i data-feather="user-plus"></i>
+                        <span>{% if LANGUAGE_CODE == 'en' %}
+                                            Leads board
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Доска потенциальных клиентов
+                                        {% else %}
+                                            Rahbarlar kengashi
+                                        {% endif %}</span>
+                    </a>
+                </li>
+                <li class="{{ Task }}">
+                    <a href="{% url 'taskUrl' %}">
+                        <i data-feather="list"></i>
+                        <span>{% if LANGUAGE_CODE == 'en' %}
+                                            Tasks board
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Доска задач
+                                        {% else %}
+                                            Vazifalar paneli
+                                        {% endif %}</span>
+                    </a>
+                </li>
+                <li class="{{ client }}">
+                    <a href="{% url 'clients' %}">
+                        <i data-feather="user"></i>
+                        <span>{% if LANGUAGE_CODE == 'en' %}
+                                            Client Base
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Клиентская база
+                                        {% else %}
+                                            Mijozlar bazasi
+                                        {% endif %}</span>
+                    </a>
+                </li>
+                <li class="{{ debt }}">
+                    <a href="{% url 'debt' %}">
+                        <i data-feather="dollar-sign"></i>
+                        <span>{% if LANGUAGE_CODE == 'en' %}
+                                            Debt
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Долг
+                                        {% else %}
+                                            Qarzdorlik
+                                        {% endif %}</span>
+                    </a>
+                </li>
+                {% if user.company.sms_activated or user.company.smsto_activated %}
+                    <li class="{{ sms }}">
+                        <a href="{% url 'sms' %}">
+                            <i data-feather="mail"></i>
+                            <span>{% if LANGUAGE_CODE == 'en' %}
+                                            SMS Gateway
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            SMS-шлюз
+                                        {% else %}
+                                            SMS Gateway
+                                        {% endif %}</span>
+                        </a>
+                    </li>
+                {% endif %}
+                <li class="{{ appcalendar }}">
+                    <a href="{% url 'app-calendar' %}">
+                        <i data-feather="calendar"></i>
+                        <span>{% if LANGUAGE_CODE == 'en' %}
+                                            Calendar
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Календарь
+                                        {% else %}
+                                            Kalendar
+                                        {% endif %}</span>
+                    </a>
+                </li>
+                <li class="{{ etiroz }}">
+                    <a href="{% url 'etiroz' %}">
+                        <i data-feather="file-text"></i>
+                        <span>{% if LANGUAGE_CODE == 'en' %}
+                                            Trade
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Торговля
+                                        {% else %}
+                                            Savdo
+                                        {% endif %}</span>
+                    </a>
+                </li>
+                {% if user.is_director %}
+                    <li class="{{ maqsad }}">
+                        <a href="{% url 'maqsad' %}">
+                            <i data-feather="crosshair"></i>
+                            <span>{% if LANGUAGE_CODE == 'en' %}
+                                            The goal
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Цель
+                                        {% else %}
+                                            Maqsad
+                                        {% endif %}</span>
+                        </a>
+                    </li>
+                    <li class="{{ product_page }}">
+                        <a href="{% url 'products' %}">
+                            <i data-feather="shopping-bag"></i>
+                            <span>{% if LANGUAGE_CODE == 'en' %}
+                                            Products
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Товары
+                                        {% else %}
+                                            Mahsulotlar
+                                        {% endif %}</span>
+                        </a>
+                    </li>
+                    <li class="{{ kabinet }}">
+                        <a href="{% url 'cabinet' %}">
+                            <i data-feather="airplay"></i>
+                            <span>{% if LANGUAGE_CODE == 'en' %}
+                                            Cabinet
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Кабинет
+                                        {% else %}
+                                            Kabinet
+                                        {% endif %}</span>
+                        </a>
+                    </li>
+                    <li class="{{ redirect }}">
+                        <a href="{% url 'redirect_list' %}">
+                            <i data-feather="link"></i>
+                            <span>{%if LANGUAGE_CODE == 'en' %}
+                                            Link
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Связь
+                                        {% else %}
+                                            Havola
+                                        {% endif %}</span>
+                        </a>
+                    </li>
+                {% endif %}
+                {% if user.is_director %}
+                    <li class="{{ setting }}">
+                        <a href="{% url 'setting' %}">
+                            <i data-feather="settings"></i>
+                            <span>{%if LANGUAGE_CODE == 'en' %}
+                                            Settings
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Настройки
+                                        {% else %}
+                                            Sozlama
+                                        {% endif %}</span>
+                        </a>
+                    </li>
+                {% endif %}
+                <li>
+                    <a href="{% url 'logout' %}">
+                        <i data-feather="lock"></i>
+                        <span>{%if LANGUAGE_CODE == 'en' %}
+                                            Exit
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Выход
+                                        {% else %}
+                                            Chiqish
+                                        {% endif %}</span>
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+    </aside>
+
+    <div class="content-wrapper">
+        <div class="container-full">
+            {% block content %}
+
+            {% endblock content %}
+        </div>
+    </div>
+
+</div>
+
+{% block js %}
+{% endblock js %}
+
+</body>
+</html>

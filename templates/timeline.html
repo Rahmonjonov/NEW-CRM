@@ -1,0 +1,319 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                CRM | Timeline
+            {% elif LANGUAGE_CODE == 'ru'%}
+                CRM | График
+            {% else %}
+                CRM | Vaqt jadvali
+            {% endif %}</title>
+{% endblock title %}
+{% block css %}
+	<!-- Vendors Style-->
+	<link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css'%}">
+	  
+	<!-- Style-->  
+	<link rel="stylesheet" href="{% static 'crm/main/css/style.css'%}">
+	<link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css'%}">
+	
+{% endblock css %}
+{% block content %}
+		<!-- Main content -->
+		<section class="content">
+				<div class="box">
+					<div class="box-header">
+						<h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                Two columns
+            {% elif LANGUAGE_CODE == 'ru'%}
+                Две колонки
+            {% else %}
+                Ikki ustun
+            {% endif %}</h4>
+					</div>
+					<div class="box-body">
+						<div class="timeline">
+							<div class="timeline-item">
+								<div class="timeline-point timeline-point-default">
+									<i class="fa fa-circle"></i>
+								</div>
+								<div class="timeline-event timeline-event-default">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">{% if LANGUAGE_CODE == 'en' %}
+                timeline-event timeline-event-default
+            {% elif LANGUAGE_CODE == 'ru'%}
+                временная шкала событий временная шкала событий по умолчанию
+            {% else %}
+                vaqt jadvali-voqea vaqt jadvali-hodisa-standart
+            {% endif %}</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Invitamus me testatur sed quod non dum animae tuae lacrimis ut libertatem deum rogus aegritudinis causet. Dicens hoc contra serpentibus isto.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Feb-21-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<span class="timeline-label">
+								<span class="badge badge-pill badge-primary badge-lg">timeline-label</span>
+							</span>
+
+							<div class="timeline-item">
+								<div class="timeline-point timeline-point-primary">
+									<i class="fa fa-star"></i>
+								</div>
+								<div class="timeline-event timeline-event-primary">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">timeline-event timeline-event-primary</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Stranguillione in deinde cepit roseo commendavit patris super color est se sed. Virginis plus plorantes abscederem assignato ipsum ait regem Ardalio nos filiae Hellenicus mihi cum. Theophilo litore in lucem in modo invenit quasi nomen magni ergo est se est Apollonius, habet clementiae venit ad nomine sed dominum depressit filia navem.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Feb-23-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="timeline-item">
+								<div class="timeline-point timeline-point-info">
+									<i class="fa fa-star"></i>
+								</div>
+								<div class="timeline-event timeline-event-info">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">timeline-event timeline-event-info</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Advenientibus aliorum eam ad per te sed. Facere debetur aut veneris accedens.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Feb-22-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="timeline-item">
+								<div class="timeline-point timeline-point-warning">
+									<i class="fa fa-star"></i>
+								</div>
+								<div class="timeline-event timeline-event-warning">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">timeline-event timeline-event-warning</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Stranguillione in deinde cepit roseo commendavit patris super color est se sed. Virginis plus plorantes abscederem assignato ipsum ait regem Ardalio nos filiae Hellenicus mihi cum. Theophilo litore in lucem in modo invenit quasi nomen magni ergo est se est Apollonius, habet clementiae venit ad nomine sed dominum depressit filia navem.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Feb-23-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="timeline-item">
+								<div class="timeline-point timeline-point-danger">
+									<i class="fa fa-star"></i>
+								</div>
+								<div class="timeline-event timeline-event-danger">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">timeline-event timeline-event-danger</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Advenientibus aliorum eam ad per te sed. Facere debetur aut veneris accedens.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Feb-22-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<span class="timeline-label">
+								<span class="badge badge-pill badge-info badge-lg">timeline-label with label label-info</span>
+							</span>
+
+							<div class="timeline-item timeline-item-arrow-sm">
+								<div class="timeline-point timeline-point-primary">
+									<i class="fa fa-star"></i>
+								</div>
+								<div class="timeline-event timeline-event-primary">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">timeline-item timeline-item-arrow-sm</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Volvitur ingreditur id ait mea vero cum autem quod ait Cumque ego illum vero cum unde beata. Commendavi si non dum est in. Dionysiadem tuos ratio puella ut casus, tunc lacrimas effunditis magister cives Tharsis. Puellae addita verbaque' capellam sanctissima quid, apollinem existimas filiam rex cum autem quod tamen adnuente rediens eam est se in. Peracta licet ad nomine Maria non ait in modo compungi mulierem volutpat.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Feb-27-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="timeline-item timeline-item-arrow-lg">
+								<div class="timeline-point timeline-point-blank">
+								</div>
+								<div class="timeline-event timeline-event-warning">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">timeline-item timeline-item-arrow-lg timeline-point timeline-point-blank</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Adfertur guttae sapientiae ducitur est Apollonius ut a a his domino Lycoridem in lucem. Theophile atque bona dei cenam veniebant est cum. Iusto opes mihi Tyrum in modo compungi mulierem ubi augue eiusdem ordo quos vero diam omni catervis famulorum. Bene dictis ut diem finito servis unde.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Mar-01-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="timeline-item">
+								<div class="timeline-point timeline-point-blank"></div>
+								<div class="timeline-event timeline-event-success">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">timeline-point timeline-point-blank</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Crede respiciens loco dedit beneficio ad suis alteri si puella eius in. Acceptis codicello lenonem in deinde plectrum anni ipsa quod eam est Apollonius.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Mar-02-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="timeline-item timeline-item-left">
+								<div class="timeline-point timeline-point-blank"></div>
+								<div class="timeline-event timeline-event-default">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">timeline-item timeline-item-left</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Invitamus me testatur sed quod non dum animae tuae lacrimis ut libertatem deum rogus aegritudinis causet. Dicens hoc contra serpentibus isto.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Feb-21-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="timeline-item timeline-item-left">
+								<div class="timeline-point timeline-point-blank"></div>
+								<div class="timeline-event timeline-event-default">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">timeline-item timeline-item-left</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Invitamus me testatur sed quod non dum animae tuae lacrimis ut libertatem deum rogus aegritudinis causet. Dicens hoc contra serpentibus isto.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Feb-21-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="timeline-item timeline-item-left">
+								<div class="timeline-point timeline-point-blank"></div>
+								<div class="timeline-event timeline-event-default">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">timeline-item timeline-item-left</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Invitamus me testatur sed quod non dum animae tuae lacrimis ut libertatem deum rogus aegritudinis causet. Dicens hoc contra serpentibus isto.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Feb-21-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="timeline-item timeline-item-left">
+								<div class="timeline-point timeline-point-blank"></div>
+								<div class="timeline-event timeline-event-default">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">timeline-item timeline-item-left</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Invitamus me testatur sed quod non dum animae tuae lacrimis ut libertatem deum rogus aegritudinis causet. Dicens hoc contra serpentibus isto.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Feb-21-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="timeline-item timeline-item-right">
+								<div class="timeline-point timeline-point-blank"></div>
+								<div class="timeline-event timeline-event-default">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">timeline-item timeline-item-right</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Invitamus me testatur sed quod non dum animae tuae lacrimis ut libertatem deum rogus aegritudinis causet. Dicens hoc contra serpentibus isto.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Feb-21-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="timeline-item timeline-item-right">
+								<div class="timeline-point timeline-point-blank"></div>
+								<div class="timeline-event timeline-event-default">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">timeline-item timeline-item-right</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Invitamus me testatur sed quod non dum animae tuae lacrimis ut libertatem deum rogus aegritudinis causet. Dicens hoc contra serpentibus isto.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Feb-21-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="timeline-item timeline-item-right">
+								<div class="timeline-point timeline-point-blank"></div>
+								<div class="timeline-event timeline-event-default">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">timeline-item timeline-item-right</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Invitamus me testatur sed quod non dum animae tuae lacrimis ut libertatem deum rogus aegritudinis causet. Dicens hoc contra serpentibus isto.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Feb-21-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="timeline-item timeline-item-right">
+								<div class="timeline-point timeline-point-blank"></div>
+								<div class="timeline-event timeline-event-default">
+									<div class="timeline-heading">
+										<h4 class="timeline-title">timeline-item timeline-item-right</h4>
+									</div>
+									<div class="timeline-body">
+										<p>Invitamus me testatur sed quod non dum animae tuae lacrimis ut libertatem deum rogus aegritudinis causet. Dicens hoc contra serpentibus isto.</p>
+									</div>
+									<div class="timeline-footer">
+										<p class="text-right">Feb-21-2014</p>
+									</div>
+								</div>
+							</div>
+
+							<span class="timeline-label">
+								<button class="btn btn-danger btn-rounded"><i class="fa fa-clock-o"></i></button>
+							</span>
+						</div>
+					</div>                
+				</div>
+		</section>
+		<!-- /.content -->
+{% endblock content %}
+{% block js %}
+	<!-- Vendor JS -->
+	<script src="{% static 'crm/main/js/vendors.min.js'%}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js'%}"></script>	<!-- Sunny Admin App -->
+	<script src="{% static 'crm/main/js/template.js'%}"></script>
+
+
+{% endblock js %}

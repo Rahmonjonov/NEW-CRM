@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{% static 'crm/images/algo.png' %}">
+    <title>
+        {% if success %}
+            {{ noteForm.name }}
+        {% endif %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="hold-transition theme-primary bg-gradient-primary" style="background: #1a233a;">
+
+<div class="container h-p100">
+    <div class="row align-items-center justify-content-md-center h-p100">
+        <div class="col-12">
+            <div class="row justify-content-center no-gutters">
+                <div class="col-lg-5 col-12">
+                    <div class="p-30 rounded10 box-shadowed b-1">
+
+                        {% if success %}
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <div class="content-top-agile p-10">
+                                    <img src="{{ noteForm.image.url }}" width="400" height="400" alt="img">
+                                </div>
+                                <input type="hidden" name="noteForm" value="{{ noteForm.id }}">
+                                <input type="hidden" name="social" value="{{ social }}">
+                                {% for question in questions %}
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <input type="text"
+                                                   class="form-control bg-transparent text-white"
+                                                   name="name_{{ question.id }}" placeholder="{{ question.name }}"
+                                                   required>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <button type="submit" class="btn btn-info btn-rounded margin-top-10">
+                                            Saqlash
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        {% else %}
+                            <h1 class="text-white">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <p class="alert alert-{{ message.tags }}">{{ message }}</p>
+                                    {% endfor %}
+                                {% endif %}
+                                {% if LANGUAGE_CODE == 'en' %}
+                                            You can close the page
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Вы можете закрыть страницу
+                                        {% else %}
+                                            Sahifani yopishingiz mumkin
+                                        {% endif %}
+
+                            </h1>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/vendors.min.js' %}"></script>
+<script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+</body>
+</html>

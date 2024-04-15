@@ -1,0 +1,419 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | SMS Gateway
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | SMS Gateway
+                                        {% else %}
+                                            CRM | SMS Gateway
+                                        {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+{% endblock css %}
+
+{% block content %}
+    <section class="content">
+        <div class="col-12">
+            <ul class="nav nav-tabs customtab2" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#tab_asosiy" role="tab">
+                        <span class="hidden-xs-down">{% if LANGUAGE_CODE == 'en' %}
+                                            Primary
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Начальный
+                                        {% else %}
+                                            Asosiy
+                                        {% endif %}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tab_template" role="tab">
+                        <span class="hidden-xs-down">{% if LANGUAGE_CODE == 'en' %}
+                                            SMS templates
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Шаблоны смс
+                                        {% else %}
+                                            SMS shablonlar
+                                        {% endif %}</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_asosiy" role="tabpanel">
+                    <br>
+                    <form action="{% url 'smsgateway' %}" method="post">
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == "error" %}
+                                    <div class="alert alert-danger">
+                                        {{ message }}</div>
+                                {% endif %}
+                                {% if message.tags == "success" %}
+                                    <div class="alert alert-success">
+                                        {{ message }}</div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                        <div class="row">
+
+                            <div class="col-md-6 col-lg-6">
+                                <div class="box" style="border:1px solid #3f7bff; border-radius: 5px;">
+                                    <div class="box-header with-border">
+                                        <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                        Lead board areas
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Лед боард поля
+                                    {% else %}
+                                        Lead board maydonlari
+                                    {% endif %}</h4>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="demo-checkbox">
+                                            {% for pole in lead_poles %}
+                                                <input onchange="checkers_pole(this, {{ pole.id }})" type="checkbox"
+                                                       id="md_checkbox1_{{ pole.id }}"
+                                                       class="chk-col-primary">
+                                                <label for="md_checkbox1_{{ pole.id }}"
+                                                       style="margin-bottom: 5px">{{ pole.name }}</label>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="box-header with-border">
+                                        <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                        Lead status
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Лед статус
+                                    {% else %}
+                                        Lead status
+                                    {% endif %}</h4>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="demo-checkbox">
+                                            {% for lead_status_type in lead_status_types %}
+                                                <input onchange="checkers(this, {{ lead_status_type.0 }})"
+                                                       type="checkbox"
+                                                       id="md_checkbox_{{ lead_status_type.0 }}"
+                                                       class="chk-col-primary">
+                                                <label for="md_checkbox_{{ lead_status_type.0 }}"
+                                                       style="margin-bottom: 5px">{{ lead_status_type.1 }}</label>
+                                            {% endfor %}
+                                        </div>
+                                        <div style="padding: 10px">
+                                            <span style="color: #8a99b5; font-size: 18px; padding: 10px">{% if LANGUAGE_CODE == 'en' %}
+                                        Total
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Oбщее
+                                    {% else %}
+                                        Jami
+                                    {% endif %}: {{ lead_count }} {% if LANGUAGE_CODE == 'en' %}
+                                        lead
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        лид
+                                    {% else %}
+                                        ta lead
+                                    {% endif %}.</span>
+                                            <span style="color: #8a99b5; font-size: 18px; padding: 10px">{% if LANGUAGE_CODE == 'en' %}
+                                        Filtered
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Отфильтровано
+                                    {% else %}
+                                        Filtrlandi
+                                    {% endif %} <span
+                                                    id="check_result">0</span> ta</span>
+                                            <button onclick="check_filtered_lead_count()" type="button"
+                                                    class="btn btn-primary">
+                                                {% if LANGUAGE_CODE == 'en' %}
+                                        Check
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Проверять
+                                    {% else %}
+                                        Tekshirish
+                                    {% endif %}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-6">
+                                <div class="box" style="border:1px solid #3f7bff; border-radius: 5px;">
+                                    <div class="box-header with-border">
+                                        <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                        Leads
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Лид
+                                    {% else %}
+                                        Leadlar
+                                    {% endif %}</h4>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <select class="form-control select2" multiple="multiple" id="leads"
+                                                    name="leads"
+                                                    data-placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                        Selection of Leads
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Подбор лидов
+                                    {% else %}
+                                        Leadlarni tanlash
+                                    {% endif %}"
+                                                    style="width: 100%;">
+                                                {% for l in leads %}
+                                                    <option value="{{ l.id }}">{{ l.surname|default_if_none:"" }} {{ l.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <input type="hidden" name="user_type" id="user_type">
+                                            <input type="hidden" name="pole_type" id="pole_types">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-12">
+                                <div class="box">
+
+                                    <div class="box-header with-border">
+                                        <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | SMS Gateway
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | SMS Gateway
+                                        {% else %}
+                                            CRM | SMS Gateway
+                                        {% endif %}</h4>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+
+                                        {% csrf_token %}
+                                        <div class="demo-checkbox">
+                                            <div class="form-group">
+                                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Message
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Сообщение
+                                        {% else %}
+                                            Xabar
+                                        {% endif %}</label>
+                                                <textarea rows="5" cols="5" class="form-control" name="sms"
+                                                          placeholder="" required></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-rounded btn-success pull-right">
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                            Send
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Отправлять
+                                        {% else %}
+                                            Jo'natish
+                                        {% endif %}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane" id="tab_template" role="tabpanel">
+
+                    <a href="{% url 'newsmstemplate' %}" class="btn btn-primary float-right m-10" role="button">
+                        <i class="fa fa-plus fa-lg"></i> {% if LANGUAGE_CODE == 'en' %}
+                                        Add
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Добавлять
+                                    {% else %}
+                                        Qo'shish
+                                    {% endif %}
+                    </a>
+                    <br>
+                    <div class="box">
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table class="table no-border">
+                                    <thead>
+                                    <tr class="text-uppercase bg-lightest">{% if LANGUAGE_CODE == 'en' %}
+                                        <th><span class="text-white">Name</span></th>
+                                        <th><span class="text-white">Date of creation</span></th>
+                                        <th><span class="text-white">Type</span></th>
+                                        <th><span class="text-white">Text</span></th>
+                                        <th><span class="text-white">Status</span></th>
+                                        <th></th>
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        <th><span class="text-white">Hазвание</span></th>
+                                        <th><span class="text-white">Дата создания</span></th>
+                                        <th><span class="text-white">Tип</span></th>
+                                        <th><span class="text-white">Текст</span></th>
+                                        <th><span class="text-white">Статус</span></th>
+                                        <th></th>
+                                    {% else %}
+                                        <th><span class="text-white">Nomi</span></th>
+                                        <th><span class="text-white">Yaratailgan sana</span></th>
+                                        <th><span class="text-white">Turi</span></th>
+                                        <th><span class="text-white">Matn</span></th>
+                                        <th><span class="text-white">Status</span></th>
+                                        <th></th>
+                                    {% endif %}
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for element in sms_templates %}
+                                        <tr>
+                                            <td>
+                                                <span class="text-white font-size-18">
+                                                    {{ element.name }}
+                                                </span>
+                                                {% if element.type == "Bayram va boshqalar" %}
+                                                    <span class="text-fade d-block">{{ element.leads.count }} {% trans "ta lead tanlangan" %}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+												<span class="text-white font-size-18">
+													{{ element.created_at|date:'Y-m-d H:i' }}
+												</span>
+                                            </td>
+                                            <td>
+												<span class="text-white font-size-18">
+													{{ element.type }}
+												</span>
+                                            </td>
+                                            <td>
+												<span class="text-white font-size-18">
+													{{ element.text|truncatewords:5 }}
+												</span>
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" id="sms_t_{{ element.id }}"
+                                                       class="filled-in chk-col-success"
+                                                       value="{{ element.pk }}"
+                                                       onchange="status_change(this);"
+                                                       {% if element.active %}checked{% endif %}/>
+                                                <label for="sms_t_{{ element.id }}"></label>
+                                            </td>
+                                            <td class="text-right">
+                                                <a href="{% url 'editsmstemplate' pk=element.id %}">
+                                                    <i class="fa fa-edit fa-2x"></i>
+                                                </a>
+                                                <a class="ml-15" href="{% url 'delete_sms_template' pk=element.id %}">
+                                                    <i class="fa fa-remove fa-2x"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+    <!-- /.content -->
+
+{% endblock content %}
+{% block js %}
+    <!-- Vendor JS -->
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/select2/dist/js/select2.full.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/advanced-form-element.js' %}"></script>
+
+    <!-- Sunny Admin App -->
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        Array.prototype.remove = function () {
+            var what, a = arguments, L = a.length, ax;
+            while (L && this.length) {
+                what = a[--L];
+                while ((ax = this.indexOf(what)) !== -1) {
+                    this.splice(ax, 1);
+                }
+            }
+            return this;
+        };
+        let checked_list = [];
+        let pole_list = [];
+
+        function checkers(obj, value) {
+            checked_list.remove(value)
+            if (obj.checked) checked_list.push(value)
+            document.getElementById('user_type').value = JSON.stringify(checked_list)
+        }
+
+        function checkers_pole(obj, value) {
+            pole_list.remove(value)
+            if (obj.checked) pole_list.push(value)
+            document.getElementById('pole_types').value = JSON.stringify(pole_list)
+        }
+
+        function check_filtered_lead_count() {
+            $.ajax({
+                type: "POST",
+                url: '{% url "get_lead_count" %}',
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken")
+                },
+                data: {
+                    status: JSON.stringify(checked_list),
+                    pole_list: JSON.stringify(pole_list),
+                },
+                success: function (response) {
+                    document.getElementById('check_result').innerText = response.count
+                },
+                error: function (error) {
+                }
+            });
+        }
+
+        function status_change(obj) {
+            let nowV = obj.checked;
+            let nextV = nowV;
+            nowV ^= true;
+            obj.checked = nowV;
+            let pk = obj.value;
+            let val = nextV ? 1 : 0;
+
+            $.ajax({
+                type: 'get',
+                url: `{% url 'sms_template_status_change' %}?pk=${pk}&val=${val}`,
+                success: function (r) {
+                    obj.checked = nextV;
+                },
+                error: function (e) {
+                }
+            });
+        }
+    </script>
+
+{% endblock js %}

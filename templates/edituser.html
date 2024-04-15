@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Add a client
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Добавить клиента
+                                        {% else %}
+                                            CRM | Mijoz qo'shish
+                                        {% endif %}</title>
+{% endblock title %}
+{% block css %}
+	<!-- Vendors Style-->
+	<link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css'%}">
+	  
+	<!-- Style-->  
+	<link rel="stylesheet" href="{% static 'crm/main/css/style.css'%}">
+	<link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css'%}">
+{% endblock css %}
+{% block content %}
+		<!-- Main content -->
+		<section class="content">
+			
+			<div class="row">
+				<div class="col-12">
+				    <div class="box">
+					  
+                        <div class="box-header with-border">
+                          <h4 class="box-title">{{ user.user.first_name }} ni taxrirlash</h4>
+                        </div>
+                        <form action="{% url 'adduser' %}" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Last name
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Фамилия
+                                        {% else %}
+                                            Familiya
+                                        {% endif %}</label>
+                                            <input type="text" name="fam" class="form-control" placeholder="{{ user.user.last_name }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Name
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Имя
+                                        {% else %}
+                                            Ism
+                                        {% endif %}</label>
+                                            <input type="text" name="ism" class="form-control" placeholder="{{ user.user.first_name }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Phone
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Телефон
+                                        {% else %}
+                                            Telefon
+                                        {% endif %}</label>
+                                            <input type="text" name="tel" class="form-control" placeholder="{{ user.user.username }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>ABC/XYZ</label>
+                                            <input type="text" name="parol" class="form-control" placeholder="{{ user.abcxyz }}">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="box-body">
+                                        <div class="form-group form-group-float">
+                                            <label>{% if LANGUAGE_CODE == 'en' %}
+                                            City / District
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Город/Район
+                                        {% else %}
+                                            Shahar/Tuman
+                                        {% endif %}</label>
+                                            <select class="form-control select2" name="district" style="width: 100%;">
+                                                {% for t in region %}
+                                                    <option value="{{ t.id }}">{{ t.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+{#                                        <div class="form-group form-group-float">#}
+{#                                          <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Birthday
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            День рождения
+                                        {% else %}
+                                            Tug'ilgan kun
+                                        {% endif %} </label>#}
+{#                                            <input class="form-control" type="date" name="birth" value="{{ t.birthday }}">#}
+{#                                        </div>#}
+                                        <div class="form-group form-group-float">
+                                            <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Illness
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Болезнь
+                                        {% else %}
+                                            Kasallik
+                                        {% endif %} </label>
+                                              <select multiple class="form-control" name="ill">
+                                                {% for i in illness %}
+                                                    <option value="{{ i.id }}">{{ i.name }}</option>
+                                                {% endfor %}
+                                              </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-rounded btn-success pull-right" style="margin-bottom: 10px">Saqlash</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+			        </div>
+			  <!-- /.box -->
+			    </div>
+			<!--/.col (left) -->
+
+		    </div>
+		  <!-- /.row -->
+
+		</section>
+		<!-- /.content -->
+{% endblock content %}
+{% block js %}
+
+	<!-- Vendor JS -->
+	<script src="{% static 'crm/main/js/vendors.min.js'%}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js'%}"></script>	<!-- Sunny Admin App -->
+	<script src="{% static 'crm/main/js/template.js'%}"></script>
+	
+{% endblock js %}

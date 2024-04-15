@@ -1,0 +1,122 @@
+#header {
+    height: 50px;
+    background: #272e48;
+    color: white;
+}
+
+#branding h1 {
+    color: white;
+}
+
+a:link,
+a:visited {
+    color: #043b90;
+}
+
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: white;
+}
+
+div.breadcrumbs {
+    background: #1a233a;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    background: #272e48;
+    border-radius: 3px;
+}
+
+#changelist-form .results::-webkit-scrollbar {
+    height: 10px;
+}
+
+#changelist-form .results::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #505050;
+    border-radius: 5px;
+}
+
+#changelist-form .results::-webkit-scrollbar-thumb {
+    background: #7a7d7d;
+    border-radius: 5px;
+}
+
+#changelist-form .results::-webkit-scrollbar-thumb:hover {
+    background: #343e57;
+    transition: .5s;
+}
+
+.main.shifted > #nav-sidebar::-webkit-scrollbar {
+    width: 12px;
+}
+
+.main.shifted > #nav-sidebar::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #898989;
+    border-radius: 5px;
+}
+
+.main.shifted > #nav-sidebar::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 5px;
+}
+
+.main.shifted > #nav-sidebar::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+    transition: .5s;
+}
+
+.object-tools a.viewsitelink, .object-tools a.golink, .object-tools a.addlink {
+    background: #272e48;
+    transition: .5s;
+}
+
+.object-tools a.viewsitelink, .object-tools a.golink, .object-tools a.addlink:hover {
+    background: #4e5982;
+}
+
+#changelist-filter li a {
+    font-size: 14px;
+}
+
+#changelist-filter li.selected a {
+    color: #0043c1 !important;
+}
+
+#nav-sidebar .current-model {
+    background: #79f3ff;
+}
+
+.field-active img {
+    width: 20px;
+    height: 20px;
+}
+
+.button, input[type=submit], input[type=button], .submit-row input.default {
+    background: #272e48;
+    transition: 0.5s;
+    font-size: 14px;
+}
+
+input[type=submit]:hover, .submit-row input.default:hover {
+    background: #2744b6;
+    transition: 0.5s;
+}
+
+#user-tools {
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+}
+
+div .module {
+    opacity: 1;
+    animation: hover 0.3s 1 ease-in;
+}
+
+@keyframes hover {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

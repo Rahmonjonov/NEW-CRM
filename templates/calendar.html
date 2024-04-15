@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Calendar
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Календарь
+                                        {% else %}
+                                            CRM | Kalendar
+	{% endif %}</title>
+{% endblock title %}
+{% block css %}
+	<!-- Vendors Style-->
+	<link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css'%}">
+	<!-- Style-->  
+	<link rel="stylesheet" href="{% static 'crm/main/css/style.css'%}">
+	<link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css'%}">
+{% endblock css %}
+{% block content %}
+		<!-- Main content -->
+		<section class="content">
+
+		  <div class="row">
+			
+			<div class="col-12">
+				<div class="box">
+					<div class="box-body">
+						<div class="row">
+							<div class="col-xl-9 col-lg-8 col-12">	
+								<div id="calendar"></div>
+							</div>
+							<div class="col-xl-3 col-lg-4 col-12">
+								<div class="box no-border no-shadow">
+									<div class="box-header with-border">
+									  <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                            Draggable Events
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Перетаскиваемые события
+                                        {% else %}
+                                            Olib tashlash mumkin bo'lgan hodisalar
+                                        {% endif %}</h4>
+									</div>
+									<div class="box-body p-0">
+									  <!-- the events -->
+									  <div id="external-events">
+										<div class="external-event m-15 bg-primary" data-class="bg-primary"><i class="fa fa-hand-o-right"></i>{% if LANGUAGE_CODE == 'en' %}
+                                            Lunch
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Обед
+                                        {% else %}
+                                            Tushlik
+                                        {% endif %}</div>
+										<div class="external-event m-15 bg-warning" data-class="bg-warning"><i class="fa fa-hand-o-right"></i>{% if LANGUAGE_CODE == 'en' %}
+                                            Go home
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Идти домой
+                                        {% else %}
+                                            Uyga bor
+                                        {% endif %}</div>
+										<div class="external-event m-15 bg-info" data-class="bg-info"><i class="fa fa-hand-o-right"></i>{% if LANGUAGE_CODE == 'en' %}
+                                            Do homework
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Делать домашнюю работу
+                                        {% else %}
+                                            Uy vazifasini bajar
+                                        {% endif %}</div>
+										<div class="external-event m-15 bg-success" data-class="bg-success"><i class="fa fa-hand-o-right"></i>{% if LANGUAGE_CODE == 'en' %}
+                                            Work on UI design
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Работа над дизайном пользовательского интерфейса
+                                        {% else %}
+                                            UI dizayni ustida ishlash
+                                        {% endif %}</div>
+										<div class="external-event m-15 bg-danger" data-class="bg-danger"><i class="fa fa-hand-o-right"></i>{% if LANGUAGE_CODE == 'en' %}
+                                            Sleep tight
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Спи сладко
+                                        {% else %}
+                                            Yaxshi o'xlab turing
+                                        {% endif %}</div>
+									  </div>
+									  <div class="event-fc-bt mx-15 my-20">
+										<!-- checkbox -->
+										<div class="checkbox">
+											<input id="drop-remove" type="checkbox">
+											<label for="drop-remove">
+												{% if LANGUAGE_CODE == 'en' %}
+                                            Remove after drop
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Удалить после падения
+                                        {% else %}
+                                            Tutgandan keyin olib tashlang
+                                        {% endif %}
+											</label>
+										</div>
+										<a href="#" data-toggle="modal" data-target="#add-new-events" class="btn btn-rounded btn-success btn-block my-10">
+											<i class="ti-plus"></i> {% if LANGUAGE_CODE == 'en' %}
+                                            Add New Event
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Добавить новое событие
+                                        {% else %}
+                                            Yangi voqea qo'shish
+                                        {% endif %}
+										</a>
+									  </div>
+								   </div>
+							  </div>								
+							</div>
+						</div>
+					</div>
+				</div>  
+			  </div>  
+			  
+			</div>
+		  <!-- /.row -->
+
+		</section>
+		<!-- /.content -->
+  
+  <!-- BEGIN MODAL -->
+	<!-- Modal Add Category -->
+	<div class="modal fade none-border" id="add-new-events">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><strong>{% if LANGUAGE_CODE == 'en' %}
+                                            Add
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Добавить
+                                        {% else %}
+                                            Qo'shish
+                                        {% endif %}</strong> {% if LANGUAGE_CODE == 'en' %}
+                                            a category
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            категория
+                                        {% else %}
+                                            kategoriya
+                                        {% endif %}</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+					<form role="form">
+						<div class="row">
+							<div class="col-md-6">
+								<label class="control-label">{% if LANGUAGE_CODE == 'en' %}
+                                            Category Name
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Название категории
+                                        {% else %}
+                                            Kategoriya nomi
+                                        {% endif %}</label>
+								<input class="form-control form-white" placeholder="Enter name" type="text" name="category-name" />
+							</div>
+							<div class="col-md-6">
+								<label class="control-label">{% if LANGUAGE_CODE == 'en' %}
+                                            Choose Category Color
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Выберите цвет категории
+                                        {% else %}
+                                            Rang toifasini tanlang
+                                        {% endif %}</label>
+								<select class="form-control form-white" data-placeholder="Choose a color..." name="category-color">
+									<option value="success">{% if LANGUAGE_CODE == 'en' %}
+                                            Success
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Успех
+                                        {% else %}
+                                            Muvaffaqiyat
+                                        {% endif %}</option>
+									<option value="danger">{% if LANGUAGE_CODE == 'en' %}
+                                            Danger
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Опасность
+                                        {% else %}
+                                            Xavfli
+                                        {% endif %}</option>
+									<option value="info">{% if LANGUAGE_CODE == 'en' %}
+                                            Info
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Информация
+                                        {% else %}
+                                            Ma'lumot
+                                        {% endif %}</option>
+									<option value="primary">{% if LANGUAGE_CODE == 'en' %}
+                                            Primary
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Начальный
+                                        {% else %}
+                                            Asosiy
+                                        {% endif %}</option>
+									<option value="warning">{% if LANGUAGE_CODE == 'en' %}
+                                            Warning
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Предупреждение
+                                        {% else %}
+                                            Ogohlantirish
+                                        {% endif %}</option>
+									<option value="inverse">{% if LANGUAGE_CODE == 'en' %}
+                                            Inverse
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Обратный
+                                        {% else %}
+                                            Teskari
+                                        {% endif %}</option>
+								</select>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-rounded btn-success save-category" data-dismiss="modal">{% if LANGUAGE_CODE == 'en' %}
+                                            Save
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Сохранять
+                                        {% else %}
+                                            Saqlash
+                                        {% endif %}</button>
+					<button type="button" class="btn btn-rounded btn-danger" data-dismiss="modal">{% if LANGUAGE_CODE == 'en' %}
+                                            Close
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Закрывать
+                                        {% else %}
+                                            Yopish
+                                        {% endif %}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END MODAL -->
+{% endblock content %}
+{% block js %}
+    <!-- Vendor JS -->
+	<script src="{% static 'crm/main/js/vendors.min.js'%}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js'%}"></script>
+    <script src="{% static 'crm/assets/vendor_components/jquery-ui/jquery-ui.min.js'%}"></script>
+    <script src="{% static 'crm/assets/vendor_components/perfect-scrollbar-master/perfect-scrollbar.jquery.min.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_components/fullcalendar/lib/moment.min.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_components/fullcalendar/fullcalendar.min.js'%}"></script>
+	<script src="{% static 'crm/main/js/pages/calendar.js'%}"></script>
+    
+	<!-- Sunny Admin App -->
+	<script src="{% static 'crm/main/js/template.js'%}"></script>
+	
+{% endblock js %}

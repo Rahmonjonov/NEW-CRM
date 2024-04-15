@@ -1,0 +1,15 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block branding %}
+    <h1 id="head">
+    <a href="{% url 'admin:index' %}">
+        <img src="{% static 'crm/images/algo.png' %}" alt="Algo crm" height="50" width="45">
+        ALgo Crm boshqaruv paneli
+    </a>
+    </h1>
+{% endblock %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'admin/admin.css' %}">
+    <link rel="icon" href="{% static 'crm/images/algo.png' %}">
+{% endblock %}
+{% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}

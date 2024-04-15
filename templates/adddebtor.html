@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Add a client
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Добавить клиента
+                                        {% else %}
+                                            CRM | Mijoz qo'shish
+                                        {% endif %}</title>
+{% endblock title %}
+{% block css %}
+	<!-- Vendors Style-->
+	<link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css'%}">
+	<link rel="stylesheet" href="{% static 'crm/main/css/style.css'%}">
+	<link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css'%}">
+{% endblock css %}
+{% block content %}
+		<!-- Main content -->
+		<section class="content">
+			
+			<div class="row">
+				<div class="col-4">
+                </div>
+				<div class="col-4">
+				    <div class="box">
+					  
+                        <div class="box-header with-border">
+                          <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                            Add debtor
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Добавить должника
+                                        {% else %}
+                                            Qarzdor qo'shish
+                                        {% endif %}</h4>
+                        </div>
+                        <form action="{% url 'adddebtor' %}" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="box-body">
+                                        <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Debtor
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Должника
+                                        {% else %}
+                                            Qarzdor
+                                        {% endif %}</label>
+                                        <select class="form-control select2" name="debtor" style="width: 100%;">
+                                            {% for t in debtors %}
+                                                <option value="{{ t.id }}">{{ t.surname }} {{ t.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="box-body">
+                                        <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Debt
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Долг
+                                        {% else %}
+                                            Qarz
+                                        {% endif %}</label>
+                                        <input type="number" class="form-control" name="debt" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                            Enter the debt
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Введите долг
+                                        {% else %}
+                                            Qarzni kiriting
+                                        {% endif %}">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="box-body">
+                                        <button type="submit" class="btn btn-rounded btn-success pull-right" style="margin-bottom: 10px">{% if LANGUAGE_CODE == 'en' %}
+                                            Save
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Сохранять
+                                        {% else %}
+                                            Saqlash
+                                        {% endif %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+			        </div>
+			  <!-- /.box -->
+			    </div>
+                <div class="col-4">
+                </div>
+			<!--/.col (left) -->
+
+		    </div>
+		  <!-- /.row -->
+
+		</section>
+		<!-- /.content -->
+{% endblock content %}
+{% block js %}
+
+    <script src="{% static 'crm/main/js/vendors.min.js'%}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js'%}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_components/select2/dist/js/select2.full.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.date.extensions.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.extensions.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_components/moment/min/moment.min.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_plugins/timepicker/bootstrap-timepicker.min.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_plugins/iCheck/icheck.min.js'%}"></script>
+	<script src="{% static 'crm/main/js/pages/advanced-form-element.js'%}"></script>
+
+	<!-- Sunny Admin App -->
+	<script src="{% static 'crm/main/js/template.js'%}"></script>
+
+{% endblock js %}

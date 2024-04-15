@@ -1,0 +1,721 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load i18n %}
+{% block title %}
+    <title>{% trans "CRM | Kabinet" %}</title>
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <!-- Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+    <style>
+        .active_c {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #00ff00;
+        }
+
+        .active_c:hover {
+            background-color: #19f898;
+        }
+
+        .disactive_c {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #6d6d6d;
+        }
+
+        .disactive_c:hover {
+            background-color: #bbbbbb;
+        }
+
+        .pricingTable {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        th {
+            font-size: 18px !important;
+            color: #adadad;
+        }
+
+        td {
+            font-size: 16px !important;
+            color: #e0e0e0;
+        }
+
+        .pricingTable .pricingTable-header {
+            padding: 30px 0;
+            background: #4d4d4d;
+            position: relative;
+            transition: all .3s ease 0s
+        }
+
+        .disactive_company_header {
+            background: rgba(191, 60, 19, 0.79) !important;
+            color: white !important;
+        }
+
+        .disactive_balance {
+            color: white !important;
+        }
+
+        .pricingTable:hover .pricingTable-header {
+            background: #09b2c6
+        }
+
+        .pricingTable .pricingTable-header:after, .pricingTable .pricingTable-header:before {
+            content: "";
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid #d9d9d8;
+            position: absolute;
+            bottom: 12px
+        }
+
+        .pricingTable .pricingTable-header:before {
+            left: 40px
+        }
+
+        .pricingTable .pricingTable-header:after {
+            right: 40px
+        }
+
+        .pricingTable .heading {
+            font-size: 18px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0
+        }
+
+        .pricingTable .price-value {
+            display: inline-block;
+            position: relative;
+            font-size: 28px;
+            color: #09b1c5;
+            transition: all .3s ease 0s
+        }
+
+        .pricingTable:hover .price-value {
+            color: #fff
+        }
+
+        .pricingTable .pricing-content {
+            padding-top: 50px;
+            background: #fff;
+            position: relative;
+        }
+
+        .text_left {
+            padding-top: 50px;
+            background: #fff;
+            position: relative;
+            text-align: left;
+        }
+
+        .pricingTable .pricing-content:after, .pricingTable .pricing-content:before {
+            content: "";
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid #7c7c7c;
+            position: absolute;
+            top: 12px
+        }
+
+        .pricingTable .pricing-content:before {
+            left: 40px
+        }
+
+        .pricingTable .pricing-content:after {
+            right: 40px
+        }
+
+        .pricingTable .pricing-content ul {
+            padding: 0 20px;
+            margin: 0;
+            list-style: none
+        }
+
+        .pricingTable .pricing-content ul:after, .pricingTable .pricing-content ul:before {
+            content: "";
+            width: 8px;
+            height: 46px;
+            border-radius: 3px;
+            background: linear-gradient(to bottom, #818282 50%, #727373 50%);
+            position: absolute;
+            top: -22px;
+            z-index: 1;
+            box-shadow: 0 0 5px #707070;
+            transition: all .3s ease 0s
+        }
+
+        .pricingTable:hover .pricing-content ul:after, .pricingTable:hover .pricing-content ul:before {
+            background: linear-gradient(to bottom, #40c4db 50%, #34bacc 50%)
+        }
+
+        .pricingTable .pricing-content ul:before {
+            left: 44px
+        }
+
+        .pricingTable .pricing-content ul:after {
+            right: 44px
+        }
+
+        .pricingTable .pricing-content ul li {
+            font-size: 15px;
+            font-weight: 700;
+            color: #777473;
+            padding: 10px 0;
+            border-bottom: 1px solid #d9d9d8
+        }
+
+        .pricingTable .pricing-content ul li:last-child {
+            border-bottom: none
+        }
+
+        .pricingTable .read {
+            display: inline-block;
+            font-size: 16px;
+            text-transform: uppercase;
+            background: #09b1c5;
+            color: #fff;
+            padding: 8px 25px;
+            margin: 30px 0;
+            transition: all .3s ease 0s
+        }
+
+
+        .pricingTable:hover .read {
+            background: #09b1c5;
+            color: #fff;
+        }
+
+        .currentPlan {
+            background: #137900 !important;
+            color: #fff;
+        }
+
+        @media screen and (max-width: 990px) {
+            .pricingTable {
+                margin-bottom: 25px
+            }
+        }
+    </style>
+{% endblock css %}
+{% block content %}
+
+    <!-- Main content -->
+    <section class="content">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    <h4 style="color: white">{{ message }}</h4>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="col-12">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs customtab2" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#tab_asosiy" role="tab">
+                        <span class="hidden-xs-down">{% if LANGUAGE_CODE == 'en' %}
+                                            Basic
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Базовый
+                                        {% else %}
+                                            Asosiy
+                                        {% endif %}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tab_data" role="tab">
+                        <span class="hidden-xs-down">
+                            {% if LANGUAGE_CODE == 'en' %}
+                                            Company information
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Информация о компании
+                                        {% else %}
+                                            Kompaniya ma'lumotlari
+                                        {% endif %}
+                        </span>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_asosiy" role="tabpanel">
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="demo10">
+                                <div class="container">
+                                    <h4 class="py-4 text-center">
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            All tariffs
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Все тарифы
+                                        {% else %}
+                                            Barcha tariflar
+                                        {% endif %}
+                                    </h4>
+                                    <div class="row">
+                                        {% for plan in plans %}
+                                            <div class="col-md-3 col-sm-6">
+                                                <div class="pricingTable">
+                                                    <div class="pricingTable-header">
+                                                        <h3 class="heading">{{ plan.name }}</h3>
+                                                        <span class="price-value">{{ plan.price|intcomma }} / {% if LANGUAGE_CODE == 'en' %}
+                                                                monthly
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                eжемесячно
+                                                            {% else %}
+                                                                oylik
+                                                            {% endif %}</span>
+                                                    </div>
+                                                    <div class="pricing-content">
+                                                        <ul>
+                                                            <li>{% if LANGUAGE_CODE == 'en' %}
+                                                                    Number of accounts
+                                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                                    Количество аккаунтов
+                                                                {% else %}
+                                                                    Accountlar soni
+                                                                {% endif %} {{ plan.max_worker_count }}
+                                                            </li>
+                                                            <li>{{ plan.info }}
+                                                            </li>
+                                                        </ul>
+                                                        <form action="" method="post" name="form_{{ plan.id }}">
+                                                            <input type="hidden" value="{{ plan.id }}" name="new_plan">
+                                                            {% csrf_token %}
+                                                            {% if user.company.plan == plan %}
+                                                                <button class="read btn currentPlan">
+                                                                    {% if LANGUAGE_CODE == 'en' %}
+                                                                        Current tariff
+                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                        Текущий тариф
+                                                                    {% else %}
+                                                                        Joriy tarif
+                                                                    {% endif %}
+                                                                </button>
+                                                            {% else %}
+                                                                <input type="submit" class="read btn"
+                                                                       value="{% if LANGUAGE_CODE == 'en' %}Selection{% elif LANGUAGE_CODE == 'ru'%}Выбор{% else %}Tanlash{% endif %}">
+                                                            {% endif %}
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="row" style="justify-content: center">
+                                <div class="col-sm-10">
+                                    <div class="pricingTable">
+                                        <div class="pricingTable-header {% if not active_invoice %}disactive_company_header{% endif %}">
+                                            <h4 class="heading">
+                                                <span class="price-value">{{ user.company.name }}</span>
+                                            </h4>
+                                        </div>
+                                        <div class="pricing-content text_left">
+                                            <ul>
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col-sm">{% if LANGUAGE_CODE == 'en' %}
+                                                                        Selected tariff
+                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                        Выбранный тариф
+                                                                    {% else %}
+                                                                        Tanlangan tarif
+                                                                    {% endif %}</div>
+                                                        <div class="col-sm">{{ user.company.plan.name }}
+                                                            <br>{{ user.company.plan.price|intcomma }}
+                                                            / {% if LANGUAGE_CODE == 'en' %}
+                                                                monthly
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                eжемесячно
+                                                            {% else %}
+                                                                oylik
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                {% if active_invoice %}
+                                                    <li>
+                                                        <div class="row">
+                                                            <div class="col-sm">{% if LANGUAGE_CODE == 'en' %}
+                                                                Current tariff
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Текущий тариф
+                                                            {% else %}
+                                                                Joriy foydalanilayotgan tarif
+                                                            {% endif %}</div>
+                                                            <div class="col-sm">{{ active_invoice.plan.name }}
+                                                                <br>{{ active_invoice.plan.price|intcomma }}
+                                                                / {% if LANGUAGE_CODE == 'en' %}
+                                                                monthly
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                eжемесячно
+                                                            {% else %}
+                                                                oylik
+                                                            {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="row">
+                                                            <div class="col-sm">{% if LANGUAGE_CODE == 'en' %}
+                                                                Validity period
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Срок годности
+                                                            {% else %}
+                                                                Amal qilish muddati
+                                                            {% endif %}</div>
+                                                            <div class="col-sm">{{ active_invoice.end|date:'Y-m-d H:i' }}</div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="row">
+                                                            <div class="col-sm">{% if LANGUAGE_CODE == 'en' %}
+                                                                The deadline is approaching
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Срок приближается
+                                                            {% else %}
+                                                                Muddat tugashiga qoldi
+                                                            {% endif %}</div>
+                                                            <div class="col-sm">
+                                                                {{ active_invoice.end|timeuntil }}
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <div class="row">
+                                                            <div class="col-sm">Status</div>
+                                                            <div class="col-sm">{% if LANGUAGE_CODE == 'en' %}
+                                                                Not active
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Не активный
+                                                            {% else %}
+                                                                Faol emas
+                                                            {% endif %}</div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="row">
+                                                            <div class="col-sm">{% if LANGUAGE_CODE == 'en' %}
+                                                                Info
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Информация
+                                                            {% else %}
+                                                                Ma'lumot
+                                                            {% endif %}</div>
+                                                            <div class="col-sm">{% if LANGUAGE_CODE == 'en' %}
+                                                                There is not enough money for the tariff
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Не хватает денег на тариф
+                                                            {% else %}
+                                                                Tarif uchun mablag' yetarli emas
+                                                            {% endif %}</div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="row">
+                                                            <div class="col-sm">{% if LANGUAGE_CODE == 'en' %}
+                                                                Missing amount
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Недостающая сумма
+                                                            {% else %}
+                                                                Yetishmayotgan summa
+                                                            {% endif %}</div>
+                                                            <div class="col-sm"><span
+                                                                    style="color:#f00;">{{ kam_summa|intcomma }}</span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                {% endif %}
+
+                                            </ul>
+                                            <br>
+                                            <br>
+                                            <div class="row" style="justify-content: center">
+                                                <div class="col-lg-9">
+                                                    <div class="box">
+                                                        {% if card %}
+                                                            <div class="box-body">
+                                                                <h3>{{ card.name }} <a href="{% url 'companyCard' %}">
+                                                                    <i class="fa fa-edit float-right"
+                                                                       aria-hidden="true"></i></a></h3>
+                                                                <br>
+                                                                <h4>
+                                                                    <span id="card_number">{{ number }}</span>
+                                                                    <span class="float-right"
+                                                                          id="card_expire">{{ expire }}</span>
+                                                                </h4>
+                                                                <i class="fa fa-eye fa-2x" id="show_card"></i>
+                                                                <i class="fa fa-eye-slash fa-2x" id="hide_card"></i>
+                                                                <span style="font-size: 20px; float: right; color:
+                                                                        {% if card.active %}
+                                                                            #18ff00;">{% if LANGUAGE_CODE == 'en' %}
+                                                                Active
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Aктивный
+                                                            {% else %}
+                                                                Faol
+                                                            {% endif %}
+                                                                {% else %}
+                                                                    #cd0013;">{% if LANGUAGE_CODE == 'en' %}
+                                                                Not active
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Не активный
+                                                            {% else %}
+                                                                Faol emas
+                                                            {% endif %}
+                                                                            </span>
+                                                                        {% endif %}
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="box-body text-center">
+                                                                <br>
+                                                                <h4>{% if LANGUAGE_CODE == 'en' %}
+                                                                The card is not connected
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Карта не подключена
+                                                            {% else %}
+                                                                Karta ulanmagan
+                                                            {% endif %}</h4>
+                                                                <a href="{% url 'companyCard' %}" class="p-2">
+                                                                    <i class="fa fa-plus-circle fa-4x"></i>
+                                                                </a>
+                                                                <br>
+                                                                <br>
+                                                                <h4>{% if LANGUAGE_CODE == 'en' %}
+                                                                Add a card
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Добавьте карту
+                                                            {% else %}
+                                                                Karta qo'shish
+                                                            {% endif %}</h4>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="tab_data" role="tabpanel">
+                    <form action="{% url 'edit_company' %}" method="post">
+                        <div class="row" style="justify-content: center">
+                            {% csrf_token %}
+                            <div class="col-lg-4 p-3">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <h5>{% if LANGUAGE_CODE == 'en' %}
+                                                                Company name
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Название компании
+                                                            {% else %}
+                                                                Kompaniya nomi
+                                                            {% endif %}</h5>
+                                            <div class="controls">
+                                                <input type="text" name="name" class="form-control"
+                                                       value="{{ user.company.name }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <h5>{% if LANGUAGE_CODE == 'en' %}
+                                                                Company phone number
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Телефон компании
+                                                            {% else %}
+                                                                Kompaniya telefon raqam
+                                                            {% endif %}</h5>
+                                            <div class="controls">
+                                                <input type="text" name="phone" class="form-control"
+                                                       value="{{ user.company.phone }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <h5>{% if LANGUAGE_CODE == 'en' %}
+                                                                Address
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Адрес
+                                                            {% else %}
+                                                                Manzil
+                                                            {% endif %}</h5>
+                                            <div class="controls">
+                                                <input type="text" name="manzil" class="form-control"
+                                                       value="{{ user.company.manzil }}" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <h5>{% if LANGUAGE_CODE == 'en' %}
+                                                                Founder
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Основатель
+                                                            {% else %}
+                                                                Asoschisi
+                                                            {% endif %}</h5>
+                                            <div class="controls">
+                                                <input type="text" name="creator" class="form-control"
+                                                       value="{{ user.company.creator|default_if_none:'' }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <h5>{% if LANGUAGE_CODE == 'en' %}
+                                                                Company type
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Tип компании
+                                                            {% else %}
+                                                                Kompaniya turi
+                                                            {% endif %}</h5>
+                                            <div class="controls">
+                                                <select name="company_type" class="form-control">
+                                                    {% for company_type in company_types %}
+                                                        <option {% if user.company.type == company_type.0 %}selected{% endif %}
+                                                                value="{{ company_type.0 }}">{{ company_type.1 }}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <h5>{% trans "" %}{% if LANGUAGE_CODE == 'en' %}
+                                                                Company information
+                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                Информация о компании
+                                                            {% else %}
+                                                                Kompaniya haqida ma'lumot
+                                                            {% endif %}</h5>
+                                            <div class="controls">
+                                            <textarea rows="10" name="about" class="form-control"
+                                                      required>{{ user.company.about }}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="controls float-right">
+                                                <input type="submit" class="btn btn-primary mb-5"
+                                                       value="{% if LANGUAGE_CODE == 'en' %}Save{% elif LANGUAGE_CODE == 'ru'%}Сохранять{% else %}Saqlash{% endif %}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end col-->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <!-- /.col -->
+
+        <div class="col-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                                Tariff charges deducted
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Тарифные сборы вычтены
+                                            {% else %}
+                                                Tarif uchun yechilgan to'lovlar
+                                            {% endif %}</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table id="example1" class="table table-bordered table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                {% if LANGUAGE_CODE == 'en' %}
+                                <th>Started</th>
+                                <th>It's over</th>
+                                <th>Tariff</th>
+                                <th>Summa</th>
+                                <th>Aktiv</th>
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                <th>Началось</th>
+                                <th>Закончилось</th>
+                                <th>Тариф</th>
+                                <th>Сумма</th>
+                                <th>Актив</th>
+                                {% else %}
+                                <th>Boshlangan</th>
+                                <th>Tugaydi</th>
+                                <th>Tarif</th>
+                                <th>Summa</th>
+                                <th>Aktiv</th>
+                                {% endif %}
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for invoice in invoices %}
+                                <tr>
+                                    <td>{{ invoice.id }}</td>
+                                    <td>{{ invoice.start|date:'Y-m-d H:i' }}</td>
+                                    <td>{{ invoice.end|date:'Y-m-d H:i' }}</td>
+                                    <td>{{ invoice.plan.name }}</td>
+                                    <td>{{ invoice.summa|intcomma }}</td>
+                                    <td>
+                                        <div class="{% if invoice.active %}active_c{% else %}disactive_c{% endif %}"></div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}
+{% block js %}
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/datatable/datatables.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/data-table.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script>
+        $('#example1').dataTable({
+            "ordering": false
+        });
+        {% if card %}
+            $(document).ready(function () {
+                $('#hide_card').hide();
+                $('#hide_card').on('click', function (e) {
+                    $('#hide_card').hide();
+                    $('#show_card').show();
+                    $('#card_number').html("{{ number }}");
+                    $('#card_expire').html("{{ expire }}");
+                });
+                $('#show_card').on('click', function (e) {
+                    $('#show_card').hide();
+                    $('#hide_card').show();
+                    $('#card_number').html("---- ---- ---- ----");
+                    $('#card_expire').html("--/--");
+                });
+            })
+        {% endif %}
+
+    </script>
+{% endblock js %}

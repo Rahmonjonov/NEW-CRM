@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static 'crm/images/favicon.ico' %}">
+
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Login
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Авторизоваться
+                                        {% else %}
+                                            CRM | Tizimga kirish
+                                        {% endif %}</title>
+
+    <!-- Vendors Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+
+    <!-- Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+
+</head>
+<body class="hold-transition theme-primary bg-gradient-primary" style="background: #1a233a;">
+
+<div class="container h-p100">
+    <div class="row align-items-center justify-content-md-center h-p100">
+
+        <div class="col-12">
+            <div class="row justify-content-center no-gutters">
+                <div class="col-lg-4 col-md-5 col-12">
+                    <div class="content-top-agile p-10">
+                        <h2 class="text-white">CRM</h2>
+                        							<p class="text-white-50">{% if LANGUAGE_CODE == 'en' %}
+                                            Sign in to start your sessionCRM | Login
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Войдите, чтобы начать сеанс
+                                        {% else %}
+                                            Seansni boshlash uchun tizimga kiring
+                                        {% endif %}</p>
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                    <p class="text-white-50" style="color: red;">{{ message }}</p>
+                                {% elif message.tags == 'success' %}
+                                    <p class="text-white-50" style="color: green;">{{ message }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="p-30 rounded15 box-shadowed b-1 b-dashed">
+                        <form action="{% url 'login' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-transparent text-white"><i class="ti-user"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control pl-15 bg-transparent text-white plc-white"
+                                           name="username" placeholder="Login">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text  bg-transparent text-white"><i
+                                                class="ti-lock"></i></span>
+                                    </div>
+                                    <input type="password"
+                                           class="form-control pl-15 bg-transparent text-white plc-white"
+                                           name="password" placeholder="Parol">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- /.col -->
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-info btn-rounded mt-10">{% if LANGUAGE_CODE == 'en' %}
+                                            Login
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Авторизоваться
+                                        {% else %}
+                                            Tizimga kirish
+                                        {% endif %}</button>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <div class="row">
+                                <!-- /.col -->
+                                <div class="col-12 text-center">
+
+                                    <div class="text-center">
+                                        <p class="mt-15 mb-0 text-white">{% if LANGUAGE_CODE == 'en' %}
+                                            If you are not registered
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Если вы не зарегистрированы
+                                        {% else %}
+                                            Ro'yxatdan o'tmagan bo'lsangiz
+                                        {% endif %}<a
+                                                href="{% url 'register' %}"
+                                                class="text-warning ml-5">
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                            Sign up
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Зарегистрироваться
+                                        {% else %}
+                                            Ro'yxatdan o'tish
+                                        {% endif %}</a></p>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Vendor JS -->
+<script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+<script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+
+</body>
+</html>

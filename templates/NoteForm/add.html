@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Add
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Добавлять
+                                        {% else %}
+                                            CRM | Qo'shish
+                                        {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+{% endblock css %}
+{% block content %}
+    <section class="content">
+        <div class="row" style="justify-content: center">
+            <div class="col-4">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                            Creating a new uniform
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Создание новой униформы
+                                        {% else %}
+                                            Yangi forma yasash
+                                        {% endif %}</h4>
+                    </div>
+                    <form action="{% url 'NewFormRedirect_class' %}" method="post"
+                          enctype="multipart/form-data" onsubmit="return formSumbit()">
+                        {% csrf_token %}
+                        <div class="box-body">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Form name
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Название формы
+                                        {% else %}
+                                            Forma nomi
+                                        {% endif %}</label>
+                                <input type="text" name="name" class="form-control" required>
+                            </div>
+
+                            <input accept="image/*" type='file' name="image" id="image" class="foo"
+                                   style="display: none"/>
+                            <img id="display_image" src="" alt="Rasm" style="width: 100%; display: none" height="400"/>
+
+                            <div class="form-group">
+                                <button type="button" id="loadImg" class="btn btn-primary p-5 m-10">{% if LANGUAGE_CODE == 'en' %}
+                                            Image Upload
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Загрузка изображения
+                                        {% else %}
+                                            Rasm Yuklash
+                                        {% endif %}
+                                </button>
+                                <button style="display: none" type="button" id="removeImg"
+                                        class="btn btn-danger p-5 m-10">{% if LANGUAGE_CODE == 'en' %}
+                                            Delete
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Удалить
+                                        {% else %}
+                                            O'chirish
+                                        {% endif %}
+                                </button>
+                            </div>
+                            <hr>
+                            <h4 style="text-align: center">{% if LANGUAGE_CODE == 'en' %}
+                                            Add fields
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Добавить поля
+                                        {% else %}
+                                            Maydonlar qo'shish
+                                        {% endif %}
+                                <button type="button" id="addField" class="btn btn-success p-1 m-10">
+                                    <i class="fa fa-plus-circle fa-lg"></i>
+                                </button>
+                            </h4>
+                            <hr>
+                            <div class="form-group" id="field_content">
+                            </div>
+                            <div class="text-center">
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary float-right" style="margin: 20px">{% if LANGUAGE_CODE == 'en' %}
+                                            Save
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Сохранять
+                                        {% else %}
+                                            Saqlash
+                                        {% endif %}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+{% block js %}
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/dropzone/dropzone.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script src="{% static 'crm/board/jquery/script.js' %}"></script>
+    <script src="{% static 'crm/board/formRedirectAdd.js' %}"></script>
+{% endblock js %}

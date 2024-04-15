@@ -1,0 +1,376 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+
+    <title>{% trans "CRM | Redirect list" %}</title>
+
+{% endblock title %}
+{% block css %}
+
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+
+    <style>
+        table th, table td {
+            font-size: 16px;
+            color: #e3e3ec;
+        }
+    </style>
+
+{% endblock css %}
+{% block content %}
+
+    <section class="content">
+
+        <div class="col-12">
+            <ul class="nav nav-tabs customtab2" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#simple_link" role="tab">
+                        <span class="hidden-xs-down">{% if LANGUAGE_CODE == 'en' %}
+                                                Simple link
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Простая ссылка
+                                            {% else %}
+                                                Oddiy link
+                                            {% endif %}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#form_link" role="tab">
+                        <span class="hidden-xs-down">{% if LANGUAGE_CODE == 'en' %}
+                                                Link form
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Форма ссылки
+                                            {% else %}
+                                                Forma link
+                                            {% endif %}</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="simple_link" role="tabpanel">
+                    <a href="{% url 'NewUrlRedirect_class' %}" class="btn btn-primary float-right m-10" role="button">
+                        <i class="fa fa-plus fa-lg"></i>{% if LANGUAGE_CODE == 'en' %}
+                                                Add
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Добавлять
+                                            {% else %}
+                                                Qo'shish
+                                            {% endif %}
+                    </a>
+                    <br>
+                    <div class="box">
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr class="text-center">
+                                        <th>№</th>
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                        <th>Name</th>
+                                        <th>Date of creation/th>
+                                        <th>Next url</th>
+                                        <th>Telegram</th>
+                                        <th>Instagram</th>
+                                        <th>Facebook</th>
+                                        <th>Youtube</th>
+                                        <th>Tiktok</th>
+                                        <th>Total number</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                        <th>Hназвание</th>
+                                        <th>Дата создания</th>
+                                        <th>Следующий URL</th>
+                                        <th>Telegram</th>
+                                        <th>Instagram</th>
+                                        <th>Facebook</th>
+                                        <th>Youtube</th>
+                                        <th>Tiktok</th>
+                                        <th>Общее число</th>
+                                        <th>Редактировать</th>
+                                        <th>Удалить</th>
+                                        {% else %}
+                                        <th>Nomi</th>
+                                        <th>Yaratilgan sana</th>
+                                        <th>Keyingi url</th>
+                                        <th>Telegram</th>
+                                        <th>Instagram</th>
+                                        <th>Facebook</th>
+                                        <th>Youtube</th>
+                                        <th>Tiktok</th>
+                                        <th>Jami soni</th>
+                                        <th>Taxrirlash</th>
+                                        <th>O'chirish</th>
+                                        {% endif %}
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for item in urlRedirects %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.date|date:'Y-m-d H:i' }}</td>
+                                            <td>{{ item.next_url }}</td>
+                                            <td>{{ item.telegram_count }}
+                                                <button type="button" data-url="{{ item.telegram_url }}"
+                                                        class="float-right btn btn-success btn-flat m-1 p-1">Url
+                                                </button>
+                                            </td>
+                                            <td>{{ item.instagram_count }}
+                                                <button type="button" data-url="{{ item.instagram_url }}"
+                                                        class="float-right btn btn-success btn-flat m-1 p-1">Url
+                                                </button>
+                                            </td>
+                                            <td>{{ item.facebook_count }}
+                                                <button type="button" data-url="{{ item.facebook_url }}"
+                                                        class="float-right btn btn-success btn-flat m-1 p-1">Url
+                                                </button>
+                                            </td>
+                                            <td>{{ item.youtube_count }}
+                                                <button type="button" data-url="{{ item.youtube_url }}"
+                                                        class="float-right btn btn-success btn-flat m-1 p-1">Url
+                                                </button>
+                                            </td>
+                                            <td>{{ item.tiktok_count }}
+                                                <button type="button" data-url="{{ item.tiktok_url }}"
+                                                        class="float-right btn btn-success btn-flat m-1 p-1">Url
+                                                </button>
+                                            </td>
+                                            <td>{{ item.total_count }}</td>
+                                            <td>
+                                                <a href="{% url 'EditUrlRedirect_class' pk=item.id %}">
+                                                    <i class="fa fa-edit fa-lg"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="#" onclick="ask_delete('{{item.id}}')">
+                                                    <i class="fa fa-remove fa-lg"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="form_link" role="tabpanel">
+                    <a href="{% url 'NewFormRedirect_class' %}" class="btn btn-primary float-right m-10" role="button">
+                        <i class="fa fa-plus fa-lg"></i> {% if LANGUAGE_CODE == 'en' %}
+                                                Add
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Добавлять
+                                            {% else %}
+                                                Qo'shish
+                                            {% endif %}
+                    </a>
+                    <br>
+                    <div class="box">
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table id="example11" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr class="text-center">
+                                        <th>№</th>
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                        <th>Name</th>
+                                        <th>Date of creation/th>
+                                        <th>Picture</th>
+                                        <th>Telegram</th>
+                                        <th>Instagram</th>
+                                        <th>Facebook</th>
+                                        <th>Youtube</th>
+                                        <th>Tiktok</th>
+                                        <th>Total number</th>
+                                        <th>View</th>
+                                        <th>Delete</th>
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                        <th>Hназвание</th>
+                                        <th>Дата создания</th>
+                                        <th>Картина</th>
+                                        <th>Telegram</th>
+                                        <th>Instagram</th>
+                                        <th>Facebook</th>
+                                        <th>Youtube</th>
+                                        <th>Tiktok</th>
+                                        <th>Общее число</th>
+                                        <th>Вид</th>
+                                        <th>Удалить</th>
+                                        {% else %}
+                                        <th>Nomi</th>
+                                        <th>Yaratilgan sana</th>
+                                        <th>Rasm</th>
+                                        <th>Telegram</th>
+                                        <th>Instagram</th>
+                                        <th>Facebook</th>
+                                        <th>Youtube</th>
+                                        <th>Tiktok</th>
+                                        <th>Jami soni</th>
+                                        <th>Ko'rish</th>>
+                                        <th>O'chirish</th>
+                                        {% endif %}
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for item in formRedirects %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.date|date:'Y-m-d H:i' }}</td>
+                                            <td><img src="{{ item.image.url }}" alt="img" width="50" height="50"></td>
+                                            <td>{{ item.telegram_count }}
+                                                <button onclick="console.log('aaaaaa')" type="button" data-url="{{ item.telegram_url }}"
+                                                        class="float-right btn btn-success btn-flat m-1 p-1">Url
+                                                </button>
+                                            </td>
+                                            <td>{{ item.instagram_count }}
+                                                <button type="button" data-url="{{ item.instagram_url }}"
+                                                        class="float-right btn btn-success btn-flat m-1 p-1">Url
+                                                </button>
+                                            </td>
+                                            <td>{{ item.facebook_count }}
+                                                <button type="button" data-url="{{ item.facebook_url }}"
+                                                        class="float-right btn btn-success btn-flat m-1 p-1">Url
+                                                </button>
+                                            </td>
+                                            <td>{{ item.youtube_count }}
+                                                <button type="button" data-url="{{ item.youtube_url }}"
+                                                        class="float-right btn btn-success btn-flat m-1 p-1">Url
+                                                </button>
+                                            </td>
+                                            <td>{{ item.tiktok_count }}
+                                                <button type="button" data-url="{{ item.tiktok_url }}"
+                                                        class="float-right btn btn-success btn-flat m-1 p-1">Url
+                                                </button>
+                                            </td>
+                                            <td>{{ item.total_count }}</td>
+                                            <td>
+                                                <a href="{% url 'ShowFormResults_class' pk=item.id %}">
+                                                    <i class="fa fa-eye fa-lg"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="#" onclick="ask_delete_note_form('{{ item.id }}')">
+                                                    <i class="fa fa-remove fa-lg"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+{% endblock content %}
+{% block js %}
+
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+
+    <script src="{% static 'crm/assets/vendor_components/datatable/datatables.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/data-table.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js' %}"></script>
+    <script src="{% static 'crm/task/sweeatalert.js' %}"></script>
+
+    <script>
+        const copyToClipboard = str => {
+            const el = document.createElement('textarea');
+            el.value = str;
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+        };
+
+        $(document).ready(function () {
+            $('button').on('click', function () {
+                let url = this.getAttribute('data-url')
+                console.log(url)
+                copyToClipboard(url)
+                toast()
+            })
+
+            function toast() {
+                $.toast({
+                    heading:`<h4 style="color:#fff;">{% trans "Nusxa olindi!" %}</h4>`,
+                    text: '',
+                    position: 'top-right',
+                    loaderBg: '#00ff60',
+                    icon: 'success',
+                    hideAfter: 3500
+                });
+            }
+        })
+
+        function ask_delete(pk) {
+            swal({
+                title: `{% if LANGUAGE_CODE == 'en' %}
+                                            Do you really want to turn it off?
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Вы действительно хотите выключить его?
+                                        {% else %}
+                                            Chindan ham o'chirmoqchimisiz?
+                                        {% endif %}`,
+                icon: "warning",
+                
+               
+            }).then((willDelete) => {
+                if (willDelete) {
+                    location.href = '/redirect/simple/delete/' + pk + '/'
+                }
+            });
+        }
+
+        function ask_delete_note_form(pk) {
+            swal({
+                title: `{% if LANGUAGE_CODE == 'en' %}
+                                            Do you really want to turn it off?All completed data will also be deleted
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Вы действительно хотите выключить его?Все заполненные данные также будут удалены
+                                        {% else %}
+                                            Chindan ham o'chirmoqchimisiz? Barcha to'ldirilgan ma'lumotlar ham o'chib ketadi
+                                        {% endif %}`,
+                icon: "warning",
+                
+            }).then((willDelete) => {
+                if (willDelete) {
+                    location.href = '/redirect/form/delete/' + pk + '/'
+                }
+            });
+        }
+
+    </script>
+
+    <!-- buttons: [`{% if LANGUAGE_CODE == 'en' %}
+                                            No
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Heт
+                                        {% else %}
+                                            Yo\'q
+                                        {% endif %}", "{% if LANGUAGE_CODE == 'en' %}
+                                            Yes
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Дa
+                                        {% else %}
+                                            Ha
+                                        {% endif %}`], -->
+
+{% endblock js %}

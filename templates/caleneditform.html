@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Calendar
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Календарь
+                                        {% else %}
+                                            CRM | Kalendar
+	{% endif %}</title>
+{% endblock title %}
+{% block css %}
+	<!-- Vendors Style-->
+	<link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css'%}">
+	<!-- Style-->  
+	<link rel="stylesheet" href="{% static 'crm/main/css/style.css'%}">
+	<link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css'%}">
+{% endblock css %}
+{% block content %}
+		<!-- Main content -->
+		<section class="content">
+
+		  <div class="row">
+			
+			<div class="col-12">
+				<div class="box">
+					<div class="box-body">
+                        <form action="{% url 'saveeditcalen' %}" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="box no-border no-shadow" style="margin-bottom: 0px;">
+                                      <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                            Edit event
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Изменить событие
+                                        {% else %}
+                                            Hodisa Taxrirlash
+	                                    {% endif %}</h4>
+                                    </div>
+                                </div>
+                                    <div class="col-6">
+                                        <div class="box no-border no-shadow">
+                                            <div class="box-body p-1">
+                                                <div class="form-group">
+                                                  <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Event
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Mероприятие
+                                        {% else %}
+                                            Hodisa
+                                        {% endif %}</label>
+                                                  <textarea rows="5" class="form-control" name="event">{{ calen.event }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="box no-border no-shadow">
+                                            <div class="box-body p-1">
+                                                <div class="form-group">
+                                                    <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Date
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Дата
+                                        {% else %}
+                                            Sana
+                                        {% endif %}</label>
+                                                    <input class="form-control" name="date" type="datetime-local" id="example-datetime-local-input">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <select class="form-control" name="color">{% if LANGUAGE_CODE == 'en' %}
+                                                            <option value="bg-primary">Blue</option>
+                                                            <option value="bg-warning">Yellow</option>
+                                                            <option value="bg-info">Violet</option>
+                                                            <option value="bg-success">Dreen</option>
+                                                            <option value="bg-danger">Red</option>
+                                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                                            <option value="bg-primary">Синий</option>
+                                                            <option value="bg-warning">Желтый</option>
+                                                            <option value="bg-info">Фиолетовый</option>
+                                                            <option value="bg-success">Зеленый</option>
+                                                            <option value="bg-danger">Красный</option>
+                                                        {% else %}
+                                                            <option value="bg-primary">Ko'k</option>
+                                                            <option value="bg-warning">Sariq</option>
+                                                            <option value="bg-info">binafsha</option>
+                                                            <option value="bg-success">Yashil</option>
+                                                            <option value="bg-danger">Qizil</option>
+                                                        {% endif %}
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="form-group">
+                                                            <input type="hidden" name="id" value="{{ calen.id }}">
+                                                            <button type="submit" class="btn btn-rounded btn-primary" style="float: right">{% if LANGUAGE_CODE == 'en' %}
+                                            Save
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Сохранять
+                                        {% else %}
+                                            Saqlash
+                                        {% endif %}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </form>
+				    </div>
+			    </div>
+			</div>
+		  <!-- /.row -->
+
+		</section>
+		<!-- /.content -->
+  
+  <!-- BEGIN MODAL -->
+	<!-- Modal Add Category -->
+	<div class="modal fade none-border" id="add-new-events">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"><strong>{% if LANGUAGE_CODE == 'en' %}
+                                            Event
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Mероприятие
+                                        {% else %}
+                                            Hodisa
+                                        {% endif %}</strong> {% if LANGUAGE_CODE == 'en' %}
+                                            Add
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Добавить
+                                        {% else %}
+                                            Qo'shish
+                                        {% endif %}</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+					<form role="form">
+						<div class="row">
+							<div class="col-md-6">
+								<label class="control-label">{% if LANGUAGE_CODE == 'en' %}
+                                            Event
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Mероприятие
+                                        {% else %}
+                                            Hodisa
+                                        {% endif %}</label>
+								<input class="form-control form-white" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                            Enter the event
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Участвуйте в событии
+                                        {% else %}
+                                            Hodisani kiriting
+                                        {% endif %}" type="text" name="category-name" />
+							</div>
+							<div class="col-md-6">
+								<label class="control-label">{% if LANGUAGE_CODE == 'en' %}
+                                            Significance level
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Уровень значимости
+                                        {% else %}
+                                            Muhimlik darajasi
+                                        {% endif %}</label>
+								<select class="form-control form-white" data-placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                            Significance level
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Уровень значимости
+                                        {% else %}
+                                            Muhimlik darajasi
+                                        {% endif %}" name="category-color">
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                        <option value="bg-primary">Blue</option>
+                                        <option value="bg-warning">Yellow</option>
+                                        <option value="bg-info">Violet</option>
+                                        <option value="bg-success">Dreen</option>
+                                        <option value="bg-danger">Red</option>
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        <option value="bg-primary">Синий</option>
+                                        <option value="bg-warning">Желтый</option>
+                                        <option value="bg-info">Фиолетовый</option>
+                                        <option value="bg-success">Зеленый</option>
+                                        <option value="bg-danger">Красный</option>
+                                    {% else %}
+                                        <option value="bg-primary">Ko'k</option>
+                                        <option value="bg-warning">Sariq</option>
+                                        <option value="bg-info">binafsha</option>
+                                        <option value="bg-success">Yashil</option>
+                                        <option value="bg-danger">Qizil</option>
+                                    {% endif %}
+
+								</select>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-rounded btn-danger" data-dismiss="modal">{% if LANGUAGE_CODE == 'en' %}
+                                            Cancel
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Отмена
+                                        {% else %}
+                                            Bekor qilish
+                                        {% endif %}</button>
+                    <button type="button" style="float: right" class="btn btn-rounded btn-success save-category" data-dismiss="modal">{% if LANGUAGE_CODE == 'en' %}
+                                            Save
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Сохранять
+                                        {% else %}
+                                            Saqlash
+                                        {% endif %}</button>
+                </div>
+			</div>
+		</div>
+	</div>
+	<!-- END MODAL -->
+{% endblock content %}
+{% block js %}
+    <!-- Vendor JS -->
+	<script src="{% static 'crm/main/js/vendors.min.js'%}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js'%}"></script>
+    <script src="{% static 'crm/assets/vendor_components/jquery-ui/jquery-ui.min.js'%}"></script>
+    <script src="{% static 'crm/assets/vendor_components/perfect-scrollbar-master/perfect-scrollbar.jquery.min.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_components/fullcalendar/lib/moment.min.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_components/fullcalendar/fullcalendar.min.js'%}"></script>
+	<script src="{% static 'crm/main/js/pages/calendar.js'%}"></script>
+    
+	<!-- Sunny Admin App -->
+	<script src="{% static 'crm/main/js/template.js'%}"></script>
+	
+{% endblock js %}

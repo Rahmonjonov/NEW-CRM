@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Client Base
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Клиентская база
+                                        {% else %}
+                                            CRM | Mijozlar bazasi
+                                        {% endif %}</title>
+{% endblock title %}
+{% block css %}
+	<!-- Vendors Style-->
+	<link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css'%}">
+	  
+	<!-- Style-->  
+	<link rel="stylesheet" href="{% static 'crm/main/css/style.css'%}">
+	<link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css'%}">
+
+	<!-- Style-->
+{% endblock css %}
+{% block content %}
+		<!-- Main content -->
+		<section class="content">
+		  <div class="row">
+			<div class="col-12">
+{#			  <div class="box">#}
+				<div class="box-body" style="padding: 0">
+					<!-- Tab panes -->
+					<div class="tab-content">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="box">
+                                    <div class="box-header with-border">
+                                      <form action="{% url 'adddebt' %}" method="post">
+                                          {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-4"><h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                            Lent
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Одолжил
+                                        {% else %}
+                                            Qarz berilgan
+                                        {% endif %}</h4></div>
+                                                <div class="col-4">
+                                                    <input type="number" class="form-control" name="summa" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                            enter the amount
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            введите сумму
+                                        {% else %}
+                                            summani kiriting
+                                        {% endif %}" required>
+                                                    <input type="hidden" name="u_id" value="{{ usr }}">
+                                                    <input type="hidden" name="debt" value="1">
+                                                </div>
+                                                <div class="col-4"><input type="submit" class="btn btn-rounded btn-success pull-right" value="{% if LANGUAGE_CODE == 'en' %}Add {% elif LANGUAGE_CODE == 'ru'%}Добавить{% else %}Qo'shish{% endif %}"></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="table-responsive">
+                                          <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>№</th>{% if LANGUAGE_CODE == 'en' %}
+                                                    <th>Summa</th>
+                                                    <th>Date</th>
+                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                    <th>Сумма</th>
+                                                    <th>Дата</th>
+                                                {% else %}
+                                                    <th>Summa</th>
+                                                    <th>Sana</th>
+                                                {% endif %}
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for t in olingan %}
+                                                    <tr class="text-center">
+                                                        <td>{{ forloop.counter }}</td>
+                                                        <td>{{ t.summa }}</td>
+                                                        <td>{{ t.date }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                                <!-- /.box -->
+                            </div>
+                            <div class="col-6">
+                                <div class="box">
+                                    <div class="box-header with-border">
+                                        <form action="{% url 'adddebt' %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-4"><h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                            Debt paid
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Долг оплачен
+                                        {% else %}
+                                            Qarz to'lagan
+                                        {% endif %}</h4></div>
+                                                <div class="col-4">
+                                                    <input type="number" class="form-control" name="summa" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                            enter the amount
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            введите сумму
+                                        {% else %}
+                                            summani kiriting
+                                        {% endif %}" required>
+                                                    <input type="hidden" name="u_id" value="{{ usr }}">
+                                                    <input type="hidden" name="debt" value="0">
+                                                </div>
+                                                <div class="col-4"><input type="submit" class="btn btn-rounded btn-success pull-right" value="{% if LANGUAGE_CODE == 'en' %}Add {% elif LANGUAGE_CODE == 'ru'%}Добавить{% else %}Qo'shish{% endif %}"></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="table-responsive">
+                                          <table id="example7" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>№</th>
+                                                    {% if LANGUAGE_CODE == 'en' %}
+                                                    <th>Summa</th>
+                                                    <th>Date</th>
+                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                    <th>Сумма</th>
+                                                    <th>Дата</th>
+                                                {% else %}
+                                                    <th>Summa</th>
+                                                    <th>Sana</th>
+                                                {% endif %}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for t in berilgan %}
+                                                    <tr class="text-center">
+                                                        <td>{{ forloop.counter }}</td>
+                                                        <td>{{ t.summa }}</td>
+                                                        <td>{{ t.date }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                                <!-- /.box -->
+                            </div>
+                        </div>
+					</div>
+				</div>
+				<!-- /.box-body -->
+{#			  </div>#}
+			  <!-- /.box -->
+			</div>  
+		  </div>
+		  <!-- /.row -->
+
+		</section>
+		<!-- /.content -->	  
+{% endblock content %}
+{% block js %}
+	<!-- Vendor JS -->
+	<script src="{% static 'crm/main/js/vendors.min.js'%}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js'%}"></script>	<!-- Sunny Admin App -->
+	<script src="{% static 'crm/main/js/template.js'%}"></script>
+
+	<!-- Vendor JS -->
+    <script src="{% static 'crm/assets/vendor_components/datatable/datatables.min.js'%}"></script>
+	<script src="{% static 'crm/main/js/pages/data-table.js'%}"></script>
+
+	<!-- Sunny Admin App -->
+{% endblock js %}

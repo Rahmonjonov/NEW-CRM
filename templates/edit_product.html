@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Product editing
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Редактирование продукта
+                                        {% else %}
+                                            CRM | Mahsulot taxrirlash
+                                        {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <!-- Vendors Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+
+    <!-- Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+{% endblock css %}
+{% block content %}
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row" style="justify-content: center">
+            <div class="col-6">
+                <div class="box">
+
+                    <div class="box-header with-border">
+                        <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                            Product editing
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Редактирование продукта
+                                        {% else %}
+                                            Mahsulot taxrirlash
+                                        {% endif %}</h4>
+                    </div>
+                    <form action="{% url 'edit_product' pk=product.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="box-body">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Product name
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Наименование товара
+                                        {% else %}
+                                            Mahsulot nomi
+                                        {% endif %}</label>
+                                <input type="text" name="name" class="form-control" value="{{ product.name }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Cost
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Расходы
+                                        {% else %}
+                                            Narxi
+                                        {% endif %}</label>
+                                <input type="number" name="price" class="form-control" value="{{ product.price }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Note
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Примечание
+                                        {% else %}
+                                            Izoh
+                                        {% endif %}</label>
+                                <textarea name="comment" class="form-control" rows="10">{{ product.comment }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary float-right" style="margin: 20px">
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                            Save
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Сохранять
+                                    {% else %}
+                                        Saqlash
+                                    {% endif %}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.box -->
+            </div>
+            <!--/.col (left) -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+{% endblock content %}
+{% block js %}
+    <!-- Vendor JS -->
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>    <!-- Sunny Admin App -->
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+
+{% endblock js %}

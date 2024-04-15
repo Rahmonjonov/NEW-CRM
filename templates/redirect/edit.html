@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Edit
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Редактировать
+                                        {% else %}
+                                            CRM | Taxrirlash
+                                        {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+{% endblock css %}
+{% block content %}
+    <section class="content">
+        <div class="row" style="justify-content: center">
+            <div class="col-6">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                            Link editing
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Редактирование ссылки
+                                        {% else %}
+                                            Link taxrirlash
+                                        {% endif %}</h4>
+                    </div>
+                    <form action="{% url 'EditUrlRedirect_class' pk=url_redirect.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="box-body">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Name
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Hазвание
+                                        {% else %}
+                                            Nomi
+                                        {% endif %}</label>
+                                <input type="text" name="name" value="{{ url_redirect.name }}" class="form-control"
+                                       required>
+                            </div>
+                            <div class="form-group">
+                                <label>{% if LANGUAGE_CODE == 'en' %}
+                                            Linked url
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Связанный URL
+                                        {% else %}
+                                            Bog'langan url
+                                        {% endif %}</label>
+                                <input type="url" name="next_url" value="{{ url_redirect.next_url }}"
+                                       class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary float-right" style="margin: 20px">{% if LANGUAGE_CODE == 'en' %}
+                                            Save
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Сохранять
+                                        {% else %}
+                                            Saqlash
+                                        {% endif %}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+{% block js %}
+
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+
+{% endblock js %}

@@ -1,0 +1,1728 @@
+-- Logs begin at Tue 2023-10-10 01:21:47 MSK, end at Thu 2023-12-21 08:50:57 MSK. --
+Dec 21 07:51:04 1451651-ck91852.tw1.ru sshd[1038082]: Connection closed by 77.37.214.234 port 40232 [preauth]
+Dec 21 07:51:29 1451651-ck91852.tw1.ru sshd[1038087]: Invalid user confluence from 104.236.199.155 port 47306
+Dec 21 07:51:29 1451651-ck91852.tw1.ru sshd[1038087]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 07:51:29 1451651-ck91852.tw1.ru sshd[1038087]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=104.236.199.155[0m
+Dec 21 07:51:31 1451651-ck91852.tw1.ru sshd[1038087]: Failed password for invalid user confluence from 104.236.199.155 port 47306 ssh2
+Dec 21 07:51:32 1451651-ck91852.tw1.ru sshd[1038087]: Connection closed by invalid user confluence 104.236.199.155 port 47306 [preauth]
+Dec 21 07:53:01 1451651-ck91852.tw1.ru gunicorn[937198]: Not Found: /robots.txt
+Dec 21 07:53:07 1451651-ck91852.tw1.ru sshd[1038100]: Invalid user idempiere from 167.71.184.231 port 54428
+Dec 21 07:53:07 1451651-ck91852.tw1.ru sshd[1038100]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 07:53:07 1451651-ck91852.tw1.ru sshd[1038100]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=167.71.184.231[0m
+Dec 21 07:53:09 1451651-ck91852.tw1.ru sshd[1038100]: Failed password for invalid user idempiere from 167.71.184.231 port 54428 ssh2
+Dec 21 07:53:10 1451651-ck91852.tw1.ru sshd[1038100]: Connection closed by invalid user idempiere 167.71.184.231 port 54428 [preauth]
+Dec 21 07:55:01 1451651-ck91852.tw1.ru CRON[1038117]: pam_unix(cron:session): session opened for user root by (uid=0)
+Dec 21 07:55:01 1451651-ck91852.tw1.ru CRON[1038118]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+Dec 21 07:55:01 1451651-ck91852.tw1.ru CRON[1038117]: pam_unix(cron:session): session closed for user root
+Dec 21 07:55:37 1451651-ck91852.tw1.ru sshd[1038125]: Invalid user appadmin from 138.197.155.7 port 49734
+Dec 21 07:55:37 1451651-ck91852.tw1.ru sshd[1038125]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 07:55:37 1451651-ck91852.tw1.ru sshd[1038125]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=138.197.155.7[0m
+Dec 21 07:55:39 1451651-ck91852.tw1.ru sshd[1038125]: Failed password for invalid user appadmin from 138.197.155.7 port 49734 ssh2
+Dec 21 07:55:41 1451651-ck91852.tw1.ru sshd[1038125]: Connection closed by invalid user appadmin 138.197.155.7 port 49734 [preauth]
+Dec 21 07:58:11 1451651-ck91852.tw1.ru sshd[1038143]: Invalid user confluence-user from 104.236.199.155 port 49914
+Dec 21 07:58:11 1451651-ck91852.tw1.ru sshd[1038143]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 07:58:11 1451651-ck91852.tw1.ru sshd[1038143]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=104.236.199.155[0m
+Dec 21 07:58:13 1451651-ck91852.tw1.ru sshd[1038143]: Failed password for invalid user confluence-user from 104.236.199.155 port 49914 ssh2
+Dec 21 07:58:14 1451651-ck91852.tw1.ru sshd[1038143]: Connection closed by invalid user confluence-user 104.236.199.155 port 49914 [preauth]
+Dec 21 07:58:25 1451651-ck91852.tw1.ru sshd[1038146]: Unable to negotiate with 218.92.0.52 port 59964: no matching key exchange method found. Their offer: diffie-hellman-group1-sha1,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1 [preauth]
+Dec 21 07:58:49 1451651-ck91852.tw1.ru sshd[1038152]: [0;1;31m[0;1;39m[0;1;31merror: kex_exchange_identification: Connection closed by remote host[0m
+Dec 21 07:59:23 1451651-ck91852.tw1.ru sshd[1038158]: Invalid user idempiere from 167.71.184.231 port 41302
+Dec 21 07:59:23 1451651-ck91852.tw1.ru sshd[1038158]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 07:59:23 1451651-ck91852.tw1.ru sshd[1038158]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=167.71.184.231[0m
+Dec 21 07:59:25 1451651-ck91852.tw1.ru sshd[1038158]: Failed password for invalid user idempiere from 167.71.184.231 port 41302 ssh2
+Dec 21 07:59:26 1451651-ck91852.tw1.ru sshd[1038158]: Connection closed by invalid user idempiere 167.71.184.231 port 41302 [preauth]
+Dec 21 08:02:22 1451651-ck91852.tw1.ru sshd[1038177]: Invalid user app from 138.197.155.7 port 34368
+Dec 21 08:02:22 1451651-ck91852.tw1.ru sshd[1038177]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:02:22 1451651-ck91852.tw1.ru sshd[1038177]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=138.197.155.7[0m
+Dec 21 08:02:24 1451651-ck91852.tw1.ru sshd[1038177]: Failed password for invalid user app from 138.197.155.7 port 34368 ssh2
+Dec 21 08:02:26 1451651-ck91852.tw1.ru sshd[1038177]: Connection closed by invalid user app 138.197.155.7 port 34368 [preauth]
+Dec 21 08:02:36 1451651-ck91852.tw1.ru sshd[1038182]: Invalid user ps from 178.128.245.30 port 56068
+Dec 21 08:02:36 1451651-ck91852.tw1.ru sshd[1038182]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:02:36 1451651-ck91852.tw1.ru sshd[1038182]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=178.128.245.30[0m
+Dec 21 08:02:38 1451651-ck91852.tw1.ru sshd[1038182]: Failed password for invalid user ps from 178.128.245.30 port 56068 ssh2
+Dec 21 08:02:40 1451651-ck91852.tw1.ru sshd[1038182]: Connection closed by invalid user ps 178.128.245.30 port 56068 [preauth]
+Dec 21 08:04:50 1451651-ck91852.tw1.ru sshd[1038201]: Invalid user confluenceuser from 104.236.199.155 port 57254
+Dec 21 08:04:50 1451651-ck91852.tw1.ru sshd[1038201]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:04:50 1451651-ck91852.tw1.ru sshd[1038201]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=104.236.199.155[0m
+Dec 21 08:04:52 1451651-ck91852.tw1.ru sshd[1038201]: Failed password for invalid user confluenceuser from 104.236.199.155 port 57254 ssh2
+Dec 21 08:04:52 1451651-ck91852.tw1.ru sshd[1038201]: Connection closed by invalid user confluenceuser 104.236.199.155 port 57254 [preauth]
+Dec 21 08:05:01 1451651-ck91852.tw1.ru CRON[1038204]: pam_unix(cron:session): session opened for user root by (uid=0)
+Dec 21 08:05:01 1451651-ck91852.tw1.ru CRON[1038205]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+Dec 21 08:05:01 1451651-ck91852.tw1.ru CRON[1038204]: pam_unix(cron:session): session closed for user root
+Dec 21 08:05:25 1451651-ck91852.tw1.ru sshd[1038209]: Connection reset by 198.235.24.46 port 59114 [preauth]
+Dec 21 08:05:41 1451651-ck91852.tw1.ru sshd[1038214]: Invalid user idempiere from 167.71.184.231 port 51558
+Dec 21 08:05:41 1451651-ck91852.tw1.ru sshd[1038214]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:05:41 1451651-ck91852.tw1.ru sshd[1038214]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=167.71.184.231[0m
+Dec 21 08:05:42 1451651-ck91852.tw1.ru sshd[1038214]: Failed password for invalid user idempiere from 167.71.184.231 port 51558 ssh2
+Dec 21 08:05:44 1451651-ck91852.tw1.ru sshd[1038214]: Connection closed by invalid user idempiere 167.71.184.231 port 51558 [preauth]
+Dec 21 08:08:01 1451651-ck91852.tw1.ru sshd[1038231]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=178.128.245.30  user=root[0m
+Dec 21 08:08:03 1451651-ck91852.tw1.ru sshd[1038231]: Failed password for root from 178.128.245.30 port 36064 ssh2
+Dec 21 08:08:03 1451651-ck91852.tw1.ru sshd[1038231]: Connection closed by authenticating user root 178.128.245.30 port 36064 [preauth]
+Dec 21 08:09:07 1451651-ck91852.tw1.ru sshd[1038238]: Invalid user appserver from 138.197.155.7 port 38284
+Dec 21 08:09:07 1451651-ck91852.tw1.ru sshd[1038238]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:09:07 1451651-ck91852.tw1.ru sshd[1038238]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=138.197.155.7[0m
+Dec 21 08:09:08 1451651-ck91852.tw1.ru sshd[1038238]: Failed password for invalid user appserver from 138.197.155.7 port 38284 ssh2
+Dec 21 08:09:09 1451651-ck91852.tw1.ru sshd[1038238]: Connection closed by invalid user appserver 138.197.155.7 port 38284 [preauth]
+Dec 21 08:11:28 1451651-ck91852.tw1.ru sshd[1038257]: Invalid user co-user from 104.236.199.155 port 45482
+Dec 21 08:11:28 1451651-ck91852.tw1.ru sshd[1038257]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:11:28 1451651-ck91852.tw1.ru sshd[1038257]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=104.236.199.155[0m
+Dec 21 08:11:30 1451651-ck91852.tw1.ru sshd[1038257]: Failed password for invalid user co-user from 104.236.199.155 port 45482 ssh2
+Dec 21 08:11:33 1451651-ck91852.tw1.ru sshd[1038257]: Connection closed by invalid user co-user 104.236.199.155 port 45482 [preauth]
+Dec 21 08:11:57 1451651-ck91852.tw1.ru sshd[1038262]: Invalid user idempiere from 167.71.184.231 port 53634
+Dec 21 08:11:57 1451651-ck91852.tw1.ru sshd[1038262]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:11:57 1451651-ck91852.tw1.ru sshd[1038262]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=167.71.184.231[0m
+Dec 21 08:11:59 1451651-ck91852.tw1.ru sshd[1038262]: Failed password for invalid user idempiere from 167.71.184.231 port 53634 ssh2
+Dec 21 08:12:00 1451651-ck91852.tw1.ru sshd[1038262]: Connection closed by invalid user idempiere 167.71.184.231 port 53634 [preauth]
+Dec 21 08:12:34 1451651-ck91852.tw1.ru sshd[1038268]: [0;1;31m[0;1;39m[0;1;31merror: kex_exchange_identification: Connection closed by remote host[0m
+Dec 21 08:12:49 1451651-ck91852.tw1.ru sshd[1038270]: Unable to negotiate with 218.92.0.55 port 43618: no matching key exchange method found. Their offer: diffie-hellman-group1-sha1,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1 [preauth]
+Dec 21 08:13:26 1451651-ck91852.tw1.ru sshd[1038277]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=178.128.245.30  user=root[0m
+Dec 21 08:13:28 1451651-ck91852.tw1.ru sshd[1038277]: Failed password for root from 178.128.245.30 port 42526 ssh2
+Dec 21 08:13:29 1451651-ck91852.tw1.ru sshd[1038277]: Connection closed by authenticating user root 178.128.245.30 port 42526 [preauth]
+Dec 21 08:15:01 1451651-ck91852.tw1.ru CRON[1038290]: pam_unix(cron:session): session opened for user root by (uid=0)
+Dec 21 08:15:01 1451651-ck91852.tw1.ru CRON[1038291]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+Dec 21 08:15:01 1451651-ck91852.tw1.ru CRON[1038290]: pam_unix(cron:session): session closed for user root
+Dec 21 08:15:52 1451651-ck91852.tw1.ru sshd[1038299]: Invalid user appuser from 138.197.155.7 port 48842
+Dec 21 08:15:52 1451651-ck91852.tw1.ru sshd[1038299]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:15:52 1451651-ck91852.tw1.ru sshd[1038299]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=138.197.155.7[0m
+Dec 21 08:15:54 1451651-ck91852.tw1.ru sshd[1038299]: Failed password for invalid user appuser from 138.197.155.7 port 48842 ssh2
+Dec 21 08:15:55 1451651-ck91852.tw1.ru sshd[1038299]: Connection closed by invalid user appuser 138.197.155.7 port 48842 [preauth]
+Dec 21 08:17:01 1451651-ck91852.tw1.ru CRON[1038308]: pam_unix(cron:session): session opened for user root by (uid=0)
+Dec 21 08:17:01 1451651-ck91852.tw1.ru CRON[1038309]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Dec 21 08:17:01 1451651-ck91852.tw1.ru CRON[1038308]: pam_unix(cron:session): session closed for user root
+Dec 21 08:17:48 1451651-ck91852.tw1.ru sshd[1038317]: Invalid user ubnt from 175.202.64.45 port 62335
+Dec 21 08:17:48 1451651-ck91852.tw1.ru sshd[1038317]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:17:48 1451651-ck91852.tw1.ru sshd[1038317]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=175.202.64.45[0m
+Dec 21 08:17:50 1451651-ck91852.tw1.ru sshd[1038317]: Failed password for invalid user ubnt from 175.202.64.45 port 62335 ssh2
+Dec 21 08:17:52 1451651-ck91852.tw1.ru sshd[1038317]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:17:54 1451651-ck91852.tw1.ru sshd[1038317]: Failed password for invalid user ubnt from 175.202.64.45 port 62335 ssh2
+Dec 21 08:18:01 1451651-ck91852.tw1.ru sshd[1038317]: Failed password for invalid user ubnt from 175.202.64.45 port 62335 ssh2
+Dec 21 08:18:01 1451651-ck91852.tw1.ru sshd[1038317]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:18:03 1451651-ck91852.tw1.ru sshd[1038317]: Failed password for invalid user ubnt from 175.202.64.45 port 62335 ssh2
+Dec 21 08:18:06 1451651-ck91852.tw1.ru sshd[1038317]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:18:07 1451651-ck91852.tw1.ru sshd[1038320]: Invalid user user from 104.236.199.155 port 43562
+Dec 21 08:18:07 1451651-ck91852.tw1.ru sshd[1038320]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:18:07 1451651-ck91852.tw1.ru sshd[1038320]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=104.236.199.155[0m
+Dec 21 08:18:08 1451651-ck91852.tw1.ru sshd[1038317]: Failed password for invalid user ubnt from 175.202.64.45 port 62335 ssh2
+Dec 21 08:18:09 1451651-ck91852.tw1.ru sshd[1038317]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:18:09 1451651-ck91852.tw1.ru sshd[1038320]: Failed password for invalid user user from 104.236.199.155 port 43562 ssh2
+Dec 21 08:18:10 1451651-ck91852.tw1.ru sshd[1038320]: Connection closed by invalid user user 104.236.199.155 port 43562 [preauth]
+Dec 21 08:18:11 1451651-ck91852.tw1.ru sshd[1038317]: Failed password for invalid user ubnt from 175.202.64.45 port 62335 ssh2
+Dec 21 08:18:12 1451651-ck91852.tw1.ru sshd[1038323]: Invalid user idempiere from 167.71.184.231 port 59510
+Dec 21 08:18:12 1451651-ck91852.tw1.ru sshd[1038323]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:18:12 1451651-ck91852.tw1.ru sshd[1038323]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=167.71.184.231[0m
+Dec 21 08:18:13 1451651-ck91852.tw1.ru sshd[1038317]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user ubnt from 175.202.64.45 port 62335 ssh2 [preauth][0m
+Dec 21 08:18:13 1451651-ck91852.tw1.ru sshd[1038317]: Disconnecting invalid user ubnt 175.202.64.45 port 62335: Too many authentication failures [preauth]
+Dec 21 08:18:13 1451651-ck91852.tw1.ru sshd[1038317]: [0;1;39m[0;1;31m[0;1;39mPAM 4 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=175.202.64.45[0m
+Dec 21 08:18:13 1451651-ck91852.tw1.ru sshd[1038317]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 5 > 3[0m
+Dec 21 08:18:14 1451651-ck91852.tw1.ru sshd[1038323]: Failed password for invalid user idempiere from 167.71.184.231 port 59510 ssh2
+Dec 21 08:18:15 1451651-ck91852.tw1.ru sshd[1038323]: Connection closed by invalid user idempiere 167.71.184.231 port 59510 [preauth]
+Dec 21 08:18:52 1451651-ck91852.tw1.ru sshd[1038331]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=178.128.245.30  user=root[0m
+Dec 21 08:18:55 1451651-ck91852.tw1.ru sshd[1038331]: Failed password for root from 178.128.245.30 port 40758 ssh2
+Dec 21 08:18:55 1451651-ck91852.tw1.ru sshd[1038331]: Connection closed by authenticating user root 178.128.245.30 port 40758 [preauth]
+Dec 21 08:20:30 1451651-ck91852.tw1.ru qemu-ga[586]: info: guest-exec called: "/bin/sh -c lsblk --list -o NAME,FSTYPE --noheadings /dev/vda"
+Dec 21 08:20:31 1451651-ck91852.tw1.ru qemu-ga[586]: info: guest-exec-status called, pid: 1038345
+Dec 21 08:20:31 1451651-ck91852.tw1.ru qemu-ga[586]: info: guest-exec called: "/bin/sh -c df -Pk /dev/vda1"
+Dec 21 08:20:32 1451651-ck91852.tw1.ru qemu-ga[586]: info: guest-exec-status called, pid: 1038347
+Dec 21 08:22:36 1451651-ck91852.tw1.ru sshd[1038361]: Invalid user arch from 138.197.155.7 port 49564
+Dec 21 08:22:37 1451651-ck91852.tw1.ru sshd[1038361]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:22:37 1451651-ck91852.tw1.ru sshd[1038361]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=138.197.155.7[0m
+Dec 21 08:22:38 1451651-ck91852.tw1.ru sshd[1038361]: Failed password for invalid user arch from 138.197.155.7 port 49564 ssh2
+Dec 21 08:22:38 1451651-ck91852.tw1.ru sshd[1038361]: Connection closed by invalid user arch 138.197.155.7 port 49564 [preauth]
+Dec 21 08:24:18 1451651-ck91852.tw1.ru sshd[1038375]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=178.128.245.30  user=root[0m
+Dec 21 08:24:20 1451651-ck91852.tw1.ru sshd[1038375]: Failed password for root from 178.128.245.30 port 34460 ssh2
+Dec 21 08:24:21 1451651-ck91852.tw1.ru sshd[1038375]: Connection closed by authenticating user root 178.128.245.30 port 34460 [preauth]
+Dec 21 08:24:27 1451651-ck91852.tw1.ru sshd[1038379]: Invalid user idempiere from 167.71.184.231 port 55074
+Dec 21 08:24:27 1451651-ck91852.tw1.ru sshd[1038379]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:24:27 1451651-ck91852.tw1.ru sshd[1038379]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=167.71.184.231[0m
+Dec 21 08:24:30 1451651-ck91852.tw1.ru sshd[1038379]: Failed password for invalid user idempiere from 167.71.184.231 port 55074 ssh2
+Dec 21 08:24:30 1451651-ck91852.tw1.ru sshd[1038379]: Connection closed by invalid user idempiere 167.71.184.231 port 55074 [preauth]
+Dec 21 08:24:46 1451651-ck91852.tw1.ru sshd[1038384]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=104.236.199.155  user=root[0m
+Dec 21 08:24:48 1451651-ck91852.tw1.ru sshd[1038384]: Failed password for root from 104.236.199.155 port 43244 ssh2
+Dec 21 08:24:49 1451651-ck91852.tw1.ru sshd[1038384]: Connection closed by authenticating user root 104.236.199.155 port 43244 [preauth]
+Dec 21 08:25:01 1451651-ck91852.tw1.ru CRON[1038387]: pam_unix(cron:session): session opened for user root by (uid=0)
+Dec 21 08:25:01 1451651-ck91852.tw1.ru CRON[1038388]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+Dec 21 08:25:01 1451651-ck91852.tw1.ru CRON[1038387]: pam_unix(cron:session): session closed for user root
+Dec 21 08:27:09 1451651-ck91852.tw1.ru sshd[1038403]: Unable to negotiate with 218.92.0.51 port 7096: no matching key exchange method found. Their offer: diffie-hellman-group1-sha1,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1 [preauth]
+Dec 21 08:27:54 1451651-ck91852.tw1.ru sshd[1038411]: [0;1;31m[0;1;39m[0;1;31merror: kex_exchange_identification: banner line contains invalid characters[0m
+Dec 21 08:29:21 1451651-ck91852.tw1.ru sshd[1038422]: Invalid user ark from 138.197.155.7 port 58294
+Dec 21 08:29:22 1451651-ck91852.tw1.ru sshd[1038422]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:29:22 1451651-ck91852.tw1.ru sshd[1038422]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=138.197.155.7[0m
+Dec 21 08:29:24 1451651-ck91852.tw1.ru sshd[1038422]: Failed password for invalid user ark from 138.197.155.7 port 58294 ssh2
+Dec 21 08:29:25 1451651-ck91852.tw1.ru sshd[1038422]: Connection closed by invalid user ark 138.197.155.7 port 58294 [preauth]
+Dec 21 08:29:44 1451651-ck91852.tw1.ru sshd[1038427]: Invalid user gns3 from 178.128.245.30 port 47846
+Dec 21 08:29:44 1451651-ck91852.tw1.ru sshd[1038427]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:29:44 1451651-ck91852.tw1.ru sshd[1038427]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=178.128.245.30[0m
+Dec 21 08:29:46 1451651-ck91852.tw1.ru sshd[1038427]: Failed password for invalid user gns3 from 178.128.245.30 port 47846 ssh2
+Dec 21 08:29:47 1451651-ck91852.tw1.ru sshd[1038427]: Connection closed by invalid user gns3 178.128.245.30 port 47846 [preauth]
+Dec 21 08:30:42 1451651-ck91852.tw1.ru sshd[1038436]: Invalid user idempiere from 167.71.184.231 port 33432
+Dec 21 08:30:43 1451651-ck91852.tw1.ru sshd[1038436]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:30:43 1451651-ck91852.tw1.ru sshd[1038436]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=167.71.184.231[0m
+Dec 21 08:30:45 1451651-ck91852.tw1.ru sshd[1038436]: Failed password for invalid user idempiere from 167.71.184.231 port 33432 ssh2
+Dec 21 08:30:46 1451651-ck91852.tw1.ru sshd[1038436]: Connection closed by invalid user idempiere 167.71.184.231 port 33432 [preauth]
+Dec 21 08:31:23 1451651-ck91852.tw1.ru sshd[1038441]: Accepted password for root from 202.79.188.122 port 60681 ssh2
+Dec 21 08:31:23 1451651-ck91852.tw1.ru sshd[1038441]: pam_unix(sshd:session): session opened for user root by (uid=0)
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1]: Created slice User Slice of UID 0.
+-- Subject: A start job for unit user-0.slice has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit user-0.slice has finished successfully.
+-- 
+-- The job identifier is 69461.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1]: Starting User Runtime Directory /run/user/0...
+-- Subject: A start job for unit user-runtime-dir@0.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit user-runtime-dir@0.service has begun execution.
+-- 
+-- The job identifier is 69385.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd-logind[595]: New session 6803 of user root.
+-- Subject: A new session 6803 has been created for user root
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- Documentation: https://www.freedesktop.org/wiki/Software/systemd/multiseat
+-- 
+-- A new session with the ID 6803 has been created for the user root.
+-- 
+-- The leading process of the session is 1038441.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1]: Finished User Runtime Directory /run/user/0.
+-- Subject: A start job for unit user-runtime-dir@0.service has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit user-runtime-dir@0.service has finished successfully.
+-- 
+-- The job identifier is 69385.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1]: Starting User Manager for UID 0...
+-- Subject: A start job for unit user@0.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit user@0.service has begun execution.
+-- 
+-- The job identifier is 69384.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: pam_unix(systemd-user:session): session opened for user root by (uid=0)
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: Reached target Paths.
+-- Subject: A start job for unit UNIT has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit UNIT has finished successfully.
+-- 
+-- The job identifier is 5.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: Reached target Timers.
+-- Subject: A start job for unit UNIT has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit UNIT has finished successfully.
+-- 
+-- The job identifier is 3.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: Starting D-Bus User Message Bus Socket.
+-- Subject: A start job for unit UNIT has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit UNIT has begun execution.
+-- 
+-- The job identifier is 13.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: Listening on GnuPG network certificate management daemon.
+-- Subject: A start job for unit UNIT has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit UNIT has finished successfully.
+-- 
+-- The job identifier is 11.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: Listening on GnuPG cryptographic agent and passphrase cache (access for web browsers).
+-- Subject: A start job for unit UNIT has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit UNIT has finished successfully.
+-- 
+-- The job identifier is 9.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: Listening on GnuPG cryptographic agent and passphrase cache (restricted).
+-- Subject: A start job for unit UNIT has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit UNIT has finished successfully.
+-- 
+-- The job identifier is 7.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: Listening on GnuPG cryptographic agent (ssh-agent emulation).
+-- Subject: A start job for unit UNIT has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit UNIT has finished successfully.
+-- 
+-- The job identifier is 12.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: Listening on GnuPG cryptographic agent and passphrase cache.
+-- Subject: A start job for unit UNIT has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit UNIT has finished successfully.
+-- 
+-- The job identifier is 15.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: Listening on debconf communication socket.
+-- Subject: A start job for unit UNIT has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit UNIT has finished successfully.
+-- 
+-- The job identifier is 14.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: Listening on REST API socket for snapd user session agent.
+-- Subject: A start job for unit UNIT has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit UNIT has finished successfully.
+-- 
+-- The job identifier is 10.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: Listening on D-Bus User Message Bus Socket.
+-- Subject: A start job for unit UNIT has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit UNIT has finished successfully.
+-- 
+-- The job identifier is 13.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: Reached target Sockets.
+-- Subject: A start job for unit UNIT has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit UNIT has finished successfully.
+-- 
+-- The job identifier is 6.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: Reached target Basic System.
+-- Subject: A start job for unit UNIT has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit UNIT has finished successfully.
+-- 
+-- The job identifier is 2.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: Reached target Main User Target.
+-- Subject: A start job for unit UNIT has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit UNIT has finished successfully.
+-- 
+-- The job identifier is 1.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1038454]: Startup finished in 99ms.
+-- Subject: User manager start-up is now complete
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The user manager instance for user 0 has been started. All services queued
+-- for starting have been started. Note that other services might still be starting
+-- up or be started at any later time.
+-- 
+-- Startup of the manager took 99975 microseconds.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1]: Started User Manager for UID 0.
+-- Subject: A start job for unit user@0.service has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit user@0.service has finished successfully.
+-- 
+-- The job identifier is 69384.
+Dec 21 08:31:23 1451651-ck91852.tw1.ru systemd[1]: Started Session 6803 of user root.
+-- Subject: A start job for unit session-6803.scope has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit session-6803.scope has finished successfully.
+-- 
+-- The job identifier is 69463.
+Dec 21 08:31:24 1451651-ck91852.tw1.ru sshd[1038515]: Invalid user csf from 104.236.199.155 port 36470
+Dec 21 08:31:24 1451651-ck91852.tw1.ru sshd[1038515]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:31:24 1451651-ck91852.tw1.ru sshd[1038515]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=104.236.199.155[0m
+Dec 21 08:31:26 1451651-ck91852.tw1.ru sshd[1038515]: Failed password for invalid user csf from 104.236.199.155 port 36470 ssh2
+Dec 21 08:31:27 1451651-ck91852.tw1.ru sshd[1038515]: Connection closed by invalid user csf 104.236.199.155 port 36470 [preauth]
+Dec 21 08:33:01 1451651-ck91852.tw1.ru sshd[1038834]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85  user=root[0m
+Dec 21 08:33:03 1451651-ck91852.tw1.ru sshd[1038834]: Failed password for root from 87.227.8.85 port 52366 ssh2
+Dec 21 08:33:05 1451651-ck91852.tw1.ru sshd[1038834]: Failed password for root from 87.227.8.85 port 52366 ssh2
+Dec 21 08:33:07 1451651-ck91852.tw1.ru sshd[1038834]: Failed password for root from 87.227.8.85 port 52366 ssh2
+Dec 21 08:33:10 1451651-ck91852.tw1.ru sshd[1038834]: Failed password for root from 87.227.8.85 port 52366 ssh2
+Dec 21 08:33:13 1451651-ck91852.tw1.ru sshd[1038834]: Failed password for root from 87.227.8.85 port 52366 ssh2
+Dec 21 08:33:16 1451651-ck91852.tw1.ru sshd[1038834]: Failed password for root from 87.227.8.85 port 52366 ssh2
+Dec 21 08:33:17 1451651-ck91852.tw1.ru sshd[1038834]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for root from 87.227.8.85 port 52366 ssh2 [preauth][0m
+Dec 21 08:33:17 1451651-ck91852.tw1.ru sshd[1038834]: Disconnecting authenticating user root 87.227.8.85 port 52366: Too many authentication failures [preauth]
+Dec 21 08:33:17 1451651-ck91852.tw1.ru sshd[1038834]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85  user=root[0m
+Dec 21 08:33:17 1451651-ck91852.tw1.ru sshd[1038834]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:33:19 1451651-ck91852.tw1.ru sshd[1038837]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85  user=root[0m
+Dec 21 08:33:20 1451651-ck91852.tw1.ru sshd[1038837]: Failed password for root from 87.227.8.85 port 54746 ssh2
+Dec 21 08:33:23 1451651-ck91852.tw1.ru sshd[1038837]: Failed password for root from 87.227.8.85 port 54746 ssh2
+Dec 21 08:33:25 1451651-ck91852.tw1.ru sshd[1038837]: Failed password for root from 87.227.8.85 port 54746 ssh2
+Dec 21 08:33:29 1451651-ck91852.tw1.ru sshd[1038837]: Failed password for root from 87.227.8.85 port 54746 ssh2
+Dec 21 08:33:31 1451651-ck91852.tw1.ru sshd[1038837]: Failed password for root from 87.227.8.85 port 54746 ssh2
+Dec 21 08:33:34 1451651-ck91852.tw1.ru sshd[1038837]: Failed password for root from 87.227.8.85 port 54746 ssh2
+Dec 21 08:33:35 1451651-ck91852.tw1.ru sshd[1038837]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for root from 87.227.8.85 port 54746 ssh2 [preauth][0m
+Dec 21 08:33:35 1451651-ck91852.tw1.ru sshd[1038837]: Disconnecting authenticating user root 87.227.8.85 port 54746: Too many authentication failures [preauth]
+Dec 21 08:33:35 1451651-ck91852.tw1.ru sshd[1038837]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85  user=root[0m
+Dec 21 08:33:35 1451651-ck91852.tw1.ru sshd[1038837]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:33:37 1451651-ck91852.tw1.ru sshd[1038841]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85  user=root[0m
+Dec 21 08:33:39 1451651-ck91852.tw1.ru sshd[1038841]: Failed password for root from 87.227.8.85 port 57256 ssh2
+Dec 21 08:33:42 1451651-ck91852.tw1.ru sshd[1038841]: Failed password for root from 87.227.8.85 port 57256 ssh2
+Dec 21 08:33:45 1451651-ck91852.tw1.ru sshd[1038841]: Failed password for root from 87.227.8.85 port 57256 ssh2
+Dec 21 08:33:47 1451651-ck91852.tw1.ru sshd[1038841]: Failed password for root from 87.227.8.85 port 57256 ssh2
+Dec 21 08:33:50 1451651-ck91852.tw1.ru sshd[1038841]: Failed password for root from 87.227.8.85 port 57256 ssh2
+Dec 21 08:33:51 1451651-ck91852.tw1.ru sshd[1038841]: Received disconnect from 87.227.8.85 port 57256:11: disconnected by user [preauth]
+Dec 21 08:33:51 1451651-ck91852.tw1.ru sshd[1038841]: Disconnected from authenticating user root 87.227.8.85 port 57256 [preauth]
+Dec 21 08:33:51 1451651-ck91852.tw1.ru sshd[1038841]: [0;1;39m[0;1;31m[0;1;39mPAM 4 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85  user=root[0m
+Dec 21 08:33:51 1451651-ck91852.tw1.ru sshd[1038841]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 5 > 3[0m
+Dec 21 08:33:52 1451651-ck91852.tw1.ru sshd[1038845]: Invalid user admin from 87.227.8.85 port 59284
+Dec 21 08:33:52 1451651-ck91852.tw1.ru sshd[1038845]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:33:52 1451651-ck91852.tw1.ru sshd[1038845]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:33:54 1451651-ck91852.tw1.ru sshd[1038845]: Failed password for invalid user admin from 87.227.8.85 port 59284 ssh2
+Dec 21 08:33:54 1451651-ck91852.tw1.ru sshd[1038845]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:33:55 1451651-ck91852.tw1.ru sshd[1038845]: Failed password for invalid user admin from 87.227.8.85 port 59284 ssh2
+Dec 21 08:33:56 1451651-ck91852.tw1.ru sshd[1038845]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:33:58 1451651-ck91852.tw1.ru sshd[1038845]: Failed password for invalid user admin from 87.227.8.85 port 59284 ssh2
+Dec 21 08:34:00 1451651-ck91852.tw1.ru sshd[1038845]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:01 1451651-ck91852.tw1.ru sshd[1038845]: Failed password for invalid user admin from 87.227.8.85 port 59284 ssh2
+Dec 21 08:34:01 1451651-ck91852.tw1.ru sshd[1038845]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:03 1451651-ck91852.tw1.ru sshd[1038845]: Failed password for invalid user admin from 87.227.8.85 port 59284 ssh2
+Dec 21 08:34:05 1451651-ck91852.tw1.ru sshd[1038845]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:07 1451651-ck91852.tw1.ru sshd[1038845]: Failed password for invalid user admin from 87.227.8.85 port 59284 ssh2
+Dec 21 08:34:07 1451651-ck91852.tw1.ru sshd[1038845]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user admin from 87.227.8.85 port 59284 ssh2 [preauth][0m
+Dec 21 08:34:07 1451651-ck91852.tw1.ru sshd[1038845]: Disconnecting invalid user admin 87.227.8.85 port 59284: Too many authentication failures [preauth]
+Dec 21 08:34:07 1451651-ck91852.tw1.ru sshd[1038845]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:34:07 1451651-ck91852.tw1.ru sshd[1038845]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:34:08 1451651-ck91852.tw1.ru sshd[1038850]: Invalid user admin from 87.227.8.85 port 33338
+Dec 21 08:34:08 1451651-ck91852.tw1.ru sshd[1038850]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:08 1451651-ck91852.tw1.ru sshd[1038850]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:34:10 1451651-ck91852.tw1.ru sshd[1038850]: Failed password for invalid user admin from 87.227.8.85 port 33338 ssh2
+Dec 21 08:34:12 1451651-ck91852.tw1.ru sshd[1038850]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:14 1451651-ck91852.tw1.ru sshd[1038850]: Failed password for invalid user admin from 87.227.8.85 port 33338 ssh2
+Dec 21 08:34:14 1451651-ck91852.tw1.ru sshd[1038850]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:16 1451651-ck91852.tw1.ru sshd[1038850]: Failed password for invalid user admin from 87.227.8.85 port 33338 ssh2
+Dec 21 08:34:16 1451651-ck91852.tw1.ru sshd[1038850]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:17 1451651-ck91852.tw1.ru sshd[1038850]: Failed password for invalid user admin from 87.227.8.85 port 33338 ssh2
+Dec 21 08:34:17 1451651-ck91852.tw1.ru sudo[1038866]: [0;1;39m[0;1;31m[0;1;39m    root : TTY=pts/0 ; PWD=/var/www/crm/zulakfa_crm/crm ; USER=root ; COMMAND=/usr/bin/apt-get update[0m
+Dec 21 08:34:17 1451651-ck91852.tw1.ru sudo[1038866]: pam_unix(sudo:session): session opened for user root by (uid=0)
+Dec 21 08:34:17 1451651-ck91852.tw1.ru systemd[1]: Starting Update APT News...
+-- Subject: A start job for unit apt-news.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit apt-news.service has begun execution.
+-- 
+-- The job identifier is 69543.
+Dec 21 08:34:17 1451651-ck91852.tw1.ru systemd[1]: Starting Update the local ESM caches...
+-- Subject: A start job for unit esm-cache.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit esm-cache.service has begun execution.
+-- 
+-- The job identifier is 69619.
+Dec 21 08:34:18 1451651-ck91852.tw1.ru systemd[1]: apt-news.service: Succeeded.
+-- Subject: Unit succeeded
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit apt-news.service has successfully entered the 'dead' state.
+Dec 21 08:34:18 1451651-ck91852.tw1.ru systemd[1]: Finished Update APT News.
+-- Subject: A start job for unit apt-news.service has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit apt-news.service has finished successfully.
+-- 
+-- The job identifier is 69543.
+Dec 21 08:34:18 1451651-ck91852.tw1.ru sshd[1038850]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:18 1451651-ck91852.tw1.ru dbus-daemon[570]: [system] Activating via systemd: service name='org.freedesktop.PackageKit' unit='packagekit.service' requested by ':1.552' (uid=0 pid=1039213 comm="/usr/bin/gdbus call --system --dest org.freedeskto" label="unconfined")
+Dec 21 08:34:18 1451651-ck91852.tw1.ru systemd[1]: Starting PackageKit Daemon...
+-- Subject: A start job for unit packagekit.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit packagekit.service has begun execution.
+-- 
+-- The job identifier is 69695.
+Dec 21 08:34:18 1451651-ck91852.tw1.ru PackageKit[1039216]: [0;38;5;245m[0;1;31m[0;38;5;245mdaemon start[0m
+Dec 21 08:34:18 1451651-ck91852.tw1.ru dbus-daemon[570]: [system] Successfully activated service 'org.freedesktop.PackageKit'
+Dec 21 08:34:18 1451651-ck91852.tw1.ru systemd[1]: Started PackageKit Daemon.
+-- Subject: A start job for unit packagekit.service has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit packagekit.service has finished successfully.
+-- 
+-- The job identifier is 69695.
+Dec 21 08:34:19 1451651-ck91852.tw1.ru systemd[1]: esm-cache.service: Succeeded.
+-- Subject: Unit succeeded
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit esm-cache.service has successfully entered the 'dead' state.
+Dec 21 08:34:19 1451651-ck91852.tw1.ru systemd[1]: Finished Update the local ESM caches.
+-- Subject: A start job for unit esm-cache.service has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit esm-cache.service has finished successfully.
+-- 
+-- The job identifier is 69619.
+Dec 21 08:34:20 1451651-ck91852.tw1.ru sshd[1038850]: Failed password for invalid user admin from 87.227.8.85 port 33338 ssh2
+Dec 21 08:34:22 1451651-ck91852.tw1.ru sshd[1038850]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:24 1451651-ck91852.tw1.ru sshd[1038850]: Failed password for invalid user admin from 87.227.8.85 port 33338 ssh2
+Dec 21 08:34:24 1451651-ck91852.tw1.ru sshd[1038850]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user admin from 87.227.8.85 port 33338 ssh2 [preauth][0m
+Dec 21 08:34:24 1451651-ck91852.tw1.ru sshd[1038850]: Disconnecting invalid user admin 87.227.8.85 port 33338: Too many authentication failures [preauth]
+Dec 21 08:34:24 1451651-ck91852.tw1.ru sshd[1038850]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:34:24 1451651-ck91852.tw1.ru sshd[1038850]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:34:25 1451651-ck91852.tw1.ru sshd[1039424]: Invalid user admin from 87.227.8.85 port 35500
+Dec 21 08:34:25 1451651-ck91852.tw1.ru sshd[1039424]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:25 1451651-ck91852.tw1.ru sshd[1039424]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:34:27 1451651-ck91852.tw1.ru sshd[1039424]: Failed password for invalid user admin from 87.227.8.85 port 35500 ssh2
+Dec 21 08:34:27 1451651-ck91852.tw1.ru sudo[1038866]: pam_unix(sudo:session): session closed for user root
+Dec 21 08:34:28 1451651-ck91852.tw1.ru sshd[1039424]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:29 1451651-ck91852.tw1.ru sudo[1039488]: [0;1;39m[0;1;31m[0;1;39m    root : TTY=pts/0 ; PWD=/var/www/crm/zulakfa_crm/crm ; USER=root ; COMMAND=/usr/bin/apt-get install rabbitmq-server[0m
+Dec 21 08:34:29 1451651-ck91852.tw1.ru sudo[1039488]: pam_unix(sudo:session): session opened for user root by (uid=0)
+Dec 21 08:34:30 1451651-ck91852.tw1.ru sshd[1039424]: Failed password for invalid user admin from 87.227.8.85 port 35500 ssh2
+Dec 21 08:34:30 1451651-ck91852.tw1.ru sshd[1039424]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:32 1451651-ck91852.tw1.ru sshd[1039424]: Failed password for invalid user admin from 87.227.8.85 port 35500 ssh2
+Dec 21 08:34:34 1451651-ck91852.tw1.ru sshd[1039424]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:36 1451651-ck91852.tw1.ru sshd[1039424]: Failed password for invalid user admin from 87.227.8.85 port 35500 ssh2
+Dec 21 08:34:36 1451651-ck91852.tw1.ru sshd[1039424]: Received disconnect from 87.227.8.85 port 35500:11: disconnected by user [preauth]
+Dec 21 08:34:36 1451651-ck91852.tw1.ru sshd[1039424]: Disconnected from invalid user admin 87.227.8.85 port 35500 [preauth]
+Dec 21 08:34:36 1451651-ck91852.tw1.ru sshd[1039424]: [0;1;39m[0;1;31m[0;1;39mPAM 3 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:34:36 1451651-ck91852.tw1.ru sshd[1039424]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 4 > 3[0m
+Dec 21 08:34:37 1451651-ck91852.tw1.ru sshd[1039723]: Invalid user oracle from 87.227.8.85 port 37242
+Dec 21 08:34:37 1451651-ck91852.tw1.ru sshd[1039723]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:37 1451651-ck91852.tw1.ru sshd[1039723]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:34:38 1451651-ck91852.tw1.ru groupadd[1039774]: group added to /etc/group: name=epmd, GID=121
+Dec 21 08:34:38 1451651-ck91852.tw1.ru groupadd[1039774]: group added to /etc/gshadow: name=epmd
+Dec 21 08:34:38 1451651-ck91852.tw1.ru groupadd[1039774]: new group: name=epmd, GID=121
+Dec 21 08:34:38 1451651-ck91852.tw1.ru useradd[1039780]: new user: name=epmd, UID=116, GID=121, home=/var/run/epmd, shell=/usr/sbin/nologin, from=/dev/pts/1
+Dec 21 08:34:38 1451651-ck91852.tw1.ru usermod[1039788]: change user 'epmd' password
+Dec 21 08:34:38 1451651-ck91852.tw1.ru chage[1039795]: changed password expiry for epmd
+Dec 21 08:34:39 1451651-ck91852.tw1.ru systemd[1]: Reloading.
+Dec 21 08:34:39 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mConfiguration file /etc/systemd/system/dhclient6.service is marked world-inaccessible. This has no effect as configuration data is accessible via APIs without restrictions. Proceeding anyway.[0m
+Dec 21 08:34:39 1451651-ck91852.tw1.ru systemd[1]: Starting Daily apt download activities...
+-- Subject: A start job for unit apt-daily.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit apt-daily.service has begun execution.
+-- 
+-- The job identifier is 69773.
+Dec 21 08:34:39 1451651-ck91852.tw1.ru systemd-udevd[372]: Network interface NamePolicy= disabled on kernel command line, ignoring.
+Dec 21 08:34:39 1451651-ck91852.tw1.ru systemd[1]: Reloading.
+Dec 21 08:34:39 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mConfiguration file /etc/systemd/system/dhclient6.service is marked world-inaccessible. This has no effect as configuration data is accessible via APIs without restrictions. Proceeding anyway.[0m
+Dec 21 08:34:39 1451651-ck91852.tw1.ru systemd[1]: apt-daily.service: Succeeded.
+-- Subject: Unit succeeded
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit apt-daily.service has successfully entered the 'dead' state.
+Dec 21 08:34:39 1451651-ck91852.tw1.ru systemd[1]: Finished Daily apt download activities.
+-- Subject: A start job for unit apt-daily.service has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit apt-daily.service has finished successfully.
+-- 
+-- The job identifier is 69773.
+Dec 21 08:34:39 1451651-ck91852.tw1.ru systemd[1]: Starting Refresh fwupd metadata and update motd...
+-- Subject: A start job for unit fwupd-refresh.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit fwupd-refresh.service has begun execution.
+-- 
+-- The job identifier is 69850.
+Dec 21 08:34:39 1451651-ck91852.tw1.ru systemd[1]: Reloading.
+Dec 21 08:34:39 1451651-ck91852.tw1.ru systemd-udevd[372]: Network interface NamePolicy= disabled on kernel command line, ignoring.
+Dec 21 08:34:39 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mConfiguration file /etc/systemd/system/dhclient6.service is marked world-inaccessible. This has no effect as configuration data is accessible via APIs without restrictions. Proceeding anyway.[0m
+Dec 21 08:34:39 1451651-ck91852.tw1.ru sshd[1039723]: Failed password for invalid user oracle from 87.227.8.85 port 37242 ssh2
+Dec 21 08:34:39 1451651-ck91852.tw1.ru systemd-udevd[372]: Network interface NamePolicy= disabled on kernel command line, ignoring.
+Dec 21 08:34:40 1451651-ck91852.tw1.ru systemd[1]: Listening on Erlang Port Mapper Daemon Activation Socket.
+-- Subject: A start job for unit epmd.socket has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit epmd.socket has finished successfully.
+-- 
+-- The job identifier is 69928.
+Dec 21 08:34:40 1451651-ck91852.tw1.ru systemd[1]: Started Erlang Port Mapper Daemon.
+-- Subject: A start job for unit epmd.service has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit epmd.service has finished successfully.
+-- 
+-- The job identifier is 69927.
+Dec 21 08:34:40 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mConfiguration file /etc/systemd/system/dhclient6.service is marked world-inaccessible. This has no effect as configuration data is accessible via APIs without restrictions. Proceeding anyway.[0m
+Dec 21 08:34:40 1451651-ck91852.tw1.ru dbus-daemon[570]: [system] Activating via systemd: service name='org.freedesktop.fwupd' unit='fwupd.service' requested by ':1.555' (uid=111 pid=1039916 comm="/usr/bin/fwupdmgr refresh " label="unconfined")
+Dec 21 08:34:40 1451651-ck91852.tw1.ru sshd[1039723]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:40 1451651-ck91852.tw1.ru systemd[1]: Starting Firmware update daemon...
+-- Subject: A start job for unit fwupd.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit fwupd.service has begun execution.
+-- 
+-- The job identifier is 70080.
+Dec 21 08:34:40 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mConfiguration file /etc/systemd/system/dhclient6.service is marked world-inaccessible. This has no effect as configuration data is accessible via APIs without restrictions. Proceeding anyway.[0m
+Dec 21 08:34:40 1451651-ck91852.tw1.ru dbus-daemon[570]: [system] Successfully activated service 'org.freedesktop.fwupd'
+Dec 21 08:34:41 1451651-ck91852.tw1.ru systemd[1]: Started Firmware update daemon.
+-- Subject: A start job for unit fwupd.service has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit fwupd.service has finished successfully.
+-- 
+-- The job identifier is 70080.
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Updating lvfs
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 0%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Idle…: 100%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Idle…: 100%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 100%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 0%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 1%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 2%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 3%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 4%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 6%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 8%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 21%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 23%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 24%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 25%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 27%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 28%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 30%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 32%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 33%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 35%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 37%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 38%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 40%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 50%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 55%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 56%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 58%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 61%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 63%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 66%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 68%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 70%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 73%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 74%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 76%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 79%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 81%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 84%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 85%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 87%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 90%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 94%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 95%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Downloading…: 100%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Idle…: 100%
+Dec 21 08:34:41 1451651-ck91852.tw1.ru sshd[1039723]: Failed password for invalid user oracle from 87.227.8.85 port 37242 ssh2
+Dec 21 08:34:41 1451651-ck91852.tw1.ru sshd[1039723]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:42 1451651-ck91852.tw1.ru fwupdmgr[1039916]: Successfully downloaded new metadata: 0 local devices supported
+Dec 21 08:34:42 1451651-ck91852.tw1.ru systemd[1]: fwupd-refresh.service: Succeeded.
+-- Subject: Unit succeeded
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit fwupd-refresh.service has successfully entered the 'dead' state.
+Dec 21 08:34:42 1451651-ck91852.tw1.ru systemd[1]: Finished Refresh fwupd metadata and update motd.
+-- Subject: A start job for unit fwupd-refresh.service has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit fwupd-refresh.service has finished successfully.
+-- 
+-- The job identifier is 69850.
+Dec 21 08:34:43 1451651-ck91852.tw1.ru groupadd[1040078]: group added to /etc/group: name=rabbitmq, GID=122
+Dec 21 08:34:43 1451651-ck91852.tw1.ru groupadd[1040078]: group added to /etc/gshadow: name=rabbitmq
+Dec 21 08:34:43 1451651-ck91852.tw1.ru groupadd[1040078]: new group: name=rabbitmq, GID=122
+Dec 21 08:34:43 1451651-ck91852.tw1.ru useradd[1040098]: new user: name=rabbitmq, UID=117, GID=122, home=/var/lib/rabbitmq, shell=/usr/sbin/nologin, from=/dev/pts/1
+Dec 21 08:34:43 1451651-ck91852.tw1.ru chage[1040106]: changed password expiry for rabbitmq
+Dec 21 08:34:43 1451651-ck91852.tw1.ru chfn[1040110]: changed user 'rabbitmq' information
+Dec 21 08:34:43 1451651-ck91852.tw1.ru systemd[1]: Reloading.
+Dec 21 08:34:43 1451651-ck91852.tw1.ru sshd[1039723]: Failed password for invalid user oracle from 87.227.8.85 port 37242 ssh2
+Dec 21 08:34:43 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mConfiguration file /etc/systemd/system/dhclient6.service is marked world-inaccessible. This has no effect as configuration data is accessible via APIs without restrictions. Proceeding anyway.[0m
+Dec 21 08:34:44 1451651-ck91852.tw1.ru systemd[1]: Reloading.
+Dec 21 08:34:44 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mConfiguration file /etc/systemd/system/dhclient6.service is marked world-inaccessible. This has no effect as configuration data is accessible via APIs without restrictions. Proceeding anyway.[0m
+Dec 21 08:34:44 1451651-ck91852.tw1.ru systemd[1]: Reloading.
+Dec 21 08:34:44 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mConfiguration file /etc/systemd/system/dhclient6.service is marked world-inaccessible. This has no effect as configuration data is accessible via APIs without restrictions. Proceeding anyway.[0m
+Dec 21 08:34:44 1451651-ck91852.tw1.ru systemd[1]: Starting RabbitMQ Messaging Server...
+-- Subject: A start job for unit rabbitmq-server.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit rabbitmq-server.service has begun execution.
+-- 
+-- The job identifier is 70160.
+Dec 21 08:34:44 1451651-ck91852.tw1.ru systemd-udevd[372]: Network interface NamePolicy= disabled on kernel command line, ignoring.
+Dec 21 08:34:44 1451651-ck91852.tw1.ru sshd[1039723]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:46 1451651-ck91852.tw1.ru sshd[1039723]: Failed password for invalid user oracle from 87.227.8.85 port 37242 ssh2
+Dec 21 08:34:47 1451651-ck91852.tw1.ru sshd[1039723]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:49 1451651-ck91852.tw1.ru sshd[1039723]: Failed password for invalid user oracle from 87.227.8.85 port 37242 ssh2
+Dec 21 08:34:49 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mrabbitmq-server.service: Supervising process 1040221 which is not our child. We'll most likely not notice when it exits.[0m
+Dec 21 08:34:49 1451651-ck91852.tw1.ru systemd[1]: Started RabbitMQ Messaging Server.
+-- Subject: A start job for unit rabbitmq-server.service has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit rabbitmq-server.service has finished successfully.
+-- 
+-- The job identifier is 70160.
+Dec 21 08:34:49 1451651-ck91852.tw1.ru systemd[1]: Reloading.
+Dec 21 08:34:49 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mConfiguration file /etc/systemd/system/dhclient6.service is marked world-inaccessible. This has no effect as configuration data is accessible via APIs without restrictions. Proceeding anyway.[0m
+Dec 21 08:34:49 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mrabbitmq-server.service: Supervising process 1040221 which is not our child. We'll most likely not notice when it exits.[0m
+Dec 21 08:34:50 1451651-ck91852.tw1.ru sshd[1039723]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:50 1451651-ck91852.tw1.ru systemd-udevd[372]: Network interface NamePolicy= disabled on kernel command line, ignoring.
+Dec 21 08:34:52 1451651-ck91852.tw1.ru sshd[1039723]: Failed password for invalid user oracle from 87.227.8.85 port 37242 ssh2
+Dec 21 08:34:53 1451651-ck91852.tw1.ru sshd[1039723]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user oracle from 87.227.8.85 port 37242 ssh2 [preauth][0m
+Dec 21 08:34:53 1451651-ck91852.tw1.ru sshd[1039723]: Disconnecting invalid user oracle 87.227.8.85 port 37242: Too many authentication failures [preauth]
+Dec 21 08:34:53 1451651-ck91852.tw1.ru sshd[1039723]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:34:53 1451651-ck91852.tw1.ru sshd[1039723]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:34:55 1451651-ck91852.tw1.ru sshd[1040820]: Invalid user oracle from 87.227.8.85 port 39680
+Dec 21 08:34:55 1451651-ck91852.tw1.ru sshd[1040820]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:55 1451651-ck91852.tw1.ru sshd[1040820]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:34:55 1451651-ck91852.tw1.ru sudo[1039488]: pam_unix(sudo:session): session closed for user root
+Dec 21 08:34:57 1451651-ck91852.tw1.ru sshd[1040820]: Failed password for invalid user oracle from 87.227.8.85 port 39680 ssh2
+Dec 21 08:34:58 1451651-ck91852.tw1.ru sshd[1040820]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:34:58 1451651-ck91852.tw1.ru sudo[1040871]: [0;1;39m[0;1;31m[0;1;39m    root : TTY=pts/0 ; PWD=/var/www/crm/zulakfa_crm/crm ; USER=root ; COMMAND=/usr/sbin/service rabbitmq-server start[0m
+Dec 21 08:34:58 1451651-ck91852.tw1.ru sudo[1040871]: pam_unix(sudo:session): session opened for user root by (uid=0)
+Dec 21 08:34:58 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mConfiguration file /etc/systemd/system/dhclient6.service is marked world-inaccessible. This has no effect as configuration data is accessible via APIs without restrictions. Proceeding anyway.[0m
+Dec 21 08:34:59 1451651-ck91852.tw1.ru sudo[1040871]: pam_unix(sudo:session): session closed for user root
+Dec 21 08:34:59 1451651-ck91852.tw1.ru sshd[1040820]: Failed password for invalid user oracle from 87.227.8.85 port 39680 ssh2
+Dec 21 08:35:01 1451651-ck91852.tw1.ru sshd[1040820]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:01 1451651-ck91852.tw1.ru CRON[1040896]: pam_unix(cron:session): session opened for user root by (uid=0)
+Dec 21 08:35:01 1451651-ck91852.tw1.ru CRON[1040897]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+Dec 21 08:35:01 1451651-ck91852.tw1.ru CRON[1040896]: pam_unix(cron:session): session closed for user root
+Dec 21 08:35:03 1451651-ck91852.tw1.ru sshd[1040820]: Failed password for invalid user oracle from 87.227.8.85 port 39680 ssh2
+Dec 21 08:35:03 1451651-ck91852.tw1.ru sudo[1040913]: [0;1;39m[0;1;31m[0;1;39m    root : TTY=pts/0 ; PWD=/var/www/crm/zulakfa_crm/crm ; USER=root ; COMMAND=/usr/sbin/service rabbitmq-server enable[0m
+Dec 21 08:35:03 1451651-ck91852.tw1.ru sudo[1040913]: pam_unix(sudo:session): session opened for user root by (uid=0)
+Dec 21 08:35:03 1451651-ck91852.tw1.ru sudo[1040913]: pam_unix(sudo:session): session closed for user root
+Dec 21 08:35:04 1451651-ck91852.tw1.ru sshd[1040820]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:05 1451651-ck91852.tw1.ru sshd[1040820]: Failed password for invalid user oracle from 87.227.8.85 port 39680 ssh2
+Dec 21 08:35:06 1451651-ck91852.tw1.ru sshd[1040820]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:08 1451651-ck91852.tw1.ru sshd[1040820]: Failed password for invalid user oracle from 87.227.8.85 port 39680 ssh2
+Dec 21 08:35:09 1451651-ck91852.tw1.ru sshd[1040820]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:10 1451651-ck91852.tw1.ru sshd[1040958]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=178.128.245.30  user=root[0m
+Dec 21 08:35:12 1451651-ck91852.tw1.ru sshd[1040820]: Failed password for invalid user oracle from 87.227.8.85 port 39680 ssh2
+Dec 21 08:35:12 1451651-ck91852.tw1.ru sshd[1040958]: Failed password for root from 178.128.245.30 port 45156 ssh2
+Dec 21 08:35:12 1451651-ck91852.tw1.ru sshd[1040958]: Connection closed by authenticating user root 178.128.245.30 port 45156 [preauth]
+Dec 21 08:35:12 1451651-ck91852.tw1.ru sshd[1040820]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user oracle from 87.227.8.85 port 39680 ssh2 [preauth][0m
+Dec 21 08:35:12 1451651-ck91852.tw1.ru sshd[1040820]: Disconnecting invalid user oracle 87.227.8.85 port 39680: Too many authentication failures [preauth]
+Dec 21 08:35:12 1451651-ck91852.tw1.ru sshd[1040820]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:35:12 1451651-ck91852.tw1.ru sshd[1040820]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:35:13 1451651-ck91852.tw1.ru systemd[1038454]: Started D-Bus User Message Bus.
+-- Subject: A start job for unit UNIT has finished successfully
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit UNIT has finished successfully.
+-- 
+-- The job identifier is 16.
+Dec 21 08:35:13 1451651-ck91852.tw1.ru dbus-daemon[1040975]: [session uid=0 pid=1040975] AppArmor D-Bus mediation is enabled
+Dec 21 08:35:14 1451651-ck91852.tw1.ru sshd[1040962]: Invalid user oracle from 87.227.8.85 port 42298
+Dec 21 08:35:14 1451651-ck91852.tw1.ru sshd[1040962]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:14 1451651-ck91852.tw1.ru sshd[1040962]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:35:16 1451651-ck91852.tw1.ru sshd[1040962]: Failed password for invalid user oracle from 87.227.8.85 port 42298 ssh2
+Dec 21 08:35:17 1451651-ck91852.tw1.ru sshd[1040962]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:19 1451651-ck91852.tw1.ru sshd[1040962]: Failed password for invalid user oracle from 87.227.8.85 port 42298 ssh2
+Dec 21 08:35:20 1451651-ck91852.tw1.ru sshd[1040962]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:21 1451651-ck91852.tw1.ru sshd[1040962]: Failed password for invalid user oracle from 87.227.8.85 port 42298 ssh2
+Dec 21 08:35:23 1451651-ck91852.tw1.ru sshd[1040962]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:24 1451651-ck91852.tw1.ru sshd[1040962]: Failed password for invalid user oracle from 87.227.8.85 port 42298 ssh2
+Dec 21 08:35:25 1451651-ck91852.tw1.ru sshd[1040962]: Received disconnect from 87.227.8.85 port 42298:11: disconnected by user [preauth]
+Dec 21 08:35:25 1451651-ck91852.tw1.ru sshd[1040962]: Disconnected from invalid user oracle 87.227.8.85 port 42298 [preauth]
+Dec 21 08:35:25 1451651-ck91852.tw1.ru sshd[1040962]: [0;1;39m[0;1;31m[0;1;39mPAM 3 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:35:25 1451651-ck91852.tw1.ru sshd[1040962]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 4 > 3[0m
+Dec 21 08:35:27 1451651-ck91852.tw1.ru sshd[1041131]: Invalid user usuario from 87.227.8.85 port 44158
+Dec 21 08:35:27 1451651-ck91852.tw1.ru sshd[1041131]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:27 1451651-ck91852.tw1.ru sshd[1041131]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:35:29 1451651-ck91852.tw1.ru sshd[1041131]: Failed password for invalid user usuario from 87.227.8.85 port 44158 ssh2
+Dec 21 08:35:30 1451651-ck91852.tw1.ru sshd[1041131]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:32 1451651-ck91852.tw1.ru sshd[1041131]: Failed password for invalid user usuario from 87.227.8.85 port 44158 ssh2
+Dec 21 08:35:34 1451651-ck91852.tw1.ru sshd[1041131]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:35 1451651-ck91852.tw1.ru sshd[1041131]: Failed password for invalid user usuario from 87.227.8.85 port 44158 ssh2
+Dec 21 08:35:35 1451651-ck91852.tw1.ru sshd[1041131]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:37 1451651-ck91852.tw1.ru sshd[1041131]: Failed password for invalid user usuario from 87.227.8.85 port 44158 ssh2
+Dec 21 08:35:39 1451651-ck91852.tw1.ru sshd[1041131]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:41 1451651-ck91852.tw1.ru sshd[1041131]: Failed password for invalid user usuario from 87.227.8.85 port 44158 ssh2
+Dec 21 08:35:42 1451651-ck91852.tw1.ru sshd[1041131]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:44 1451651-ck91852.tw1.ru sshd[1041131]: Failed password for invalid user usuario from 87.227.8.85 port 44158 ssh2
+Dec 21 08:35:46 1451651-ck91852.tw1.ru sshd[1041131]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user usuario from 87.227.8.85 port 44158 ssh2 [preauth][0m
+Dec 21 08:35:46 1451651-ck91852.tw1.ru sshd[1041131]: Disconnecting invalid user usuario 87.227.8.85 port 44158: Too many authentication failures [preauth]
+Dec 21 08:35:46 1451651-ck91852.tw1.ru sshd[1041131]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:35:46 1451651-ck91852.tw1.ru sshd[1041131]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:35:47 1451651-ck91852.tw1.ru sshd[1041190]: Invalid user usuario from 87.227.8.85 port 46914
+Dec 21 08:35:47 1451651-ck91852.tw1.ru sshd[1041190]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:47 1451651-ck91852.tw1.ru sshd[1041190]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:35:48 1451651-ck91852.tw1.ru sshd[1041190]: Failed password for invalid user usuario from 87.227.8.85 port 46914 ssh2
+Dec 21 08:35:50 1451651-ck91852.tw1.ru sshd[1041190]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:53 1451651-ck91852.tw1.ru sshd[1041190]: Failed password for invalid user usuario from 87.227.8.85 port 46914 ssh2
+Dec 21 08:35:53 1451651-ck91852.tw1.ru sshd[1041190]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:55 1451651-ck91852.tw1.ru sshd[1041190]: Failed password for invalid user usuario from 87.227.8.85 port 46914 ssh2
+Dec 21 08:35:55 1451651-ck91852.tw1.ru sshd[1041190]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:35:55 1451651-ck91852.tw1.ru sudo[1041223]: [0;1;39m[0;1;31m[0;1;39m    root : TTY=pts/0 ; PWD=/var/www/crm/zulakfa_crm/crm ; USER=root ; COMMAND=/usr/bin/apt-get install -y librabbitmq-dev[0m
+Dec 21 08:35:55 1451651-ck91852.tw1.ru sudo[1041223]: pam_unix(sudo:session): session opened for user root by (uid=0)
+Dec 21 08:35:57 1451651-ck91852.tw1.ru sshd[1041190]: Failed password for invalid user usuario from 87.227.8.85 port 46914 ssh2
+Dec 21 08:35:59 1451651-ck91852.tw1.ru sshd[1041190]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:01 1451651-ck91852.tw1.ru sshd[1041190]: Failed password for invalid user usuario from 87.227.8.85 port 46914 ssh2
+Dec 21 08:36:02 1451651-ck91852.tw1.ru sshd[1041190]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:03 1451651-ck91852.tw1.ru sudo[1041223]: pam_unix(sudo:session): session closed for user root
+Dec 21 08:36:05 1451651-ck91852.tw1.ru sshd[1041190]: Failed password for invalid user usuario from 87.227.8.85 port 46914 ssh2
+Dec 21 08:36:06 1451651-ck91852.tw1.ru sshd[1041190]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user usuario from 87.227.8.85 port 46914 ssh2 [preauth][0m
+Dec 21 08:36:06 1451651-ck91852.tw1.ru sshd[1041190]: Disconnecting invalid user usuario 87.227.8.85 port 46914: Too many authentication failures [preauth]
+Dec 21 08:36:06 1451651-ck91852.tw1.ru sshd[1041190]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:36:06 1451651-ck91852.tw1.ru sshd[1041190]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:36:07 1451651-ck91852.tw1.ru sshd[1041447]: Invalid user usuario from 87.227.8.85 port 49626
+Dec 21 08:36:07 1451651-ck91852.tw1.ru sshd[1041447]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:07 1451651-ck91852.tw1.ru sshd[1041447]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:36:07 1451651-ck91852.tw1.ru sshd[1041449]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=138.197.155.7  user=root[0m
+Dec 21 08:36:09 1451651-ck91852.tw1.ru sshd[1041447]: Failed password for invalid user usuario from 87.227.8.85 port 49626 ssh2
+Dec 21 08:36:09 1451651-ck91852.tw1.ru sshd[1041449]: Failed password for root from 138.197.155.7 port 53382 ssh2
+Dec 21 08:36:10 1451651-ck91852.tw1.ru sshd[1041449]: Connection closed by authenticating user root 138.197.155.7 port 53382 [preauth]
+Dec 21 08:36:10 1451651-ck91852.tw1.ru sshd[1041447]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:12 1451651-ck91852.tw1.ru sshd[1041447]: Failed password for invalid user usuario from 87.227.8.85 port 49626 ssh2
+Dec 21 08:36:14 1451651-ck91852.tw1.ru sshd[1041447]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:16 1451651-ck91852.tw1.ru sshd[1041447]: Failed password for invalid user usuario from 87.227.8.85 port 49626 ssh2
+Dec 21 08:36:17 1451651-ck91852.tw1.ru sshd[1041447]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:19 1451651-ck91852.tw1.ru sshd[1041447]: Failed password for invalid user usuario from 87.227.8.85 port 49626 ssh2
+Dec 21 08:36:19 1451651-ck91852.tw1.ru sshd[1041447]: Received disconnect from 87.227.8.85 port 49626:11: disconnected by user [preauth]
+Dec 21 08:36:19 1451651-ck91852.tw1.ru sshd[1041447]: Disconnected from invalid user usuario 87.227.8.85 port 49626 [preauth]
+Dec 21 08:36:19 1451651-ck91852.tw1.ru sshd[1041447]: [0;1;39m[0;1;31m[0;1;39mPAM 3 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:36:19 1451651-ck91852.tw1.ru sshd[1041447]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 4 > 3[0m
+Dec 21 08:36:20 1451651-ck91852.tw1.ru sshd[1041578]: Invalid user test from 87.227.8.85 port 51484
+Dec 21 08:36:20 1451651-ck91852.tw1.ru sshd[1041578]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:20 1451651-ck91852.tw1.ru sshd[1041578]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:36:22 1451651-ck91852.tw1.ru sshd[1041578]: Failed password for invalid user test from 87.227.8.85 port 51484 ssh2
+Dec 21 08:36:24 1451651-ck91852.tw1.ru sshd[1041578]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:26 1451651-ck91852.tw1.ru sshd[1041578]: Failed password for invalid user test from 87.227.8.85 port 51484 ssh2
+Dec 21 08:36:27 1451651-ck91852.tw1.ru sshd[1041578]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:30 1451651-ck91852.tw1.ru sshd[1041578]: Failed password for invalid user test from 87.227.8.85 port 51484 ssh2
+Dec 21 08:36:31 1451651-ck91852.tw1.ru sshd[1041578]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:33 1451651-ck91852.tw1.ru sshd[1041578]: Failed password for invalid user test from 87.227.8.85 port 51484 ssh2
+Dec 21 08:36:34 1451651-ck91852.tw1.ru sshd[1041578]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:36 1451651-ck91852.tw1.ru sshd[1041578]: Failed password for invalid user test from 87.227.8.85 port 51484 ssh2
+Dec 21 08:36:38 1451651-ck91852.tw1.ru sshd[1041578]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:40 1451651-ck91852.tw1.ru sshd[1041578]: Failed password for invalid user test from 87.227.8.85 port 51484 ssh2
+Dec 21 08:36:41 1451651-ck91852.tw1.ru sshd[1041578]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user test from 87.227.8.85 port 51484 ssh2 [preauth][0m
+Dec 21 08:36:41 1451651-ck91852.tw1.ru sshd[1041578]: Disconnecting invalid user test 87.227.8.85 port 51484: Too many authentication failures [preauth]
+Dec 21 08:36:41 1451651-ck91852.tw1.ru sshd[1041578]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:36:41 1451651-ck91852.tw1.ru sshd[1041578]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:36:43 1451651-ck91852.tw1.ru sshd[1041586]: Invalid user test from 87.227.8.85 port 54610
+Dec 21 08:36:43 1451651-ck91852.tw1.ru sshd[1041586]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:43 1451651-ck91852.tw1.ru sshd[1041586]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:36:45 1451651-ck91852.tw1.ru sshd[1041586]: Failed password for invalid user test from 87.227.8.85 port 54610 ssh2
+Dec 21 08:36:46 1451651-ck91852.tw1.ru sshd[1041586]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:48 1451651-ck91852.tw1.ru sshd[1041586]: Failed password for invalid user test from 87.227.8.85 port 54610 ssh2
+Dec 21 08:36:50 1451651-ck91852.tw1.ru sshd[1041586]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:52 1451651-ck91852.tw1.ru sshd[1041586]: Failed password for invalid user test from 87.227.8.85 port 54610 ssh2
+Dec 21 08:36:53 1451651-ck91852.tw1.ru sshd[1041586]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:55 1451651-ck91852.tw1.ru sshd[1041586]: Failed password for invalid user test from 87.227.8.85 port 54610 ssh2
+Dec 21 08:36:57 1451651-ck91852.tw1.ru sshd[1041586]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:59 1451651-ck91852.tw1.ru sshd[1041620]: Invalid user idempiere from 167.71.184.231 port 47832
+Dec 21 08:36:59 1451651-ck91852.tw1.ru sshd[1041620]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:36:59 1451651-ck91852.tw1.ru sshd[1041620]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=167.71.184.231[0m
+Dec 21 08:36:59 1451651-ck91852.tw1.ru sshd[1041586]: Failed password for invalid user test from 87.227.8.85 port 54610 ssh2
+Dec 21 08:37:00 1451651-ck91852.tw1.ru sshd[1041620]: Failed password for invalid user idempiere from 167.71.184.231 port 47832 ssh2
+Dec 21 08:37:00 1451651-ck91852.tw1.ru sshd[1041586]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:02 1451651-ck91852.tw1.ru sshd[1041620]: Connection closed by invalid user idempiere 167.71.184.231 port 47832 [preauth]
+Dec 21 08:37:03 1451651-ck91852.tw1.ru sshd[1041586]: Failed password for invalid user test from 87.227.8.85 port 54610 ssh2
+Dec 21 08:37:04 1451651-ck91852.tw1.ru sshd[1041586]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user test from 87.227.8.85 port 54610 ssh2 [preauth][0m
+Dec 21 08:37:04 1451651-ck91852.tw1.ru sshd[1041586]: Disconnecting invalid user test 87.227.8.85 port 54610: Too many authentication failures [preauth]
+Dec 21 08:37:04 1451651-ck91852.tw1.ru sshd[1041586]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:37:04 1451651-ck91852.tw1.ru sshd[1041586]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:37:05 1451651-ck91852.tw1.ru sshd[1041624]: Invalid user test from 87.227.8.85 port 57760
+Dec 21 08:37:05 1451651-ck91852.tw1.ru sshd[1041624]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:05 1451651-ck91852.tw1.ru sshd[1041624]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:37:07 1451651-ck91852.tw1.ru sshd[1041624]: Failed password for invalid user test from 87.227.8.85 port 57760 ssh2
+Dec 21 08:37:09 1451651-ck91852.tw1.ru sshd[1041624]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:11 1451651-ck91852.tw1.ru sshd[1041624]: Failed password for invalid user test from 87.227.8.85 port 57760 ssh2
+Dec 21 08:37:12 1451651-ck91852.tw1.ru sshd[1041624]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:14 1451651-ck91852.tw1.ru sshd[1041624]: Failed password for invalid user test from 87.227.8.85 port 57760 ssh2
+Dec 21 08:37:16 1451651-ck91852.tw1.ru sshd[1041624]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:17 1451651-ck91852.tw1.ru sshd[1041624]: Failed password for invalid user test from 87.227.8.85 port 57760 ssh2
+Dec 21 08:37:17 1451651-ck91852.tw1.ru sshd[1041624]: Received disconnect from 87.227.8.85 port 57760:11: disconnected by user [preauth]
+Dec 21 08:37:17 1451651-ck91852.tw1.ru sshd[1041624]: Disconnected from invalid user test 87.227.8.85 port 57760 [preauth]
+Dec 21 08:37:17 1451651-ck91852.tw1.ru sshd[1041624]: [0;1;39m[0;1;31m[0;1;39mPAM 3 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:37:17 1451651-ck91852.tw1.ru sshd[1041624]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 4 > 3[0m
+Dec 21 08:37:19 1451651-ck91852.tw1.ru sshd[1041629]: Invalid user user from 87.227.8.85 port 59622
+Dec 21 08:37:19 1451651-ck91852.tw1.ru sshd[1041629]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:19 1451651-ck91852.tw1.ru sshd[1041629]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:37:19 1451651-ck91852.tw1.ru sudo[1041634]: [0;1;39m[0;1;31m[0;1;39m    root : TTY=pts/0 ; PWD=/var/www/crm/zulakfa_crm/crm ; USER=root ; COMMAND=/usr/bin/apt-get install -y build-essential[0m
+Dec 21 08:37:19 1451651-ck91852.tw1.ru sudo[1041634]: pam_unix(sudo:session): session opened for user root by (uid=0)
+Dec 21 08:37:20 1451651-ck91852.tw1.ru sudo[1041634]: pam_unix(sudo:session): session closed for user root
+Dec 21 08:37:21 1451651-ck91852.tw1.ru sshd[1041629]: Failed password for invalid user user from 87.227.8.85 port 59622 ssh2
+Dec 21 08:37:23 1451651-ck91852.tw1.ru sshd[1041629]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:25 1451651-ck91852.tw1.ru sshd[1041629]: Failed password for invalid user user from 87.227.8.85 port 59622 ssh2
+Dec 21 08:37:26 1451651-ck91852.tw1.ru sshd[1041629]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:28 1451651-ck91852.tw1.ru sshd[1041629]: Failed password for invalid user user from 87.227.8.85 port 59622 ssh2
+Dec 21 08:37:31 1451651-ck91852.tw1.ru sshd[1041629]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:33 1451651-ck91852.tw1.ru sshd[1041629]: Failed password for invalid user user from 87.227.8.85 port 59622 ssh2
+Dec 21 08:37:34 1451651-ck91852.tw1.ru sudo[1041692]: [0;1;39m[0;1;31m[0;1;39m    root : TTY=pts/0 ; PWD=/var/www/crm/zulakfa_crm/crm ; USER=root ; COMMAND=/usr/bin/apt-get install -y librabbitmq-dev[0m
+Dec 21 08:37:34 1451651-ck91852.tw1.ru sudo[1041692]: pam_unix(sudo:session): session opened for user root by (uid=0)
+Dec 21 08:37:35 1451651-ck91852.tw1.ru sudo[1041692]: pam_unix(sudo:session): session closed for user root
+Dec 21 08:37:35 1451651-ck91852.tw1.ru sshd[1041629]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:37 1451651-ck91852.tw1.ru sshd[1041629]: Failed password for invalid user user from 87.227.8.85 port 59622 ssh2
+Dec 21 08:37:38 1451651-ck91852.tw1.ru sshd[1041629]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:40 1451651-ck91852.tw1.ru sshd[1041629]: Failed password for invalid user user from 87.227.8.85 port 59622 ssh2
+Dec 21 08:37:40 1451651-ck91852.tw1.ru sshd[1041629]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user user from 87.227.8.85 port 59622 ssh2 [preauth][0m
+Dec 21 08:37:40 1451651-ck91852.tw1.ru sshd[1041629]: Disconnecting invalid user user 87.227.8.85 port 59622: Too many authentication failures [preauth]
+Dec 21 08:37:40 1451651-ck91852.tw1.ru sshd[1041629]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:37:40 1451651-ck91852.tw1.ru sshd[1041629]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:37:41 1451651-ck91852.tw1.ru sshd[1041724]: Invalid user user from 87.227.8.85 port 34436
+Dec 21 08:37:41 1451651-ck91852.tw1.ru sshd[1041724]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:41 1451651-ck91852.tw1.ru sshd[1041724]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:37:43 1451651-ck91852.tw1.ru sshd[1041724]: Failed password for invalid user user from 87.227.8.85 port 34436 ssh2
+Dec 21 08:37:43 1451651-ck91852.tw1.ru sshd[1041724]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:46 1451651-ck91852.tw1.ru sshd[1041724]: Failed password for invalid user user from 87.227.8.85 port 34436 ssh2
+Dec 21 08:37:48 1451651-ck91852.tw1.ru sshd[1041724]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:50 1451651-ck91852.tw1.ru sshd[1041724]: Failed password for invalid user user from 87.227.8.85 port 34436 ssh2
+Dec 21 08:37:50 1451651-ck91852.tw1.ru sshd[1041724]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:52 1451651-ck91852.tw1.ru sshd[1041724]: Failed password for invalid user user from 87.227.8.85 port 34436 ssh2
+Dec 21 08:37:53 1451651-ck91852.tw1.ru sshd[1041724]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:55 1451651-ck91852.tw1.ru sshd[1041724]: Failed password for invalid user user from 87.227.8.85 port 34436 ssh2
+Dec 21 08:37:55 1451651-ck91852.tw1.ru sshd[1041724]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:57 1451651-ck91852.tw1.ru sshd[1041724]: Failed password for invalid user user from 87.227.8.85 port 34436 ssh2
+Dec 21 08:37:57 1451651-ck91852.tw1.ru sshd[1041724]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user user from 87.227.8.85 port 34436 ssh2 [preauth][0m
+Dec 21 08:37:57 1451651-ck91852.tw1.ru sshd[1041724]: Disconnecting invalid user user 87.227.8.85 port 34436: Too many authentication failures [preauth]
+Dec 21 08:37:57 1451651-ck91852.tw1.ru sshd[1041724]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:37:57 1451651-ck91852.tw1.ru sshd[1041724]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:37:59 1451651-ck91852.tw1.ru sshd[1041882]: Invalid user user from 87.227.8.85 port 36768
+Dec 21 08:37:59 1451651-ck91852.tw1.ru sshd[1041882]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:37:59 1451651-ck91852.tw1.ru sshd[1041882]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:38:01 1451651-ck91852.tw1.ru sshd[1041882]: Failed password for invalid user user from 87.227.8.85 port 36768 ssh2
+Dec 21 08:38:01 1451651-ck91852.tw1.ru sshd[1041882]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:03 1451651-ck91852.tw1.ru sshd[1041882]: Failed password for invalid user user from 87.227.8.85 port 36768 ssh2
+Dec 21 08:38:03 1451651-ck91852.tw1.ru sshd[1041887]: Invalid user csserver from 104.236.199.155 port 58298
+Dec 21 08:38:03 1451651-ck91852.tw1.ru sshd[1041882]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:03 1451651-ck91852.tw1.ru sshd[1041887]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:03 1451651-ck91852.tw1.ru sshd[1041887]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=104.236.199.155[0m
+Dec 21 08:38:05 1451651-ck91852.tw1.ru sshd[1041882]: Failed password for invalid user user from 87.227.8.85 port 36768 ssh2
+Dec 21 08:38:05 1451651-ck91852.tw1.ru sshd[1041887]: Failed password for invalid user csserver from 104.236.199.155 port 58298 ssh2
+Dec 21 08:38:06 1451651-ck91852.tw1.ru sshd[1041882]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:07 1451651-ck91852.tw1.ru sshd[1041887]: Connection closed by invalid user csserver 104.236.199.155 port 58298 [preauth]
+Dec 21 08:38:08 1451651-ck91852.tw1.ru sshd[1041882]: Failed password for invalid user user from 87.227.8.85 port 36768 ssh2
+Dec 21 08:38:08 1451651-ck91852.tw1.ru sshd[1041882]: Received disconnect from 87.227.8.85 port 36768:11: disconnected by user [preauth]
+Dec 21 08:38:08 1451651-ck91852.tw1.ru sshd[1041882]: Disconnected from invalid user user 87.227.8.85 port 36768 [preauth]
+Dec 21 08:38:08 1451651-ck91852.tw1.ru sshd[1041882]: [0;1;39m[0;1;31m[0;1;39mPAM 3 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:38:08 1451651-ck91852.tw1.ru sshd[1041882]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 4 > 3[0m
+Dec 21 08:38:08 1451651-ck91852.tw1.ru sudo[1041893]: [0;1;39m[0;1;31m[0;1;39m    root : TTY=pts/0 ; PWD=/var/www/crm/zulakfa_crm/crm ; USER=root ; COMMAND=/usr/bin/apt-get install rabbitmq-server[0m
+Dec 21 08:38:08 1451651-ck91852.tw1.ru sudo[1041893]: pam_unix(sudo:session): session opened for user root by (uid=0)
+Dec 21 08:38:09 1451651-ck91852.tw1.ru sshd[1041890]: Invalid user ftpuser from 87.227.8.85 port 38174
+Dec 21 08:38:09 1451651-ck91852.tw1.ru sshd[1041890]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:09 1451651-ck91852.tw1.ru sshd[1041890]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:38:09 1451651-ck91852.tw1.ru sudo[1041893]: pam_unix(sudo:session): session closed for user root
+Dec 21 08:38:11 1451651-ck91852.tw1.ru sshd[1041890]: Failed password for invalid user ftpuser from 87.227.8.85 port 38174 ssh2
+Dec 21 08:38:12 1451651-ck91852.tw1.ru sshd[1041890]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:13 1451651-ck91852.tw1.ru sshd[1041890]: Failed password for invalid user ftpuser from 87.227.8.85 port 38174 ssh2
+Dec 21 08:38:14 1451651-ck91852.tw1.ru sshd[1041890]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:16 1451651-ck91852.tw1.ru sshd[1041890]: Failed password for invalid user ftpuser from 87.227.8.85 port 38174 ssh2
+Dec 21 08:38:17 1451651-ck91852.tw1.ru sshd[1041890]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:19 1451651-ck91852.tw1.ru sshd[1041890]: Failed password for invalid user ftpuser from 87.227.8.85 port 38174 ssh2
+Dec 21 08:38:20 1451651-ck91852.tw1.ru sshd[1041890]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:23 1451651-ck91852.tw1.ru sshd[1041890]: Failed password for invalid user ftpuser from 87.227.8.85 port 38174 ssh2
+Dec 21 08:38:23 1451651-ck91852.tw1.ru sshd[1041890]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:24 1451651-ck91852.tw1.ru sshd[1041890]: Failed password for invalid user ftpuser from 87.227.8.85 port 38174 ssh2
+Dec 21 08:38:24 1451651-ck91852.tw1.ru sshd[1041890]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user ftpuser from 87.227.8.85 port 38174 ssh2 [preauth][0m
+Dec 21 08:38:24 1451651-ck91852.tw1.ru sshd[1041890]: Disconnecting invalid user ftpuser 87.227.8.85 port 38174: Too many authentication failures [preauth]
+Dec 21 08:38:24 1451651-ck91852.tw1.ru sshd[1041890]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:38:24 1451651-ck91852.tw1.ru sshd[1041890]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:38:26 1451651-ck91852.tw1.ru sshd[1041929]: Invalid user ftpuser from 87.227.8.85 port 40394
+Dec 21 08:38:26 1451651-ck91852.tw1.ru sshd[1041929]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:26 1451651-ck91852.tw1.ru sshd[1041929]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:38:27 1451651-ck91852.tw1.ru sshd[1041929]: Failed password for invalid user ftpuser from 87.227.8.85 port 40394 ssh2
+Dec 21 08:38:28 1451651-ck91852.tw1.ru sshd[1041929]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:31 1451651-ck91852.tw1.ru sshd[1041929]: Failed password for invalid user ftpuser from 87.227.8.85 port 40394 ssh2
+Dec 21 08:38:31 1451651-ck91852.tw1.ru sshd[1041929]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:33 1451651-ck91852.tw1.ru sshd[1041929]: Failed password for invalid user ftpuser from 87.227.8.85 port 40394 ssh2
+Dec 21 08:38:34 1451651-ck91852.tw1.ru sshd[1041929]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:36 1451651-ck91852.tw1.ru sshd[1041929]: Failed password for invalid user ftpuser from 87.227.8.85 port 40394 ssh2
+Dec 21 08:38:37 1451651-ck91852.tw1.ru sshd[1041929]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:39 1451651-ck91852.tw1.ru sshd[1041929]: Failed password for invalid user ftpuser from 87.227.8.85 port 40394 ssh2
+Dec 21 08:38:40 1451651-ck91852.tw1.ru sshd[1041929]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:42 1451651-ck91852.tw1.ru sshd[1041929]: Failed password for invalid user ftpuser from 87.227.8.85 port 40394 ssh2
+Dec 21 08:38:43 1451651-ck91852.tw1.ru sshd[1041929]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user ftpuser from 87.227.8.85 port 40394 ssh2 [preauth][0m
+Dec 21 08:38:43 1451651-ck91852.tw1.ru sshd[1041929]: Disconnecting invalid user ftpuser 87.227.8.85 port 40394: Too many authentication failures [preauth]
+Dec 21 08:38:43 1451651-ck91852.tw1.ru sshd[1041929]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:38:43 1451651-ck91852.tw1.ru sshd[1041929]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:38:44 1451651-ck91852.tw1.ru sshd[1041973]: Invalid user ftpuser from 87.227.8.85 port 42870
+Dec 21 08:38:44 1451651-ck91852.tw1.ru sshd[1041973]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:44 1451651-ck91852.tw1.ru sshd[1041973]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:38:46 1451651-ck91852.tw1.ru sshd[1041973]: Failed password for invalid user ftpuser from 87.227.8.85 port 42870 ssh2
+Dec 21 08:38:47 1451651-ck91852.tw1.ru sshd[1041973]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:48 1451651-ck91852.tw1.ru sshd[1041973]: Failed password for invalid user ftpuser from 87.227.8.85 port 42870 ssh2
+Dec 21 08:38:48 1451651-ck91852.tw1.ru sshd[1041973]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:50 1451651-ck91852.tw1.ru sshd[1041973]: Failed password for invalid user ftpuser from 87.227.8.85 port 42870 ssh2
+Dec 21 08:38:51 1451651-ck91852.tw1.ru sshd[1041973]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:54 1451651-ck91852.tw1.ru sshd[1041973]: Failed password for invalid user ftpuser from 87.227.8.85 port 42870 ssh2
+Dec 21 08:38:54 1451651-ck91852.tw1.ru sshd[1041973]: Received disconnect from 87.227.8.85 port 42870:11: disconnected by user [preauth]
+Dec 21 08:38:54 1451651-ck91852.tw1.ru sshd[1041973]: Disconnected from invalid user ftpuser 87.227.8.85 port 42870 [preauth]
+Dec 21 08:38:54 1451651-ck91852.tw1.ru sshd[1041973]: [0;1;39m[0;1;31m[0;1;39mPAM 3 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:38:54 1451651-ck91852.tw1.ru sshd[1041973]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 4 > 3[0m
+Dec 21 08:38:54 1451651-ck91852.tw1.ru sshd[1042424]: Invalid user test1 from 87.227.8.85 port 44318
+Dec 21 08:38:54 1451651-ck91852.tw1.ru sshd[1042424]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:54 1451651-ck91852.tw1.ru sshd[1042424]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:38:56 1451651-ck91852.tw1.ru sshd[1042424]: Failed password for invalid user test1 from 87.227.8.85 port 44318 ssh2
+Dec 21 08:38:57 1451651-ck91852.tw1.ru sshd[1042424]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:38:59 1451651-ck91852.tw1.ru sshd[1042424]: Failed password for invalid user test1 from 87.227.8.85 port 44318 ssh2
+Dec 21 08:38:59 1451651-ck91852.tw1.ru sshd[1042424]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:00 1451651-ck91852.tw1.ru sshd[1042424]: Failed password for invalid user test1 from 87.227.8.85 port 44318 ssh2
+Dec 21 08:39:01 1451651-ck91852.tw1.ru sshd[1042424]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:03 1451651-ck91852.tw1.ru sshd[1042424]: Failed password for invalid user test1 from 87.227.8.85 port 44318 ssh2
+Dec 21 08:39:04 1451651-ck91852.tw1.ru sshd[1042424]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:06 1451651-ck91852.tw1.ru sshd[1042424]: Failed password for invalid user test1 from 87.227.8.85 port 44318 ssh2
+Dec 21 08:39:09 1451651-ck91852.tw1.ru sshd[1042424]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:11 1451651-ck91852.tw1.ru sshd[1042424]: Failed password for invalid user test1 from 87.227.8.85 port 44318 ssh2
+Dec 21 08:39:11 1451651-ck91852.tw1.ru sshd[1042424]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user test1 from 87.227.8.85 port 44318 ssh2 [preauth][0m
+Dec 21 08:39:11 1451651-ck91852.tw1.ru sshd[1042424]: Disconnecting invalid user test1 87.227.8.85 port 44318: Too many authentication failures [preauth]
+Dec 21 08:39:11 1451651-ck91852.tw1.ru sshd[1042424]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:39:11 1451651-ck91852.tw1.ru sshd[1042424]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:39:12 1451651-ck91852.tw1.ru sshd[1042549]: Invalid user test1 from 87.227.8.85 port 46682
+Dec 21 08:39:12 1451651-ck91852.tw1.ru sshd[1042549]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:12 1451651-ck91852.tw1.ru sshd[1042549]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:39:14 1451651-ck91852.tw1.ru sshd[1042549]: Failed password for invalid user test1 from 87.227.8.85 port 46682 ssh2
+Dec 21 08:39:15 1451651-ck91852.tw1.ru sshd[1042549]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:17 1451651-ck91852.tw1.ru sshd[1042549]: Failed password for invalid user test1 from 87.227.8.85 port 46682 ssh2
+Dec 21 08:39:19 1451651-ck91852.tw1.ru sshd[1042549]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:21 1451651-ck91852.tw1.ru sshd[1042549]: Failed password for invalid user test1 from 87.227.8.85 port 46682 ssh2
+Dec 21 08:39:22 1451651-ck91852.tw1.ru sshd[1042549]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:24 1451651-ck91852.tw1.ru sshd[1042549]: Failed password for invalid user test1 from 87.227.8.85 port 46682 ssh2
+Dec 21 08:39:27 1451651-ck91852.tw1.ru sshd[1042549]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:29 1451651-ck91852.tw1.ru sshd[1042549]: Failed password for invalid user test1 from 87.227.8.85 port 46682 ssh2
+Dec 21 08:39:31 1451651-ck91852.tw1.ru sshd[1042549]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:33 1451651-ck91852.tw1.ru sshd[1042549]: Failed password for invalid user test1 from 87.227.8.85 port 46682 ssh2
+Dec 21 08:39:34 1451651-ck91852.tw1.ru sshd[1042549]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user test1 from 87.227.8.85 port 46682 ssh2 [preauth][0m
+Dec 21 08:39:34 1451651-ck91852.tw1.ru sshd[1042549]: Disconnecting invalid user test1 87.227.8.85 port 46682: Too many authentication failures [preauth]
+Dec 21 08:39:34 1451651-ck91852.tw1.ru sshd[1042549]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:39:34 1451651-ck91852.tw1.ru sshd[1042549]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:39:35 1451651-ck91852.tw1.ru sshd[1042559]: Invalid user test1 from 87.227.8.85 port 49740
+Dec 21 08:39:35 1451651-ck91852.tw1.ru sshd[1042559]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:35 1451651-ck91852.tw1.ru sshd[1042559]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:39:36 1451651-ck91852.tw1.ru sshd[1042559]: Failed password for invalid user test1 from 87.227.8.85 port 49740 ssh2
+Dec 21 08:39:37 1451651-ck91852.tw1.ru sshd[1042559]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:39 1451651-ck91852.tw1.ru sshd[1042559]: Failed password for invalid user test1 from 87.227.8.85 port 49740 ssh2
+Dec 21 08:39:40 1451651-ck91852.tw1.ru sshd[1042559]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:42 1451651-ck91852.tw1.ru sshd[1042559]: Failed password for invalid user test1 from 87.227.8.85 port 49740 ssh2
+Dec 21 08:39:42 1451651-ck91852.tw1.ru sshd[1042559]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:44 1451651-ck91852.tw1.ru sshd[1042559]: Failed password for invalid user test1 from 87.227.8.85 port 49740 ssh2
+Dec 21 08:39:44 1451651-ck91852.tw1.ru sshd[1042559]: Received disconnect from 87.227.8.85 port 49740:11: disconnected by user [preauth]
+Dec 21 08:39:44 1451651-ck91852.tw1.ru sshd[1042559]: Disconnected from invalid user test1 87.227.8.85 port 49740 [preauth]
+Dec 21 08:39:44 1451651-ck91852.tw1.ru sshd[1042559]: [0;1;39m[0;1;31m[0;1;39mPAM 3 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:39:44 1451651-ck91852.tw1.ru sshd[1042559]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 4 > 3[0m
+Dec 21 08:39:45 1451651-ck91852.tw1.ru sshd[1042580]: Invalid user test2 from 87.227.8.85 port 51156
+Dec 21 08:39:45 1451651-ck91852.tw1.ru sshd[1042580]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:45 1451651-ck91852.tw1.ru sshd[1042580]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:39:47 1451651-ck91852.tw1.ru sshd[1042580]: Failed password for invalid user test2 from 87.227.8.85 port 51156 ssh2
+Dec 21 08:39:48 1451651-ck91852.tw1.ru sshd[1042580]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:49 1451651-ck91852.tw1.ru sshd[1042580]: Failed password for invalid user test2 from 87.227.8.85 port 51156 ssh2
+Dec 21 08:39:49 1451651-ck91852.tw1.ru sshd[1042580]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:51 1451651-ck91852.tw1.ru sshd[1042580]: Failed password for invalid user test2 from 87.227.8.85 port 51156 ssh2
+Dec 21 08:39:52 1451651-ck91852.tw1.ru sshd[1042580]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:54 1451651-ck91852.tw1.ru sshd[1042580]: Failed password for invalid user test2 from 87.227.8.85 port 51156 ssh2
+Dec 21 08:39:54 1451651-ck91852.tw1.ru sshd[1042580]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:56 1451651-ck91852.tw1.ru sshd[1042580]: Failed password for invalid user test2 from 87.227.8.85 port 51156 ssh2
+Dec 21 08:39:57 1451651-ck91852.tw1.ru sshd[1042580]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:39:59 1451651-ck91852.tw1.ru sshd[1042580]: Failed password for invalid user test2 from 87.227.8.85 port 51156 ssh2
+Dec 21 08:40:00 1451651-ck91852.tw1.ru sshd[1042580]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user test2 from 87.227.8.85 port 51156 ssh2 [preauth][0m
+Dec 21 08:40:00 1451651-ck91852.tw1.ru sshd[1042580]: Disconnecting invalid user test2 87.227.8.85 port 51156: Too many authentication failures [preauth]
+Dec 21 08:40:00 1451651-ck91852.tw1.ru sshd[1042580]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:40:00 1451651-ck91852.tw1.ru sshd[1042580]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:40:00 1451651-ck91852.tw1.ru sshd[1042627]: Invalid user test2 from 87.227.8.85 port 53108
+Dec 21 08:40:00 1451651-ck91852.tw1.ru sshd[1042627]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:00 1451651-ck91852.tw1.ru sshd[1042627]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:40:02 1451651-ck91852.tw1.ru sshd[1042627]: Failed password for invalid user test2 from 87.227.8.85 port 53108 ssh2
+Dec 21 08:40:02 1451651-ck91852.tw1.ru sshd[1042627]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:04 1451651-ck91852.tw1.ru sshd[1042627]: Failed password for invalid user test2 from 87.227.8.85 port 53108 ssh2
+Dec 21 08:40:04 1451651-ck91852.tw1.ru sshd[1042627]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:07 1451651-ck91852.tw1.ru sshd[1042627]: Failed password for invalid user test2 from 87.227.8.85 port 53108 ssh2
+Dec 21 08:40:07 1451651-ck91852.tw1.ru sshd[1042627]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:09 1451651-ck91852.tw1.ru sshd[1042627]: Failed password for invalid user test2 from 87.227.8.85 port 53108 ssh2
+Dec 21 08:40:10 1451651-ck91852.tw1.ru sshd[1042627]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:12 1451651-ck91852.tw1.ru sshd[1042627]: Failed password for invalid user test2 from 87.227.8.85 port 53108 ssh2
+Dec 21 08:40:12 1451651-ck91852.tw1.ru sshd[1042627]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:14 1451651-ck91852.tw1.ru sshd[1042627]: Failed password for invalid user test2 from 87.227.8.85 port 53108 ssh2
+Dec 21 08:40:14 1451651-ck91852.tw1.ru sshd[1042627]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user test2 from 87.227.8.85 port 53108 ssh2 [preauth][0m
+Dec 21 08:40:14 1451651-ck91852.tw1.ru sshd[1042627]: Disconnecting invalid user test2 87.227.8.85 port 53108: Too many authentication failures [preauth]
+Dec 21 08:40:14 1451651-ck91852.tw1.ru sshd[1042627]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:40:14 1451651-ck91852.tw1.ru sshd[1042627]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:40:15 1451651-ck91852.tw1.ru sshd[1042657]: Invalid user test2 from 87.227.8.85 port 54910
+Dec 21 08:40:15 1451651-ck91852.tw1.ru sshd[1042657]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:15 1451651-ck91852.tw1.ru sshd[1042657]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:40:17 1451651-ck91852.tw1.ru sshd[1042657]: Failed password for invalid user test2 from 87.227.8.85 port 54910 ssh2
+Dec 21 08:40:17 1451651-ck91852.tw1.ru sshd[1042657]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:19 1451651-ck91852.tw1.ru sshd[1042657]: Failed password for invalid user test2 from 87.227.8.85 port 54910 ssh2
+Dec 21 08:40:20 1451651-ck91852.tw1.ru sshd[1042657]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:22 1451651-ck91852.tw1.ru sshd[1042657]: Failed password for invalid user test2 from 87.227.8.85 port 54910 ssh2
+Dec 21 08:40:23 1451651-ck91852.tw1.ru sshd[1042657]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:25 1451651-ck91852.tw1.ru sshd[1042657]: Failed password for invalid user test2 from 87.227.8.85 port 54910 ssh2
+Dec 21 08:40:25 1451651-ck91852.tw1.ru sshd[1042657]: Received disconnect from 87.227.8.85 port 54910:11: disconnected by user [preauth]
+Dec 21 08:40:25 1451651-ck91852.tw1.ru sshd[1042657]: Disconnected from invalid user test2 87.227.8.85 port 54910 [preauth]
+Dec 21 08:40:25 1451651-ck91852.tw1.ru sshd[1042657]: [0;1;39m[0;1;31m[0;1;39mPAM 3 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:40:25 1451651-ck91852.tw1.ru sshd[1042657]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 4 > 3[0m
+Dec 21 08:40:26 1451651-ck91852.tw1.ru sshd[1042667]: Invalid user contador from 87.227.8.85 port 56378
+Dec 21 08:40:26 1451651-ck91852.tw1.ru sshd[1042667]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:26 1451651-ck91852.tw1.ru sshd[1042667]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:40:28 1451651-ck91852.tw1.ru sshd[1042667]: Failed password for invalid user contador from 87.227.8.85 port 56378 ssh2
+Dec 21 08:40:30 1451651-ck91852.tw1.ru sshd[1042667]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:31 1451651-ck91852.tw1.ru sshd[1042667]: Failed password for invalid user contador from 87.227.8.85 port 56378 ssh2
+Dec 21 08:40:31 1451651-ck91852.tw1.ru sshd[1042667]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:33 1451651-ck91852.tw1.ru sshd[1042667]: Failed password for invalid user contador from 87.227.8.85 port 56378 ssh2
+Dec 21 08:40:33 1451651-ck91852.tw1.ru sshd[1042667]: Received disconnect from 87.227.8.85 port 56378:11: disconnected by user [preauth]
+Dec 21 08:40:33 1451651-ck91852.tw1.ru sshd[1042667]: Disconnected from invalid user contador 87.227.8.85 port 56378 [preauth]
+Dec 21 08:40:33 1451651-ck91852.tw1.ru sshd[1042667]: [0;1;39m[0;1;31m[0;1;39mPAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:40:34 1451651-ck91852.tw1.ru sshd[1042696]: Invalid user ubuntu from 87.227.8.85 port 57372
+Dec 21 08:40:34 1451651-ck91852.tw1.ru sshd[1042696]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:34 1451651-ck91852.tw1.ru sshd[1042696]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:40:36 1451651-ck91852.tw1.ru sshd[1042696]: Failed password for invalid user ubuntu from 87.227.8.85 port 57372 ssh2
+Dec 21 08:40:38 1451651-ck91852.tw1.ru sshd[1042711]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=178.128.245.30  user=root[0m
+Dec 21 08:40:38 1451651-ck91852.tw1.ru sshd[1042696]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:40 1451651-ck91852.tw1.ru sshd[1042711]: Failed password for root from 178.128.245.30 port 46486 ssh2
+Dec 21 08:40:40 1451651-ck91852.tw1.ru sshd[1042696]: Failed password for invalid user ubuntu from 87.227.8.85 port 57372 ssh2
+Dec 21 08:40:40 1451651-ck91852.tw1.ru sshd[1042696]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:41 1451651-ck91852.tw1.ru sshd[1042711]: Connection closed by authenticating user root 178.128.245.30 port 46486 [preauth]
+Dec 21 08:40:42 1451651-ck91852.tw1.ru sshd[1042696]: Failed password for invalid user ubuntu from 87.227.8.85 port 57372 ssh2
+Dec 21 08:40:44 1451651-ck91852.tw1.ru sshd[1042696]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:46 1451651-ck91852.tw1.ru sshd[1042696]: Failed password for invalid user ubuntu from 87.227.8.85 port 57372 ssh2
+Dec 21 08:40:48 1451651-ck91852.tw1.ru sshd[1042696]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:49 1451651-ck91852.tw1.ru sshd[1042696]: Failed password for invalid user ubuntu from 87.227.8.85 port 57372 ssh2
+Dec 21 08:40:49 1451651-ck91852.tw1.ru sshd[1042696]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:51 1451651-ck91852.tw1.ru sshd[1042696]: Failed password for invalid user ubuntu from 87.227.8.85 port 57372 ssh2
+Dec 21 08:40:51 1451651-ck91852.tw1.ru sshd[1042696]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user ubuntu from 87.227.8.85 port 57372 ssh2 [preauth][0m
+Dec 21 08:40:51 1451651-ck91852.tw1.ru sshd[1042696]: Disconnecting invalid user ubuntu 87.227.8.85 port 57372: Too many authentication failures [preauth]
+Dec 21 08:40:51 1451651-ck91852.tw1.ru sshd[1042696]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:40:51 1451651-ck91852.tw1.ru sshd[1042696]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:40:52 1451651-ck91852.tw1.ru sshd[1042758]: Invalid user ubuntu from 87.227.8.85 port 59912
+Dec 21 08:40:52 1451651-ck91852.tw1.ru sshd[1042758]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:52 1451651-ck91852.tw1.ru sshd[1042758]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:40:55 1451651-ck91852.tw1.ru sshd[1042758]: Failed password for invalid user ubuntu from 87.227.8.85 port 59912 ssh2
+Dec 21 08:40:56 1451651-ck91852.tw1.ru sshd[1042758]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:40:58 1451651-ck91852.tw1.ru sshd[1042758]: Failed password for invalid user ubuntu from 87.227.8.85 port 59912 ssh2
+Dec 21 08:41:00 1451651-ck91852.tw1.ru sshd[1042758]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:41:02 1451651-ck91852.tw1.ru sshd[1042758]: Failed password for invalid user ubuntu from 87.227.8.85 port 59912 ssh2
+Dec 21 08:41:02 1451651-ck91852.tw1.ru sshd[1042758]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:41:04 1451651-ck91852.tw1.ru sshd[1042758]: Failed password for invalid user ubuntu from 87.227.8.85 port 59912 ssh2
+Dec 21 08:41:06 1451651-ck91852.tw1.ru sshd[1042758]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:41:08 1451651-ck91852.tw1.ru sshd[1042758]: Failed password for invalid user ubuntu from 87.227.8.85 port 59912 ssh2
+Dec 21 08:41:10 1451651-ck91852.tw1.ru sshd[1042758]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:41:12 1451651-ck91852.tw1.ru sshd[1042758]: Failed password for invalid user ubuntu from 87.227.8.85 port 59912 ssh2
+Dec 21 08:41:13 1451651-ck91852.tw1.ru sshd[1042758]: [0;1;31m[0;1;39m[0;1;31merror: maximum authentication attempts exceeded for invalid user ubuntu from 87.227.8.85 port 59912 ssh2 [preauth][0m
+Dec 21 08:41:13 1451651-ck91852.tw1.ru sshd[1042758]: Disconnecting invalid user ubuntu 87.227.8.85 port 59912: Too many authentication failures [preauth]
+Dec 21 08:41:13 1451651-ck91852.tw1.ru sshd[1042758]: [0;1;39m[0;1;31m[0;1;39mPAM 5 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:41:13 1451651-ck91852.tw1.ru sshd[1042758]: [0;1;39m[0;1;31m[0;1;39mPAM service(sshd) ignoring max retries; 6 > 3[0m
+Dec 21 08:41:14 1451651-ck91852.tw1.ru sshd[1042834]: Invalid user ubuntu from 87.227.8.85 port 34560
+Dec 21 08:41:14 1451651-ck91852.tw1.ru sshd[1042834]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:41:14 1451651-ck91852.tw1.ru sshd[1042834]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:41:16 1451651-ck91852.tw1.ru sshd[1042834]: Failed password for invalid user ubuntu from 87.227.8.85 port 34560 ssh2
+Dec 21 08:41:18 1451651-ck91852.tw1.ru sshd[1042834]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:41:20 1451651-ck91852.tw1.ru sshd[1042834]: Failed password for invalid user ubuntu from 87.227.8.85 port 34560 ssh2
+Dec 21 08:41:22 1451651-ck91852.tw1.ru sshd[1042834]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:41:25 1451651-ck91852.tw1.ru sshd[1042834]: Failed password for invalid user ubuntu from 87.227.8.85 port 34560 ssh2
+Dec 21 08:41:26 1451651-ck91852.tw1.ru sshd[1042834]: Received disconnect from 87.227.8.85 port 34560:11: disconnected by user [preauth]
+Dec 21 08:41:26 1451651-ck91852.tw1.ru sshd[1042834]: Disconnected from invalid user ubuntu 87.227.8.85 port 34560 [preauth]
+Dec 21 08:41:26 1451651-ck91852.tw1.ru sshd[1042834]: [0;1;39m[0;1;31m[0;1;39mPAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:41:27 1451651-ck91852.tw1.ru sshd[1042866]: Invalid user pi from 87.227.8.85 port 36140
+Dec 21 08:41:27 1451651-ck91852.tw1.ru sshd[1042866]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:41:27 1451651-ck91852.tw1.ru sshd[1042866]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:41:29 1451651-ck91852.tw1.ru sshd[1042866]: Failed password for invalid user pi from 87.227.8.85 port 36140 ssh2
+Dec 21 08:41:30 1451651-ck91852.tw1.ru sshd[1042866]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:41:31 1451651-ck91852.tw1.ru sshd[1042870]: Unable to negotiate with 218.92.0.52 port 62912: no matching key exchange method found. Their offer: diffie-hellman-group1-sha1,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1 [preauth]
+Dec 21 08:41:32 1451651-ck91852.tw1.ru sshd[1042866]: Failed password for invalid user pi from 87.227.8.85 port 36140 ssh2
+Dec 21 08:41:33 1451651-ck91852.tw1.ru sshd[1042866]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:41:36 1451651-ck91852.tw1.ru sshd[1042866]: Failed password for invalid user pi from 87.227.8.85 port 36140 ssh2
+Dec 21 08:41:37 1451651-ck91852.tw1.ru sshd[1042866]: Received disconnect from 87.227.8.85 port 36140:11: disconnected by user [preauth]
+Dec 21 08:41:37 1451651-ck91852.tw1.ru sshd[1042866]: Disconnected from invalid user pi 87.227.8.85 port 36140 [preauth]
+Dec 21 08:41:37 1451651-ck91852.tw1.ru sshd[1042866]: [0;1;39m[0;1;31m[0;1;39mPAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:41:37 1451651-ck91852.tw1.ru sshd[1042873]: Invalid user baikal from 87.227.8.85 port 37578
+Dec 21 08:41:37 1451651-ck91852.tw1.ru sshd[1042873]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:41:37 1451651-ck91852.tw1.ru sshd[1042873]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=87.227.8.85[0m
+Dec 21 08:41:39 1451651-ck91852.tw1.ru sshd[1042873]: Failed password for invalid user baikal from 87.227.8.85 port 37578 ssh2
+Dec 21 08:41:40 1451651-ck91852.tw1.ru sshd[1042873]: Received disconnect from 87.227.8.85 port 37578:11: disconnected by user [preauth]
+Dec 21 08:41:40 1451651-ck91852.tw1.ru sshd[1042873]: Disconnected from invalid user baikal 87.227.8.85 port 37578 [preauth]
+Dec 21 08:42:52 1451651-ck91852.tw1.ru sshd[1043015]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=138.197.155.7  user=root[0m
+Dec 21 08:42:54 1451651-ck91852.tw1.ru sshd[1043015]: Failed password for root from 138.197.155.7 port 59968 ssh2
+Dec 21 08:42:55 1451651-ck91852.tw1.ru sshd[1043015]: Connection closed by authenticating user root 138.197.155.7 port 59968 [preauth]
+Dec 21 08:43:15 1451651-ck91852.tw1.ru sshd[1043024]: Invalid user idempiere from 167.71.184.231 port 46888
+Dec 21 08:43:15 1451651-ck91852.tw1.ru sshd[1043024]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:43:15 1451651-ck91852.tw1.ru sshd[1043024]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=167.71.184.231[0m
+Dec 21 08:43:17 1451651-ck91852.tw1.ru sshd[1043024]: Failed password for invalid user idempiere from 167.71.184.231 port 46888 ssh2
+Dec 21 08:43:18 1451651-ck91852.tw1.ru sshd[1043024]: Connection closed by invalid user idempiere 167.71.184.231 port 46888 [preauth]
+Dec 21 08:43:58 1451651-ck91852.tw1.ru PackageKit[1039216]: [0;38;5;245m[0;1;31m[0;38;5;245mdaemon quit[0m
+Dec 21 08:43:58 1451651-ck91852.tw1.ru systemd[1]: packagekit.service: Succeeded.
+-- Subject: Unit succeeded
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit packagekit.service has successfully entered the 'dead' state.
+Dec 21 08:44:42 1451651-ck91852.tw1.ru sshd[1043103]: Invalid user cvsuser from 104.236.199.155 port 50570
+Dec 21 08:44:42 1451651-ck91852.tw1.ru sshd[1043103]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:44:42 1451651-ck91852.tw1.ru sshd[1043103]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=104.236.199.155[0m
+Dec 21 08:44:44 1451651-ck91852.tw1.ru sshd[1043103]: Failed password for invalid user cvsuser from 104.236.199.155 port 50570 ssh2
+Dec 21 08:44:46 1451651-ck91852.tw1.ru sshd[1043103]: Connection closed by invalid user cvsuser 104.236.199.155 port 50570 [preauth]
+Dec 21 08:45:01 1451651-ck91852.tw1.ru CRON[1043141]: pam_unix(cron:session): session opened for user root by (uid=0)
+Dec 21 08:45:01 1451651-ck91852.tw1.ru CRON[1043142]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+Dec 21 08:45:01 1451651-ck91852.tw1.ru CRON[1043141]: pam_unix(cron:session): session closed for user root
+Dec 21 08:46:05 1451651-ck91852.tw1.ru sshd[1043189]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=178.128.245.30  user=root[0m
+Dec 21 08:46:06 1451651-ck91852.tw1.ru sshd[1043189]: Failed password for root from 178.128.245.30 port 50422 ssh2
+Dec 21 08:46:06 1451651-ck91852.tw1.ru sshd[1043189]: Connection closed by authenticating user root 178.128.245.30 port 50422 [preauth]
+Dec 21 08:47:36 1451651-ck91852.tw1.ru sshd[1043248]: [0;1;31m[0;1;39m[0;1;31merror: kex_exchange_identification: Connection closed by remote host[0m
+Dec 21 08:49:30 1451651-ck91852.tw1.ru sshd[1043343]: Invalid user idempiere from 167.71.184.231 port 54856
+Dec 21 08:49:30 1451651-ck91852.tw1.ru sshd[1043343]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): check pass; user unknown[0m
+Dec 21 08:49:30 1451651-ck91852.tw1.ru sshd[1043343]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=167.71.184.231[0m
+Dec 21 08:49:32 1451651-ck91852.tw1.ru sshd[1043343]: Failed password for invalid user idempiere from 167.71.184.231 port 54856 ssh2
+Dec 21 08:49:33 1451651-ck91852.tw1.ru sshd[1043343]: Connection closed by invalid user idempiere 167.71.184.231 port 54856 [preauth]
+Dec 21 08:49:37 1451651-ck91852.tw1.ru sshd[1043346]: [0;1;39m[0;1;31m[0;1;39mpam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=138.197.155.7  user=root[0m
+Dec 21 08:49:40 1451651-ck91852.tw1.ru sshd[1043346]: Failed password for root from 138.197.155.7 port 49388 ssh2
+Dec 21 08:49:40 1451651-ck91852.tw1.ru sshd[1043346]: Connection closed by authenticating user root 138.197.155.7 port 49388 [preauth]
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: Starting Advanced key-value store...
+-- Subject: A start job for unit redis-server.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has begun execution.
+-- 
+-- The job identifier is 70313.
+Dec 21 08:50:15 1451651-ck91852.tw1.ru redis-server[1043442]: *** FATAL CONFIG FILE ERROR ***
+Dec 21 08:50:15 1451651-ck91852.tw1.ru redis-server[1043442]: Reading the configuration file, at line 48
+Dec 21 08:50:15 1451651-ck91852.tw1.ru redis-server[1043442]: >>> 'verbosity 0'
+Dec 21 08:50:15 1451651-ck91852.tw1.ru redis-server[1043442]: Bad directive or wrong number of arguments
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: [0;1;39m[0;1;31m[0;1;39mredis-server.service: Control process exited, code=exited, status=1/FAILURE[0m
+-- Subject: Unit process exited
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- An ExecStart= process belonging to unit redis-server.service has exited.
+-- 
+-- The process' exit code is 'exited' and its exit status is 1.
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Failed with result 'exit-code'.[0m
+-- Subject: Unit failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start Advanced key-value store.[0m
+-- Subject: A start job for unit redis-server.service has failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has finished with a failure.
+-- 
+-- The job identifier is 70313 and the job result is failed.
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 1.
+-- Subject: Automatic restarting of a unit has been scheduled
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- Automatic restarting of the unit redis-server.service has been scheduled, as the result for
+-- the configured Restart= setting for the unit.
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: Stopped Advanced key-value store.
+-- Subject: A stop job for unit redis-server.service has finished
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A stop job for unit redis-server.service has finished.
+-- 
+-- The job identifier is 70389 and the job result is done.
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: Starting Advanced key-value store...
+-- Subject: A start job for unit redis-server.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has begun execution.
+-- 
+-- The job identifier is 70389.
+Dec 21 08:50:15 1451651-ck91852.tw1.ru redis-server[1043464]: *** FATAL CONFIG FILE ERROR ***
+Dec 21 08:50:15 1451651-ck91852.tw1.ru redis-server[1043464]: Reading the configuration file, at line 48
+Dec 21 08:50:15 1451651-ck91852.tw1.ru redis-server[1043464]: >>> 'verbosity 0'
+Dec 21 08:50:15 1451651-ck91852.tw1.ru redis-server[1043464]: Bad directive or wrong number of arguments
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: [0;1;39m[0;1;31m[0;1;39mredis-server.service: Control process exited, code=exited, status=1/FAILURE[0m
+-- Subject: Unit process exited
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- An ExecStart= process belonging to unit redis-server.service has exited.
+-- 
+-- The process' exit code is 'exited' and its exit status is 1.
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Failed with result 'exit-code'.[0m
+-- Subject: Unit failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start Advanced key-value store.[0m
+-- Subject: A start job for unit redis-server.service has failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has finished with a failure.
+-- 
+-- The job identifier is 70389 and the job result is failed.
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 2.
+-- Subject: Automatic restarting of a unit has been scheduled
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- Automatic restarting of the unit redis-server.service has been scheduled, as the result for
+-- the configured Restart= setting for the unit.
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: Stopped Advanced key-value store.
+-- Subject: A stop job for unit redis-server.service has finished
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A stop job for unit redis-server.service has finished.
+-- 
+-- The job identifier is 70465 and the job result is done.
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: Starting Advanced key-value store...
+-- Subject: A start job for unit redis-server.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has begun execution.
+-- 
+-- The job identifier is 70465.
+Dec 21 08:50:15 1451651-ck91852.tw1.ru redis-server[1043468]: *** FATAL CONFIG FILE ERROR ***
+Dec 21 08:50:15 1451651-ck91852.tw1.ru redis-server[1043468]: Reading the configuration file, at line 48
+Dec 21 08:50:15 1451651-ck91852.tw1.ru redis-server[1043468]: >>> 'verbosity 0'
+Dec 21 08:50:15 1451651-ck91852.tw1.ru redis-server[1043468]: Bad directive or wrong number of arguments
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: [0;1;39m[0;1;31m[0;1;39mredis-server.service: Control process exited, code=exited, status=1/FAILURE[0m
+-- Subject: Unit process exited
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- An ExecStart= process belonging to unit redis-server.service has exited.
+-- 
+-- The process' exit code is 'exited' and its exit status is 1.
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Failed with result 'exit-code'.[0m
+-- Subject: Unit failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
+Dec 21 08:50:15 1451651-ck91852.tw1.ru systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start Advanced key-value store.[0m
+-- Subject: A start job for unit redis-server.service has failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has finished with a failure.
+-- 
+-- The job identifier is 70465 and the job result is failed.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 3.
+-- Subject: Automatic restarting of a unit has been scheduled
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- Automatic restarting of the unit redis-server.service has been scheduled, as the result for
+-- the configured Restart= setting for the unit.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: Stopped Advanced key-value store.
+-- Subject: A stop job for unit redis-server.service has finished
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A stop job for unit redis-server.service has finished.
+-- 
+-- The job identifier is 70541 and the job result is done.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: Starting Advanced key-value store...
+-- Subject: A start job for unit redis-server.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has begun execution.
+-- 
+-- The job identifier is 70541.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru redis-server[1043472]: *** FATAL CONFIG FILE ERROR ***
+Dec 21 08:50:16 1451651-ck91852.tw1.ru redis-server[1043472]: Reading the configuration file, at line 48
+Dec 21 08:50:16 1451651-ck91852.tw1.ru redis-server[1043472]: >>> 'verbosity 0'
+Dec 21 08:50:16 1451651-ck91852.tw1.ru redis-server[1043472]: Bad directive or wrong number of arguments
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: [0;1;39m[0;1;31m[0;1;39mredis-server.service: Control process exited, code=exited, status=1/FAILURE[0m
+-- Subject: Unit process exited
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- An ExecStart= process belonging to unit redis-server.service has exited.
+-- 
+-- The process' exit code is 'exited' and its exit status is 1.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Failed with result 'exit-code'.[0m
+-- Subject: Unit failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start Advanced key-value store.[0m
+-- Subject: A start job for unit redis-server.service has failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has finished with a failure.
+-- 
+-- The job identifier is 70541 and the job result is failed.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 4.
+-- Subject: Automatic restarting of a unit has been scheduled
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- Automatic restarting of the unit redis-server.service has been scheduled, as the result for
+-- the configured Restart= setting for the unit.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: Stopped Advanced key-value store.
+-- Subject: A stop job for unit redis-server.service has finished
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A stop job for unit redis-server.service has finished.
+-- 
+-- The job identifier is 70617 and the job result is done.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: Starting Advanced key-value store...
+-- Subject: A start job for unit redis-server.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has begun execution.
+-- 
+-- The job identifier is 70617.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru redis-server[1043484]: *** FATAL CONFIG FILE ERROR ***
+Dec 21 08:50:16 1451651-ck91852.tw1.ru redis-server[1043484]: Reading the configuration file, at line 48
+Dec 21 08:50:16 1451651-ck91852.tw1.ru redis-server[1043484]: >>> 'verbosity 0'
+Dec 21 08:50:16 1451651-ck91852.tw1.ru redis-server[1043484]: Bad directive or wrong number of arguments
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: [0;1;39m[0;1;31m[0;1;39mredis-server.service: Control process exited, code=exited, status=1/FAILURE[0m
+-- Subject: Unit process exited
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- An ExecStart= process belonging to unit redis-server.service has exited.
+-- 
+-- The process' exit code is 'exited' and its exit status is 1.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Failed with result 'exit-code'.[0m
+-- Subject: Unit failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start Advanced key-value store.[0m
+-- Subject: A start job for unit redis-server.service has failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has finished with a failure.
+-- 
+-- The job identifier is 70617 and the job result is failed.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 5.
+-- Subject: Automatic restarting of a unit has been scheduled
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- Automatic restarting of the unit redis-server.service has been scheduled, as the result for
+-- the configured Restart= setting for the unit.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: Stopped Advanced key-value store.
+-- Subject: A stop job for unit redis-server.service has finished
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A stop job for unit redis-server.service has finished.
+-- 
+-- The job identifier is 70693 and the job result is done.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Start request repeated too quickly.[0m
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Failed with result 'exit-code'.[0m
+-- Subject: Unit failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
+Dec 21 08:50:16 1451651-ck91852.tw1.ru systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start Advanced key-value store.[0m
+-- Subject: A start job for unit redis-server.service has failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has finished with a failure.
+-- 
+-- The job identifier is 70693 and the job result is failed.
+Dec 21 08:50:52 1451651-ck91852.tw1.ru sudo[1043602]: [0;1;39m[0;1;31m[0;1;39m    root : TTY=pts/0 ; PWD=/var/www/crm/zulakfa_crm/crm ; USER=root ; COMMAND=/usr/sbin/service redis-server restart[0m
+Dec 21 08:50:52 1451651-ck91852.tw1.ru sudo[1043602]: pam_unix(sudo:session): session opened for user root by (uid=0)
+Dec 21 08:50:52 1451651-ck91852.tw1.ru systemd[1]: Starting Advanced key-value store...
+-- Subject: A start job for unit redis-server.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has begun execution.
+-- 
+-- The job identifier is 70769.
+Dec 21 08:50:52 1451651-ck91852.tw1.ru redis-server[1043608]: *** FATAL CONFIG FILE ERROR ***
+Dec 21 08:50:52 1451651-ck91852.tw1.ru redis-server[1043608]: Reading the configuration file, at line 48
+Dec 21 08:50:52 1451651-ck91852.tw1.ru redis-server[1043608]: >>> 'verbosity 0'
+Dec 21 08:50:52 1451651-ck91852.tw1.ru redis-server[1043608]: Bad directive or wrong number of arguments
+Dec 21 08:50:52 1451651-ck91852.tw1.ru systemd[1]: [0;1;39m[0;1;31m[0;1;39mredis-server.service: Control process exited, code=exited, status=1/FAILURE[0m
+-- Subject: Unit process exited
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- An ExecStart= process belonging to unit redis-server.service has exited.
+-- 
+-- The process' exit code is 'exited' and its exit status is 1.
+Dec 21 08:50:52 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Failed with result 'exit-code'.[0m
+-- Subject: Unit failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
+Dec 21 08:50:52 1451651-ck91852.tw1.ru systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start Advanced key-value store.[0m
+-- Subject: A start job for unit redis-server.service has failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has finished with a failure.
+-- 
+-- The job identifier is 70769 and the job result is failed.
+Dec 21 08:50:52 1451651-ck91852.tw1.ru sudo[1043602]: pam_unix(sudo:session): session closed for user root
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 1.
+-- Subject: Automatic restarting of a unit has been scheduled
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- Automatic restarting of the unit redis-server.service has been scheduled, as the result for
+-- the configured Restart= setting for the unit.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: Stopped Advanced key-value store.
+-- Subject: A stop job for unit redis-server.service has finished
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A stop job for unit redis-server.service has finished.
+-- 
+-- The job identifier is 70845 and the job result is done.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: Starting Advanced key-value store...
+-- Subject: A start job for unit redis-server.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has begun execution.
+-- 
+-- The job identifier is 70845.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043630]: *** FATAL CONFIG FILE ERROR ***
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043630]: Reading the configuration file, at line 48
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043630]: >>> 'verbosity 0'
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043630]: Bad directive or wrong number of arguments
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: [0;1;39m[0;1;31m[0;1;39mredis-server.service: Control process exited, code=exited, status=1/FAILURE[0m
+-- Subject: Unit process exited
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- An ExecStart= process belonging to unit redis-server.service has exited.
+-- 
+-- The process' exit code is 'exited' and its exit status is 1.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Failed with result 'exit-code'.[0m
+-- Subject: Unit failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start Advanced key-value store.[0m
+-- Subject: A start job for unit redis-server.service has failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has finished with a failure.
+-- 
+-- The job identifier is 70845 and the job result is failed.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 2.
+-- Subject: Automatic restarting of a unit has been scheduled
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- Automatic restarting of the unit redis-server.service has been scheduled, as the result for
+-- the configured Restart= setting for the unit.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: Stopped Advanced key-value store.
+-- Subject: A stop job for unit redis-server.service has finished
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A stop job for unit redis-server.service has finished.
+-- 
+-- The job identifier is 70921 and the job result is done.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: Starting Advanced key-value store...
+-- Subject: A start job for unit redis-server.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has begun execution.
+-- 
+-- The job identifier is 70921.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043633]: *** FATAL CONFIG FILE ERROR ***
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043633]: Reading the configuration file, at line 48
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043633]: >>> 'verbosity 0'
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043633]: Bad directive or wrong number of arguments
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: [0;1;39m[0;1;31m[0;1;39mredis-server.service: Control process exited, code=exited, status=1/FAILURE[0m
+-- Subject: Unit process exited
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- An ExecStart= process belonging to unit redis-server.service has exited.
+-- 
+-- The process' exit code is 'exited' and its exit status is 1.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Failed with result 'exit-code'.[0m
+-- Subject: Unit failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start Advanced key-value store.[0m
+-- Subject: A start job for unit redis-server.service has failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has finished with a failure.
+-- 
+-- The job identifier is 70921 and the job result is failed.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 3.
+-- Subject: Automatic restarting of a unit has been scheduled
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- Automatic restarting of the unit redis-server.service has been scheduled, as the result for
+-- the configured Restart= setting for the unit.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: Stopped Advanced key-value store.
+-- Subject: A stop job for unit redis-server.service has finished
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A stop job for unit redis-server.service has finished.
+-- 
+-- The job identifier is 70997 and the job result is done.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: Starting Advanced key-value store...
+-- Subject: A start job for unit redis-server.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has begun execution.
+-- 
+-- The job identifier is 70997.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043636]: *** FATAL CONFIG FILE ERROR ***
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043636]: Reading the configuration file, at line 48
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043636]: >>> 'verbosity 0'
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043636]: Bad directive or wrong number of arguments
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: [0;1;39m[0;1;31m[0;1;39mredis-server.service: Control process exited, code=exited, status=1/FAILURE[0m
+-- Subject: Unit process exited
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- An ExecStart= process belonging to unit redis-server.service has exited.
+-- 
+-- The process' exit code is 'exited' and its exit status is 1.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Failed with result 'exit-code'.[0m
+-- Subject: Unit failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start Advanced key-value store.[0m
+-- Subject: A start job for unit redis-server.service has failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has finished with a failure.
+-- 
+-- The job identifier is 70997 and the job result is failed.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 4.
+-- Subject: Automatic restarting of a unit has been scheduled
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- Automatic restarting of the unit redis-server.service has been scheduled, as the result for
+-- the configured Restart= setting for the unit.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: Stopped Advanced key-value store.
+-- Subject: A stop job for unit redis-server.service has finished
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A stop job for unit redis-server.service has finished.
+-- 
+-- The job identifier is 71073 and the job result is done.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: Starting Advanced key-value store...
+-- Subject: A start job for unit redis-server.service has begun execution
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has begun execution.
+-- 
+-- The job identifier is 71073.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043649]: *** FATAL CONFIG FILE ERROR ***
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043649]: Reading the configuration file, at line 48
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043649]: >>> 'verbosity 0'
+Dec 21 08:50:53 1451651-ck91852.tw1.ru redis-server[1043649]: Bad directive or wrong number of arguments
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: [0;1;39m[0;1;31m[0;1;39mredis-server.service: Control process exited, code=exited, status=1/FAILURE[0m
+-- Subject: Unit process exited
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- An ExecStart= process belonging to unit redis-server.service has exited.
+-- 
+-- The process' exit code is 'exited' and its exit status is 1.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Failed with result 'exit-code'.[0m
+-- Subject: Unit failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
+Dec 21 08:50:53 1451651-ck91852.tw1.ru systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start Advanced key-value store.[0m
+-- Subject: A start job for unit redis-server.service has failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has finished with a failure.
+-- 
+-- The job identifier is 71073 and the job result is failed.
+Dec 21 08:50:54 1451651-ck91852.tw1.ru systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 5.
+-- Subject: Automatic restarting of a unit has been scheduled
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- Automatic restarting of the unit redis-server.service has been scheduled, as the result for
+-- the configured Restart= setting for the unit.
+Dec 21 08:50:54 1451651-ck91852.tw1.ru systemd[1]: Stopped Advanced key-value store.
+-- Subject: A stop job for unit redis-server.service has finished
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A stop job for unit redis-server.service has finished.
+-- 
+-- The job identifier is 71149 and the job result is done.
+Dec 21 08:50:54 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Start request repeated too quickly.[0m
+Dec 21 08:50:54 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Failed with result 'exit-code'.[0m
+-- Subject: Unit failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
+Dec 21 08:50:54 1451651-ck91852.tw1.ru systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start Advanced key-value store.[0m
+-- Subject: A start job for unit redis-server.service has failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has finished with a failure.
+-- 
+-- The job identifier is 71149 and the job result is failed.
+Dec 21 08:50:57 1451651-ck91852.tw1.ru sudo[1043657]: [0;1;39m[0;1;31m[0;1;39m    root : TTY=pts/0 ; PWD=/var/www/crm/zulakfa_crm/crm ; USER=root ; COMMAND=/usr/sbin/service redis-server restart[0m
+Dec 21 08:50:57 1451651-ck91852.tw1.ru sudo[1043657]: pam_unix(sudo:session): session opened for user root by (uid=0)
+Dec 21 08:50:57 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Start request repeated too quickly.[0m
+Dec 21 08:50:57 1451651-ck91852.tw1.ru systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mredis-server.service: Failed with result 'exit-code'.[0m
+-- Subject: Unit failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
+Dec 21 08:50:57 1451651-ck91852.tw1.ru systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start Advanced key-value store.[0m
+-- Subject: A start job for unit redis-server.service has failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- A start job for unit redis-server.service has finished with a failure.
+-- 
+-- The job identifier is 71225 and the job result is failed.
+Dec 21 08:50:57 1451651-ck91852.tw1.ru sudo[1043657]: pam_unix(sudo:session): session closed for user root

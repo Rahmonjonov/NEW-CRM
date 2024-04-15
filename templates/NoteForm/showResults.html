@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>CRM | SMS</title>
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+    <style>
+        table th, table td {
+            font-size: 16px;
+            color: #e3e3ec;
+        }
+    </style>
+
+{% endblock css %}
+{% block content %}
+
+    <section class="content">
+
+        <div class="box">
+            <div class="box-body">
+            <h3>{% if LANGUAGE_CODE == 'en' %}
+                                            Number of answers
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Количество ответов
+                                        {% else %}
+                                            Javoblar soni
+                                        {% endif %} {{ formAnswers|length }} </h3>
+                <div class="table-responsive">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                        <tr class="text-center">
+                            <th>№</th>
+                            {% if LANGUAGE_CODE == 'en' %}
+                                            <th>Date</th>
+                            <th>Incoming network</th>
+                            {% for question in questions %}
+                                <th>{{ question.name }}</th>
+                            {% endfor %}
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            <th>Дате</th>
+                            <th>Входящая сеть</th>
+                            {% for question in questions %}
+                                <th>{{ question.name }}</th>
+                            {% endfor %}
+                                        {% else %}
+                                            <th>Sana</th>
+                            <th>Kelgan tarmoq</th>
+                            {% for question in questions %}
+                                <th>{{ question.name }}</th>
+                            {% endfor %}
+                                        {% endif %}
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for formAnswer in formAnswers %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ formAnswer.date }}</td>
+                                <td>{{ formAnswer.join_by }}</td>
+                                {% for answer in formAnswer.answers %}
+                                    <td>{{ answer }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}
+{% block js %}
+
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+
+    <script src="{% static 'crm/assets/vendor_components/datatable/datatables.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/data-table.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js' %}"></script>
+{% endblock js %}

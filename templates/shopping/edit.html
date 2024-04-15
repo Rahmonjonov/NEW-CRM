@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    <title>{% if LANGUAGE_CODE == 'en' %}
+                                            CRM | Add
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            CRM | Добавлять
+                                        {% else %}
+                                            CRM | Qo'shish
+                                        {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+{% endblock css %}
+{% block content %}
+    <section class="content">
+        <div class="row" style="justify-content: center">
+            <div class="col-6">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">{{ lead.name }} {{ shopping.product.name }} {% if LANGUAGE_CODE == 'en' %}
+                                            edit
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            pедактировать
+                                        {% else %}
+                                            taxrirlash
+                                        {% endif %}</h4>
+                    </div>
+                    <form action="{% url 'EditShopping_class' pk=lead.id shop_pk=shopping.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="product" class="font-size-18">{% if LANGUAGE_CODE == 'en' %}
+                                            Product
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Продукт
+                                        {% else %}
+                                            Mahsulot
+                                        {% endif %}</label>
+                                <div class="controls">
+                                    <select id="product" name="product" class="form-control" required>
+                                        {% for product in products %}
+                                            <option {% if shopping.product == product %}selected{% endif %}
+                                                    value="{{ product.id }}">{{ product.name }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="count" class="font-size-18">{% if LANGUAGE_CODE == 'en' %}
+                                            Number
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Kоличество
+                                        {% else %}
+                                            Soni
+                                        {% endif %}</label>
+                                <div class="controls">
+                                    <input type="number" id="count" name="count" class="form-control"
+                                           value="{{ shopping.count }}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="price" class="font-size-18">{% if LANGUAGE_CODE == 'en' %}
+                                            Cost
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Расходы
+                                        {% else %}
+                                            Narxi
+                                        {% endif %}</label>
+                                <div class="controls">
+                                    <input type="number" id="price" name="price" class="form-control"
+                                           value="{{ shopping.price }}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="payment_type" class="font-size-18">{% if LANGUAGE_CODE == 'en' %}
+                                            Payment method
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Способ оплаты
+                                        {% else %}
+                                            To'lov usuli
+                                        {% endif %}</label>
+                                <div class="controls">
+                                    <select id="payment_type" name="payment_type" class="form-control" required>
+                                        {% for payment_type in payment_types %}
+                                            <option  {% if shopping.payment_type == payment_type %}selected{% endif %}
+                                                    value="{{ payment_type.id }}">{{ payment_type.name }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="comment" class="font-size-18">{% if LANGUAGE_CODE == 'en' %}
+                                            Note
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Примечание
+                                        {% else %}
+                                            Izoh
+                                        {% endif %}</label>
+                                <div class="controls">
+                                    <input type="text" id="comment" name="comment"
+                                           value="{{ shopping.comment }}" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary float-right m-20">{% if LANGUAGE_CODE == 'en' %}
+                                            Save
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Сохранять
+                                        {% else %}
+                                            Saqlash
+                                        {% endif %}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+{% block js %}
+
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+
+{% endblock js %}

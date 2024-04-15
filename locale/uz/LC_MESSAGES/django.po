@@ -1,0 +1,1218 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-01 14:40+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: .\account\admin.py:19
+msgid "Personal info"
+msgstr "Shaxsiy ma'lumotlar"
+
+#: .\account\admin.py:20
+msgid "Permissions"
+msgstr "Ruxsatlar"
+
+#: .\account\admin.py:23
+msgid "Important dates"
+msgstr "Muhim sanalar"
+
+#: .\templates\Board.html:39 .\templates\Board.html:116
+#: .\templates\edit.html:177 .\templates\task.html:28 .\templates\task.html:67
+msgid "Yangi qo'shish"
+msgstr "Yangi qo'shish"
+
+#: .\templates\Board.html:96
+msgid "Excel export"
+msgstr "Excel export"
+
+#: .\templates\Board.html:101 .\templates\Board.html:275
+msgid "Yangi bosqich qo'shish"
+msgstr "Yangi bosqich qo'shish"
+
+#: .\templates\Board.html:104
+msgid "Yo'qotildi"
+msgstr "Yo'qotildi"
+
+#: .\templates\Board.html:105 .\templates\task.html:57
+msgid "Yakunlandi"
+msgstr "Yakunlandi"
+
+#: .\templates\Board.html:122 .\templates\add_payment_type.html:27
+#: .\templates\editSMSTemplate.html:91 .\templates\edit_payment_type.html:25
+#: .\templates\newSmsTemplate.html:91 .\templates\product_list.html:44
+#: .\templates\product_list.html:90 .\templates\redirect\add.html:25
+#: .\templates\redirect\edit.html:25 .\templates\redirect\list.html:53
+#: .\templates\redirect\list.html:130 .\templates\sms.html:157
+#: .\templates\task.html:72
+msgid "Nomi"
+msgstr "Nomi"
+
+#: .\templates\Board.html:123 .\templates\Board.html:128
+#: .\templates\Board.html:165 .\templates\Board.html:189
+#: .\templates\Board.html:213 .\templates\Board.html:238
+#: .\templates\Board.html:243 .\templates\Board.html:281
+#: .\templates\Board.html:305 .\templates\task.html:73 .\templates\task.html:96
+msgid "To'ldirilishi shart!"
+msgstr "To'ldirilishi shart!"
+
+#: .\templates\Board.html:133 .\templates\Board.html:248
+msgid "Tashkilot:nomi"
+msgstr "Tashkilot:nomi"
+
+#: .\templates\Board.html:136 .\templates\Board.html:251
+msgid "Tashkilot:manzil"
+msgstr "Tashkilot:manzil"
+
+#: .\templates\Board.html:140 .\templates\Board.html:255
+#: .\templates\adduser.html:47 .\templates\clients.html:70
+#: .\templates\debt.html:42 .\templates\edit.html:75 .\templates\edit.html:384
+#: .\templates\editSMSTemplate.html:186 .\templates\newSmsTemplate.html:183
+#: .\templates\target.html:70 .\templates\target.html:116
+#: .\templates\target.html:162 .\templates\target.html:206
+msgid "Telefon"
+msgstr "Telefon"
+
+#: .\templates\Board.html:146 .\templates\Board.html:287
+#: .\templates\debt.html:25 .\templates\redirect\list.html:43
+#: .\templates\redirect\list.html:120 .\templates\setting.html:91
+#: .\templates\setting.html:281 .\templates\sms.html:148
+#: .\templates\target.html:32 .\templates\task.html:78
+msgid "Qo'shish"
+msgstr "Qo'shish"
+
+#: .\templates\Board.html:164 .\templates\Board.html:212
+#: .\templates\task.html:90 .\templates\task.html:95
+msgid "Izoh..."
+msgstr "Izoh..."
+
+#: .\templates\Board.html:171 .\templates\Board.html:194
+#: .\templates\Board.html:219 .\templates\Board.html:262
+#: .\templates\Board.html:312 .\templates\NoteForm\add.html:54
+#: .\templates\add_payment_type.html:31 .\templates\add_product.html:43
+#: .\templates\adddebtor.html:47 .\templates\adduser.html:119
+#: .\templates\apps-calendar.html:127 .\templates\companyCabinet.html:454
+#: .\templates\edit.html:219 .\templates\edit.html:291
+#: .\templates\edit.html:348 .\templates\edit.html:404
+#: .\templates\editSMSTemplate.html:256 .\templates\edit_payment_type.html:29
+#: .\templates\edit_product.html:43 .\templates\etiroz.html:90
+#: .\templates\etiroz.html:142 .\templates\etiroz.html:163
+#: .\templates\etiroz.html:191 .\templates\goal.html:146
+#: .\templates\newSmsTemplate.html:240 .\templates\redirect\add.html:34
+#: .\templates\redirect\edit.html:35 .\templates\setting.html:178
+#: .\templates\setting.html:235 .\templates\task.html:101
+msgid "Saqlash"
+msgstr "Saqlash"
+
+#: .\templates\Board.html:183
+msgid "Yakunlash"
+msgstr "Yakunlash"
+
+#: .\templates\Board.html:188
+msgid "Yakunlangan summa..."
+msgstr "Yakunlangan summa..."
+
+#: .\templates\Board.html:206
+msgid "Yo'qotilish sababi"
+msgstr "Yo'qotilish sababi"
+
+#: .\templates\Board.html:231 .\templates\Board.html:299
+#: .\templates\edit.html:193 .\templates\edit.html:361
+#: .\templates\product_list.html:47 .\templates\product_list.html:60
+#: .\templates\product_list.html:91 .\templates\product_list.html:102
+#: .\templates\redirect\list.html:62 .\templates\setting.html:106
+#: .\templates\setting.html:326
+msgid "Taxrirlash"
+msgstr "Taxrirlash"
+
+#: .\templates\NoteForm\add.html:5 .\templates\redirect\add.html:5
+#, fuzzy
+#| msgid "Qo'shish"
+msgid "CRM | Qo'shish"
+msgstr "Qo'shish"
+
+#: .\templates\NoteForm\add.html:18
+#, fuzzy
+#| msgid "Yangi qo'shish"
+msgid "Yangi forma yasash"
+msgstr "Yangi qo'shish"
+
+#: .\templates\NoteForm\add.html:26
+msgid "Forma nomi"
+msgstr ""
+
+#: .\templates\NoteForm\add.html:35
+msgid "Rasm Yuklash"
+msgstr ""
+
+#: .\templates\NoteForm\add.html:38 .\templates\apps-calendar.html:119
+#: .\templates\editSMSTemplate.html:187 .\templates\newSmsTemplate.html:184
+#: .\templates\redirect\list.html:63 .\templates\redirect\list.html:140
+#: .\templates\setting.html:105 .\templates\task.html:56
+#, fuzzy
+#| msgid "O'chirildi"
+msgid "O'chirish"
+msgstr "O'chirish"
+
+#: .\templates\NoteForm\add.html:42
+#, fuzzy
+#| msgid "Yangi qo'shish"
+msgid "Maydonlar qo'shish"
+msgstr "Yangi qo'shish"
+
+#: .\templates\NoteForm\showResults.html:25
+msgid "Javoblar soni"
+msgstr ""
+
+#: .\templates\NoteForm\showResults.html:31 .\templates\edit.html:186
+msgid "Sana"
+msgstr ""
+
+#: .\templates\NoteForm\showResults.html:32
+msgid "Kelgan tarmoq"
+msgstr ""
+
+#: .\templates\add_card.html:6
+msgid "CRM | Karta"
+msgstr ""
+
+#: .\templates\add_card.html:20
+#, fuzzy
+#| msgid "Taxrirlash"
+msgid "Kartani taxrirlash"
+msgstr "Taxrirlash"
+
+#: .\templates\add_card.html:20 .\templates\companyCabinet.html:382
+#, fuzzy
+#| msgid "Yangi qo'shish"
+msgid "Karta qo'shish"
+msgstr "Yangi qo'shish"
+
+#: .\templates\add_card.html:30
+msgid "Karta nomi"
+msgstr ""
+
+#: .\templates\add_card.html:49
+msgid "Karta raqami"
+msgstr ""
+
+#: .\templates\add_card.html:59 .\templates\companyCabinet.html:311
+msgid "Amal qilish muddati"
+msgstr ""
+
+#: .\templates\add_card.html:68
+msgid "Davom etish"
+msgstr ""
+
+#: .\templates\add_card.html:91
+msgid "ga sms jo'natildi."
+msgstr ""
+
+#: .\templates\add_card.html:100
+msgid "Sms amal qilish muddatiga qoldi"
+msgstr ""
+
+#: .\templates\add_card.html:108
+msgid "Sms kod"
+msgstr ""
+
+#: .\templates\add_card.html:115
+#, fuzzy
+#| msgid "Saqlash"
+msgid "Tasdiqlash"
+msgstr "Saqlash"
+
+#: .\templates\add_payment_type.html:5
+msgid "CRM | To'lov turi qo'shish"
+msgstr ""
+
+#: .\templates\add_payment_type.html:20
+#, fuzzy
+#| msgid "Yangi bosqich qo'shish"
+msgid "Yangi to'lov turi qo'shish"
+msgstr "Yangi bosqich qo'shish"
+
+#: .\templates\add_product.html:5
+msgid "CRM | Mahsulot qo'shish"
+msgstr ""
+
+#: .\templates\add_product.html:24
+#, fuzzy
+#| msgid "Yangi qo'shish"
+msgid "Yangi mahsulot qo'shish"
+msgstr "Yangi qo'shish"
+
+#: .\templates\add_product.html:31 .\templates\edit_product.html:31
+#, fuzzy
+#| msgid "Mahsulotlar"
+msgid "Mahsulot nomi"
+msgstr "Mahsulotlar"
+
+#: .\templates\add_product.html:35 .\templates\edit.html:189
+#: .\templates\editSMSTemplate.html:185 .\templates\edit_product.html:35
+#: .\templates\newSmsTemplate.html:182 .\templates\product_list.html:45
+msgid "Narxi"
+msgstr ""
+
+#: .\templates\add_product.html:39 .\templates\edit.html:192
+#: .\templates\edit_product.html:39 .\templates\product_list.html:46
+#, fuzzy
+#| msgid "Izoh..."
+msgid "Izoh"
+msgstr "Izoh..."
+
+#: .\templates\adddebtor.html:5 .\templates\adduser.html:5
+msgid "CRM | Mijoz qo'shish"
+msgstr ""
+
+#: .\templates\adddebtor.html:24
+#, fuzzy
+#| msgid "Yangi qo'shish"
+msgid "Qarzdor qo'shish"
+msgstr "Yangi qo'shish"
+
+#: .\templates\adddebtor.html:31
+#, fuzzy
+#| msgid "Qarzdorlik"
+msgid "Qarzdor"
+msgstr "Qarzdorlik"
+
+#: .\templates\adddebtor.html:41
+msgid "Qarz"
+msgstr ""
+
+#: .\templates\adddebtor.html:42
+msgid "Qarzni kiriting"
+msgstr ""
+
+#: .\templates\adduser.html:31
+#, fuzzy
+#| msgid "Ro'yxatga olindi"
+msgid "Ro'yxatdan o'tkazish"
+msgstr "Ro'yxatga olindi"
+
+#: .\templates\adduser.html:39 .\templates\clients.html:66
+#: .\templates\debt.html:38 .\templates\edit.html:377
+#: .\templates\editSMSTemplate.html:184 .\templates\newSmsTemplate.html:181
+#: .\templates\setting.html:257 .\templates\setting.html:301
+#: .\templates\target.html:66 .\templates\target.html:112
+#: .\templates\target.html:158 .\templates\target.html:202
+msgid "Familiya"
+msgstr ""
+
+#: .\templates\adduser.html:43 .\templates\clients.html:67
+#: .\templates\debt.html:39 .\templates\edit.html:370
+#: .\templates\editSMSTemplate.html:183 .\templates\newSmsTemplate.html:180
+#: .\templates\setting.html:261 .\templates\setting.html:305
+#: .\templates\target.html:67 .\templates\target.html:113
+#: .\templates\target.html:159 .\templates\target.html:203
+msgid "Ism"
+msgstr ""
+
+#: .\templates\adduser.html:47 .\templates\edit.html:385
+msgid "Namuna"
+msgstr ""
+
+#: .\templates\adduser.html:51 .\templates\edit.html:85
+msgid "Qo'shimcha telefon"
+msgstr ""
+
+#: .\templates\adduser.html:56
+#, fuzzy
+#| msgid "Tashkilot:nomi"
+msgid "Tashkilot"
+msgstr "Tashkilot:nomi"
+
+#: .\templates\adduser.html:60
+#, fuzzy
+#| msgid "Tashkilot:manzil"
+msgid "Tashkilot manzili"
+msgstr "Tashkilot:manzil"
+
+#: .\templates\adduser.html:66
+#, fuzzy
+#| msgid "Mijozlar oqimi"
+msgid "Mijoz qiymati"
+msgstr "Mijozlar oqimi"
+
+#: .\templates\adduser.html:84 .\templates\edit.html:156
+#, fuzzy
+#| msgid "Mijozlar oqimi"
+msgid "Mijoz kelgan joy"
+msgstr "Mijozlar oqimi"
+
+#: .\templates\adduser.html:91 .\templates\adduser.html:101
+#: .\templates\edit.html:102
+msgid "Viloyatni tanlang"
+msgstr ""
+
+#: .\templates\adduser.html:98
+msgid "Shahar/Tuman"
+msgstr ""
+
+#: .\templates\adduser.html:105
+msgid "Tug'ilgan kun"
+msgstr ""
+
+#: .\templates\adduser.html:109
+msgid "Holati"
+msgstr ""
+
+#: .\templates\apps-calendar.html:5
+#, fuzzy
+#| msgid "Kalendar"
+msgid "CRM | Kalendar"
+msgstr "Kalendar"
+
+#: .\templates\apps-calendar.html:70 .\templates\apps-calendar.html:84
+#, fuzzy
+#| msgid "Hodimlar"
+msgid "Hodisa"
+msgstr "Hodimlar"
+
+#: .\templates\apps-calendar.html:79 .\templates\apps-calendar.html:88
+msgid "Hodisa kiritmadingiz"
+msgstr ""
+
+#: .\templates\apps-calendar.html:86 .\templates\apps-calendar.html:95
+msgid "Hodisani kiriting"
+msgstr ""
+
+#: .\templates\apps-calendar.html:93
+msgid "Vaqt"
+msgstr ""
+
+#: .\templates\apps-calendar.html:97
+msgid "Vaqtni kiritmadingiz"
+msgstr ""
+
+#: .\templates\apps-calendar.html:102
+msgid "Muhimligi"
+msgstr ""
+
+#: .\templates\apps-calendar.html:112
+msgid "Muhimlikni tanlamadingiz"
+msgstr ""
+
+#: .\templates\apps-calendar.html:124 .\templates\edit.html:347
+#: .\templates\edit.html:403 .\templates\goal.html:144
+#: .\templates\setting.html:176 .\templates\setting.html:233
+msgid "Yopish"
+msgstr ""
+
+#: .\templates\base.html:70 .\templates\base.html:190
+msgid "Chiqish"
+msgstr "Chiqish"
+
+#: .\templates\base.html:99
+#, fuzzy
+#| msgid "Leads board"
+msgid "Dashboard"
+msgstr "Lead doska"
+
+#: .\templates\base.html:106
+msgid "Pipeline"
+msgstr "Pipeline"
+
+#: .\templates\base.html:112
+msgid "Leads board"
+msgstr "Lead doska"
+
+#: .\templates\base.html:118
+#, fuzzy
+#| msgid "Leads board"
+msgid "Tasks board"
+msgstr "Lead doska"
+
+#: .\templates\base.html:124
+msgid "Client Base"
+msgstr "Klient baza"
+
+#: .\templates\base.html:130
+msgid "Qarzdorlik"
+msgstr "Qarzdorlik"
+
+#: .\templates\base.html:137 .\templates\sms.html:121
+msgid "SMS Gateway"
+msgstr "SMS Gateway"
+
+#: .\templates\base.html:144
+msgid "Kalendar"
+msgstr "Kalendar"
+
+#: .\templates\base.html:150 .\templates\goal.html:38 .\templates\goal.html:112
+msgid "Savdo"
+msgstr "Savdo"
+
+#: .\templates\base.html:157 .\templates\goal.html:18 .\templates\goal.html:61
+#: .\templates\home_new.html:280 .\templates\home_new.html:359
+msgid "Maqsad"
+msgstr "Maqsad"
+
+#: .\templates\base.html:163
+msgid "Mahsulotlar"
+msgstr "Mahsulotlar"
+
+#: .\templates\base.html:169
+msgid "Kabinet"
+msgstr "Kabinet"
+
+#: .\templates\base.html:175
+msgid "Link"
+msgstr "Link"
+
+#: .\templates\base.html:183
+msgid "Sozlama"
+msgstr "Sozlama"
+
+#: .\templates\clients.html:5
+#, fuzzy
+#| msgid "Client Base"
+msgid "CRM | Client Base"
+msgstr "Klient baza"
+
+#: .\templates\clients.html:47
+msgid "Import qilish"
+msgstr ""
+
+#: .\templates\clients.html:51
+msgid "Na'munani yuklab olish"
+msgstr ""
+
+#: .\templates\clients.html:68 .\templates\debt.html:40
+#: .\templates\edit.html:392 .\templates\target.html:68
+#: .\templates\target.html:114 .\templates\target.html:160
+#: .\templates\target.html:204
+msgid "Tug'ilgan sana"
+msgstr ""
+
+#: .\templates\clients.html:69 .\templates\debt.html:41
+msgid "Tuman"
+msgstr ""
+
+#: .\templates\clients.html:71
+msgid "Daraja"
+msgstr ""
+
+#: .\templates\companyCabinet.html:6
+#, fuzzy
+#| msgid "Kabinet"
+msgid "CRM | Kabinet"
+msgstr "Kabinet"
+
+#: .\templates\companyCabinet.html:228 .\templates\sms.html:19
+msgid "Asosiy"
+msgstr ""
+
+#: .\templates\companyCabinet.html:233
+msgid "Companiya ma'lumotlari"
+msgstr ""
+
+#: .\templates\companyCabinet.html:244
+#, fuzzy
+#| msgid "Barchasi"
+msgid "Barcha tariflar"
+msgstr "Barchasi"
+
+#: .\templates\companyCabinet.html:255
+msgid "Accountlar soni"
+msgstr ""
+
+#: .\templates\companyCabinet.html:264
+msgid "Joriy tarif"
+msgstr ""
+
+#: .\templates\companyCabinet.html:268
+#, fuzzy
+#| msgid "Yakunlash"
+msgid "Tanlash"
+msgstr "Yakunlash"
+
+#: .\templates\companyCabinet.html:292
+msgid "Tanlangan tarif"
+msgstr ""
+
+#: .\templates\companyCabinet.html:295 .\templates\companyCabinet.html:305
+msgid "oylik"
+msgstr ""
+
+#: .\templates\companyCabinet.html:302
+msgid "Joriy foydalanilayotgan tarif"
+msgstr ""
+
+#: .\templates\companyCabinet.html:317
+msgid "Muddat tugashiga qoldi"
+msgstr ""
+
+#: .\templates\companyCabinet.html:327 .\templates\companyCabinet.html:369
+msgid "Faol emas"
+msgstr ""
+
+#: .\templates\companyCabinet.html:333
+msgid "Tarif uchun mablag' yetarli emas"
+msgstr ""
+
+#: .\templates\companyCabinet.html:338
+msgid "Yetishmayotgan summa"
+msgstr ""
+
+#: .\templates\companyCabinet.html:367
+msgid "Faol"
+msgstr ""
+
+#: .\templates\companyCabinet.html:376
+msgid "Karta ulanmagan"
+msgstr ""
+
+#: .\templates\companyCabinet.html:404
+msgid "Kompaniya nomi"
+msgstr ""
+
+#: .\templates\companyCabinet.html:411
+msgid "Kompaniya telefon raqam"
+msgstr ""
+
+#: .\templates\companyCabinet.html:418 .\templates\target.html:69
+#: .\templates\target.html:115 .\templates\target.html:161
+#: .\templates\target.html:205
+msgid "Manzil"
+msgstr ""
+
+#: .\templates\companyCabinet.html:426
+msgid "Asoschisi"
+msgstr ""
+
+#: .\templates\companyCabinet.html:433
+msgid "Kompaniya turi"
+msgstr ""
+
+#: .\templates\companyCabinet.html:445
+msgid "Kompaniya haqida ma'lumot"
+msgstr ""
+
+#: .\templates\companyCabinet.html:471
+msgid "Tarif uchun yechilgan to'lovlar"
+msgstr ""
+
+#: .\templates\companyCabinet.html:480
+msgid "Boshlangan"
+msgstr ""
+
+#: .\templates\companyCabinet.html:481
+msgid "Tugaydi"
+msgstr ""
+
+#: .\templates\companyCabinet.html:482
+msgid "Tarif"
+msgstr ""
+
+#: .\templates\companyCabinet.html:483 .\templates\edit.html:190
+#, fuzzy
+#| msgid "Summasi"
+msgid "Summa"
+msgstr "Summasi"
+
+#: .\templates\companyCabinet.html:484
+msgid "Aktiv"
+msgstr ""
+
+#: .\templates\debt.html:5
+#, fuzzy
+#| msgid "Qarzdorlik"
+msgid "CRM | Qarzdorlik"
+msgstr "Qarzdorlik"
+
+#: .\templates\debt.html:43
+#, fuzzy
+#| msgid "Qarzdorlik"
+msgid "Qarzi"
+msgstr "Qarzdorlik"
+
+#: .\templates\edit.html:5 .\templates\redirect\edit.html:5
+#, fuzzy
+#| msgid "Taxrirlash"
+msgid "CRM | Taxrirlash"
+msgstr "Taxrirlash"
+
+#: .\templates\edit.html:32 .\templates\edit.html:52
+msgid "Familiyani kiriting"
+msgstr ""
+
+#: .\templates\edit.html:42
+msgid "Promouterga o'tkazish"
+msgstr ""
+
+#: .\templates\edit.html:64
+msgid "Mijozga o'tkazish"
+msgstr ""
+
+#: .\templates\edit.html:94
+msgid "Viloyati"
+msgstr ""
+
+#: .\templates\edit.html:98
+msgid "viloyati"
+msgstr ""
+
+#: .\templates\edit.html:112
+msgid "Tumani"
+msgstr ""
+
+#: .\templates\edit.html:117
+msgid "tumani"
+msgstr ""
+
+#: .\templates\edit.html:128
+msgid "Tug'ilgan sanasi"
+msgstr ""
+
+#: .\templates\edit.html:165
+#, fuzzy
+#| msgid "Mijozlar oqimi"
+msgid "Mijoz Haqida"
+msgstr "Mijozlar oqimi"
+
+#: .\templates\edit.html:175
+#, fuzzy
+#| msgid "Mahsulotlar"
+msgid "Sotilgan mahsulotlar"
+msgstr "Mahsulotlar"
+
+#: .\templates\edit.html:187
+#, fuzzy
+#| msgid "Mahsulotlar"
+msgid "Mahsulot"
+msgstr "Mahsulotlar"
+
+#: .\templates\edit.html:188 .\templates\home_new.html:184
+#: .\templates\home_new.html:197 .\templates\home_new.html:210
+#: .\templates\home_new.html:221 .\templates\home_new.html:255
+#: .\templates\home_new.html:311 .\templates\home_new.html:324
+#: .\templates\home_new.html:337 .\templates\home_new.html:348
+msgid "Soni"
+msgstr "Soni"
+
+#: .\templates\edit.html:191
+msgid "To'lov turi"
+msgstr ""
+
+#: .\templates\edit.html:238 .\templates\edit.html:417
+msgid "Vaziyat (ma`lumot to`plash)"
+msgstr ""
+
+#: .\templates\edit.html:239 .\templates\edit.html:421
+msgid "Muammo (ular boshdan kechirgan og`riq va muammolarni aniqlang)"
+msgstr ""
+
+#: .\templates\edit.html:240 .\templates\edit.html:425
+msgid "Imkoniyat (bu og`riqlarni nima uchun hal qilish kerakligini ta`kidlang)"
+msgstr ""
+
+#: .\templates\edit.html:242 .\templates\edit.html:429
+msgid "To'lov(ularni o`zlari shunday xulosa chiqarishga undang)"
+msgstr ""
+
+#: .\templates\edit.html:243 .\templates\edit.html:433
+msgid "Xulosa (Yopiq/Ochiq)"
+msgstr ""
+
+#: .\templates\edit.html:272
+msgid "Xulosa"
+msgstr ""
+
+#: .\templates\edit.html:285
+msgid "Ko'k"
+msgstr ""
+
+#: .\templates\edit.html:286
+msgid "Fiolet"
+msgstr ""
+
+#: .\templates\edit.html:287
+msgid "Qizil"
+msgstr ""
+
+#: .\templates\edit.html:288
+msgid "Sariq"
+msgstr ""
+
+#: .\templates\edit.html:289
+msgid "Yashil"
+msgstr ""
+
+#: .\templates\edit.html:342
+msgid "Matnni kiriting"
+msgstr ""
+
+#: .\templates\editSMSTemplate.html:5 .\templates\newSmsTemplate.html:5
+msgid "CRM | SMS Template"
+msgstr ""
+
+#: .\templates\editSMSTemplate.html:103 .\templates\newSmsTemplate.html:102
+msgid "Shablon turi"
+msgstr ""
+
+#: .\templates\editSMSTemplate.html:120 .\templates\newSmsTemplate.html:119
+msgid "Jo'natish vaqti"
+msgstr ""
+
+#: .\templates\editSMSTemplate.html:135 .\templates\newSmsTemplate.html:133
+#, fuzzy
+#| msgid "Leads board"
+msgid "Lead board maydonlari"
+msgstr "Lead doska"
+
+#: .\templates\editSMSTemplate.html:149 .\templates\newSmsTemplate.html:147
+#: .\templates\sms.html:66
+msgid "Lead status"
+msgstr ""
+
+#: .\templates\editSMSTemplate.html:162 .\templates\newSmsTemplate.html:160
+#, fuzzy
+#| msgid "Taxrirlash"
+msgid "Filtrlash"
+msgstr "Taxrirlash"
+
+#: .\templates\editSMSTemplate.html:175 .\templates\newSmsTemplate.html:172
+msgid "Tanlangan leadlar"
+msgstr ""
+
+#: .\templates\editSMSTemplate.html:217 .\templates\newSmsTemplate.html:200
+msgid "Qidirish"
+msgstr ""
+
+#: .\templates\editSMSTemplate.html:237 .\templates\newSmsTemplate.html:220
+msgid "Sms matn."
+msgstr ""
+
+#: .\templates\edit_payment_type.html:5
+msgid "CRM | To'lov turi taxrirlash"
+msgstr ""
+
+#: .\templates\edit_payment_type.html:18
+#, fuzzy
+#| msgid "Taxrirlash"
+msgid "To'lov turi taxrirlash"
+msgstr "Taxrirlash"
+
+#: .\templates\edit_product.html:5
+msgid "CRM | Mijoz taxrirlash"
+msgstr ""
+
+#: .\templates\edit_product.html:24
+#, fuzzy
+#| msgid "Mahsulotlar"
+msgid "Mahsulot taxrirlash"
+msgstr "Mahsulotlar"
+
+#: .\templates\etiroz.html:5
+#, fuzzy
+#| msgid "Savdo"
+msgid "CRM | Savdo"
+msgstr "Savdo"
+
+#: .\templates\etiroz.html:24
+msgid "E'tirozlar bilan ishlash"
+msgstr ""
+
+#: .\templates\etiroz.html:31
+msgid "Ko`p takrorlanadigan etirozlar"
+msgstr ""
+
+#: .\templates\etiroz.html:34 .\templates\etiroz.html:107
+msgid "Etirozga Javoblar"
+msgstr ""
+
+#: .\templates\etiroz.html:103
+msgid "E'tirozlar"
+msgstr ""
+
+#: .\templates\etiroz.html:184
+msgid "Sotuv skriptlari"
+msgstr ""
+
+#: .\templates\goal.html:5
+#, fuzzy
+#| msgid "Maqsad"
+msgid "CRM | Maqsad"
+msgstr "Maqsad"
+
+#: .\templates\goal.html:26 .\templates\goal.html:91
+msgid "Oylik"
+msgstr ""
+
+#: .\templates\goal.html:29 .\templates\goal.html:92
+msgid "Yillik"
+msgstr ""
+
+#: .\templates\goal.html:41 .\templates\goal.html:116
+#, fuzzy
+#| msgid "Mijozlar oqimi"
+msgid "Mijoz soni"
+msgstr "Mijozlar oqimi"
+
+#: .\templates\goal.html:46 .\templates\goal.html:81
+#, fuzzy
+#| msgid "Yangi qo'shish"
+msgid "Maqsad qo'shish"
+msgstr "Yangi qo'shish"
+
+#: .\templates\goal.html:58 .\templates\home_new.html:254
+#: .\templates\setting.html:28
+msgid "Hodimlar"
+msgstr "Hodimlar"
+
+#: .\templates\goal.html:59
+#, fuzzy
+#| msgid "Bajarildi"
+msgid "Bajarish foizi"
+msgstr "Bajarildi"
+
+#: .\templates\goal.html:60
+#, fuzzy
+#| msgid "Bajarildi"
+msgid "Bajardi"
+msgstr "Bajarildi"
+
+#: .\templates\goal.html:62
+#, fuzzy
+#| msgid "Maqsad"
+msgid "Maqsad vaqti"
+msgstr "Maqsad"
+
+#: .\templates\goal.html:109
+msgid "Umumiy"
+msgstr ""
+
+#: .\templates\goal.html:126
+#, fuzzy
+#| msgid "Savdo"
+msgid "savdo"
+msgstr "Savdo"
+
+#: .\templates\goal.html:132
+#, fuzzy
+#| msgid "(mijoz soniga nisbatan)"
+msgid "mijoz soni"
+msgstr "(mijoz soniga nisbatan)"
+
+#: .\templates\goal.html:155
+msgid "Maqsad Qo'yildi"
+msgstr ""
+
+#: .\templates\home_new.html:5
+msgid "CRM | Bosh Sahifa"
+msgstr "CRM | Bosh Sahifa"
+
+#: .\templates\home_new.html:49
+msgid "Bugun"
+msgstr "Bugun"
+
+#: .\templates\home_new.html:50
+msgid "Hafta"
+msgstr "Hafta"
+
+#: .\templates\home_new.html:51
+msgid "Oy"
+msgstr "Oy"
+
+#: .\templates\home_new.html:55
+msgid "Barchasi"
+msgstr "Barchasi"
+
+#: .\templates\home_new.html:100 .\templates\home_new.html:463
+#, fuzzy
+#| msgid "Yo'qotildi"
+msgid "Yo'qotilgan"
+msgstr "Yo'qotildi"
+
+#: .\templates\home_new.html:117
+msgid "Muvaffaqqiyatli"
+msgstr "Muvaffaqqiyatli"
+
+#: .\templates\home_new.html:139
+msgid "Ro'yxatga olindi"
+msgstr "Ro'yxatga olindi"
+
+#: .\templates\home_new.html:150 .\templates\task.html:40
+msgid "Bajarilmoqda"
+msgstr "Bajarilmoqda"
+
+#: .\templates\home_new.html:161
+msgid "Bajarildi"
+msgstr "Bajarildi"
+
+#: .\templates\home_new.html:172
+msgid "O'chirildi"
+msgstr "O'chirildi"
+
+#: .\templates\home_new.html:186 .\templates\home_new.html:199
+#: .\templates\home_new.html:211 .\templates\home_new.html:223
+#: .\templates\home_new.html:313 .\templates\home_new.html:326
+#: .\templates\home_new.html:338 .\templates\home_new.html:350
+msgid "Qiymati"
+msgstr "Qiymati"
+
+#: .\templates\home_new.html:194 .\templates\home_new.html:321
+msgid "Aktiv mijozlar"
+msgstr "Aktiv mijozlar"
+
+#: .\templates\home_new.html:207 .\templates\home_new.html:334
+msgid "Umumiy mijozlar"
+msgstr "Umumiy mijozlar"
+
+#: .\templates\home_new.html:218 .\templates\home_new.html:345
+msgid "Qarzdorlar"
+msgstr "Qarzdorlik"
+
+#: .\templates\home_new.html:235
+msgid "Mijozlar oqimi"
+msgstr "Mijozlar oqimi"
+
+#: .\templates\home_new.html:256
+msgid "Summasi"
+msgstr "Summasi"
+
+#: .\templates\home_new.html:281 .\templates\home_new.html:359
+msgid "(mijoz soniga nisbatan)"
+msgstr "(mijoz soniga nisbatan)"
+
+#: .\templates\home_new.html:427
+msgid "Yo`qotilgan"
+msgstr "Yo'qotildi"
+
+#: .\templates\home_new.html:428 .\templates\home_new.html:466
+msgid "Yopilgan"
+msgstr "Yopilgan"
+
+#: .\templates\product_list.html:5
+#, fuzzy
+#| msgid "Mahsulotlar"
+msgid "CRM | Mahsulotlar"
+msgstr "Mahsulotlar"
+
+#: .\templates\product_list.html:32
+#, fuzzy
+#| msgid "Yangi qo'shish"
+msgid "Mahsulot qo'shish"
+msgstr "Yangi qo'shish"
+
+#: .\templates\product_list.html:78
+msgid "To'lov turi qo'shish"
+msgstr ""
+
+#: .\templates\redirect\add.html:18
+msgid "Yangi link yasash"
+msgstr ""
+
+#: .\templates\redirect\add.html:29 .\templates\redirect\edit.html:30
+msgid "Bog'langan url"
+msgstr ""
+
+#: .\templates\redirect\edit.html:18
+#, fuzzy
+#| msgid "Taxrirlash"
+msgid "Link taxrirlash"
+msgstr "Taxrirlash"
+
+#: .\templates\redirect\list.html:6
+msgid "CRM | Redirect list"
+msgstr ""
+
+#: .\templates\redirect\list.html:31
+msgid "Oddiy link"
+msgstr ""
+
+#: .\templates\redirect\list.html:36
+msgid "Forma link"
+msgstr ""
+
+#: .\templates\redirect\list.html:54 .\templates\redirect\list.html:131
+msgid "Yaratilgan sana"
+msgstr ""
+
+#: .\templates\redirect\list.html:55
+msgid "Next url"
+msgstr ""
+
+#: .\templates\redirect\list.html:61 .\templates\redirect\list.html:138
+msgid "Jami soni"
+msgstr ""
+
+#: .\templates\redirect\list.html:132
+msgid "Rasm"
+msgstr ""
+
+#: .\templates\redirect\list.html:139
+msgid "Ko'rish"
+msgstr ""
+
+#: .\templates\redirect\list.html:234
+#, fuzzy
+#| msgid "Ro'yxatga olindi"
+msgid "Nusxa olindi!"
+msgstr "Nusxa olindi!"
+
+#: .\templates\redirect\list.html:246
+msgid "Chindan o'chirmoqchimisiz?"
+msgstr ""
+
+#: .\templates\redirect\list.html:248 .\templates\redirect\list.html:260
+#: .\templates\setting.html:358
+msgid "Yo'q"
+msgstr ""
+
+#: .\templates\redirect\list.html:248 .\templates\redirect\list.html:260
+#: .\templates\setting.html:358
+msgid "Ha"
+msgstr ""
+
+#: .\templates\redirect\list.html:258
+msgid ""
+"Chindan o'chirmoqchimisiz? Barcha to'ldirilgan ma'lumotlar ham o'chib ketadi"
+msgstr ""
+
+#: .\templates\setting.html:5
+#, fuzzy
+#| msgid "Sozlama"
+msgid "CRM | Sozlama"
+msgstr "Sozlama"
+
+#: .\templates\setting.html:24
+msgid "Integratsiya"
+msgstr ""
+
+#: .\templates\setting.html:101
+msgid "First"
+msgstr ""
+
+#: .\templates\setting.html:102
+msgid "Last"
+msgstr ""
+
+#: .\templates\setting.html:103
+msgid "Lavozim"
+msgstr ""
+
+#: .\templates\setting.html:116
+#, fuzzy
+#| msgid "Hodimlar"
+msgid "Hodim"
+msgstr "Hodimlar"
+
+#: .\templates\setting.html:140 .\templates\sms.html:134
+msgid "Jo'natish"
+msgstr ""
+
+#: .\templates\setting.html:168
+msgid "Hozirgi token:"
+msgstr ""
+
+#: .\templates\setting.html:191
+msgid "SMS konfiguratsiya"
+msgstr ""
+
+#: .\templates\setting.html:247
+#, fuzzy
+#| msgid "Qo'shish"
+msgid "Hodim Qo'shish"
+msgstr "Qo'shish"
+
+#: .\templates\setting.html:267 .\templates\setting.html:311
+msgid "Login"
+msgstr ""
+
+#: .\templates\setting.html:271 .\templates\setting.html:315
+msgid "Parol"
+msgstr ""
+
+#: .\templates\setting.html:278 .\templates\setting.html:323
+msgid "Bekor qilish"
+msgstr ""
+
+#: .\templates\setting.html:291
+#, fuzzy
+#| msgid "Taxrirlash"
+msgid "Hodimni taxrirlash"
+msgstr "Taxrirlash"
+
+#: .\templates\setting.html:356
+msgid "Chindan ham o'chirmoqchimisiz?"
+msgstr ""
+
+#: .\templates\sms.html:5
+#, fuzzy
+#| msgid "SMS Gateway"
+msgid "CRM | SMS Gateway"
+msgstr "SMS Gateway"
+
+#: .\templates\sms.html:24
+msgid "SMS shablonlar"
+msgstr ""
+
+#: .\templates\sms.html:51
+msgid "Lead borad maydonlari"
+msgstr ""
+
+#: .\templates\sms.html:85
+msgid "Tekshirish"
+msgstr ""
+
+#: .\templates\sms.html:96
+#, fuzzy
+#| msgid "Leads board"
+msgid "Leadlar"
+msgstr "Lead doska"
+
+#: .\templates\sms.html:102
+msgid "Leadlarni tanlash"
+msgstr ""
+
+#: .\templates\sms.html:129
+msgid "Xabar"
+msgstr ""
+
+#: .\templates\sms.html:158
+msgid "Yaratailgan sana"
+msgstr ""
+
+#: .\templates\sms.html:159
+msgid "Turi"
+msgstr ""
+
+#: .\templates\sms.html:160
+msgid "Matn"
+msgstr ""
+
+#: .\templates\sms.html:161
+msgid "Status"
+msgstr ""
+
+#: .\templates\sms.html:173
+msgid "ta lead tanlangan"
+msgstr ""
+
+#: .\templates\target.html:40
+msgid "Tashrif buyuruvchi"
+msgstr ""
+
+#: .\templates\task.html:5
+msgid "CRM | Task"
+msgstr ""
+
+#: .\templates\task.html:23
+msgid "Boshlang'ich"
+msgstr ""
