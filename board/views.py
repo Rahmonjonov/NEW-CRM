@@ -474,7 +474,10 @@ class Board(TemplateView, AccessMixin):
 
     def get_context_data(self, *args, **kwargs):
         super(Board, self).get_context_data(**kwargs)
-        leads = Lead.objects.filter(is_active=True, status__lt=4, created_user__company=self.request.user.company)
+        if self.request.user.is_director:
+            leads = Lead.objects.filter(is_active=True, status__lt=4, created_user__company=self.request.user.company)
+        else:
+            leads = Lead.objects.filter(is_active=True, status__lt=4, created_user__company=self.request.user.company, created_user=self.request.user)
         lead_poles = LeadPoles.objects.filter(company=self.request.user.company)
         all_lead = []
         if self.request.user.company.type == "B2B":

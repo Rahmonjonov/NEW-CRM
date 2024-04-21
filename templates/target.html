@@ -18,6 +18,91 @@
 
     <!-- Main content -->
     <section class="content">
+    <div class="row">
+            <div class="box bg-transparent no-shadow b-0">
+                <div class="box-body text-center p-0">
+                    <form>
+
+                    <div class="btn-group">
+<!--                        value="{{ today|date:'Y-m-d' }}"-->
+                        <input type="date" name="start_date" class="btn btn-dark">
+                        <input type="date" name="end_date" class="btn btn-dark">
+                        <select class="btn btn-dark" data-style="btn btn-dark" onchange="getReg()" id="region"
+                                                name="region" style="
+                                                width: 100%;">
+                                            <option value="1">{% if LANGUAGE_CODE == 'en' %}
+                                            Select a region
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Выберите регион
+                                        {% else %}
+                                            Viloyatni tanlang
+                                        {% endif %}</option>
+                                            {% for t in region %}
+                                                <option value="{{ t.id }}">{{ t.name }}</option>
+                                            {% endfor %}
+                        </select>
+                        <select class="btn btn-dark"  id="district" name="district"
+                                                style="width: 100%;">
+                                            <option value="">{% if LANGUAGE_CODE == 'en' %}
+                                            Select a region
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Выберите регион
+                                        {% else %}
+                                            Viloyatni tanlang
+                                        {% endif %}</option>
+                        </select>
+                          <select name="emotsiya"  class="btn btn-dark">
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                        <option value="">--</option>
+                                        <option value="1">🤔 Undecided </option>
+                                        <option value="2">🤗 Will reappear </option>
+                                        <option value="3">😋 A case of information</option>
+                                        <option value="4">🤓 Need to influence</option>
+                                        <option value="5">👏🏻 Need to sell quickly </option>
+                                        <option value="6">🤩 Consumer </option>
+                                        <option value="7">✍🏻 Additional increases</option>
+                                        <option value="8">🙃 Undesirable</option>
+                                        <option value="9">😖 Complaint</option>
+
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        <option value="">--</option>
+                                        <option value="1">🤔 Не определился</option>
+                                        <option value="2">🤗 Появляйтесь снова</option>
+                                        <option value="3">😋 Речь идет об информации</option>
+                                        <option value="4">🤓 Надо влиять</option>
+                                        <option value="5">👏🏻 Надо быстро продать</option>
+                                        <option value="6">🤩 Потребитель </option>
+                                        <option value="7">✍🏻Дополнительное увеличение</option>
+                                        <option value="8">🙃 Нежелательно</option>
+                                        <option value="9">😖 Жалоба</option>
+
+                                    {% else %}
+                                        <option value="">--</option>
+                                        <option value="1">🤔 Qarorsiz</option>
+                                        <option value="2">🤗 Qayta kelishuv</option>
+                                        <option value="3">😋 Info ehtiyoj</option>
+                                        <option value="4">🤓 Tasir etish kerak</option>
+                                        <option value="5">👏🏻 Tezkor sotish kerak</option>
+                                        <option value="6">🤩 Istemolchi </option>
+                                        <option value="7">✍🏻 Qo’shimcha kelishuv</option>
+                                        <option value="8">🙃 Etirozli</option>
+                                        <option value="9">😖 Shikoyatli</option>
+
+                                    {% endif %}
+                                </select>
+                        <button class="btn btn-dark ">{% if LANGUAGE_CODE == 'en' %}
+                                            Confirmation
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Подтверждение
+                                        {% else %}
+                                            Tasdiqlash
+                                        {% endif %}</a></button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-6">
@@ -27,6 +112,7 @@
                     {% endfor %}
                 {% endif %}
             </div>
+
             <div class="col-6">
                 <a href="{% url 'adduser' %}" class="btn btn-rounded btn-success float-right"
                    style="margin-bottom: 10px;">{% if LANGUAGE_CODE == 'en' %}
@@ -338,12 +424,52 @@
 {% block js %}
     <!-- Vendor JS -->
     <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
-    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>    <!-- Sunny Admin App -->
-    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
 
-    <!-- Vendor JS -->
-    <script src="{% static 'crm/assets/vendor_components/datatable/datatables.min.js' %}"></script>
-    <script src="{% static 'crm/main/js/pages/data-table.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/easypiechart/dist/jquery.easypiechart.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/apexcharts-bundle/irregular-data-series.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/apexcharts-bundle/dist/apexcharts.js' %}"></script>
+
+    <script src="{% static 'crm/assets/vendor_components/raphael/raphael.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/morris.js/morris.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/widget-morris-charts.js' %}"></script>
+
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/dashboard.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/select2/dist/js/select2.full.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/moment/min/moment.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/advanced-form-element.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js' %}"></script>
+
+    <script src="{% static 'crm/assets/vendor_components/Flot/jquery.flot.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/Flot/jquery.flot.resize.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/Flot/jquery.flot.pie.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/Flot/jquery.flot.categories.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/widget-flot-charts.js' %}"></script>
+
 
     <!-- Sunny Admin App -->
+
+<script>
+        function getReg() {
+            var id = document.getElementById("region").value;
+            console.log(id)
+            $.ajax({
+                type: 'get',
+                url: `/getregion/?id=` + String(id),
+                success: function (r) {
+                    $("#district").empty();
+                    for (d of r['district']) {
+                        var op = `<option value="` + d.id + `">` + d.name + `</option>`
+                        $('#district').append(op);
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
+    </script>
 {% endblock js %}

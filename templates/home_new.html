@@ -46,6 +46,7 @@
         <div class="row">
             <div class="box bg-transparent no-shadow b-0">
                 <div class="box-body text-center p-0">
+                    <form>
                     <div class="btn-group">
                         <button class="btn btn-dark btn-rounded" id="today" onclick="bugunlik()">
                         {%if LANGUAGE_CODE == 'en' %}
@@ -92,8 +93,78 @@
                                 {% endfor %}
                             </select>
                         {% endif %}
+                        <select class=" btn btn-dark" data-style="btn-dark" onchange="getReg()" id="region"
+                                                name="region" style="
+                                                width: 100%;">
+                                            <option value="1">{% if LANGUAGE_CODE == 'en' %}
+                                            Select a region
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Выберите регион
+                                        {% else %}
+                                            Viloyatni tanlang
+                                        {% endif %}</option>
+                                            {% for t in region %}
+                                                <option value="{{ t.id }}">{{ t.name }}</option>
+                                            {% endfor %}
+                        </select>
+                        <select data-style="btn btn-dark"  class="btn btn-dark " id="district" name="district"
+                                                style="width: 100%;">
+                                            <option value="">{% if LANGUAGE_CODE == 'en' %}
+                                            Select a region
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Выберите регион
+                                        {% else %}
+                                            Viloyatni tanlang
+                                        {% endif %}</option>
+                        </select>
+                        <select name="emotsiya"  class="btn btn-dark">
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                        <option value="">--</option>
+                                        <option value="1">🤔 Undecided </option>
+                                        <option value="2">🤗 Will reappear </option>
+                                        <option value="3">😋 A case of information</option>
+                                        <option value="4">🤓 Need to influence</option>
+                                        <option value="5">👏🏻 Need to sell quickly </option>
+                                        <option value="6">🤩 Consumer </option>
+                                        <option value="7">✍🏻 Additional increases</option>
+                                        <option value="8">🙃 Undesirable</option>
+                                        <option value="9">😖 Complaint</option>
 
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        <option value="">--</option>
+                                        <option value="1">🤔 Не определился</option>
+                                        <option value="2">🤗 Появляйтесь снова</option>
+                                        <option value="3">😋 Речь идет об информации</option>
+                                        <option value="4">🤓 Надо влиять</option>
+                                        <option value="5">👏🏻 Надо быстро продать</option>
+                                        <option value="6">🤩 Потребитель </option>
+                                        <option value="7">✍🏻Дополнительное увеличение</option>
+                                        <option value="8">🙃 Нежелательно</option>
+                                        <option value="9">😖 Жалоба</option>
+
+                                    {% else %}
+                                        <option value="">--</option>
+                                        <option value="1">🤔 Qarorsiz</option>
+                                        <option value="2">🤗 Qayta kelishuv</option>
+                                        <option value="3">😋 Info ehtiyoj</option>
+                                        <option value="4">🤓 Tasir etish kerak</option>
+                                        <option value="5">👏🏻 Tezkor sotish kerak</option>
+                                        <option value="6">🤩 Istemolchi </option>
+                                        <option value="7">✍🏻 Qo’shimcha kelishuv</option>
+                                        <option value="8">🙃 Etirozli</option>
+                                        <option value="9">😖 Shikoyatli</option>
+
+                                    {% endif %}
+                                </select>
+                        <button class="btn btn-dark ">{% if LANGUAGE_CODE == 'en' %}
+                                            Confirmation
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Подтверждение
+                                        {% else %}
+                                            Tasdiqlash
+                                        {% endif %}</button>
                     </div>
+                        </form>
                 </div>
             </div>
         </div>
@@ -150,7 +221,7 @@
                                         {% elif LANGUAGE_CODE == 'ru'%}
                                             Потерял
                                         {% else %}
-                                            Yo'qotilgan
+                                        Shartnoma
                                         {% endif %}
                             </p>
                             <h3 class="text-dark mb-0 font-weight-500">
@@ -189,6 +260,46 @@
                     </div>
                 </div>
             </div>
+            {% for lead_pole_influ in lead_poles %}
+                <div class="col-xl-2 col-6">
+                    <div class="box overflow-hidden pull-up hov-rs">
+                        <div class="box-body text-center">
+                            <i class="text-secondary mr-0 font-size-36 mdi mdi-table-column-plus-after"></i>
+                            <div>
+                                <p class="text-mute mt-20 mb-0 font-size-16">{{ lead_pole_influ.name }}</p>
+                                <h3 class="text-dark mb-0 font-weight-500">
+                                    <span id="summa_pole_influser_{{ lead_pole_influ.pk }}">0</span>
+                                    <small class="text-success pl-2">
+                                        <i class="fa fa-caret-up"></i>
+                                        <span id="count_pole_influser_{{ lead_pole_influ.pk }}">0</span>
+                                        <!-- {%if LANGUAGE_CODE == 'en' %}
+                                            out of
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            снаружи
+                                        {% else %}
+                                            tashqarida
+                                        {% endif %} -->
+                                    </small>
+                                </h3>
+                                <h3 class="text-white mb-0 font-weight-500">
+                                    <span id="losed_summa_pole_influser_{{ lead_pole_influ.pk }}">0</span>
+                                    <small class="text-danger pl-2">
+                                        <i class="fa fa-caret-down"></i>
+                                        <span id="losed_count_pole_influser_{{ lead_pole_influ.pk }}">0</span>
+                                        <!-- {%if LANGUAGE_CODE == 'en' %}
+                                            out of
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            снаружи
+                                        {% else %}
+                                            tashqarida
+                                        {% endif %} -->
+                                    </small>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
 
         <div class="row">
@@ -315,7 +426,7 @@
                                         {% elif LANGUAGE_CODE == 'ru'%}
                                             Активные клиенты
                                         {% else %}
-                                            Aktiv mijozlar
+                                            Faol mijozlar
                                         {% endif %}
                                 </div>
                                 <div class="box-body">
@@ -361,7 +472,7 @@
                                             Kоличество:
                                         {% else %}
                                             Soni:
-                                        {% endif %} <span style="float: right">0</span></p>
+                                        {% endif %} <span style="float: right">{{umumiy_leds_count}}</span></p>
                                     <p class="text-mute font-size-16">
                                         {%if LANGUAGE_CODE == 'en' %}
                                             Value:
@@ -369,7 +480,7 @@
                                             Ценность:
                                         {% else %}
                                             Qiymati:
-                                        {% endif %} <span style="float: right">0</span></p>
+                                        {% endif %} <span style="float: right">{{umumiy_leads_summa}}</span></p>
                                 </div>
                             </div>
                         </div>
@@ -404,6 +515,144 @@
                                             Qiymati:
                                         {% endif %} <span
                                             style="float: right">{{ debtor_sum }}</span></p>
+                                </div>
+                            </div>
+                        </div>
+<!--                    11111111111111111111111111111111111-->
+
+                     <div class="col-xl-3 col-6">
+                            <div class="box overflow-hidden pull-up hov-rs">
+                                <div class="box-body text-center text-mute font-size-16 pt-3" style="padding: 0">
+                                    {%if LANGUAGE_CODE == 'en' %}
+                                         Influencer   Lead
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                          Инфлуэнсер  Лед
+                                        {% else %}
+                                         Influencer   Lead
+                                        {% endif %}
+                                </div>
+                                <div class="box-body">
+                                    <p class="text-mute font-size-16">
+                                        {%if LANGUAGE_CODE == 'en' %}
+                                            Number:
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Kоличество:
+                                        {% else %}
+                                            Soni:
+                                        {% endif %}
+                                        <span
+                                            style="float: right">{{ lead_influser }}</span></p>
+                                    <p class="text-mute font-size-16">
+                                        {%if LANGUAGE_CODE == 'en' %}
+                                            Value:
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Ценность:
+                                        {% else %}
+                                            Qiymati:
+                                        {% endif %}
+                                        <span
+                                            style="float: right">{{ leads_summa_influser }}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-6">
+                            <div class="box overflow-hidden pull-up hov-rs">
+                                <div class="box-body text-center text-mute font-size-16 pt-3" style="padding: 0">
+                                    {% trans "" %}
+                                    {%if LANGUAGE_CODE == 'en' %}
+                                          Influencer  Active customers
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                        Инфлуэнсер    Активные клиенты
+                                        {% else %}
+                                        Influencer    Faol mijozlar
+                                        {% endif %}
+                                </div>
+                                <div class="box-body">
+                                    <p class="text-mute font-size-16">
+                                        {%if LANGUAGE_CODE == 'en' %}
+                                            Number:
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Kоличество:
+                                        {% else %}
+                                            Soni:
+                                        {% endif %} <span
+                                            style="float: right">{{ active_leads_count_influser }}</span></p>
+                                    <p class="text-mute font-size-16">
+                                        {%if LANGUAGE_CODE == 'en' %}
+                                            Value:
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Ценность:
+                                        {% else %}
+                                            Qiymati:
+                                        {% endif %}
+                                        <span
+                                            style="float: right">{{ active_leads_summa_influser }}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-6">
+                            <div class="box overflow-hidden pull-up hov-rs">
+                                <div class="box-body text-center text-mute font-size-16 pt-3" style="padding: 0">
+                                    {% trans "" %}
+                                    {%if LANGUAGE_CODE == 'en' %}
+                                        Influencer    General customers
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                         Инфлуэнсер   Общие клиенты
+                                        {% else %}
+                                        Influencer    Umumiy mijozlar
+                                        {% endif %}
+                                </div>
+                                <div class="box-body">
+                                    <p class="text-mute font-size-16">
+                                        {%if LANGUAGE_CODE == 'en' %}
+                                            Number:
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Kоличество:
+                                        {% else %}
+                                            Soni:
+                                        {% endif %} <span style="float: right">{{umumiy_leds_count_influser}}</span></p>
+                                    <p class="text-mute font-size-16">
+                                        {%if LANGUAGE_CODE == 'en' %}
+                                            Value:
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Ценность:
+                                        {% else %}
+                                            Qiymati:
+                                        {% endif %} <span style="float: right">{{umumiy_leads_summa_influser}}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-6">
+                            <div class="box overflow-hidden pull-up hov-rs">
+                                <div class="box-body text-center text-mute font-size-16 pt-3" style="padding: 0">
+
+                                    {%if LANGUAGE_CODE == 'en' %}
+                                        Influencer    Debtors
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                        Инфлуэнсер    Должники
+                                        {% else %}
+                                        Influencer    Qarzdorlar
+                                        {% endif %}
+                                </div>
+                                <div class="box-body">
+                                    <p class="text-mute font-size-16">
+                                        {%if LANGUAGE_CODE == 'en' %}
+                                            Number:
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Kоличество:
+                                        {% else %}
+                                            Soni:
+                                        {% endif %} <span
+                                            style="float: right">{{ debtor_influser }}</span></p>
+                                    <p class="text-mute font-size-16">
+                                        {%if LANGUAGE_CODE == 'en' %}
+                                            Value:
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Ценность:
+                                        {% else %}
+                                            Qiymati:
+                                        {% endif %} <span
+                                            style="float: right">{{ debtor_sum_influser|default_if_none:'0' }}</span></p>
                                 </div>
                             </div>
                         </div>
@@ -723,6 +972,7 @@
     <script src="{% static 'crm/assets/vendor_components/Flot/jquery.flot.categories.js' %}"></script>
     <script src="{% static 'crm/main/js/pages/widget-flot-charts.js' %}"></script>
 
+
     <script>
         $(document).ready(function () {
             dountChardBasicLoad()
@@ -899,8 +1149,10 @@
             {% if user.is_director %}
                 let user_pk = document.getElementById('user').value;
                 request_ajax(user_pk, 1, null, null)
+                request_influencer(user_pk, 1, null, null)
             {% else %}
                 request_ajax(0, 1, null, null)
+                request_influencer(0, 1, null, null)
             {% endif %}
         }
 
@@ -908,8 +1160,10 @@
             {% if user.is_director %}
                 let user_pk = document.getElementById('user').value;
                 request_ajax(user_pk, 2, null, null)
+                request_influencer(user_pk, 2, null, null)
             {% else %}
                 request_ajax(0, 2, null, null)
+                request_influencer(0, 2, null, null)
             {% endif %}
         }
 
@@ -917,8 +1171,10 @@
             {% if user.is_director %}
                 let user_pk = document.getElementById('user').value;
                 request_ajax(user_pk, 3, null, null)
+                request_influencer(user_pk, 3, null, null)
             {% else %}
                 request_ajax(0, 3, null, null)
+                request_influencer(0, 3, null, null)
             {% endif %}
         }
 
@@ -928,8 +1184,10 @@
             {% if user.is_director %}
                 let user_pk = document.getElementById('user').value;
                 request_ajax(user_pk, 4, date1, date2)
+                request_influencer(user_pk, 4, date1, date2)
             {% else %}
                 request_ajax(0, 4, date1, date2)
+                request_influencer(0, 4, date1, date2)
             {% endif %}
         });
 
@@ -982,5 +1240,61 @@
 
         }
 
+        function request_influencer(pk, type, sana1, sana2) {
+            let url = `main_is_influencer/?pk=${pk}&type=${type}`
+            if (type === 4) {
+                url += `&sana1=${sana1}&sana2=${sana2}`
+            }
+            $.ajax({
+                type: 'get',
+                url: url,
+                success: function (response) {
+                    for (let pole of response['lead_poles_data']) {
+                        let pk = pole["pole"];
+                        $(`#summa_pole_influser_${pk}`).html(th_sep(pole['summa']))
+                        $(`#count_pole_influser_${pk}`).html(th_sep(pole['count']))
+                        $(`#losed_summa_pole_influser_${pk}`).html(th_sep(pole['losed_summa']))
+                        $(`#losed_count_pole_influser_${pk}`).html(th_sep(pole['losed_count']))
+                    }
+                    $(`#losed_summa`).html(isNull_0(response['losed']['summa']))
+                    $(`#losed_count`).html(th_sep(response['losed']['count']))
+
+                    $(`#finished_summa`).html(isNull_0(response['finished']['summa']))
+                    $(`#finished_count`).html(th_sep(response['finished']['count']))
+
+                    $(`#task0`).html(th_sep(response['task']['register']))
+                    $(`#task1`).html(th_sep(response['task']['doing']))
+                    $(`#task2`).html(th_sep(response['task']['done']))
+                    $(`#task3`).html(th_sep(response['task']['deleted']))
+
+
+                },
+                error: function (e) {
+                    //console.log(e);
+                }
+            });
+
+        }
+    </script>
+
+<script>
+        function getReg() {
+            var id = document.getElementById("region").value;
+            console.log(id)
+            $.ajax({
+                type: 'get',
+                url: `/getregion/?id=` + String(id),
+                success: function (r) {
+                    $("#district").empty();
+                    for (d of r['district']) {
+                        var op = `<option value="` + d.id + `">` + d.name + `</option>`
+                        $('#district').append(op);
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
     </script>
 {% endblock js %}

@@ -86,7 +86,25 @@
                                         <th scope="row">{{ forloop.counter }}</th>
                                         <td>{{ u.first_name }}</td>
                                         <td>{{ u.last_name }}</td>
-                                        <td>{% if u.is_director == True %}Director{% else %}Hodim{% endif %}</td>
+                                        <td>{% if u.is_director == True %}
+                                            Director
+                                            {%elif u.is_influencer == True %}
+                                                {% if LANGUAGE_CODE == 'en' %}
+                                                Influencer
+                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                Инфлуэнсер
+                                                {% else %}
+                                                Influencer
+                                            {% endif %}
+                                            {% else %}
+                                                {% if LANGUAGE_CODE == 'en' %}
+                                                Staff
+                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                Персонал
+                                                {% else %}
+                                                Hodim
+                                                {% endif %}
+                                            {% endif %}</td>
                                         {#                                    <td><i data-feather="edit" id="edit" data-toggle="modal" data-target="#modal-center"></i></td>#}
                                         <td onclick="deletehodim('{{ u.id }}')">{% if u.is_director == True %}{% else %}
                                             <i data-feather="trash-2" id="delete"></i>{% endif %}</td>
@@ -169,6 +187,39 @@
                                 <input type="text" name="password" class="form-control">
                             </div>
                         </div>
+                        <div class="row " >
+                       <div class="col-6 mt-4">
+                            <select name="is_influencer"  class="form-control" required>
+                                <option>---</option>
+                                <option value="1">
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                        Director
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Директор
+                                    {% else %}
+                                        Direktor
+                                    {% endif %}
+                                </option>
+                                <option value="2">
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                    Influencer
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Инфлюэнсер
+                                    {% else %}
+                                        Influencer
+                                    {% endif %}</option>
+                                <option value="3">
+                                 {% if LANGUAGE_CODE == 'en' %}
+                                        Staff
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                    Персонал
+                                    {% else %}
+                                        Hodim
+                                    {% endif %}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
                     </div>
                     <div class="modal-body">
                         <button type="button" class="btn btn-rounded btn-secondary" data-dismiss="modal">

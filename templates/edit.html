@@ -579,6 +579,45 @@
                                         <option value="bg-success">Yashil</option>
                                         <option value="bg-danger">Qizil</option>
                                     {% endif %}
+                                </select><br>
+                                <select name="emotsiya" required class="form-control">
+                                    {% if LANGUAGE_CODE == 'en' %}
+
+                                        <option value="1">🤔 Undecided </option>
+                                        <option value="2">🤗 Will reappear </option>
+                                        <option value="3">😋 A case of information</option>
+                                        <option value="4">🤓 Need to influence</option>
+                                        <option value="5">👏🏻 Need to sell quickly </option>
+                                        <option value="6">🤩 Consumer </option>
+                                        <option value="7">✍🏻 Additional increases</option>
+                                        <option value="8">🙃 Undesirable</option>
+                                        <option value="9">😖 Complaint</option>
+
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+
+                                        <option value="1">🤔 Не определился</option>
+                                        <option value="2">🤗 Появляйтесь снова</option>
+                                        <option value="3">😋 Речь идет об информации</option>
+                                        <option value="4">🤓 Надо влиять</option>
+                                        <option value="5">👏🏻 Надо быстро продать</option>
+                                        <option value="6">🤩 Потребитель </option>
+                                        <option value="7">✍🏻Дополнительное увеличение</option>
+                                        <option value="8">🙃 Нежелательно</option>
+                                        <option value="9">😖 Жалоба</option>
+
+                                    {% else %}
+
+                                        <option value="1">🤔 Qarorsiz</option>
+                                        <option value="2">🤗 Qayta kelishuv</option>
+                                        <option value="3">😋 Info ehtiyoj</option>
+                                        <option value="4">🤓 Tasir etish kerak</option>
+                                        <option value="5">👏🏻 Tezkor sotish kerak</option>
+                                        <option value="6">🤩 Istemolchi </option>
+                                        <option value="7">✍🏻 Qo’shimcha kelishuv</option>
+                                        <option value="8">🙃 Etirozli</option>
+                                        <option value="9">😖 Shikoyatli</option>
+
+                                    {% endif %}
                                 </select>
                                 <button type="submit" class="btn btn-rounded btn-success pull-right mt-2">{% if LANGUAGE_CODE == 'en' %}
                                             Save
@@ -596,20 +635,21 @@
             </div>
             <div class="box-body">
                 <div class="timeline">
-                    {% for n in notes %}
+                        {% for n in notes %}
                         <div class="timeline-item">
-                            <div class="timeline-point timeline-point-{{ n.color }}">
+
+                            <div class="timeline-point timeline-point {{ n.color }}">
                                 <i class="fa fa-star"></i>
                             </div>
                             <div class="timeline-event timeline-event-{{ n.color }}">
                                 <div class="timeline-heading">
-                                    <h4 class="timeline-title">{{ n.title }}</h4>
+                                    <h3 class="timeline-title text-right">{{ n.get_emotsiya_display }}</h3>
                                 </div>
                                 <div class="timeline-body">
-                                    <p>{{ n.note }}</p>
+                                    <p style="color:white; font-size: 20px;">{{ n.note }}</p>
                                 </div>
                                 <div class="timeline-footer">
-                                    <p class="text-right">{{ n.date }}</p>
+                                   <p class="text-right">{{ n.changer}}</p><p class="text-right">{{ n.date }}</p>
                                 </div>
                             </div>
                         </div>

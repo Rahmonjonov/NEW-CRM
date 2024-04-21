@@ -38,7 +38,6 @@ class Company(models.Model):
     bot_token = models.TextField(null=True)
     group_chat_id = models.TextField(null=True)
 
-
     balance = models.BigIntegerField(default=0)
     plan = models.ForeignKey(Plan, on_delete=models.SET_NULL, null=True, default=None)
     active = models.BooleanField(default=False)
@@ -76,6 +75,7 @@ class Invoice(models.Model):
 
 class Account(AbstractUser):
     is_director = models.BooleanField(default=False)
+    is_influencer = models.BooleanField(default=False)
     token = models.CharField(max_length=200, null=True, blank=True)
     phone = models.CharField(max_length=25, null=True, blank=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)

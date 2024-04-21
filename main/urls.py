@@ -45,7 +45,10 @@ urlpatterns = [
     path('postevent/', PostEvent, name='postevent'),
     path('delevent/', DelEvent, name='delevent'),
     path('editevent/', EditEvent, name='editevent'),
+
     path('main_statistika/', main_statistika, name='main_statistika'),
+    path('main_is_influencer/', main_is_influencer, name='main_is_influencer'),
+
     path('addhodim/', AddHodim, name='addhodim'),
     path('deletehodim/', DeleteHodim, name='deletehodim'),
     path('importLead/', importLead, name='importLead'),

@@ -25,7 +25,7 @@ class DistrictAdmin(admin.ModelAdmin):
 @admin.register(Lead)
 class LeadAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'price', 'company', 'companyAddress', 'status', 'pole', 'date', 'created_user',
-                    'phone', 'is_active']
+                    'phone', 'is_active', 'created_user']
     list_filter = ['created_user__company', 'status', 'pole']
     list_display_links = ['id', 'name']
     search_fields = ['name', 'phone']

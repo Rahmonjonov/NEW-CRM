@@ -66,6 +66,7 @@ class LeadPoles(models.Model):
 class Lead(models.Model):
     status_types = (
         (0, "Lead boardda"),
+        (1, "status1"),
         (4, "Yo'qotish"),
         (5, "Muvaffaqqiyatli yakunlash"),
         (6, "Promouter"),
@@ -133,6 +134,17 @@ class LeadAction(models.Model):
         (3, "Izoh qo'shildi"),
         (4, "Pole o'zgardi"),
     )
+    status_emotsiya = (
+        (1, '🤔 Qarorsiz'),
+        (2, '🤗 Qayta kelishuv'),
+        (3, '😋 Info ehtiyoj'),
+        (4, '🤓 Tasir etish kerak'),
+        (5, '👏🏻 Tezkor sotish kerak'),
+        (6, '🤩 Istemolchi'),
+        (7, '✍🏻 Qo’shimcha kelishuv'),
+        (8, '🙃 Etirozli'),
+        (9, '😖 Shikoyatli'),
+    )
     lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
     status = models.IntegerField(default=0, choices=status_types)
     oldStatus = models.IntegerField(default=0)
@@ -142,6 +154,7 @@ class LeadAction(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     note = models.TextField()
     color = models.CharField(default="primary", max_length=255)
+    emotsiya = models.IntegerField(choices=status_emotsiya, default=0)
     changer = models.ForeignKey(Account, on_delete=models.CASCADE)
 
 
