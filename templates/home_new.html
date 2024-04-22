@@ -169,6 +169,20 @@
             </div>
         </div>
         <div class="row">
+            {% if not request.user.is_influencer  or  request.user.is_director  %}
+            {% if request.user.is_director %}
+            <h4 style="margin-left: 1.5rem;">
+            {% if LANGUAGE_CODE == 'en' %}
+                Employee
+            {% elif LANGUAGE_CODE == 'ru'%}
+                Сотрудник
+            {% else %}
+                Xodim
+            {% endif %}
+            </h4>
+            <div class="col-md-12"></div>
+            {% endif %}
+
             {% for lead_pole in lead_poles %}
                 <div class="col-xl-2 col-6">
                     <div class="box overflow-hidden pull-up hov-rs">
@@ -209,7 +223,7 @@
                     </div>
                 </div>
             {% endfor %}
-
+            {% endif %}
             <div class="col-xl-2 col-6">
                 <div class="box overflow-hidden pull-up hov-rs">
                     <div class="box-body text-center">
@@ -260,6 +274,21 @@
                     </div>
                 </div>
             </div>
+            {% if request.user.is_influencer or  request.user.is_director %}
+
+            {% if request.user.is_director %}
+            <h4 style="margin-left: 1.5rem;">
+            {% if LANGUAGE_CODE == 'en' %}
+                Influencer
+            {% elif LANGUAGE_CODE == 'ru'%}
+                Инфлюэнсер
+            {% else %}
+                Influencer
+            {% endif %}
+            </h4>
+            <div class="col-md-12"></div>
+            {%endif%}
+
             {% for lead_pole_influ in lead_poles %}
                 <div class="col-xl-2 col-6">
                     <div class="box overflow-hidden pull-up hov-rs">
@@ -300,6 +329,7 @@
                     </div>
                 </div>
             {% endfor %}
+            {% endif %}
         </div>
 
         <div class="row">
@@ -413,7 +443,7 @@
                                             Qiymati:
                                         {% endif %}
                                         <span
-                                            style="float: right">{{ leads_summa }}</span></p>
+                                            style="float: right">{{ leads_summa|default_if_none:"0" }}</span></p>
                                 </div>
                             </div>
                         </div>
@@ -448,7 +478,7 @@
                                             Qiymati:
                                         {% endif %}
                                         <span
-                                            style="float: right">{{ active_leads_summa }}</span></p>
+                                            style="float: right">{{ active_leads_summa|default_if_none:"0" }}</span></p>
                                 </div>
                             </div>
                         </div>
@@ -472,7 +502,7 @@
                                             Kоличество:
                                         {% else %}
                                             Soni:
-                                        {% endif %} <span style="float: right">{{umumiy_leds_count}}</span></p>
+                                        {% endif %} <span style="float: right">{{ umumiy_leds_count }}</span></p>
                                     <p class="text-mute font-size-16">
                                         {%if LANGUAGE_CODE == 'en' %}
                                             Value:
@@ -514,13 +544,12 @@
                                         {% else %}
                                             Qiymati:
                                         {% endif %} <span
-                                            style="float: right">{{ debtor_sum }}</span></p>
+                                            style="float: right">{{ debtor_sum|default_if_none:"0"  }}</span></p>
                                 </div>
                             </div>
                         </div>
-<!--                    11111111111111111111111111111111111-->
-
-                     <div class="col-xl-3 col-6">
+                    
+                        <div class="col-xl-3 col-6">
                             <div class="box overflow-hidden pull-up hov-rs">
                                 <div class="box-body text-center text-mute font-size-16 pt-3" style="padding: 0">
                                     {%if LANGUAGE_CODE == 'en' %}
@@ -551,7 +580,7 @@
                                             Qiymati:
                                         {% endif %}
                                         <span
-                                            style="float: right">{{ leads_summa_influser }}</span></p>
+                                            style="float: right">{{ leads_summa_influser|default_if_none:'0' }}</span></p>
                                 </div>
                             </div>
                         </div>
@@ -586,7 +615,7 @@
                                             Qiymati:
                                         {% endif %}
                                         <span
-                                            style="float: right">{{ active_leads_summa_influser }}</span></p>
+                                            style="float: right">{{ active_leads_summa_influser|default_if_none:'0' }}</span></p>
                                 </div>
                             </div>
                         </div>
@@ -618,7 +647,7 @@
                                             Ценность:
                                         {% else %}
                                             Qiymati:
-                                        {% endif %} <span style="float: right">{{umumiy_leads_summa_influser}}</span></p>
+                                        {% endif %} <span style="float: right">{{umumiy_leads_summa_influser|default_if_none:'0'}}</span></p>
                                 </div>
                             </div>
                         </div>
@@ -831,7 +860,7 @@
                                         {% else %}
                                             Qiymati:
                                         {% endif %} <span
-                                            style="float: right">{{ active_leads_summa }}</span></p>
+                                            style="float: right">{{ active_leads_summa|default_if_none:"0" }}</span></p>
                                 </div>
                             </div>
                         </div>

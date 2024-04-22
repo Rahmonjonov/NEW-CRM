@@ -284,17 +284,22 @@ class Home_new_class(TemplateView, AccessMixin):
 
     def get_context_data(self, *args, **kwargs):
         context = super(Home_new_class, self).get_context_data(**kwargs)
-        context['company'] = Company.objects.get(id=self.request.user.company.id)
         context['home'] = 'active'
+        context['company'] = Company.objects.get(id=self.request.user.company.id)
         context['users'] = Account.objects.filter(company=self.request.user.company)
         context['lead_poles'] = LeadPoles.objects.filter(company=self.request.user.company)
-
-        district  = self.request.GET.get('district')
+        mijoz = Lead.objects.filter(is_active=True)
+        if self.request.user.is_director:
+            mijoz = Lead.objects.filter(is_active=True, created_user__company=self.request.user.company)
+        else:
+            mijoz = Lead.objects.filter(is_active=True, created_user=self.request.user)
+            
+            
         context['region'] = Region.objects.all()
         context['district']=District.objects.all()
-        emotsiya = self.request.GET.get('emotsiya')
 
-        mijoz = Lead.objects.filter(created_user__company=self.request.user.company)
+        district  = self.request.GET.get('district')
+        emotsiya = self.request.GET.get('emotsiya')
 
         if emotsiya:
             for i in (LeadAction.objects.select_related('lead__created_user__company', 'lead').
@@ -304,43 +309,34 @@ class Home_new_class(TemplateView, AccessMixin):
 
         if district:
             mijoz = mijoz.filter(is_active=True, district_id=district)
+        
+
 
         context['lead'] = mijoz.filter(status__gte=0, status__lte=3).count()
         context['lead0'] = mijoz.filter(status=4).count()
         context['lead1'] = mijoz.filter(status=5).count()
         context['chart'] = ChartLead(self.request)
-        context['umumiy_leds_count'] = mijoz.filter(is_active=True, status=5,created_user__company=self.request.user.company).count()
-        context['umumiy_leads_summa'] = mijoz.filter(is_active=True, status=5,created_user__company=self.request.user.company).aggregate(all=Coalesce(Sum('price'), 0))['all']
+        
+        context['umumiy_leds_count'] = mijoz.filter(is_active=True, status=5, created_user__is_influencer=False).count()
+        context['umumiy_leads_summa'] = mijoz.filter(is_active=True, status=5, created_user__is_influencer=False).aggregate(all=Coalesce(Sum('price'), 0))['all']
 
-        context['umumiy_leds_count_influser'] = mijoz.filter(is_active=True, status=5,
-                                                    created_user__company=self.request.user.company,created_user__is_influencer=True).count()
-        context['umumiy_leads_summa_influser'] = \
-        mijoz.filter(is_active=True, status=5, created_user__company=self.request.user.company,created_user__is_influencer=True).aggregate(
-            all=Coalesce(Sum('price'), 0))['all']
-
+        context['umumiy_leds_count_influser'] = mijoz.filter(is_active=True, status=5,created_user__is_influencer=True).count()
+        context['umumiy_leads_summa_influser'] = mijoz.filter(is_active=True, status=5,created_user__is_influencer=True).aggregate(all=Coalesce(Sum('price'), 0))['all']
 
         debt = mijoz.filter(debt__gt=0)
+
         context['debtor'] = debt.count()
         context['debtor_sum'] = debt.aggregate(Sum('debt'))['debt__sum']
 
         context['debtor_influser'] = debt.filter(created_user__is_influencer=True).count()
         context['debtor_sum_influser'] = debt.filter(created_user__is_influencer=True).aggregate(Sum('debt'))['debt__sum']
-
-
-        if context['debtor_sum'] is None:
-            context['debtor_sum'] = 0
+        
         # begin goal
         if self.request.user.is_director:
-
             accounts = Account.objects.filter(company=self.request.user.company)
             list = []
             for a in accounts:
-                lc = Lead.objects.filter(is_active=True, created_user=a)
-                if district:
-                    lc = lc.filter(district_id=district).count()
-                lc = lc.count()
-
-
+                lc = mijoz.filter(is_active=True, created_user=a).count()
                 try:
                     goal = Goal.objects.get(user=a, oy=datetime.today().month, yil=datetime.today().year)
                     t = {
@@ -357,10 +353,7 @@ class Home_new_class(TemplateView, AccessMixin):
                 list.append(t)
             context['acc'] = list
         else:
-            if district:
-                lc = Lead.objects.filter(is_active=True, created_user=self.request.user,  district_id=district).count()
-            else:
-                lc = Lead.objects.filter(is_active=True, created_user=self.request.user).count()
+            lc = mijoz.filter(is_active=True, created_user=self.request.user).count()
             try:
                 goal = Goal.objects.get(user=self.request.user, oy=datetime.today().month, yil=datetime.today().year)
                 t = {
@@ -376,42 +369,25 @@ class Home_new_class(TemplateView, AccessMixin):
                 }
             context['a'] = t
         # end goal
-        Query = Lead.objects.filter(is_active=True, created_user__company=self.request.user.company)
-        if district:
-            Query = Lead.objects.filter(district_id=district)
 
-        if emotsiya:
-            for i in (LeadAction.objects.select_related('lead__created_user__company', 'lead').
-                    filter(emotsiya=emotsiya, lead__created_user__company=self.request.user.company)
-                    .values('lead', 'lead__created_user__company').distinct()):
-                Query = Query.filter(id=i['lead'])
+        context['leads_count'] = mijoz.exclude(status=5).count()
+        context['leads_summa'] = mijoz.exclude(status=5).aggregate(Sum('price'))['price__sum']
+        
+        context['lead_influser'] = mijoz.filter(status__gte=0, status__lte=3, created_user__is_influencer=True).exclude(status=5).count()
+        context['leads_summa_influser'] = mijoz.filter(created_user__is_influencer=True).exclude(status=5).aggregate(Sum('price'))['price__sum']
 
-        context['leads_count'] = Query.exclude(status=5).count()
-        context['leads_summa'] = Query.aggregate(Sum('price'))['price__sum']
-        context['lead_influser'] = Query.filter(status__gte=0, status__lte=3, created_user__is_influencer=True).exclude(status=5).count()
-        context['leads_summa_influser'] = Query.filter(created_user__is_influencer=True).aggregate(Sum('price'))['price__sum']
+        context['active_leads_count'] = mijoz.filter(status__lt=4).count()
+        context['active_leads_summa'] = mijoz.filter(status__lt=4).aggregate(Sum('price'))['price__sum']
+
+        context['active_leads_count_influser'] = mijoz.filter(status__lt=4, created_user__is_influencer=True).count()
+        context['active_leads_summa_influser'] = mijoz.filter(status__lt=4, created_user__is_influencer=True).aggregate(Sum('price'))['price__sum']
 
 
-        if context['leads_summa'] is None:
-            context['leads_summa'] = 0
-
-        context['active_leads_count'] = Query.filter(status__lt=4).count()
-        context['active_leads_summa'] = Query.filter(status__lt=4).aggregate(Sum('price'))['price__sum']
-
-        context['active_leads_count_influser'] = Query.filter(status__lt=4, created_user__is_influencer=True).count()
-        context['active_leads_summa_influser'] = Query.filter(status__lt=4, created_user__is_influencer=True).aggregate(Sum('price'))['price__sum']
-
-
-
-        if context['active_leads_summa'] is None:
-            context['active_leads_summa'] = 0
         return context
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return self.handle_no_permission()
-        # if not request.user.company.active:
-        #     return redirect('cabinet')
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -514,49 +490,46 @@ class Target(TemplateView, AccessMixin):
     def get_context_data(self, *args, **kwargs):
         context = super(Target, self).get_context_data(**kwargs)
         context['target'] = 'active'
+        lead = Lead.objects.filter(is_active=True,created_user__company=self.request.user.company)
         district = self.request.GET.get('district')
         start_date = self.request.GET.get('start_date')
         end_date = self.request.GET.get('end_date')
         emotsiya = self.request.GET.get('emotsiya')
-        query = Lead.objects.filter(created_user__company=self.request.user.company)
         context['today'] = datetime.today().date()
         context['region'] = Region.objects.all()
 
+        if district:
+            lead = lead.filter(district_id=district)
+        
+        if start_date and end_date:
+            lead = lead.filter(date__date__gte=start_date, date__date__lte=end_date)
+        
+        if emotsiya:
+                for i in LeadAction.objects.select_related('lead__created_user__company', 'lead').filter(emotsiya=emotsiya,
+                 lead__created_user__company=self.request.user.company).values('lead', 'lead__created_user__company').distinct():
+                    lead = lead.filter(id=i['lead'])
+
         if self.request.user.is_director:
             context['company'] = Company.objects.get(id=self.request.user.company.id)
-            if start_date and end_date:
-                query = query.filter(district_id=district, date__date__gte=start_date, date__date__lte=end_date)
-            if district != '' :
-                query = query.filter(district_id=district)
-            if emotsiya:
-                for i in LeadAction.objects.select_related('lead__created_user__company', 'lead').filter(emotsiya=emotsiya, lead__created_user__company=self.request.user.company).values('lead', 'lead__created_user__company').distinct():
-                    query = query.filter(id=i['lead'])
-
-            context['lead'] = query.filter(is_active=True, status__gte=1, status__lte=4,
-                                                  created_user__company=self.request.user.company)
-            context['mijoz'] = query.filter(is_active=True, status=5, created_user__company=self.request.user.company)
-            context['lead0'] = query.filter(status=0, created_user__company=self.request.user.company)
-            context['promouter'] = query.filter(is_active=True, status=6, created_user__company=self.request.user.company)
-            context['lead_count'] = query.filter(is_active=True, status__gte=1, status__lte=4,created_user__company=self.request.user.company).count()
-            context['mijoz_count'] = query.filter(is_active=True, status=5,
-                                                         created_user__company=self.request.user.company).count()
-            context['lead0_count'] = query.filter(is_active=True, status=0,
-                                                         created_user__company=self.request.user.company).count()
-            context['promouter_count'] = query.filter(is_active=True, status=6,
-                                                                     created_user__company=self.request.user.company).count()
+            context['lead'] = lead.filter(status__gte=1, status__lte=4)
+            context['mijoz'] = lead.filter(status=5)
+            context['lead0'] = lead.filter(status=0)
+            context['promouter'] = lead.filter(status=6)
+            context['lead_count'] = lead.filter(status__gte=1, status__lte=4).count()
+            context['mijoz_count'] = lead.filter(status=5).count()
+            context['lead0_count'] = lead.filter(status=0).count()
+            context['promouter_count'] = lead.filter(status=6).count()
 
         else:
-            context['lead'] = query.filter(is_active=True,
-                status__gte=1, status__lte=4, created_user=self.request.user)
-            context['mijoz'] = query.filter(is_active=True, status=5, created_user=self.request.user)
-            context['lead0'] = query.filter(is_active=True, status=0, created_user=self.request.user)
-            context['promouter'] = query.filter(is_active=True, status=6, created_user=self.request.user)
-            context['lead_count'] = query.filter(is_active=True, status__gte=1, status__lte=4,
-                                                        created_user=self.request.user).count()
-            context['mijoz_count'] = query.filter(is_active=True, status=5, created_user=self.request.user).count()
-            context['lead0_count'] = query.filter(is_active=True, status=0, created_user=self.request.user).count()
-            context['promouter_count'] = query.filter(is_active=True, status=6,
-                                                             created_user=self.request.user).count()
+            context['lead'] = lead.filter(status__gte=1, status__lte=4)
+            context['mijoz'] = lead.filter(is_active=True, status=5, created_user=self.request.user)
+            context['lead0'] = lead.filter(is_active=True, status=0, created_user=self.request.user)
+            context['promouter'] = lead.filter(is_active=True, status=6, created_user=self.request.user)
+            context['lead_count'] = lead.filter(is_active=True, status__gte=1, status__lte=4,created_user=self.request.user).count()
+            context['mijoz_count'] = lead.filter(is_active=True, status=5, created_user=self.request.user).count()
+            context['lead0_count'] = lead.filter(is_active=True, status=0, created_user=self.request.user).count()
+            context['promouter_count'] = lead.filter(is_active=True, status=6,created_user=self.request.user).count()
+
         return context
 
     def dispatch(self, request, *args, **kwargs):
@@ -986,9 +959,7 @@ def SmsGateway(request):
             #         error_send_count += 1
 
         elif company.smsto_activated:
-            print('bbbbb')
             for lead in Leads:
-                print('pp')
                 result = sendSmsOneContact_from_sms_to(company, lead.phone, sms)
                 if result.status_code == 200:
                     success_send_count += 1
@@ -1131,7 +1102,6 @@ def AddHodim(request):
         try:
             current_count = Account.objects.filter(company=request.user.company).count()
             if request.user.company.plan.max_worker_count <= current_count:
-                print("limit")
                 return redirect('hodim')
         except:
             pass
@@ -1538,6 +1508,9 @@ def EditSpin(request):
         step = r['step']
         st = r['st']
         url = '/edit/?id=' + u_id
+        print(u_id, 'hhhhhhh')
+        print(step, ';;;;;;;;;;;')
+        print(st, '!!!!!!!!!!!')
         user = Lead.objects.get(id=u_id)
         if st == '1':
             user.step1 = step
@@ -1705,7 +1678,6 @@ def main_is_influencer(request):
         # types = ((1, "Bugunlik"), (2, "Haftalik"), (3, "Oylik"), (4, "Sana range"))
         user_pk = int(request.GET.get('pk'))
         type = int(request.GET.get('type'))
-        print(type)
         sana = datetime.today().date()
         if type == 1:
             sana1 = datetime(sana.year, sana.month, sana.day)
