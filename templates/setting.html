@@ -60,7 +60,19 @@
                                             Персонал
                                         {% else %}
                                             Hodimlar
-                                        {% endif %}</span></a>
+                                        {% endif %}</span>
+                        </a></li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#referal4" role="tab"><span
+                            class="hidden-sm-up"><i class="ion-person"></i></span> <span
+                            class="hidden-xs-down">{% if LANGUAGE_CODE == 'en' %}
+                            Referral
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                    Направление
+                                    {% else %}
+                                    Yo'naltirish
+                                    {% endif %}</span>
+                            </a>
+                        </li>
                         <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#info1" role="tab"><span
                                         class="hidden-sm-up"><i class="ion-person"></i></span> <span
                                         class="hidden-xs-down">{% if LANGUAGE_CODE == 'en' %}
@@ -145,7 +157,6 @@
                             </div>
                         </div>
                         <div class="tab-pane" id="profile4" role="tabpanel">
-
                             <div class="box" style="margin: 0;">
                                 <div class="box-header with-border" style="padding: 0.5rem 0.5rem;">
 
@@ -225,10 +236,141 @@
                                                         {% if u.is_director == True %}{% else %}
                                                             <i data-feather="trash-2" id="delete"></i>{% endif %}</td>
                                                     <td onclick="edithodim({{ u.id }})" data-toggle="modal"
-                                                        data-target="#modal-center-edit">
+                                                        data-target="#modal-center-edit{{u.id}}">
                                                         {% if u.is_director == True %}{% else %}
                                                             <i data-feather="edit-2" id="edit"></i>{% endif %}</td>
                                                 </tr>
+                                                <div class="modal center-modal fade" id="modal-center-edit{{u.id}}" tabindex="-1">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                                                                        Employee editing
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                        Редактирование сотрудников
+                                                                                    {% else %}
+                                                                                        Hodimni taxrirlash
+                                                                                    {% endif %}</h5>
+                                                                <button type="button" class="close" data-dismiss="modal">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <form action="{% url 'edithodim' %}" method="post">
+                                                                <div class="modal-body">
+                                                                    {% csrf_token %}
+                                                                    <div class="row">
+                                                                        <div class="col-6">
+                                                                            <label>{% if LANGUAGE_CODE == 'en' %}
+                                                                                        Last name
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                        Фамилия
+                                                                                    {% else %}
+                                                                                        Familiya
+                                                                                    {% endif %}</label>
+                                                                            <input type="text" name="fam" value="{{ u.first_name }}" class="form-control" id="fam">
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <label>{% if LANGUAGE_CODE == 'en' %}
+                                                                                        Name
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                        Имя
+                                                                                    {% else %}
+                                                                                        Ism
+                                                                                    {% endif %}</label>
+                                                                            <input type="text" name="ism" value="{{u.last_name}}" class="form-control" id="ism">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row mt-2">
+                                                                        <div class="col-6">
+                                                                            <label>{% if LANGUAGE_CODE == 'en' %}
+                                                                                        Login
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                        Авторизоваться
+                                                                                    {% else %}
+                                                                                        Tizimga kirish
+                                                                                    {% endif %}</label>
+                                                                            <input type="text" name="username" value="{{ u.username }}" class="form-control" id="username">
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <label>{% if LANGUAGE_CODE == 'en' %}
+                                                                                        Password
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                        Пароль
+                                                                                    {% else %}
+                                                                                        Parol
+                                                                                    {% endif %}</label>
+                                                                            <input type="text" name="password"  class="form-control" id="password">
+                                                                            <input type="hidden" name="id" class="form-control" value="{{ u.id }}" id="id">
+                                                                        </div>
+                                                                       
+                                                                        <div class="col-6 mt-2">
+                                                                            <label for="">
+                                                                                {% if LANGUAGE_CODE == 'en' %}
+                                                                                Lavozim
+                                                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                Позиция	
+                                                                                {% else %}
+                                                                                Position
+                                                                                {% endif %}
+                                                                            </label>
+                                                                            <select name="status"  class="form-control" required>
+                                                                                <option>---</option>
+                                                                                <option value="is_director" {% if u.is_director %} selected {% endif %}>
+                                                                                    {% if LANGUAGE_CODE == 'en' %}
+                                                                                        Director
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                        Директор
+                                                                                    {% else %}
+                                                                                        Direktor
+                                                                                    {% endif %}
+                                                                                </option>
+                                                                                <option value="is_influencer" {% if u.is_influencer %} selected {% endif %}>
+                                                                                    {% if LANGUAGE_CODE == 'en' %}
+                                                                                    Influencer
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                        Инфлюэнсер
+                                                                                    {% else %}
+                                                                                        Influencer
+                                                                                    {% endif %}</option>
+                                                                                <option value="is_staff" {% if u.is_influencer == False and  u.is_director == False  %} selected  {% endif %}>
+                                                                                 {% if LANGUAGE_CODE == 'en' %}
+                                                                                        Staff
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                    Персонал
+                                                                                    {% else %}
+                                                                                        Hodim
+                                                                                    {% endif %}
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <button type="button" class="btn btn-rounded btn-secondary"
+                                                                            data-dismiss="modal">{% if LANGUAGE_CODE == 'en' %}
+                                                                                        Cancel
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                        Отмена
+                                                                                    {% else %}
+                                                                                        Bekor qilish
+                                                                                    {% endif %}
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-rounded btn-primary float-right"
+                                                                   >{% if LANGUAGE_CODE == 'en' %}
+                                                                        Edit
+                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                        Редактировать
+                                                                    {% else %}
+                                                                        Taxrirlash
+                                                                    {% endif %}
+                                                                    </button>
+                                                                    
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             {% endfor %}
                                             </tbody>
                                         </table>
@@ -237,6 +379,166 @@
                                 <!-- /.box-body -->
                             </div>
 
+                        </div>
+                        <div class="tab-pane" id="referal4" role="tabpanel">
+                            <div class="box" style="margin: 0;">
+                                <div class="box-header with-border" style="padding: 0.5rem 0.5rem;">
+
+                                    <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                        Referral
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                        Направление
+                                        {% else %}
+                                        Yo'naltirish
+                                        {% endif %}</h4>
+                                    <button style="float: right" type="button" class="btn btn-rounded btn-primary"
+                                            data-toggle="modal" data-target="#modal-referal">{% if LANGUAGE_CODE == 'en' %}
+                                            Add
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Добавлять
+                                        {% else %}
+                                            Qo'shish
+                                        {% endif %}
+                                    </button>
+                                </div>
+                                <div class="box-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover mb-0">
+                                            <tbody>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                {% if LANGUAGE_CODE == 'en' %}
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Delete</th>
+                                                <th scope="col">Edit</th>
+                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                <th scope="col">Названия</th>
+                                                <th scope="col">Удалить</th>
+                                                <th scope="col">Редактировать</th>
+                                                {% else %}
+                                                <th scope="col">Nomi</th>
+                                                <th scope="col">O'chirish</th>
+                                                <th scope="col">Taxrirlash</th>
+                                                {% endif %}
+
+                                            </tr>
+                                            </tbody>
+                                            <tbody>
+                                            {% for u in referral %}
+                                                <tr>
+                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                    <td>{{ u.name }}</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-rounded btn-danger"
+                                                                data-toggle="modal" data-target="#modal-referal-del{{u.id}}">
+                                                                <i data-feather="trash-2" id="delete"></i>
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-rounded btn-warning"
+                                                                data-toggle="modal" data-target="#modal-referal-edit{{u.id}}">
+                                                                <i data-feather="edit-2" id="edit"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <div class="modal center-modal fade" id="modal-referal-edit{{u.id}}" tabindex="-1">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                                                                        Edit Referral
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                    Редактировать Направление
+                                                                                    {% else %}
+                                                                                    Yo'naltirish Tahrirlash
+                                                                                    {% endif %}</h5>
+                                                                <button type="button" class="close" data-dismiss="modal">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <form action="{% url 'edit_referall' u.id %}" method="post">
+                                                                <div class="modal-body">
+                                                                    {% csrf_token %}
+                                                                    <label>{% if LANGUAGE_CODE == 'en' %}
+                                                                                Name
+                                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                            Названия 
+                                                                            {% else %}
+                                                                                Nomi
+                                                                            {% endif %}
+                                                                    </label>
+                                                                    <input type="text" name="name" class="form-control" value="{{ u.name }}">
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-rounded btn-secondary"
+                                                                            data-dismiss="modal">{% if LANGUAGE_CODE == 'en' %}
+                                                                                        Cancel
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                        Отмена
+                                                                                    {% else %}
+                                                                                        Bekor qilish
+                                                                                    {% endif %}
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-rounded  btn-primary ">
+                                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                                        Edit
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                    Редактировать
+                                                                                    {% else %}
+                                                                                    Tahrirlash
+                                                                                    {% endif %}
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal center-modal fade" id="modal-referal-del{{u.id}}" tabindex="-1">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                                                                    Are you sure you want to delete?
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                    Вы уверены, что хотите удалить?
+                                                                                    {% else %}
+                                                                                    Haqiqatan ham oʻchirib tashlamoqchimisiz?
+                                                                                    {% endif %}</h5>
+                                                                <button type="button" class="close" data-dismiss="modal">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-rounded btn-secondary"
+                                                                        data-dismiss="modal">{% if LANGUAGE_CODE == 'en' %}
+                                                                                    Cancel
+                                                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                    Отмена
+                                                                                {% else %}
+                                                                                    Bekor qilish
+                                                                                {% endif %}
+                                                                </button>
+                                                                <button type="submit" class="btn btn-rounded  btn-primary ">
+                                                                    <a href="{% url 'del_referall' u.id %}">
+                                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                                        Yes
+                                                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                                                        Да
+                                                                        {% else %}
+                                                                        Ha
+                                                                        {% endif %}
+                                                                    </a>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane" id="info1" role="tabpanel">
 
@@ -369,7 +671,7 @@
 
     </section>
 
-    <!-- Modal -->
+    <!--   -->
     <div class="modal center-modal fade" id="modal-centerbot" tabindex="-1">
         <div class="modal-dialog">
             <form action="{% url 'add_bot' %}" method="post">
@@ -566,7 +868,6 @@
     <div class="modal center-modal fade" id="modal-center" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-
                 <div class="modal-header">
                     <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
                                             Add Employee
@@ -683,71 +984,36 @@
             </div>
         </div>
     </div>
-    <div class="modal center-modal fade" id="modal-center-edit" tabindex="-1">
+
+    <div class="modal center-modal fade" id="modal-referal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
-                                            Employee editing
+                                            Add Referral
                                         {% elif LANGUAGE_CODE == 'ru'%}
-                                            Редактирование сотрудников
+                                            Добавить Направление
                                         {% else %}
-                                            Hodimni taxrirlash
+                                        Yo'naltirish Qo'shish
                                         {% endif %}</h5>
                     <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{% url 'edithodim' %}" method="post">
+                <form action="{% url 'add_referall' %}" method="post">
                     <div class="modal-body">
                         {% csrf_token %}
-                        <div class="row">
-                            <div class="col-6">
-                                <label>{% if LANGUAGE_CODE == 'en' %}
-                                            Last name
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Фамилия
-                                        {% else %}
-                                            Familiya
-                                        {% endif %}</label>
-                                <input type="text" name="fam" class="form-control" id="fam">
-                            </div>
-                            <div class="col-6">
-                                <label>{% if LANGUAGE_CODE == 'en' %}
-                                            Name
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Имя
-                                        {% else %}
-                                            Ism
-                                        {% endif %}</label>
-                                <input type="text" name="ism" class="form-control" id="ism">
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-6">
-                                <label>{% if LANGUAGE_CODE == 'en' %}
-                                            Login
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Авторизоваться
-                                        {% else %}
-                                            Tizimga kirish
-                                        {% endif %}</label>
-                                <input type="text" name="username" class="form-control" id="username">
-                            </div>
-                            <div class="col-6">
-                                <label>{% if LANGUAGE_CODE == 'en' %}
-                                            Password
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Пароль
-                                        {% else %}
-                                            Parol
-                                        {% endif %}</label>
-                                <input type="text" name="password" class="form-control" id="password">
-                                <input type="hidden" name="id" class="form-control" id="id">
-                            </div>
-                        </div>
+                        <label>{% if LANGUAGE_CODE == 'en' %}
+                                    Name
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                Названия 
+                                {% else %}
+                                    Nomi
+                                {% endif %}
+                        </label>
+                        <input type="text" name="name" class="form-control">
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-rounded btn-secondary"
                                 data-dismiss="modal">{% if LANGUAGE_CODE == 'en' %}
                                             Cancel
@@ -757,19 +1023,21 @@
                                             Bekor qilish
                                         {% endif %}
                         </button>
-                        <input type="submit" class="btn btn-rounded btn-primary float-right"
-                               value="{% if LANGUAGE_CODE == 'en' %}
-                                            Edit
+                        <button type="submit" class="btn btn-rounded  btn-primary ">
+                            {% if LANGUAGE_CODE == 'en' %}
+                                            Add
                                         {% elif LANGUAGE_CODE == 'ru'%}
-                                            Редактировать
+                                            Добавлять
                                         {% else %}
-                                            Taxrirlash
-                                        {% endif %}">
+                                            Qo'shish
+                                        {% endif %}
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+   
 {% endblock content %}
 {% block js %}
     <!-- Vendor JS -->

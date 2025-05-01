@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{%if LANGUAGE_CODE == 'en' %}
+                CRM | Client Base
+            {% elif LANGUAGE_CODE == 'ru'%}
+                CRM | Клиентская база
+            {% else %}
+                CRM | Client Base
+            {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+    <style>
+       .lead_price {
+    display: inline-block;
+    width: 30%;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #dedede !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+    </style>
+    
+{% endblock css %}
+{% block content %}
+
+    <section class="content">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="box-body" style="padding: 0">
+                    <div class="tab-content">
+                        
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap"><i class="fa-solid fa-plus"></i></button>
+
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <form method="post" action="{% url 'instruktsya_add' %}" enctype='multipart/form-data'>
+                                    {% csrf_token %}
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="recipient-title" class="col-form-label">
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                        Title
+                                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                                        Заголовок
+                                                        {% else %}
+                                                        Sarlavha
+                                                        {% endif %}:
+                                                    </label>
+                                                    <input type="text" class="form-control" id="recipient-title" name="title">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="recipient-video_link" class="col-form-label">
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                        Link
+                                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                                        Линк
+                                                        {% else %}
+                                                        Havola
+                                                        {% endif %}:
+                                                    </label>
+                                                    <input type="text" class="form-control" id="recipient-title" name="video_link">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="recipient-video_file" class="col-form-label">
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                        Video
+                                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                                        Видео
+                                                        {% else %}
+                                                        Video
+                                                        {% endif %}:
+                                                    </label>
+                                                    <input type="file" class="form-control" id="recipient-title" name="video_file">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="recipient-photo" class="col-form-label">
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                        Picture
+                                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                                        Картина
+                                                        {% else %}
+                                                        Rasm
+                                                        {% endif %}:
+                                                    </label>
+                                                    <input type="file" class="form-control" id="recipient-title" name="photo">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                        Text
+                                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                                        Текст
+                                                        {% else %}
+                                                        Matn
+                                                        {% endif %}:</label>
+                                                    <textarea class="form-control" id="message-text" name="text"></textarea>
+                                                </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                                {% if LANGUAGE_CODE == 'en' %}
+                                                Close
+                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                Закрывать
+                                                {% else %}
+                                                Yopish
+                                                {% endif %}</button>
+                                            <button type="submit" class="btn btn-primary">
+                                                {% if LANGUAGE_CODE == 'en' %}
+                                                Send
+                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                Отправлять
+                                                {% else %}
+                                                Yuborish
+                                                {% endif %}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <br>
+                        <div class="col-12" style="padding: 0">
+                            <div class="box">
+                                <div class="box-body">
+                                    <div class="table-responsive">
+                                        <table id="example" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>№</th>
+                                                    {% if LANGUAGE_CODE == 'en' %}
+                                                    <th>Title</th>
+                                                    <th>Text</th>
+                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                    <th>Заголовок</th>
+                                                    <th>Текст</th>
+                                                    {% else %}
+                                                    <th>Sarlavha</th>
+                                                    <th>Matn</th>
+                                                    {% endif %}
+                                                </tr>
+                                            </thead>
+                                                <tbody>
+                                                {% for t in instruktsya %}
+                                                    <tr class="text-center">
+                                                        <td><a href="{% url 'instruktsya_list_detail' t.id %}">{{forloop.counter}}</a></td>
+                                                        <td><a href="{% url 'instruktsya_list_detail' t.id  %}">{{t.title}}</a></td>
+                                                        <td><a href="{% url 'instruktsya_list_detail' t.id  %}" class="">{{ t.text|slice:":80" }} ..</a></td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+     
+{% endblock content %}
+{% block js %}
+
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/datatable/datatables.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/data-table.js' %}"></script>
+    <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<!-- Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+{% endblock js %}

@@ -23,10 +23,10 @@
                 <div class="box-body text-center p-0">
                     <form>
 
-                    <div class="btn-group">
+                    <div class="btn-group" id="filter_group">
 <!--                        value="{{ today|date:'Y-m-d' }}"-->
-                        <input type="date" name="start_date" class="btn btn-dark">
-                        <input type="date" name="end_date" class="btn btn-dark">
+                        <input type="date" value="{{first_day_of_month|date:'Y-m-d'}}" name="start_date" class="btn btn-dark">
+                        <input type="date" value="{{today|date:'Y-m-d'}}" name="end_date" class="btn btn-dark">
                         <select class="btn btn-dark" data-style="btn btn-dark" onchange="getReg()" id="region"
                                                 name="region" style="
                                                 width: 100%;">
@@ -48,8 +48,11 @@
                                         {% elif LANGUAGE_CODE == 'ru'%}
                                             Выберите регион
                                         {% else %}
-                                            Viloyatni tanlang
+                                            Hududni tanlang
                                         {% endif %}</option>
+                                        {% for t in district %}
+                                                <option value="{{ t.id }}">{{ t.name }}</option>
+                                            {% endfor %}
                         </select>
                           <select name="emotsiya"  class="btn btn-dark">
                                     {% if LANGUAGE_CODE == 'en' %}
@@ -90,7 +93,7 @@
 
                                     {% endif %}
                                 </select>
-                        <button class="btn btn-dark ">{% if LANGUAGE_CODE == 'en' %}
+                        <button onclick="saveInputsToLocal()"  class="btn btn-dark ">{% if LANGUAGE_CODE == 'en' %}
                                             Confirmation
                                         {% elif LANGUAGE_CODE == 'ru'%}
                                             Подтверждение
@@ -471,5 +474,83 @@
                 }
             });
         }
+    </script>
+
+
+
+
+
+<!-- <script>
+    function saveInputsToLocal() {
+        const filterGroup = document.getElementById("filter_group");
+        const inputs = filterGroup.querySelectorAll("input, select");
+    
+        inputs.forEach((input) => {
+            if (input.name) {
+                localStorage.setItem(`filterGroup-${input.name}`, input.value);
+            }
+        });
+    }
+    
+    
+    function loadInputsFromLocal() {
+        const filterGroup = document.getElementById("filter_group");
+        const inputs1 = filterGroup.querySelectorAll("input, select, textarea");
+    
+        inputs1.forEach((input) => {
+            if (input.name) {
+                const savedValue = localStorage.getItem(`filterGroup-${input.name}`);
+                if (savedValue !== null) {
+                    input.value = savedValue;
+                }
+            }
+        });
+    }
+    
+    
+        // Load the content when the page is loaded
+        window.onload = loadInputsFromLocal;
+    </script> -->
+
+
+
+    <script>
+        function saveInputsToLocal() {
+            const filterGroup = document.getElementById("filter_group");
+            const inputs = filterGroup.querySelectorAll("input, select");
+    
+            inputs.forEach((input) => {
+                if (input.name) {
+                    localStorage.setItem(`filterGroup-${input.name}`, input.value);
+                }
+            });
+        }
+    
+        function loadInputsFromLocal() {
+            const filterGroup = document.getElementById("filter_group");
+            const inputs = filterGroup.querySelectorAll("input, select, textarea");
+    
+            // Parse URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+    
+            inputs.forEach((input) => {
+                if (input.name) {
+                    // Set from URL parameter if available
+                    if (urlParams.has(input.name)) {
+                        input.value = urlParams.get(input.name);
+                    } 
+                    // else {
+                    //     // Otherwise, load from localStorage
+                    //     const savedValue = localStorage.getItem(`filterGroup-${input.name}`);
+                    //     if (savedValue !== null) {
+                    //         input.value = savedValue;
+                    //     }
+                    // }
+                }
+            });
+        }
+    
+        // Load the content when the page is loaded
+        window.onload = loadInputsFromLocal;
     </script>
 {% endblock js %}

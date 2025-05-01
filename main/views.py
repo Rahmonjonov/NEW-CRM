@@ -23,7 +23,7 @@ from rest_framework.serializers import ModelSerializer
 from account.functions import checkPhone, sendSmsOneContact, sendSmsOneContact_from_sms_to
 from account.models import Plan, Invoice, Card, Company_default_poles, Company, Account, Company_type_choise
 from board.models import LeadPoles, LeadAction, CategoryProduct, Region, Lead, District, Task, Product, SMSTemplate, \
-    SMS_template_choise, Payment_type, Shopping
+    SMS_template_choise, Payment_type, Shopping,Referral
 from board.views import is_B2B, register_lead_send_sms
 from goal.models import Goal
 from main.models import Calendar, Objections, ObjectionWrite, Script, Debtors, ImportTemplate
@@ -299,6 +299,7 @@ class Home_new_class(TemplateView, AccessMixin):
         context['district']=District.objects.all()
 
         district  = self.request.GET.get('district')
+
         emotsiya = self.request.GET.get('emotsiya')
 
         if emotsiya:
@@ -309,6 +310,8 @@ class Home_new_class(TemplateView, AccessMixin):
 
         if district:
             mijoz = mijoz.filter(is_active=True, district_id=district)
+            district_obj = District.objects.get(id=district)
+            context['district'] = District.objects.filter(region=district_obj.region)
         
 
 
@@ -339,16 +342,24 @@ class Home_new_class(TemplateView, AccessMixin):
                 lc = mijoz.filter(is_active=True, created_user=a).count()
                 try:
                     goal = Goal.objects.get(user=a, oy=datetime.today().month, yil=datetime.today().year)
+                    actions = Lead.objects.filter(finishedDate__month=datetime.today().month, finishedDate__year=datetime.today().year, created_user=a)
+                    act_sum = sum([i.finishedPrice for i in actions])
                     t = {
                         'name': a.first_name,
                         'surname': a.last_name,
-                        'foiz': int((lc / goal.mijoz_soni) * 100)
+                        'foiz': int((lc / (goal.mijoz_soni if goal.mijoz_soni else 0)) * 100),
+                        'foiz_summa': int(100 / (goal.savdo if goal.savdo else 1) * (act_sum if act_sum != 0 else 1)),
+                        'summa': act_sum,
+                        'plan_summa': goal.savdo,
                     }
                 except:
                     t = {
                         'name': a.first_name,
                         'surname': a.last_name,
-                        'foiz': 0
+                        'foiz': 0,
+                        'foiz_summa': 0,
+                        'summa': 0,
+                        'plan_summa': 0,
                     }
                 list.append(t)
             context['acc'] = list
@@ -433,7 +444,7 @@ def GetCalendar(request):
     else:
         calens = Calendar.objects.filter(created_user=request.user)
     c = []
-    for i in calens:
+    for i in calens.filter(user__isnull=False):
         j = {
             'id': i.id,
             'color': i.color,
@@ -496,13 +507,19 @@ class Target(TemplateView, AccessMixin):
         end_date = self.request.GET.get('end_date')
         emotsiya = self.request.GET.get('emotsiya')
         context['today'] = datetime.today().date()
+        context['first_day_of_month'] = datetime.today().date().replace(day=1)
         context['region'] = Region.objects.all()
+        context['district'] = District.objects.all()
 
         if district:
             lead = lead.filter(district_id=district)
+            district_obj = District.objects.get(id=district)
+            context['district'] = District.objects.filter(region=district_obj.region)
         
         if start_date and end_date:
             lead = lead.filter(date__date__gte=start_date, date__date__lte=end_date)
+        else:
+            lead = lead.filter(date__date__gte=context['first_day_of_month'])
         
         if emotsiya:
                 for i in LeadAction.objects.select_related('lead__created_user__company', 'lead').filter(emotsiya=emotsiya,
@@ -545,12 +562,37 @@ class Clients(TemplateView, AccessMixin):
     def get_context_data(self, *args, **kwargs):
         context = super(Clients, self).get_context_data(**kwargs)
         context['client'] = 'active'
+
+        region = self.request.GET.get('region')
+        district = self.request.GET.get('district')
+        users = self.request.GET.get('users')
+        date_range = self.request.GET.get('date')
+
         context['company'] = Company.objects.get(id=self.request.user.company.id)
+        leads = Lead.objects.all()
         if self.request.user.is_director:
-            context['clients'] = Lead.objects.filter(is_active=True, created_user__company=self.request.user.company)
+            leads = leads.filter(is_active=True, created_user__company=self.request.user.company)
         else:
-            context['clients'] = Lead.objects.filter(is_active=True, created_user=self.request.user)
+            leads = leads.filter(is_active=True, created_user=self.request.user)
+
+        if district:
+            leads = leads.filter(district__id=district)
+
+        if users:
+            leads = leads.filter(created_user__id=users)
+
+        if date_range:
+            start_str, end_str = date_range.split(' - ')
+            start_date = datetime.strptime(start_str, '%m/%d/%Y').date()
+            end_date = datetime.strptime(end_str, '%m/%d/%Y').date()
+            
+            leads = leads.filter(date__date__range=(start_date, end_date))
+            
+        context['clients']  = leads
         context['template_excel'] = ImportTemplate.objects.first()
+        context['region'] = Region.objects.all()
+        context['district'] = District.objects.all()
+        context['users'] = Account.objects.filter(company=self.request.user.company)
         return context
 
     def dispatch(self, request, *args, **kwargs):
@@ -569,6 +611,7 @@ class Setting(TemplateView, AccessMixin):
         context['setting'] = 'active'
         context['token'] = self.request.user.company.tg_token
         context['users'] = Account.objects.filter(company=self.request.user.company)
+        context['referral'] = Referral.objects.filter(company=self.request.user.company)
         context['company'] = self.request.user.company
         
         return context
@@ -579,6 +622,18 @@ class Setting(TemplateView, AccessMixin):
         # if not request.user.company.active:
         #     return redirect('cabinet')
         return super().dispatch(request, *args, **kwargs)
+
+def add_referall(request):
+    Referral.objects.create(name=request.POST.get('name'), company=request.user.company)
+    return redirect(request.META['HTTP_REFERER'])
+
+def edit_referall(request, id):
+    Referral.objects.filter(id=id, company=request.user.company).update(name=request.POST.get('name'))
+    return redirect(request.META['HTTP_REFERER'])
+
+def del_referall(request, id):
+    Referral.objects.filter(id=id, company=request.user.company).update(is_activate=False)
+    return redirect(request.META['HTTP_REFERER'])
 
 def change_company_informations(request):
     r = request.POST.get
@@ -939,10 +994,15 @@ def SmsGateway(request):
                 can, phone = checkPhone(lead.phone)
                 if can:
                     result = sendSmsOneContact(company, phone, sms)
+                    print(result)
+                    print(company)
+                    print(phone)
+                    print(sms)
                     if result.status_code == 200:
                         success_send_count += 1
                     else:
                         error_send_count += 1
+
                 else:
                     error_send_count += 1
 
@@ -1137,7 +1197,7 @@ def Edito(request):
                 'ckeditor': ck,
                 't': 1
             }
-            context['company'] = Company.objects.get(id=self.request.user.company.id)
+            context['company'] = Company.objects.get(id=request.user.company.id)
             return render(request, 'etiroz.html', context)
         elif t == '2':
             o = ObjectionWrite.objects.get(id=pk)
@@ -1148,7 +1208,7 @@ def Edito(request):
                 'ckeditor': ck,
                 't': 2
             }
-            context['company'] = Company.objects.get(id=self.request.user.company.id)
+            context['company'] = Company.objects.get(id=request.user.company.id)
             return render(request, 'etiroz.html', context)
     else:
         return redirect('etiroz')
@@ -1255,7 +1315,9 @@ def Edit(request):
             'notes': LeadAction.objects.filter(lead_id=id),
             'products': Product.objects.filter(company=request.user.company),
             'payment_types': Payment_type.objects.filter(company=request.user.company),
-            'shoppings': Shopping.objects.filter(lead=lead)
+            'shoppings': Shopping.objects.filter(lead=lead),
+            'account':Account.objects.filter(company=request.user.company),
+            'referral' : Referral.objects.filter(company=request.user.company)
         }
         context['company'] = Company.objects.get(id=request.user.company.id)
         return render(request, 'edit.html', context)
@@ -1321,9 +1383,56 @@ def Edit(request):
             u.phone2 = request.POST['phone2']
         except:
             pass
+        try:
+            u.referral_id = request.POST['referral']
+        except:
+            pass
         u.save()
 
         return redirect('target')
+
+import openai
+from django.views.decorators.csrf import csrf_exempt
+
+
+from openai import OpenAI  
+
+client = OpenAI(api_key="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")
+
+@csrf_exempt
+def chat_with_gpt(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        user_message = data.get("message", "")
+
+        chat_response = client.chat.completions.create(
+            model="gpt-3.5-turbo",  
+            messages=[
+                {"role": "system", "content": "Siz foydalanuvchiga yordam beruvchi ChatGPT assistant siz."},
+                {"role": "user", "content": user_message}
+            ]
+        )
+
+        reply = chat_response.choices[0].message.content
+        return JsonResponse({"response": reply})
+    return JsonResponse({"error": "Only POST method allowed"}, status=405)
+
+def add_task_with_lead(request, id):
+    lead = LeadAction.objects.get(id=id)
+    lead_status = request.POST.get('type_task')
+    name = request.POST.get('name')
+    customer = request.POST.get('customer')
+    datetime = request.POST.get('datetime')
+    Task.objects.create(
+        lead_action=lead,
+        lead_status=lead_status,
+        name=name,
+        customer_id=customer,
+        created_user=request.user,
+        note=lead.note,
+        lead_date_time=datetime
+    )
+    return redirect(request.META['HTTP_REFERER'])
 
 
 def AddUser(request):
@@ -1497,7 +1606,7 @@ def AddDebtor(request):
             'debtors': Lead.objects.filter(is_active=True, debt=0, created_user__company=request.user.company),
             'method': 'get',
         }
-        context['company'] = Company.objects.get(id=self.request.user.company.id)
+        context['company'] = Company.objects.get(id=request.user.company.id)
         return render(request, 'adddebtor.html', context)
 
 
@@ -1680,7 +1789,7 @@ def main_is_influencer(request):
         type = int(request.GET.get('type'))
         sana = datetime.today().date()
         if type == 1:
-            sana1 = datetime(sana.year, sana.month, sana.day)
+            sana1 = datetime(snaa.year, sana.month, sana.day)
             sana2 = datetime.fromordinal(sana.toordinal() + 1)
         elif type == 2:
             sana1 = datetime.fromordinal(sana.toordinal() - 6)
@@ -1898,6 +2007,7 @@ def EditHodim(request):
     ism = r['ism']
     username = r['username']
     password = r['password']
+    status = r['status']
     us = Account.objects.get(id=id)
     try:
         Account.objects.get(username=username)
@@ -1905,6 +2015,11 @@ def EditHodim(request):
         return redirect('setting')
     except:
         us.username = username
+    if status == 'is_director':
+        us.is_director = True
+    elif status == 'is_influencer':
+        us.is_influencer = True
+        
     us.first_name = ism
     us.last_name = fam
     us.password = make_password(password)

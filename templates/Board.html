@@ -14,15 +14,115 @@
 
 {% endblock title %}
 {% block css %}
+
     <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
-    <!-- Style-->
     <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
     <link rel="stylesheet" href="{% static 'crm/board/bootstrap/style.css' %}">
     <link rel="stylesheet" href="{% static 'crm/board/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
 
+    <!-- Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+    <style>
+
+        .text-mute {
+            color: #ffffff !important;
+        }
+
+        h3 > span {
+            color: #ffffff !important;
+        }
+
+        .theme-primary .text-primary {
+            color: #6B778D;
+        }
+
+        .dark-skin h1, .dark-skin h2, .dark-skin h3, .dark-skin h4, .dark-skin h5, .dark-skin h6 {
+            color: #ffffff;
+        }
+
+        .text-dark {
+            color: #ffffff !important;
+        }
+
+        .dark-skin .table {
+            color: #ffffff;
+        }
+
+        .btn-dark {
+            background-color: #272e48 !important;
+        }
+    </style>
 {% endblock css %}
 {% block content %}
+<section class="content">
+    <div class="row">
+        <div class="box bg-transparent no-shadow b-0">
+            <div class="box-body text-center p-0">
+                <form>
+                    <div class="btn-group" id="filter_group">
+                        <input name="date"  type="text" class="btn btn-dark btn-rounded" id="reservation">
+
+                        {% if user.is_director %}
+                            <select class="btn btn-dark" data-style="btn-dark" id="user" name="user">
+                                <option value="0">
+                                {%if LANGUAGE_CODE == 'en' %}
+                            All
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                            Bce
+                        {% else %}
+                            Barchasi
+                        {% endif %}
+                                </option>
+                                {% for u in users %}
+                                    <option value="{{ u.id }}"
+                                            data-tokens="{{ u.first_name|default_if_none:'' }}">{{ u.last_name|default_if_none:'' }} {{ u.first_name|default_if_none:'' }} {{ u.username|default_if_none:'' }}</option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                        <select class=" btn btn-dark" data-style="btn-dark" onchange="getRego()" id="region"
+                                                name="region" style="
+                                                width: 100%;">
+                                            <option value="">{% if LANGUAGE_CODE == 'en' %}
+                                            Select a region
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Выберите регион
+                                        {% else %}
+                                            Viloyatni tanlang
+                                        {% endif %}</option>
+                                            {% for t in region %}
+                                                <option value="{{ t.id }}">{{ t.name }}</option>
+                                            {% endfor %}
+                        </select>
+                        <select data-style="btn btn-dark"  class="btn btn-dark" id="district"  name="district"
+                                                style="width: 100%;">
+                                            <option value="">{% if LANGUAGE_CODE == 'en' %}
+                                            Select a region
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Выберите регион
+                                        {% else %}
+                                            Hududni tanlang
+                                        {% endif %}</option>
+                                        {% for t in district %}
+                                        <option value="{{ t.id }}">{{ t.name }}</option>
+                                    {% endfor %}
+                        </select>
+                        <button class="btn btn-dark " >{% if LANGUAGE_CODE == 'en' %}
+                                            Confirmation
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Подтверждение
+                                        {% else %}
+                                            Tasdiqlash
+                                        {% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div id="dashboard_container">
         <div id="custom-content">
             <div class="main_container">
@@ -57,17 +157,48 @@
                                         <div id="lead_{{ lead.id }}" pk={{ lead.id }} class="lead_card"
                                              draggable="true">
                                             <div class="lead_card-header">
-                                                <div class="lead_name text-super">{{ lead.name }}</div>
+                                                {% if  lead.get_validity_period %}
+                                                    <div class="lead_name text-super">{{ lead.name }}</div>
+                                                {% else %}
+                                                    <div class="lead_name text-super" style="color: red !important;">{{ lead.name }} </div>
+                                                {% endif %}
                                                 <div class="lead_datediv text-super">
                                                     <div class="lead_date">{{ lead.date|date:'Y-m-d H:i' }}</div>
                                                     <div class="created">{{ lead.created_user.username }}</div>
                                                 </div>
                                             </div>
+                                            <div class="other_lead">
+                                                {% if lead.validity_period %}
+                                                <div class="lead_timer"
+                                                        data-validity="{{ lead.validity_period|date:'Y-m-d\\T00:00:00' }}"
+                                                        id="timer_{{ lead.id }}">
+                                                </div>
+                                         
+
+                                                
+                                                
+                                                {% endif %}
+                                                {% if lead.phone %}
+                                                <div>
+                                                    <a class="lead_other_price text-super">
+                                                        {%if LANGUAGE_CODE == 'en' %}
+                                                        Telephone
+                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                    Телефон
+                                                    {% else %}
+                                                    Telefon
+                                                    {% endif %}
+                                                    {{ lead.phone }}
+                                                </a>
+                                                </div>
+                                                {% endif %}
+                                            </div>
                                             <div class="lead_card-body">
                                                 <a class="lead_price text-super">{{ lead.price|intcomma }}</a>
                                                 <div class="lead_note text-super">{{ lead.company|default_if_none:'' }}
                                                     <a href="{% url 'edit' %}?id={{ lead.id }}">
-                                                        <i class="fa fa-info-circle"></i></a></div>
+                                                        <i class="fa fa-info-circle"></i></a>
+                                                </div>
                                             </div>
                                         </div>
                                     {% endif %}
@@ -78,12 +209,30 @@
                                         <div id="lead_{{ lead.id }}" pk={{ lead.id }} class="lead_card"
                                              draggable="true">
                                             <div class="lead_card-header">
-                                                <div class="lead_name text-super">{{ lead.name }}</div>
+                                                {% if  lead.get_validity_period %}
+                                                    <div class="lead_name text-super">{{ lead.name }}</div>
+                                                {% else %}
+                                                    <div class="lead_name text-super" style="color: red !important;">{{ lead.name }} </div>
+                                                {% endif %}
                                                 <div class="lead_datediv text-super">
                                                     <div class="lead_date">{{ lead.date|date:'Y-m-d H:i' }}</div>
                                                     <div class="created">{{ lead.created_user.username }}</div>
                                                 </div>
                                             </div>
+                                            {% if lead.validity_period %}
+                                            <div>
+                                                <a class="lead_price text-super">
+                                                    {%if LANGUAGE_CODE == 'en' %}
+                                                    Validity period
+                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                    Срок действия
+                                                {% else %}
+                                                    Yaroqlilik muddati
+                                                {% endif %}
+                                                {{ lead.validity_period|date:'Y-m-d' }}
+                                            </a>
+                                            </div>
+                                            {% endif %}
                                             <div class="lead_card-body">
                                                 <a class="lead_price text-super">{{ lead.price|intcomma }}</a>
                                                 <div class="lead_note text-super">{{ lead.phone|default_if_none:'' }}
@@ -178,6 +327,16 @@
                                    oninput="setCustomValidity('')" required>
                         </div>
                         <div class="p-1">
+                            <input name="form_phone" id="phone_tel" type="text" value="(998)" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                    Phone
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                    Телефон
+                                {% else %}
+                                    Telefon
+                                {% endif %}"
+                                   class="formStyle">
+                        </div>
+                        <div class="p-1">
                             <input name="form_price" type="number" placeholder="0" class="formStyle"
                                    oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
                                         Must be completed!
@@ -188,7 +347,6 @@
                                     {% endif %}`)"
                                    oninput="setCustomValidity('')" required>
                         </div>
-                        {% if user.company.type == "B2B" %}
                             <div class="p-1">
                                 <input name="form_campany" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
                                         Organization: name
@@ -199,26 +357,53 @@
                                     {% endif %}" class="formStyle">
                             </div>
                             <div class="p-1">
-                                <input name="form_address" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
-                                        Organization: address
-                                    {% elif LANGUAGE_CODE == 'ru'%}
-                                        Организация: адрес
-                                    {% else %}
-                                        Tashkilot:manzil
-                                    {% endif %}" class="formStyle">
+                                <select class="formStyle" data-style="btn-dark" onchange="getReg(this)" class="region"
+                                                name="region" style="
+                                                width: 100%;">
+                                            <option value="">{% if LANGUAGE_CODE == 'en' %}
+                                            Select a region
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Выберите регион
+                                        {% else %}
+                                            Viloyatni tanlang
+                                        {% endif %}</option>
+                                            {% for t in region %}
+                                                <option value="{{ t.id }}">{{ t.name }}</option>
+                                            {% endfor %}
+                                </select>
                             </div>
-                        {% else %}
                             <div class="p-1">
-                                <input name="form_phone" id="phone_tel" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
-                                        Phone
-                                    {% elif LANGUAGE_CODE == 'ru'%}
-                                        Телефон
-                                    {% else %}
-                                        Telefon
-                                    {% endif %}"
-                                       class="formStyle">
+                                <select data-style="btn btn-dark"  class="formStyle district"name="form_address"
+                                                style="width: 100%;">
+                                            <option value="">{% if LANGUAGE_CODE == 'en' %}
+                                            Select a region {% elif LANGUAGE_CODE == 'ru'%}     Выберите регион {% else %}     Hududni tanlang 
+                                            {% endif %}
+                                </option>
+                                        
+                                </select>
                             </div>
-                        {% endif %}
+                        <div class="p-1">
+                                <select data-style="btn btn-dark"  class="formStyle" name="referral"
+                                                style="width: 100%;">
+                                            <option value="">{% if LANGUAGE_CODE == 'en' %}
+                                                Select a referral {% elif LANGUAGE_CODE == 'ru'%} Выберайте направления {% else %}     Yo'naltiruvchini tanlang 
+                                            {% endif %}
+                                </option>
+                                {% for refer in referral %}
+                                    <option value="{{ refer.id }}">{{ refer.name }}</option>
+                                {% endfor %}
+                                </select>
+                        </div>
+                        <div class="p-1">
+                            <input name="validity_period" id="validity_period" type="date" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                Validity period
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                Срок действия
+                                {% else %}
+                                Amal qilish muddati
+                                {% endif %}"
+                                   class="formStyle">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">{% if LANGUAGE_CODE == 'en' %}
@@ -414,6 +599,16 @@
                                    oninput="setCustomValidity('')" required>
                         </div>
                         <div class="p-1">
+                            <input name="form_phone" id="phone_tel_edit" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                    Phone
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                    Телефон
+                                {% else %}
+                                    Telefon
+                                {% endif %}"
+                                   class="formStyle">
+                        </div>
+                        <div class="p-1">
                             <input name="form_price" type="number" placeholder="0" class="formStyle"
                                    oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
                                         Must be completed!
@@ -424,7 +619,6 @@
                                     {% endif %}`)"
                                    oninput="setCustomValidity('')" required>
                         </div>
-                        {% if user.company.type == "B2B" %}
                             <div class="p-1">
                                 <input name="form_campany" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
                                         Organization: name
@@ -435,26 +629,32 @@
                                     {% endif %}" class="formStyle">
                             </div>
                             <div class="p-1">
-                                <input name="form_address" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
-                                        Organization: address
-                                    {% elif LANGUAGE_CODE == 'ru'%}
-                                        Организация: адрес
-                                    {% else %}
-                                        Tashkilot:manzil
-                                    {% endif %}" class="formStyle">
+                                <select class="formStyle" data-style="btn-dark" onchange="getReg(this)" class="region"
+                                                name="region" style="
+                                                width: 100%;">
+                                            <option value="">{% if LANGUAGE_CODE == 'en' %}
+                                            Select a region
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Выберите регион
+                                        {% else %}
+                                            Viloyatni tanlang
+                                        {% endif %}</option>
+                                            {% for t in region %}
+                                                <option value="{{ t.id }}">{{ t.name }}</option>
+                                            {% endfor %}
+                                </select>
                             </div>
-                        {% else %}
                             <div class="p-1">
-                                <input name="form_phone" id="phone_tel_edit" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
-                                        Phone
-                                    {% elif LANGUAGE_CODE == 'ru'%}
-                                        Телефон
-                                    {% else %}
-                                        Telefon
-                                    {% endif %}"
-                                       class="formStyle">
+                                <select  data-style="btn btn-dark"  class="formStyle district"name="form_address"
+                                                style="width: 100%;">
+                                            <option value="">{% if LANGUAGE_CODE == 'en' %}
+                                            Select a region {% elif LANGUAGE_CODE == 'ru'%}     Выберите регион {% else %}     Hududni tanlang 
+                                            {% endif %}
+                                </option>
+                                        
+                                </select>
                             </div>
-                        {% endif %}
+                     
 
                     </div>
                     <div class="modal-footer">
@@ -465,7 +665,8 @@
                                         Сохранять
                                     {% else %}
                                         Saqlash
-                                    {% endif %}</button>
+                                    {% endif %}
+                        </button>
                     </div>
                 </form>
             </div>
@@ -565,6 +766,7 @@
         </div>
 
     {% endif %}
+</section>
 
 {% endblock content %}
 
@@ -572,10 +774,60 @@
     <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
     <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
     <script src="{% static 'crm/main/js/template.js' %}"></script>
-    <script src="{% static 'crm/board/bootstrap/script.js' %}"></script>
-    <script src="{% static 'crm/board/jquery/script.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/select2/dist/js/select2.full.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/moment/min/moment.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/advanced-form-element.js' %}"></script>
+    <script>
+        function getReg(item) {
+            var id = item.value;
+            console.log("Selected region ID:", id);
+
+            const container = item.closest('.p-1').parentElement;
+            const districtSelect = container.querySelector('.district');
+
+            $.ajax({
+                type: 'get',
+                url: `/getregion/?id=${id}`,
+                success: function (r) {
+                    districtSelect.innerHTML = ''; 
+                    for (let d of r['district']) {
+                        const op = document.createElement('option');
+                        op.value = d.id;
+                        op.textContent = d.name;
+                        districtSelect.appendChild(op);
+                    }
+                },
+                error: function (e) {
+                    console.log("Error:", e);
+                }
+            });
+        }
+    </script>
+    
+    <script>
+        function getRego() {
+            var id = document.getElementById("region").value;
+            console.log(id)
+            $.ajax({
+                type: 'get',
+                url: `/getregion/?id=` + String(id),
+                success: function (r) {
+                    $("#district").empty();
+                    for (d of r['district']) {
+                        var op = `<option value="` + d.id + `">` + d.name + `</option>`
+                        $('#district').append(op);
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
+    </script>
+    
     <script src="{% static 'crm/custom_js/jquery.mask.min.js' %}"></script>
-    <script src="{% static 'crm/task/sweeatalert.js' %}"></script>
     <script>
         let leads_all = {{ all_leads|safe }};
         let currentUser = {{ user.id }};
@@ -593,6 +845,52 @@
             let delete_pole = "{% url 'delete_pole' %}"
         {% endif %}
     </script>
-
     <script src="{% static 'crm/board/script1.js' %}"></script>
+    <script>
+        function startCountdown() {
+            const timers = document.querySelectorAll('.lead_timer');
+
+            timers.forEach(timer => {
+                const deadline = new Date(timer.dataset.validity);
+                const interval = setInterval(() => {
+                    const now = new Date();
+                    const diff = deadline - now;
+
+                    if (diff <= 0) {
+                        timer.innerText = "";
+                        clearInterval(interval);
+                        return;
+                    }
+
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+                    let parts = [];
+                    if (days > 0) parts.push(`${days} kun`);
+                    if (hours > 0 || days > 0) parts.push(`${hours} soat`);
+                    parts.push(`${minutes} daqiqa`);
+
+                    timer.innerText = parts.join(' ');
+                }, 60000);
+                const now = new Date();
+                const diff = deadline - now;
+                if (diff > 0) {
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                    let parts = [];
+                    if (days > 0) parts.push(`${days} kun`);
+                    if (hours > 0 || days > 0) parts.push(`${hours} soat`);
+                    parts.push(`${minutes} daqiqa`);
+                    timer.innerText = parts.join(' ');
+                } else {
+                    timer.innerText = "";
+                }
+            });
+        }
+        document.addEventListener("DOMContentLoaded", startCountdown);
+    </script>
+    
+    
 {% endblock js %}

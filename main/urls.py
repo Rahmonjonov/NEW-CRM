@@ -13,6 +13,7 @@ urlpatterns = [
     path('app-calendar/', CalenApp.as_view(), name='app-calendar'),
     path('setting/', Setting.as_view(), name='setting'),
     path('edit/', Edit, name='edit'),
+    path('add_task_with_lead/<int:id>', add_task_with_lead, name='add_task_with_lead'),
     path('up/', Up, name='up'),
     path('delete_lead/', delete_lead, name='delete_lead'),
     path('target/', Target.as_view(), name='target'),
@@ -75,6 +76,12 @@ urlpatterns = [
     path('add_payment_type/', add_payment_type, name='add_payment_type'),
     path('edit_payment_type/<int:pk>/', edit_payment_type, name='edit_payment_type'),
     
-    path('change_company_informations', change_company_informations, name='change_company_informations')
+    path('change_company_informations', change_company_informations, name='change_company_informations'),
+
+    path('add_referall', add_referall, name='add_referall'),
+    path('edit_referall/<int:id>/', edit_referall, name='edit_referall'),
+    path('del_referall/<int:id>/', del_referall, name='del_referall'),
+    path("chat/", chat_with_gpt, name="chat_with_gpt"),
+
 
 ]+urlpatterns_for_redirect

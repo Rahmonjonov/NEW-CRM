@@ -6,10 +6,13 @@ from .views import (Board, create_lead, change_lead_status, lead_finished, lead_
                     telegram_bot_add_company_address, telegram_bot_add_name, add_pole, edit_pole, check_pole_can_delete,
                     delete_pole, export_excel, redirect_view, Redirect_class, NewUrlRedirect_class,
                     EditUrlRedirect_class, PublicNoteForm_class, NewFormRedirect_class, ShowFormResults_class,
-                    AddShopping_class, EditShopping_class, delete_simple_redirect, delete_form_redirect)
+                    AddShopping_class, EditShopping_class, delete_simple_redirect, delete_form_redirect, InstruktsyaList, instruktsya_add, instruktsya_list_detail)
 
 urlpatterns = [
     path("", Board.as_view(), name="board"),
+    path("instruktsya/", InstruktsyaList.as_view(), name="instruktsya"),
+    path("instruktsya_list_detail/<int:id>", instruktsya_list_detail, name="instruktsya_list_detail"),
+    path("instruktsya_add/", instruktsya_add, name="instruktsya_add"),
     path("create_lead/", create_lead),
     path("change_lead_status/", change_lead_status),
     path("lead_finished/", lead_finished),

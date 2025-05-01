@@ -32,8 +32,6 @@ Thumbs.db
 venv/
 
 # Ignore database files
-*.db
-*.sqlite3
 
 # Ignore JSON files specific to the project setup
 *.json

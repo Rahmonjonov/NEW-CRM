@@ -14,6 +14,13 @@
     <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
     <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" rel="stylesheet">
+    <style>
+        .flatpickr-calendar {
+        z-index: 1056;
+        }
+    </style>
 {% endblock css %}
 {% block content %}
     <!-- Main content -->
@@ -60,7 +67,7 @@
                                         {% endif %}</a>
                                     </div>
                                 {% else %}
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-3">
                                         <h4 class="box-title">{{ userr.first_name }}
                                             {% if userr.last_name is not None %}
                                                 {{ userr.last_name }}
@@ -83,7 +90,7 @@
                                         <i data-feather="edit" data-toggle="modal" data-target="#modal-center1"
                                            style="float: right"></i>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-3">
                                         <a href="{% url 'up' %}?s=5&id={{ userr.id }}"
                                            class="btn btn-rounded btn-success pull-right">{% if LANGUAGE_CODE == 'en' %}
                                             Transfer to the client
@@ -93,7 +100,7 @@
                                             Mijozga o'tkazish
                                         {% endif %}</a>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-3">
                                         <a href="{% url 'delete_lead' %}?id={{ userr.id }}"
                                            class="btn btn-danger btn-rounded pull-right">{% if LANGUAGE_CODE == 'en' %}
                                             Transfer to the client
@@ -102,6 +109,16 @@
                                         {% else %}
                                             Mijozni o'chirish
                                         {% endif %}</a>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <button type="submit" class="btn btn-rounded btn-success pull-right mt-2">{% if LANGUAGE_CODE == 'en' %}
+                                            Save
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Сохранять
+                                        {% else %}
+                                            Saqlash
+                                        {% endif %}
+                                        </button>
                                     </div>
                                 {% endif %}
                             </div>
@@ -115,15 +132,16 @@
                                                 <p>{% if LANGUAGE_CODE == 'en' %}
                                             Phone
                                         {% elif LANGUAGE_CODE == 'ru'%}
-                                            Телефон
+                                            Телефон 
                                         {% else %}
                                             Telefon
                                         {% endif %} </p>
                                             </div>
                                             <div class="col-6">
-                                                {% if userr.phone is not None %}{{ userr.phone }}{% else %}
+                                                {% if lead.phone is not None %}{{ lead.phone }}{% else %}
                                                     <input type="text" name="phone" class="form-control"
-                                                           placeholder="998901234567">{% endif %}
+                                                           placeholder="998901234567">
+                                                {% endif %}
                                             </div>
                                         </div>
                                         <div class="row" style="margin-top: 5px;">
@@ -196,28 +214,58 @@
                                         <div class="row" style="margin-top: 5px;">
                                             <div class="col-6">
                                                 <p>{% if LANGUAGE_CODE == 'en' %}
-                                            District
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Oкруг
-                                        {% else %}
-                                            Tumani
-                                        {% endif %}</p>
+                                                    District
+                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                    Oкруг
+                                                {% else %}
+                                                    Tumani
+                                                {% endif %}
+                                            </p>
                                             </div>
                                             <div class="col-6">
 
                                                 {% if userr.district is not None %}
                                                     <p>{{ userr.district }} {% if LANGUAGE_CODE == 'en' %}
-                                            district
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            oкруг
-                                        {% else %}
-                                            tumani
-                                        {% endif %}</p>
+                                                        district
+                                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                                            oкруг
+                                                        {% else %}
+                                                            tumani
+                                                        {% endif %}
+                                                    </p>
                                                 {% else %}
                                                     <select class="form-control select2" id="district" name="district"
                                                             style="width: 100%;">
                                                         <option value="">---</option>
                                                     </select>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top: 5px;">
+                                            <div class="col-6">
+                                                <p>{% if LANGUAGE_CODE == 'en' %}
+                                                    Referral
+                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                    Направление
+                                                {% else %}
+                                                    Yo'naltirish
+                                                {% endif %}
+                                            </p>
+                                            </div>
+                                            <div class="col-6">
+                                                {% if lead.referral%}
+                                                    <p>
+                                                        {{ lead.referral.name }}
+                                                    </p>
+                                                {% else %}
+                                                
+                                                    <select class="form-control" id="referral" name="referral"
+                                                            style="width: 100%;">
+                                                            {% for ref in referral %}
+                                                        <option value="{{ ref.id }}">{{ ref.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    
                                                 {% endif %}
                                             </div>
                                         </div>
@@ -374,97 +422,224 @@
                                     </div>
 
                                 </div>
+                                </form>
                                 <div class="col-lg-6">
-                                    <h3>{% if LANGUAGE_CODE == 'en' %}
-                                            Products sold
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Товары проданы
-                                        {% else %}
-                                            Sotilgan mahsulotlar
-                                        {% endif %}
-                                        <a href="{% url 'AddShopping_class' pk=lead.id %}"
-                                           class="btn btn-rounded btn-success pull-right p-5">{% if LANGUAGE_CODE == 'en' %}
-                                            Add new
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Добавить новое
-                                        {% else %}
-                                            Yangi qo'shish
-                                        {% endif %}
-                                        </a>
-                                    </h3>
                                     <div class="box">
+                                        <div class="box-header">
+                                            <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
+                                                                        Summary
+                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                        Резюме
+                                                                    {% else %}
+                                                                        Xulosa
+                                                                    {% endif %}</h4>
+                                        </div>
                                         <div class="box-body">
-                                            <div class="table-responsive">
-                                                <table class="table no-border">
-                                                    <thead>
-                                                    <tr class="text-uppercase bg-lightest">
-                                                        {% if LANGUAGE_CODE == 'en' %}
-                                                        <th class="text-white">Date</th>
-                                                        <th class="text-white">Product</th>
-                                                        <th class="text-white">Number</th>
-                                                        <th class="text-white">Cost</th>
-                                                        <th class="text-white">Summa</th>
-                                                        <th class="text-white">Type of payment</th>
-                                                        <th class="text-white">Note</th>
-                                                        <th class="text-white">Edit</th>
-                                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                                        <th class="text-white">Дата</th>
-                                                        <th class="text-white">Продукт</th>
-                                                        <th class="text-white">Количество</th>
-                                                        <th class="text-white">Расходы</th>
-                                                        <th class="text-white">Сумма</th>
-                                                        <th class="text-white">Тип платежа</th>
-                                                        <th class="text-white">Примечание</th>
-                                                        <th class="text-white">Редактировать</th>
-                                                        {% else %}
-                                                        <th class="text-white">Sana</th>
-                                                        <th class="text-white">Mahsulot</th>
-                                                        <th class="text-white">Soni</th>
-                                                        <th class="text-white">Narxi</th>
-                                                        <th class="text-white">Summa</th>
-                                                        <th class="text-white">To'lov turi</th>
-                                                        <th class="text-white">Izoh</th>
-                                                        <th class="text-white">Taxrirlash</th>
-                                                        {% endif %}
-
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {% for shop in shoppings %}
-                                                        <tr>
-                                                            <td>{{ shop.date|date:'Y-m-d H:i' }}</td>
-                                                            <td>{{ shop.product.name }}</td>
-                                                            <td>{{ shop.count }}</td>
-                                                            <td>{{ shop.price }}</td>
-                                                            <td>{{ shop.amount }}</td>
-                                                            <td>{{ shop.payment_type.name }}</td>
-                                                            <td>{{ shop.comment }}</td>
-                                                            <td>
-                                                                <a href="{% url 'EditShopping_class' pk=lead.id shop_pk=shop.id %}">
-                                                                    <i class="fa fa-edit fa-lg"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    {% endfor %}
-                                                    </tbody>
-                                                </table>
+                                            <form action="{% url 'addnotes' %}" method="post">
+                                                {% csrf_token %}
+                                                <div class="form-group pt-2">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <textarea rows="5" cols="5" class="form-control" name="note" required></textarea>
+                                                            <input type="hidden" name="id" value="{{ userr.id }}">
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <select name="color" required class="form-control">
+                                                                {% if LANGUAGE_CODE == 'en' %}
+                                                                    <option value="bg-primary">Blue</option>
+                                                                    <option value="bg-warning">Yellow</option>
+                                                                    <option value="bg-info">Violet</option>
+                                                                    <option value="bg-success">Dreen</option>
+                                                                    <option value="bg-danger">Red</option>
+                                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                                    <option value="bg-primary">Синий</option>
+                                                                    <option value="bg-warning">Желтый</option>
+                                                                    <option value="bg-info">Фиолетовый</option>
+                                                                    <option value="bg-success">Зеленый</option>
+                                                                    <option value="bg-danger">Красный</option>
+                                                                {% else %}
+                                                                    <option value="bg-primary">Ko'k</option>
+                                                                    <option value="bg-warning">Sariq</option>
+                                                                    <option value="bg-info">binafsha</option>
+                                                                    <option value="bg-success">Yashil</option>
+                                                                    <option value="bg-danger">Qizil</option>
+                                                                {% endif %}
+                                                            </select><br>
+                                                            <select name="emotsiya" required class="form-control">
+                                                                {% if LANGUAGE_CODE == 'en' %}
+                            
+                                                                    <option value="1">🤔 Undecided </option>
+                                                                    <option value="2">🤗 Will reappear </option>
+                                                                    <option value="3">😋 A case of information</option>
+                                                                    <option value="4">🤓 Need to influence</option>
+                                                                    <option value="5">👏🏻 Need to sell quickly </option>
+                                                                    <option value="6">🤩 Consumer </option>
+                                                                    <option value="7">✍🏻 Additional increases</option>
+                                                                    <option value="8">🙃 Undesirable</option>
+                                                                    <option value="9">😖 Complaint</option>
+                            
+                                                                {% elif LANGUAGE_CODE == 'ru'%}
+                            
+                                                                    <option value="1">🤔 Не определился</option>
+                                                                    <option value="2">🤗 Появляйтесь снова</option>
+                                                                    <option value="3">😋 Речь идет об информации</option>
+                                                                    <option value="4">🤓 Надо влиять</option>
+                                                                    <option value="5">👏🏻 Надо быстро продать</option>
+                                                                    <option value="6">🤩 Потребитель </option>
+                                                                    <option value="7">✍🏻Дополнительное увеличение</option>
+                                                                    <option value="8">🙃 Нежелательно</option>
+                                                                    <option value="9">😖 Жалоба</option>
+                            
+                                                                {% else %}
+                            
+                                                                    <option value="1">🤔 Qarorsiz</option>
+                                                                    <option value="2">🤗 Qayta kelishuv</option>
+                                                                    <option value="3">😋 Info ehtiyoj</option>
+                                                                    <option value="4">🤓 Tasir etish kerak</option>
+                                                                    <option value="5">👏🏻 Tezkor sotish kerak</option>
+                                                                    <option value="6">🤩 Istemolchi </option>
+                                                                    <option value="7">✍🏻 Qo’shimcha kelishuv</option>
+                                                                    <option value="8">🙃 Etirozli</option>
+                                                                    <option value="9">😖 Shikoyatli</option>
+                            
+                                                                {% endif %}
+                                                            </select>
+                                                            <button type="submit" class="btn btn-rounded btn-success pull-right mt-2">{% if LANGUAGE_CODE == 'en' %}
+                                                                        Save
+                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                        Сохранять
+                                                                    {% else %}
+                                                                        Saqlash
+                                                                    {% endif %}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                            
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="timeline">
+                                                {% for n in notes %}
+                                                    <div class="timeline-item">
+                                                        <div class="timeline-point timeline-point {{ n.color }}">
+                                                            <i class="fa fa-star"></i>
+                                                        </div>
+                                                        <div class="timeline-event timeline-event-{{ n.color }}">
+                                                            <div class="timeline-heading">
+                                                                <a type="button" class="text-right" data-toggle="modal" data-target="#exampleModal{{n.id}}"><i class="fa-solid fa-ellipsis"></i></a>
+                                                                <br>
+                                                                <h3 class="timeline-title text-right">{{ n.get_emotsiya_display }}</h3>
+                                                            </div>
+                                                            <div class="timeline-body">
+                                                                <p style="color:white; font-size: 20px;">{{ n.note }}</p>
+                                                            </div>
+                                                            <div class="timeline-footer">
+                                                               <p class="text-right">{{ n.changer}}</p><p class="text-right">{{ n.date }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal fade" id="exampleModal{{n.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <form action="{% url 'add_task_with_lead' n.id %}" method="post">
+                                                                    {% csrf_token %}
+                                                                    <div class="modal-content">
+                                                                            <div class="modal-body">
+                                                                                <div class="form-group">
+                                                                                    <label for="recipient-customer" class="col-form-label">
+                                                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                                                            Customer
+                                                                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                            Клиент
+                                                                                        {% else %}
+                                                                                            Mijoz
+                                                                                        {% endif %}:
+                                                                                    </label>
+                                                                                    <select name="customer" id="recipient-customer" class="form-control">
+                                                                                        {% for acc in account %}
+                                                                                            <option value="{{ acc.id }}">{{ acc.username }}</option>
+                                                                                        {% endfor %}
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                        <label for="recipient-type_task" class="col-form-label">
+                                                                                            {% if LANGUAGE_CODE == 'en' %}
+                                                                                                Type
+                                                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                                Тип
+                                                                                            {% else %}
+                                                                                                Turi
+                                                                                            {% endif %}:
+                                                                                        </label>
+                                                                                        <select name="type_task" id="recipient-type_task" class="form-control">
+                                                                                            <option value="1">{% if LANGUAGE_CODE == 'en' %} Contact {% elif LANGUAGE_CODE == 'ru'%} Связаться {% else %} Aloqa {% endif %} ☎️</option>
+                                                                                            <option value="2">{% if LANGUAGE_CODE == 'en' %} Meeting {% elif LANGUAGE_CODE == 'ru'%} Встреча {% else %} Uchrashuv {% endif %} 💼</option>
+                                                                                            <option value="3">{% if LANGUAGE_CODE == 'en' %} Other {% elif LANGUAGE_CODE == 'ru'%} Другой {% else %} Boshqa {% endif %} ⏰</option>
+                                                                                        </select>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                        <label for="message-name" class="col-form-label">
+                                                                                            {% if LANGUAGE_CODE == 'en' %}
+                                                                                                Name
+                                                                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                                Названия 
+                                                                                            {% else %}
+                                                                                                Nomi
+                                                                                            {% endif %}:
+                                                                                        </label>
+                                                                                    <input class="form-control" type="text" name="name" id="message-name" required></input>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="datetimeInput" class="form-label">
+                                                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                                                            Date and time
+                                                                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                            Дата и время
+                                                                                        {% else %}
+                                                                                            Sana va vaqt
+                                                                                        {% endif %}
+                                                                                        </label>
+                                                                                    <input type="text" name="datetime" class="form-control" id="datetimeInput" placeholder="Sana va vaqtni tanlang">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                                    {% if LANGUAGE_CODE == 'en' %}
+                                                                                        Close
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                        Закрывать
+                                                                                    {% else %}
+                                                                                        Yopish
+                                                                                    {% endif %}
+                                                                                </button>
+                                                                                <button type="submit" class="btn btn-primary">
+                                                                                    {% if LANGUAGE_CODE == 'en' %}
+                                                                                        Save
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                        Сохранять
+                                                                                    {% else %}
+                                                                                        Saqlash
+                                                                                    {% endif %}
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                  
+                                                {% endfor %}
+                            
+                                                <span class="timeline-label">
+                                                        <button class="btn btn-danger btn-rounded"><i class="fa-regular fa-clock"></i></button>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="submit"
-                                            class="btn btn-rounded btn-success pull-right">{% if LANGUAGE_CODE == 'en' %}
-                                            Save
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Сохранять
-                                        {% else %}
-                                            Saqlash
-                                        {% endif %}
-                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
+                
             </div>
             <!-- Tab panes -->
             <div class="col-12">
@@ -538,129 +713,102 @@
             </div>
         </div>
         <!-- /.box-body -->
+        <div class="row">
+            <div class="col-md-7">
 
-        <div class="box">
-            <div class="box-header">
-                <h4 class="box-title">{% if LANGUAGE_CODE == 'en' %}
-                                            Summary
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Резюме
-                                        {% else %}
-                                            Xulosa
-                                        {% endif %}</h4>
-            </div>
-            <div class="box-body">
-                <form action="{% url 'addnotes' %}" method="post">
-                    {% csrf_token %}
-                    <div class="form-group pt-2">
-                        <div class="row">
-                            <div class="col-10">
-                                <textarea rows="5" cols="5" class="form-control" name="note" required></textarea>
-                                <input type="hidden" name="id" value="{{ userr.id }}">
-                            </div>
-                            <div class="col-2">
-                                <select name="color" required class="form-control">
-                                    {% if LANGUAGE_CODE == 'en' %}
-                                        <option value="bg-primary">Blue</option>
-                                        <option value="bg-warning">Yellow</option>
-                                        <option value="bg-info">Violet</option>
-                                        <option value="bg-success">Dreen</option>
-                                        <option value="bg-danger">Red</option>
-                                    {% elif LANGUAGE_CODE == 'ru'%}
-                                        <option value="bg-primary">Синий</option>
-                                        <option value="bg-warning">Желтый</option>
-                                        <option value="bg-info">Фиолетовый</option>
-                                        <option value="bg-success">Зеленый</option>
-                                        <option value="bg-danger">Красный</option>
-                                    {% else %}
-                                        <option value="bg-primary">Ko'k</option>
-                                        <option value="bg-warning">Sariq</option>
-                                        <option value="bg-info">binafsha</option>
-                                        <option value="bg-success">Yashil</option>
-                                        <option value="bg-danger">Qizil</option>
-                                    {% endif %}
-                                </select><br>
-                                <select name="emotsiya" required class="form-control">
-                                    {% if LANGUAGE_CODE == 'en' %}
+               
+            <div class="box">
+                <div class="box-header">
+                    <h3>{% if LANGUAGE_CODE == 'en' %}
+                        Products sold
+                    {% elif LANGUAGE_CODE == 'ru'%}
+                        Товары проданы
+                    {% else %}
+                        Sotilgan mahsulotlar
+                    {% endif %}
+                    <a href="{% url 'AddShopping_class' pk=lead.id %}"
+                       class="btn btn-rounded btn-success pull-right p-5">{% if LANGUAGE_CODE == 'en' %}
+                        Add new
+                    {% elif LANGUAGE_CODE == 'ru'%}
+                        Добавить новое
+                    {% else %}
+                        Yangi qo'shish
+                    {% endif %}
+                    </a>
+                </h3>
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-border">
+                            <thead>
+                            <tr class="text-uppercase bg-lightest">
+                                {% if LANGUAGE_CODE == 'en' %}
+                                <th class="text-white">Date</th>
+                                <th class="text-white">Product</th>
+                                <th class="text-white">Number</th>
+                                <th class="text-white">Cost</th>
+                                <th class="text-white">Summa</th>
+                                <th class="text-white">Type of payment</th>
+                                <th class="text-white">Note</th>
+                                <th class="text-white">Edit</th>
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                <th class="text-white">Дата</th>
+                                <th class="text-white">Продукт</th>
+                                <th class="text-white">Количество</th>
+                                <th class="text-white">Расходы</th>
+                                <th class="text-white">Сумма</th>
+                                <th class="text-white">Тип платежа</th>
+                                <th class="text-white">Примечание</th>
+                                <th class="text-white">Редактировать</th>
+                                {% else %}
+                                <th class="text-white">Sana</th>
+                                <th class="text-white">Mahsulot</th>
+                                <th class="text-white">Soni</th>
+                                <th class="text-white">Narxi</th>
+                                <th class="text-white">Summa</th>
+                                <th class="text-white">To'lov turi</th>
+                                <th class="text-white">Izoh</th>
+                                <th class="text-white">Taxrirlash</th>
+                                {% endif %}
 
-                                        <option value="1">🤔 Undecided </option>
-                                        <option value="2">🤗 Will reappear </option>
-                                        <option value="3">😋 A case of information</option>
-                                        <option value="4">🤓 Need to influence</option>
-                                        <option value="5">👏🏻 Need to sell quickly </option>
-                                        <option value="6">🤩 Consumer </option>
-                                        <option value="7">✍🏻 Additional increases</option>
-                                        <option value="8">🙃 Undesirable</option>
-                                        <option value="9">😖 Complaint</option>
-
-                                    {% elif LANGUAGE_CODE == 'ru'%}
-
-                                        <option value="1">🤔 Не определился</option>
-                                        <option value="2">🤗 Появляйтесь снова</option>
-                                        <option value="3">😋 Речь идет об информации</option>
-                                        <option value="4">🤓 Надо влиять</option>
-                                        <option value="5">👏🏻 Надо быстро продать</option>
-                                        <option value="6">🤩 Потребитель </option>
-                                        <option value="7">✍🏻Дополнительное увеличение</option>
-                                        <option value="8">🙃 Нежелательно</option>
-                                        <option value="9">😖 Жалоба</option>
-
-                                    {% else %}
-
-                                        <option value="1">🤔 Qarorsiz</option>
-                                        <option value="2">🤗 Qayta kelishuv</option>
-                                        <option value="3">😋 Info ehtiyoj</option>
-                                        <option value="4">🤓 Tasir etish kerak</option>
-                                        <option value="5">👏🏻 Tezkor sotish kerak</option>
-                                        <option value="6">🤩 Istemolchi </option>
-                                        <option value="7">✍🏻 Qo’shimcha kelishuv</option>
-                                        <option value="8">🙃 Etirozli</option>
-                                        <option value="9">😖 Shikoyatli</option>
-
-                                    {% endif %}
-                                </select>
-                                <button type="submit" class="btn btn-rounded btn-success pull-right mt-2">{% if LANGUAGE_CODE == 'en' %}
-                                            Save
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Сохранять
-                                        {% else %}
-                                            Saqlash
-                                        {% endif %}
-                                </button>
-                            </div>
-                        </div>
-
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for shop in shoppings %}
+                                <tr>
+                                    <td>{{ shop.date|date:'Y-m-d H:i' }}</td>
+                                    <td>{{ shop.product.name }}</td>
+                                    <td>{{ shop.count }}</td>
+                                    <td>{{ shop.price }}</td>
+                                    <td>{{ shop.amount }}</td>
+                                    <td>{{ shop.payment_type.name }}</td>
+                                    <td>{{ shop.comment }}</td>
+                                    <td>
+                                        <a href="{% url 'EditShopping_class' pk=lead.id shop_pk=shop.id %}">
+                                            <i class="fa fa-edit fa-lg"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
-                </form>
+                </div>
             </div>
-            <div class="box-body">
-                <div class="timeline">
-                        {% for n in notes %}
-                        <div class="timeline-item">
 
-                            <div class="timeline-point timeline-point {{ n.color }}">
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="timeline-event timeline-event-{{ n.color }}">
-                                <div class="timeline-heading">
-                                    <h3 class="timeline-title text-right">{{ n.get_emotsiya_display }}</h3>
-                                </div>
-                                <div class="timeline-body">
-                                    <p style="color:white; font-size: 20px;">{{ n.note }}</p>
-                                </div>
-                                <div class="timeline-footer">
-                                   <p class="text-right">{{ n.changer}}</p><p class="text-right">{{ n.date }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-
-                    <span class="timeline-label">
-                            <button class="btn btn-danger btn-rounded"><i class="fa fa-clock-o"></i></button>
-                        </span>
+                
+            </div>
+            <div class="col-md-5">
+                <div class="box">
+                    <div class="box-header">
+                        <h4 class="box-title"></h4>
+                    </div>
+                    <div class="box-body">
+                    </div>
                 </div>
             </div>
         </div>
+        
     </section>
     <!-- /.content -->
     <!-- Modal -->
@@ -893,4 +1041,25 @@
     <script src="{% static 'crm/assets/vendor_plugins/iCheck/icheck.min.js' %}"></script>
     <script src="{% static 'crm/main/js/pages/advanced-form-element.js' %}"></script>
     <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      flatpickr("#datetimeInput", {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        time_24hr: true,
+        defaultDate: new Date(),
+        locale: {
+          firstDayOfWeek: 1 
+        }
+      });
+
+      document.addEventListener('focusin', function(e) {
+        if (e.target.closest(".flatpickr-calendar")) {
+          e.stopImmediatePropagation();
+        }
+      });
+    });
+  </script>
 {% endblock js %}

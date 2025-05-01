@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{%if LANGUAGE_CODE == 'en' %}
+                CRM | Client Base
+            {% elif LANGUAGE_CODE == 'ru'%}
+                CRM | Клиентская база
+            {% else %}
+                CRM | Client Base
+            {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+{% endblock css %}
+{% block content %}
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="box box-default">
+                  <div class="box-header with-border">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <h4 class="box-title">{{ item.title }}</h4>
+                            <h6 class="box-subtitle">{{ item.date_time }}</h6>
+                        </div>
+                        <div class="col-md-1">  
+                            <a href="{% url 'instruktsya' %}" class="btn btn-primary"><i class="fa-solid fa-reply"></i></a>
+                        </div>
+                    </div>
+                  
+                  </div>
+                  <div class="box-body">
+                      <div class="vtabs">
+                          <ul class="nav nav-tabs tabs-vertical" role="tablist">
+                              <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home4" role="tab"><span class="hidden-sm-up"><i class="ion-home"></i></span> <span class="hidden-xs-down"> 
+                                {% if LANGUAGE_CODE == 'en' %}
+                                Text
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                Текст
+                                {% else %}
+                                Matn
+                                {% endif %}</span> </a> </li>
+                              <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile4" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">
+                                {% if LANGUAGE_CODE == 'en' %}
+                                Video
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                Видео
+                                {% else %}
+                                Video
+                                {% endif %}
+                              </span></a> </li>
+                              <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages4" role="tab"><span class="hidden-sm-up"><i class="ion-email"></i></span> <span class="hidden-xs-down">
+                                {% if LANGUAGE_CODE == 'en' %}
+                                Link
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                Линк
+                                {% else %}
+                                Havola
+                                {% endif %}
+                              </span></a> </li>
+                              <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#photo4" role="tab"><span class="hidden-sm-up"><i class="ion-email"></i></span> <span class="hidden-xs-down">
+                                {% if LANGUAGE_CODE == 'en' %}
+                                Picture
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                Картина
+                                {% else %}
+                                Rasm
+                                {% endif %}
+                                    </span></a>
+                                </li>
+                          </ul>
+                          <div class="tab-content">
+                              <div class="tab-pane active" id="home4" role="tabpanel">
+                                  <div class="p-15">
+                                      <h4>{{ item.text }}</h4>
+                                  </div>
+                              </div>
+                              <div class="tab-pane" id="profile4" role="tabpanel">
+                                  <div class="p-15">
+                                    {% if item.video_file %}
+                                    <video width="640" height="360" controls>
+                                        <source src="{{ item.video_file.url }}" type="video/mp4">
+                                        Sizning brauzeringiz video tagini qo‘llab-quvvatlamaydi.
+                                    </video>   
+                                    {% endif %}                                   
+                                  </div>
+                              </div>
+                              <div class="tab-pane" id="messages4" role="tabpanel">
+                                  <div class="p-15">
+                                    {% if item.video_link %}
+                                        <iframe width="560" height="315"
+                                                src="{{ item.embed_url }}"
+                                                frameborder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowfullscreen>
+                                        </iframe>
+                                    {% endif %}                                   
+                                  </div>
+                              </div>
+                              <div class="tab-pane" id="photo4" role="tabpanel">
+                                <div class="p-15">
+                                    {% if item.photo %}
+                                    <img src="{{ item.photo.url }}" alt="" height="400">
+                                    {% endif %}
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+     
+{% endblock content %}
+{% block js %}
+
+        <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+        <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+        <script src="{% static 'crm/main/js/template.js' %}"></script>
+        <script src="{% static 'crm/assets/vendor_components/datatable/datatables.min.js' %}"></script>
+        <script src="{% static 'crm/main/js/pages/data-table.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+{% endblock js %}

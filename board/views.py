@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import AccessMixin
 from django.db.models import Count, Q, F
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
@@ -16,7 +16,7 @@ from rest_framework.response import Response
 from account.models import Account, Company
 from account.functions import sms_text_replace, checkPhone, sendSmsOneContact
 from board.models import Lead, LeadAction, Task, Telegram_user, LeadPoles, SMSTemplate, SMS_template_choise, \
-    UrlRedirect, NoteForm, FormQuestion, FormAnswer, AnswerQuestion, Product, Payment_type, Shopping
+    UrlRedirect, NoteForm, FormQuestion, FormAnswer, AnswerQuestion, Product, Payment_type, Shopping, Region, District, Instruktsya, Referral
 from board.serializers import LeadSerializer, TaskSerializer, CompanySerializer, Telegram_userSerializer
 import xlwt
 
@@ -227,32 +227,46 @@ def is_B2B(request):
 @permission_classes([IsAuthenticated])
 def create_lead(request):
     try:
+        print(1111)
         data = request.data
         pole = LeadPoles.objects.filter(company=request.user.company).first()
         name = data['name']
+        validity_period = data.get('validity_period')
         price = int(data['price'])
         user = int(data['user'])
+        phone = data.get('phone')
+        referral = data.get('referral')
+        print(phone)
+        print(validity_period)
         if is_B2B(request):
             company = data['company']
-            address = data['address']
+            address = data.get('address')
+
             lead = Lead.objects.create(name=name,
                                        price=price,
                                        company=company,
-                                       companyAddress=address,
+                                       district_id=address,
                                        pole=pole,
-                                       created_user_id=user)
+                                       phone=phone,
+                                       created_user_id=user,
+                                       referral_id=referral,
+                                       validity_period=validity_period)
         else:
-            phone = data['phone']
+            
             lead = Lead.objects.create(name=name,
                                        price=price,
                                        phone=phone,
                                        pole=pole,
-                                       created_user_id=user)
+                                       district_id=address,
+                                       created_user_id=user,
+                                       referral_id=referral,
+                                        validity_period=validity_period)
         LeadAction.objects.create(lead=lead, changer_id=user)
         register_lead_send_sms(lead)
 
         return Response(LeadSerializer(lead).data)
-    except:
+    except Exception as ex:
+        print("Xatolik:", ex)
         return Response({"message": "Error"}, 404)
 
 
@@ -474,11 +488,35 @@ class Board(TemplateView, AccessMixin):
 
     def get_context_data(self, *args, **kwargs):
         super(Board, self).get_context_data(**kwargs)
+
+        region = self.request.GET.get('region')
+        district = self.request.GET.get('district')
+        users = self.request.GET.get('users')
+        date_range = self.request.GET.get('date')
+        print(date_range)
         if self.request.user.is_director:
             leads = Lead.objects.filter(is_active=True, status__lt=4, created_user__company=self.request.user.company)
         else:
             leads = Lead.objects.filter(is_active=True, status__lt=4, created_user__company=self.request.user.company, created_user=self.request.user)
+
         lead_poles = LeadPoles.objects.filter(company=self.request.user.company)
+
+        
+        if district:
+            print(22)
+            leads = leads.filter(district__id=district)
+
+        if users:
+            print(11)
+            leads = leads.filter(created_user__id=users)
+
+        if date_range:
+            start_str, end_str = date_range.split(' - ')
+            start_date = datetime.strptime(start_str, '%m/%d/%Y').date()
+            end_date = datetime.strptime(end_str, '%m/%d/%Y').date()
+            
+            leads = leads.filter(date__date__range=(start_date, end_date))
+
         all_lead = []
         if self.request.user.company.type == "B2B":
             for i in leads:
@@ -506,7 +544,12 @@ class Board(TemplateView, AccessMixin):
             "Board": "active",
             "leads": leads,
             "all_leads": json.dumps(all_lead),
-            "lead_poles": lead_poles
+            "lead_poles": lead_poles,
+
+            'region': Region.objects.all(),
+            'district': District.objects.all(),
+            'users' : Account.objects.filter(company=self.request.user.company),
+            'referral' : Referral.objects.filter(company=self.request.user.company)
         }
         context['company'] = Company.objects.get(id=self.request.user.company.id)
         return context
@@ -928,3 +971,39 @@ def delete_form_redirect(request, pk):
     except:
         pass
     return redirect('redirect_list')
+
+class InstruktsyaList(TemplateView, AccessMixin):
+    template_name = 'instruktsya_list.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(InstruktsyaList, self).get_context_data(**kwargs)
+        instruktsya = Instruktsya.objects.filter(company=self.request.user.company)
+        context['instruktsya'] = instruktsya
+        return context
+
+
+
+def instruktsya_add(request):
+    title = request.POST.get('title')
+    video_file = request.FILES.get('video_file')
+    photo = request.FILES.get('photo')
+    video_link = request.POST.get('video_link')
+    text = request.POST.get('text')
+    Instruktsya.objects.create(
+        title=title,
+        video_file=video_file,
+        video_link=video_link,
+        photo=photo,
+        text=text,
+        company=request.user.company
+    )
+    return redirect(request.META["HTTP_REFERER"])
+    
+
+
+def instruktsya_list_detail(request,id):
+    context = {
+        'item':Instruktsya.objects.get(id=id)
+    }
+    return render(request, 'instruktsya_list_detail.html', context)
+    

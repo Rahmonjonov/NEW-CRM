@@ -102,7 +102,63 @@ function update_info_labels() {
     }
 }
 
-function newLeadobject(pk, name, date, summa, company_or_phone, created_user) {
+function newLeadobject(pk, name, date, summa, company, phone, created_user, validation, validation_date) {
+    let div = document.createElement("div");
+    const LANGUAGE_CODE = "{{ LANGUAGE_CODE }}";
+    let nameHTML = '';
+
+    if (validation) {
+        nameHTML = `<div class="lead_name text-super">${ignore_null(name)}</div>`;
+    } else {
+        nameHTML = `<div class="lead_name text-super" style="color: red !important;">${ignore_null(name)}</div>`;
+    }
+    let validityText = "Yaroqlilik muddati";
+    let phoneText = "Telefon";
+
+    if (LANGUAGE_CODE === "en") {
+        validityText = "Validity period";
+        phoneText = "Telephone";
+    } else if (LANGUAGE_CODE === "ru") {
+        validityText = "Срок действия";
+        phoneText = "Телефон";
+    }
+    div.innerHTML = `
+        <div class="lead_card-header">
+            ${nameHTML}
+            <div class="lead_datediv text-super">
+                <div class="lead_date">${date}</div>
+                <div class="created">${created_user}</div>
+            </div>
+        </div>
+        <div class="other_lead">
+            <div>
+                <a class="lead_other_price text-super">
+                ${validityText}: ${validation_date}
+            </a>
+            </div>
+            <div>
+                <a class="lead_other_price text-super">
+                ${phoneText}: ${phone}
+            </a>
+            </div>
+        </div>
+        <div class="lead_card-body">
+            <a class="lead_price text-super">${summa}</a>
+            <div class="lead_note text-super">${company}
+                <a href="/edit/?id=${pk}"><i class="fa fa-info-circle"></i></a>
+            </div>
+        </div>
+    `
+    div.setAttribute('pk', pk)
+    div.draggable = true
+    div.classList.add('lead_card')
+    div.id = `lead_${pk}`
+    addDragStartEvent(div)
+    addDragEndEvent(div)
+    return div
+}
+
+function newLeadobjecetttttttttt(pk, name, date, summa, company, phone, created_user) {
     let div = document.createElement("div");
     div.innerHTML = `<div class="lead_card-header">
                 <div class="lead_name text-super">${ignore_null(name)}</div>
@@ -113,7 +169,7 @@ function newLeadobject(pk, name, date, summa, company_or_phone, created_user) {
                 </div>
                 <div class="lead_card-body">
                 <a class="lead_price text-super">${thousand_separator(summa)}</a>
-                <div class="lead_note text-super">${ignore_null(company_or_phone)}
+                <div class="lead_note text-super">${ignore_null(company)}
                 <a href="/edit/?id=${pk}"><i class="fa fa-info-circle"></i></a>
                 </div>
                 </div>`
@@ -197,30 +253,20 @@ function updateLead(pk, name, price, company, address, phone) {
     if (index !== -1) {
         leads_all[index]['name'] = name
         leads_all[index]['price'] = price
-        if (is_B2B()) {
-            leads_all[index]['company'] = company
-            leads_all[index]['address'] = address
-        } else {
-            leads_all[index]['phone'] = phone
-        }
+        leads_all[index]['company'] = company
+        leads_all[index]['address'] = address
+        leads_all[index]['phone'] = phone
     }
-    if (is_B2B()) {
+    
         leads_all.push({
             "id": pk,
             "name": name,
             "price": price,
             "company": company,
-            "address": address
-        })
-    } else {
-        leads_all.push({
-            "id": pk,
-            "name": name,
-            "price": price,
+            "address": address,
             "phone": phone,
-        })
-    }
 
+        })
 }
 
 function removeLead(pk) {
@@ -291,13 +337,8 @@ function addLeadToGroupAndUpdateLabels(response) {
     for (let i = 0; i < Groups.length; i++) {
         if (Groups[i].dom.id === `group_body_${response.pole}`) {
             let object;
-            if (is_B2B()) {
-                object = newLeadobject(response.id, response.name, response.date, response.price, response.company, response.created_user.username)
-                updateLead(response.id, response.name, response.price, response.company, response.companyAddress, "")
-            } else {
-                object = newLeadobject(response.id, response.name, response.date, response.price, response.phone, response.created_user.username)
-                updateLead(response.id, response.name, response.price, "", "", response.phone)
-            }
+            object = newLeadobject(response.id, response.name, response.date, response.price, response.company, response.phone, response.created_user.username, response.get_validity_period, response.validity_period)
+            updateLead(response.id, response.name, response.price, response.company, response.companyAddress, response.phone)
             Groups[i].dom.append(object)
             Groups[i].data.count += 1
             Groups[i].data.summa += response.price
@@ -399,6 +440,7 @@ $(document).ready(function () {
 
     $('#newLeadForm').submit(function (event) {
         let data = getFormData($(this).serializeArray())
+        console.log(data)
         event.preventDefault();
         let dataBody = {}
 
@@ -408,29 +450,38 @@ $(document).ready(function () {
                 price: parseInt(data['form_price']),
                 company: data['form_campany'],
                 address: data['form_address'],
+                validity_period: data['validity_period'],
+                phone: get_telefon(data['form_phone']),
+                referral: data['referral'],
                 user: currentUser
             }
         } else {
             dataBody = {
                 name: data['form_name'],
+                validity_period: data['validity_period'],
                 price: parseInt(data['form_price']),
                 phone: get_telefon(data['form_phone']),
+                referral: data['referral'],
                 user: currentUser
             }
         }
+        
         $.ajax({
             type: "POST",
             url: 'create_lead/',
             beforeSend: function (xhr, settings) {
                 xhr.setRequestHeader("X-CSRFToken", csrf_token);
+                console.log(dataBody)
             },
             data: dataBody,
             success: function (response) {
                 addLeadToGroupAndUpdateLabels(response)
                 $('#new_lead_modal').modal('hide');
+                console.log(dataBody)
             },
             error: function (error) {
                 console.log(error);
+                console.log(dataBody)
             }
         });
     });
@@ -490,14 +541,11 @@ $(document).ready(function () {
         $('#edit_lead_modal').modal('show');
         $('#edit_lead_modal input[name="form_name"]').val(editingLead.name);
         $('#edit_lead_modal input[name="form_price"]').val(editingLead.price);
-        if (is_B2B()) {
-            $('#edit_lead_modal input[name="form_campany"]').val(editingLead.company);
-            $('#edit_lead_modal input[name="form_address"]').val(editingLead.address);
-        } else {
-            $('#edit_lead_modal input[name="form_phone"]').val(editingLead.phone);
-            $('#phone_tel_edit').trigger('input');
+        $('#edit_lead_modal input[name="form_campany"]').val(editingLead.company);
+        $('#edit_lead_modal input[name="form_address"]').val(editingLead.address);
+        $('#edit_lead_modal input[name="form_phone"]').val(editingLead.phone);
+        $('#phone_tel_edit').trigger('input');
 
-        }
 
     });
 
@@ -552,27 +600,16 @@ $(document).ready(function () {
     $('#edit_lead_form').submit(function (event) {
         let data = getFormData($(this).serializeArray())
         event.preventDefault();
-
         let bodyData = {};
-        if (is_B2B()) {
-            bodyData = {
+        bodyData = {
                 lead: editingLead.id,
                 name: data['form_name'],
                 price: parseInt(data['form_price']),
                 company: data['form_campany'],
                 address: data['form_address'],
+                phone:data['form_phone'],
                 user: currentUser
-            }
-        } else {
-            bodyData = {
-                lead: editingLead.id,
-                name: data['form_name'],
-                price: parseInt(data['form_price']),
-                phone: get_telefon(data['form_phone']),
-                user: currentUser
-            }
         }
-
         $.ajax({
             type: "POST",
             url: 'edit_lead/',

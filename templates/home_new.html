@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load humanize %}
 {% load static %}
 {% block title %}
     <title>{% trans "CRM | Bosh Sahifa" %}</title>
@@ -47,8 +48,8 @@
             <div class="box bg-transparent no-shadow b-0">
                 <div class="box-body text-center p-0">
                     <form>
-                    <div class="btn-group">
-                        <button class="btn btn-dark btn-rounded" id="today" onclick="bugunlik()">
+                    <div class="btn-group" id="filter_group">
+                        <button type="button" class="btn btn-dark btn-rounded" id="today" onclick="bugunlik()">
                         {%if LANGUAGE_CODE == 'en' %}
                             Today
                         {% elif LANGUAGE_CODE == 'ru'%}
@@ -57,7 +58,7 @@
                             Bugun
                         {% endif %}
                         </button>
-                        <button class="btn btn-dark btn-rounded" id="week" onclick="haftalik()">
+                        <button type="button" class="btn btn-dark btn-rounded" id="week" onclick="haftalik()">
                         {%if LANGUAGE_CODE == 'en' %}
                             Week
                         {% elif LANGUAGE_CODE == 'ru'%}
@@ -66,7 +67,7 @@
                             Hafta
                         {% endif %}
                         </button>
-                        <button class="btn btn-dark btn-rounded" id="month" onclick="oylik()">
+                        <button type="button" class="btn btn-dark btn-rounded" id="month" onclick="oylik()">
                         {%if LANGUAGE_CODE == 'en' %}
                             Month
                         {% elif LANGUAGE_CODE == 'ru'%}
@@ -75,9 +76,9 @@
                             Oy
                         {% endif %}
                         </button>
-                        <input style="min-width: 220px;" type="text" class="btn btn-dark btn-rounded" id="reservation">
+                        <input name="date"  type="text" class="btn btn-dark btn-rounded" id="reservation">
                         {% if user.is_director %}
-                            <select class="selectpicker" data-style="btn-dark" id="user">
+                            <select class="btn btn-dark" data-style="btn-dark" id="user" name="user">
                                 <option value="0">
                                 {%if LANGUAGE_CODE == 'en' %}
                             All
@@ -114,8 +115,11 @@
                                         {% elif LANGUAGE_CODE == 'ru'%}
                                             Выберите регион
                                         {% else %}
-                                            Viloyatni tanlang
+                                            Hududni tanlang
                                         {% endif %}</option>
+                                        {% for t in district %}
+                                        <option value="{{ t.id }}">{{ t.name }}</option>
+                                    {% endfor %}
                         </select>
                         <select name="emotsiya"  class="btn btn-dark">
                                     {% if LANGUAGE_CODE == 'en' %}
@@ -156,7 +160,7 @@
 
                                     {% endif %}
                                 </select>
-                        <button class="btn btn-dark ">{% if LANGUAGE_CODE == 'en' %}
+                        <button class="btn btn-dark " onclick="saveInputsToLocal()">{% if LANGUAGE_CODE == 'en' %}
                                             Confirmation
                                         {% elif LANGUAGE_CODE == 'ru'%}
                                             Подтверждение
@@ -164,7 +168,30 @@
                                             Tasdiqlash
                                         {% endif %}</button>
                     </div>
-                        </form>
+                    </form>
+                    <!-- <script>
+                        function saveDivToLocal() {
+                            // Get the HTML content of the div
+                            const divContent = document.getElementById("filter_group").innerHTML;
+                    
+                            // Save it to localStorage
+                            localStorage.setItem("filterGroupContent", divContent);
+                            alert("Content saved!");
+                        }
+                    
+                        function loadDivFromLocal() {
+                            // Get the content from localStorage
+                            const savedContent = localStorage.getItem("filterGroupContent");
+                    
+                            // Restore the content if it exists
+                            if (savedContent) {
+                                document.getElementById("filter_group").innerHTML = savedContent;
+                            }
+                        }
+                    
+                        // Load the content when the page is loaded
+                        window.onload = loadDivFromLocal;
+                    </script> -->
                 </div>
             </div>
         </div>
@@ -227,15 +254,36 @@
             <div class="col-xl-2 col-6">
                 <div class="box overflow-hidden pull-up hov-rs">
                     <div class="box-body text-center">
-                        <i class="text-secondary mr-0 font-size-36 mdi mdi-account-minus"></i>
+                        <i class="text-secondary mr-0 font-size-36 mdi mdi-account-check"></i>
                         <div>
                             <p class="text-mute mt-20 mb-0 font-size-16">
+                            {%if LANGUAGE_CODE == 'en' %}
+                                Successful
+                            {% elif LANGUAGE_CODE == 'ru'%}
+                                Успешный
+                            {% else %}
+                                Muvaffaqqiyatli
+                            {% endif %}
+                            </p>
+                            <h3 class="text-dark mb-0 font-weight-500">
+                                <span id="finished_summa"></span>
+                                <small class="text-success pl-2">
+                                    <i class="fa fa-caret-up"></i>
+                                    <span id="finished_count"></span>
+                                </small>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="box-body text-center">
+                        <!-- <i class="text-secondary mr-0 font-size-36 mdi mdi-account-minus"></i> -->
+                        <div>
+                            <p class="text-mute  mb-0 font-size-16" style="margin-top: -3rem;">
                             {%if LANGUAGE_CODE == 'en' %}
                                             Lost
                                         {% elif LANGUAGE_CODE == 'ru'%}
                                             Потерял
                                         {% else %}
-                                        Shartnoma
+                                        Yoqotilgan
                                         {% endif %}
                             </p>
                             <h3 class="text-dark mb-0 font-weight-500">
@@ -247,9 +295,33 @@
                             </h3>
                         </div>
                     </div>
+                    
                 </div>
+                <!-- <div class="box overflow-hidden pull-up hov-rs">
+                    <div class="box-body text-center">
+                        <i class="text-secondary mr-0 font-size-36 mdi mdi-account-check"></i>
+                        <div>
+                            <p class="text-mute mt-20 mb-0 font-size-16">
+                            {%if LANGUAGE_CODE == 'en' %}
+                                Successful
+                            {% elif LANGUAGE_CODE == 'ru'%}
+                                Успешный
+                            {% else %}
+                                Muvaffaqqiyatli
+                            {% endif %}
+                            </p>
+                            <h3 class="text-dark mb-0 font-weight-500">
+                                <span id="finished_summa"></span>
+                                <small class="text-success pl-2">
+                                    <i class="fa fa-caret-up"></i>
+                                    <span id="finished_count"></span>
+                                </small>
+                            </h3>
+                        </div>
+                    </div>
+                </div> -->
             </div>
-            <div class="col-xl-2 col-6">
+            <!-- <div class="col-xl-2 col-6">
                 <div class="box overflow-hidden pull-up hov-rs">
                     <div class="box-body text-center">
                         <i class="text-secondary mr-0 font-size-36 mdi mdi-account-check"></i>
@@ -273,18 +345,19 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
+            <div style="width: 100%;"></div>
             {% if request.user.is_influencer or  request.user.is_director %}
 
             {% if request.user.is_director %}
             <h4 style="margin-left: 1.5rem;">
-            {% if LANGUAGE_CODE == 'en' %}
-                Influencer
-            {% elif LANGUAGE_CODE == 'ru'%}
-                Инфлюэнсер
-            {% else %}
-                Influencer
-            {% endif %}
+                {% if LANGUAGE_CODE == 'en' %}
+                    Influencer
+                {% elif LANGUAGE_CODE == 'ru'%}
+                    Инфлюэнсер
+                {% else %}
+                    Influencer
+                {% endif %}
             </h4>
             <div class="col-md-12"></div>
             {%endif%}
@@ -797,6 +870,16 @@
                                         <div class="progress-bar progress-bar-primary" role="progressbar"
                                              aria-valuenow="{{ a.foiz }}" aria-valuemin="0" aria-valuemax="100"
                                              style="width: {{ a.foiz }}%">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">Plan: {{ a.plan_summa|intcomma }} - {{ a.summa|intcomma }}</div>
+                                        <div class="col-6" style="text-align: right">{{ a.foiz_summa }}%</div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-danger" role="progressbar"
+                                             aria-valuenow="{{ a.foiz_summa }}" aria-valuemin="0" aria-valuemax="100"
+                                             style="width: {{ a.foiz_summa }}%">
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -1326,4 +1409,78 @@
             });
         }
     </script>
+
+
+<!-- <script>
+function saveInputsToLocal() {
+    const filterGroup = document.getElementById("filter_group");
+    const inputs = filterGroup.querySelectorAll("input, select, textarea");
+
+    inputs.forEach((input) => {
+        if (input.name) {
+            localStorage.setItem(`filterGroup-${input.name}`, input.value);
+        }
+    });
+}
+
+
+function loadInputsFromLocal() {
+    const filterGroup = document.getElementById("filter_group");
+    const inputs = filterGroup.querySelectorAll("input, select, textarea");
+
+    inputs.forEach((input) => {
+        if (input.name) {
+            const savedValue = localStorage.getItem(`filterGroup-${input.name}`);
+            if (savedValue !== null) {
+                input.value = savedValue;
+            }
+        }
+    });
+}
+
+
+    // Load the content when the page is loaded
+    window.onload = loadInputsFromLocal;
+</script> -->
+
+
+<script>
+    function saveInputsToLocal() {
+        const filterGroup = document.getElementById("filter_group");
+        const inputs = filterGroup.querySelectorAll("input, select");
+
+        inputs.forEach((input) => {
+            if (input.name) {
+                localStorage.setItem(`filterGroup-${input.name}`, input.value);
+            }
+        });
+    }
+
+    function loadInputsFromLocal() {
+        const filterGroup = document.getElementById("filter_group");
+        const inputs = filterGroup.querySelectorAll("input, select, textarea");
+
+        // Parse URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+
+        inputs.forEach((input) => {
+            if (input.name) {
+                // Set from URL parameter if available
+                if (urlParams.has(input.name)) {
+                    input.value = urlParams.get(input.name);
+                } 
+                // else {
+                //     // Otherwise, load from localStorage
+                //     const savedValue = localStorage.getItem(`filterGroup-${input.name}`);
+                //     if (savedValue !== null) {
+                //         input.value = savedValue;
+                //     }
+                // }
+            }
+        });
+    }
+
+    // Load the content when the page is loaded
+    window.onload = loadInputsFromLocal;
+</script>
 {% endblock js %}

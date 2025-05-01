@@ -206,9 +206,9 @@ a {
     background-color: #272e48;
     border: 1px solid #a5a5a5;
     width: 285px;
-    height: 55px;
+    height: 140px;
     max-width: 285px;
-    max-height: 55px;
+    max-height: 140px;
     padding: 5px;
     margin: 5px;
     border-radius: 5px;
@@ -217,15 +217,19 @@ a {
 
 .lead_card-header {
     display: flex;
-    height: 60%;
+    height: 30%;
 }
 
 .lead_card-body {
-    height: 35%;
+    height: 70%;
     display: flex;
     padding-top: 5px;
 }
 
+.other_lead {
+    height: 45%;
+    padding-top: 5px;
+}
 .lead_datediv {
     display: flex;
     width: 40%;
@@ -256,15 +260,22 @@ a {
 }
 
 .lead_date {
-
     font-size: 12px;
     color: #dedede;
 }
 
 .lead_price {
-    width: 50%;
+    width: 100%;
     font-size: 14px;
     font-weight: bold;
+    text-decoration: none;
+    color: #dedede !important;
+}
+
+.lead_other_price {
+    width: 100%;
+    font-size: 13px;
+    /* font-weight: bold; */
     text-decoration: none;
     color: #dedede !important;
 }

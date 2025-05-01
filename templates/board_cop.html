@@ -1,0 +1,764 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load i18n %}
+
+{% block title %}
+    <title> {% if LANGUAGE_CODE == 'en' %}
+                CRM | Board
+            {% elif LANGUAGE_CODE == 'ru'%}
+                CRM | Доска
+            {% else %}
+                CRM | Kengash
+            {% endif %}</title>
+
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <!-- Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/board/bootstrap/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/board/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+    <style>
+
+        .text-mute {
+            color: #ffffff !important;
+        }
+
+        h3 > span {
+            color: #ffffff !important;
+        }
+
+        .theme-primary .text-primary {
+            color: #6B778D;
+        }
+
+        .dark-skin h1, .dark-skin h2, .dark-skin h3, .dark-skin h4, .dark-skin h5, .dark-skin h6 {
+            color: #ffffff;
+        }
+
+        .text-dark {
+            color: #ffffff !important;
+        }
+
+        .dark-skin .table {
+            color: #ffffff;
+        }
+
+        .btn-dark {
+            background-color: #272e48 !important;
+        }
+    </style>
+{% endblock css %}
+{% block content %}
+<section class="content">
+    <div class="row">
+        <div class="box bg-transparent no-shadow b-0">
+            <div class="box-body text-center p-0">
+                <form>
+                <div class="btn-group" id="filter_group">
+                    <!-- <button type="button" class="btn btn-dark btn-rounded" id="today">
+                    {%if LANGUAGE_CODE == 'en' %}
+                        Today
+                    {% elif LANGUAGE_CODE == 'ru'%}
+                        Сегодня
+                    {% else %}
+                        Bugun
+                    {% endif %}
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" id="week" >
+                    {%if LANGUAGE_CODE == 'en' %}
+                        Week
+                    {% elif LANGUAGE_CODE == 'ru'%}
+                        Неделю
+                    {% else %}
+                        Hafta
+                    {% endif %}
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" id="month">
+                    {%if LANGUAGE_CODE == 'en' %}
+                        Month
+                    {% elif LANGUAGE_CODE == 'ru'%}
+                        Mесяц
+                    {% else %}
+                        Oy
+                    {% endif %}
+                    </button> -->
+
+                    <input name="date"  type="text" class="btn btn-dark btn-rounded" id="reservation">
+
+                    {% if user.is_director %}
+                        <select class="btn btn-dark" data-style="btn-dark" id="user" name="user">
+                            <option value="0">
+                            {%if LANGUAGE_CODE == 'en' %}
+                        All
+                    {% elif LANGUAGE_CODE == 'ru'%}
+                        Bce
+                    {% else %}
+                        Barchasi
+                    {% endif %}
+                            </option>
+                            {% for u in users %}
+                                <option value="{{ u.id }}"
+                                        data-tokens="{{ u.first_name|default_if_none:'' }}">{{ u.last_name|default_if_none:'' }} {{ u.first_name|default_if_none:'' }} {{ u.username|default_if_none:'' }}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                    <select class=" btn btn-dark" data-style="btn-dark" onchange="getReg()" id="region"
+                                            name="region" style="
+                                            width: 100%;">
+                                        <option value="">{% if LANGUAGE_CODE == 'en' %}
+                                        Select a region
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Выберите регион
+                                    {% else %}
+                                        Viloyatni tanlang
+                                    {% endif %}</option>
+                                        {% for t in region %}
+                                            <option value="{{ t.id }}">{{ t.name }}</option>
+                                        {% endfor %}
+                    </select>
+                    <select data-style="btn btn-dark"  class="btn btn-dark " id="district" name="district"
+                                            style="width: 100%;">
+                                        <option value="">{% if LANGUAGE_CODE == 'en' %}
+                                        Select a region
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Выберите регион
+                                    {% else %}
+                                        Hududni tanlang
+                                    {% endif %}</option>
+                                    {% for t in district %}
+                                    <option value="{{ t.id }}">{{ t.name }}</option>
+                                {% endfor %}
+                    </select>
+                    <button class="btn btn-dark " >{% if LANGUAGE_CODE == 'en' %}
+                                        Confirmation
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Подтверждение
+                                    {% else %}
+                                        Tasdiqlash
+                                    {% endif %}</button>
+                </div>
+                </form>
+                <!-- <script>
+                    function saveDivToLocal() {
+                        // Get the HTML content of the div
+                        const divContent = document.getElementById("filter_group").innerHTML;
+                
+                        // Save it to localStorage
+                        localStorage.setItem("filterGroupContent", divContent);
+                        alert("Content saved!");
+                    }
+                
+                    function loadDivFromLocal() {
+                        // Get the content from localStorage
+                        const savedContent = localStorage.getItem("filterGroupContent");
+                
+                        // Restore the content if it exists
+                        if (savedContent) {
+                            document.getElementById("filter_group").innerHTML = savedContent;
+                        }
+                    }
+                
+                    // Load the content when the page is loaded
+                    window.onload = loadDivFromLocal;
+                </script> -->
+            </div>
+        </div>
+    </div>
+    <div id="dashboard_container">
+        <div id="custom-content">
+            <div class="main_container">
+                {% for pole in lead_poles %}
+                    <div class="part-group">
+                        <div class="group_header">
+                            <div class="group_title text-wrap">{{ pole.name }}
+                                {% if user.is_director %}
+                                    <a href="#"><i
+                                            class="fa fa-edit fa-sm pl-10 edit_pole_pen" column_pk="{{ pole.id }}"></i></a>
+                                    <a href="#"><i
+                                            class="fa fa-close fa-sm pl-10 delete_pole_pen"
+                                            column_pk="{{ pole.id }}"></i></a>
+                                {% endif %}</div>
+                            <div id="info_group_{{ pole.id }}" class="group_info"></div>
+                        </div>
+                        <div id="group_body_{{ pole.id }}" class="group_body">
+                            {% if forloop.first %}
+                                <div id='new_lead_button'>
+                                    {%if LANGUAGE_CODE == 'en' %}
+                                        Add
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Добавлять
+                                    {% else %}
+                                        Yangi qo'shish
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            {% if user.company.type == "B2B" %}
+                                {% for lead in leads %}
+                                    {% if lead.pole == pole %}
+                                        <div id="lead_{{ lead.id }}" pk={{ lead.id }} class="lead_card"
+                                             draggable="true">
+                                            <div class="lead_card-header">
+                                                <div class="lead_name text-super">{{ lead.name }}</div>
+                                                <div class="lead_datediv text-super">
+                                                    <div class="lead_date">{{ lead.date|date:'Y-m-d H:i' }}</div>
+                                                    <div class="created">{{ lead.created_user.username }}</div>
+                                                </div>
+                                            </div>
+                                            <div class="lead_card-body">
+                                                <a class="lead_price text-super">{{ lead.price|intcomma }}</a>
+                                                <div class="lead_note text-super">{{ lead.company|default_if_none:'' }}
+                                                    <a href="{% url 'edit' %}?id={{ lead.id }}">
+                                                        <i class="fa fa-info-circle"></i></a></div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                {% for lead in leads %}
+                                    {% if lead.pole == pole %}
+                                        <div id="lead_{{ lead.id }}" pk={{ lead.id }} class="lead_card"
+                                             draggable="true">
+                                            <div class="lead_card-header">
+                                                <div class="lead_name text-super">{{ lead.name }}</div>
+                                                <div class="lead_datediv text-super">
+                                                    <div class="lead_date">{{ lead.date|date:'Y-m-d H:i' }}</div>
+                                                    <div class="created">{{ lead.created_user.username }}</div>
+                                                </div>
+                                            </div>
+                                            <div class="lead_card-body">
+                                                <a class="lead_price text-super">{{ lead.price|intcomma }}</a>
+                                                <div class="lead_note text-super">{{ lead.phone|default_if_none:'' }}
+                                                    <a href="{% url 'edit' %}?id={{ lead.id }}"><i
+                                                            class="fa fa-info-circle"></i></a></div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div id="dashboard_footer">
+            <div class="footer_group">
+                <a style="font-size: 18px; margin-right: 20px; color: #fafff4; padding: 5px 30px 5px 7px;    transition: 0.3s; cursor: pointer;"
+                   href="{% url 'export_excel' %}">
+                    <i class="mdi mdi-file-excel mdi-24px"></i>
+                    <span>{%if LANGUAGE_CODE == 'en' %}
+                                        Excel export
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Экспорт в Excel
+                                    {% else %}
+                                        Excel eksporti
+                                    {% endif %}</span>
+                </a>
+                {% if user.is_director %}
+                    <div id="add_pole_btn">
+                        <i class="fa fa-plus-circle fa-lg"></i>
+                        <span>{%if LANGUAGE_CODE == 'en' %}
+                                        Add a new stage
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Добавить новый этап
+                                    {% else %}
+                                        Yangi bosqich qo'shish
+                                    {% endif %}</span>
+                    </div>
+                {% endif %}
+                <div id="lead_losed_footer" class="footer_item footer_losed">{%if LANGUAGE_CODE == 'en' %}
+                                        Lost
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Потерял
+                                    {% else %}
+                                        Yo'qotildi
+                                    {% endif %}</div>
+                <div id="lead_woned_footer" class="footer_item footer_won">{%if LANGUAGE_CODE == 'en' %}
+                                        It's over
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Закончилось
+                                    {% else %}
+                                        Yakunlandi
+                                    {% endif %}</div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="new_lead_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="newLeadForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                        Add
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Добавлять
+                                    {% else %}
+                                        Yangi qo'shish
+                                    {% endif %}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="p-1">
+                            <input name="form_name" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                        Name
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Hазвание
+                                    {% else %}
+                                        Nomi
+                                    {% endif %}" class="formStyle"
+                                   oninvalid ="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
+                                        Must be completed!
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Должен быть завершен!
+                                    {% else %}
+                                        To'ldirilishi shart!
+                                    {% endif %}`)"
+                                   oninput="setCustomValidity('')" required>
+                        </div>
+                        <div class="p-1">
+                            <input name="form_price" type="number" placeholder="0" class="formStyle"
+                                   oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
+                                        Must be completed!
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Должен быть завершен!
+                                    {% else %}
+                                        To'ldirilishi shart!
+                                    {% endif %}`)"
+                                   oninput="setCustomValidity('')" required>
+                        </div>
+                        {% if user.company.type == "B2B" %}
+                            <div class="p-1">
+                                <input name="form_campany" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                        Organization: name
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Название организации
+                                    {% else %}
+                                        Tashkilot:nomi
+                                    {% endif %}" class="formStyle">
+                            </div>
+                            <div class="p-1">
+                                <input name="form_address" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                        Organization: address
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Организация: адрес
+                                    {% else %}
+                                        Tashkilot:manzil
+                                    {% endif %}" class="formStyle">
+                            </div>
+                        {% else %}
+                            <div class="p-1">
+                                <input name="form_phone" id="phone_tel" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                        Phone
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Телефон
+                                    {% else %}
+                                        Telefon
+                                    {% endif %}"
+                                       class="formStyle">
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">{% if LANGUAGE_CODE == 'en' %}
+                                        Add
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Добавлять
+                                    {% else %}
+                                        Qo'shish
+                                    {% endif %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="lead_note_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="lead_note_form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                        Note
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Примечание
+                                    {% else %}
+                                        Izoh
+                                    {% endif %}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="p-1">
+                            <textarea class="formStyle" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                        Note
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Примечание
+                                    {% else %}
+                                        Izoh
+                                    {% endif %}" name="izoh"
+                                      oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
+                                        Must be completed!
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Должен быть завершен!
+                                    {% else %}
+                                        To'ldirilishi shart!
+                                    {% endif %}`)"
+                                      oninput="setCustomValidity('')" required></textarea>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">{% if LANGUAGE_CODE == 'en' %}
+                                        Save
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Сохранять
+                                    {% else %}
+                                        Saqlash
+                                    {% endif %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="lead_finished_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="lead_finished_form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                        Completion
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Завершение
+                                    {% else %}
+                                        Yakunlash
+                                    {% endif %}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="p-1">
+                            <input name="price" type="number" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                        Completed amount ...
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Завершенная сумма...
+                                    {% else %}
+                                        Yakunlangan summa...
+                                    {% endif %}" class="formStyle"
+                                   oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
+                                        Must be completed!
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Должен быть завершен!
+                                    {% else %}
+                                        To'ldirilishi shart!
+                                    {% endif %}`)"
+                                   oninput="setCustomValidity('')" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">{% if LANGUAGE_CODE == 'en' %}
+                                        Save
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Сохранять
+                                    {% else %}
+                                        Saqlash
+                                    {% endif %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="lead_lose_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="lead_lose_form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                        The reason for the loss
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Причина потери
+                                    {% else %}
+                                        Yo'qotilish sababi
+                                    {% endif %}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="p-1">
+                            <div class="p-1">
+                            <textarea class="formStyle" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                        Note
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Примечание
+                                    {% else %}
+                                        Izoh
+                                    {% endif %}" name="izoh"
+                                      oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
+                                        Must be completed!
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Должен быть завершен!
+                                    {% else %}
+                                        To'ldirilishi shart!
+                                    {% endif %}`)"
+                                      oninput="setCustomValidity('')" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                        Save
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Сохранять
+                                    {% else %}
+                                        Saqlash
+                                    {% endif %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit_lead_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="edit_lead_form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                        Edit
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Редактировать
+                                    {% else %}
+                                        Taxrirlash
+                                    {% endif %}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="p-1">
+                            <input name="form_name" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                        Name
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Название
+                                    {% else %}
+                                        Nomi
+                                    {% endif %}" class="formStyle"
+                                   oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
+                                        Must be completed!
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Должен быть завершен!
+                                    {% else %}
+                                        To'ldirilishi shart!
+                                    {% endif %}`)"
+                                   oninput="setCustomValidity('')" required>
+                        </div>
+                        <div class="p-1">
+                            <input name="form_price" type="number" placeholder="0" class="formStyle"
+                                   oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
+                                        Must be completed!
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Должен быть завершен!
+                                    {% else %}
+                                        To'ldirilishi shart!
+                                    {% endif %}`)"
+                                   oninput="setCustomValidity('')" required>
+                        </div>
+                        {% if user.company.type == "B2B" %}
+                            <div class="p-1">
+                                <input name="form_campany" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                        Organization: name
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Название организации
+                                    {% else %}
+                                        Tashkilot:nomi
+                                    {% endif %}" class="formStyle">
+                            </div>
+                            <div class="p-1">
+                                <input name="form_address" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                        Organization: address
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Организация: адрес
+                                    {% else %}
+                                        Tashkilot:manzil
+                                    {% endif %}" class="formStyle">
+                            </div>
+                        {% else %}
+                            <div class="p-1">
+                                <input name="form_phone" id="phone_tel_edit" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                        Phone
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Телефон
+                                    {% else %}
+                                        Telefon
+                                    {% endif %}"
+                                       class="formStyle">
+                            </div>
+                        {% endif %}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                        Save
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Сохранять
+                                    {% else %}
+                                        Saqlash
+                                    {% endif %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% if user.is_director %}
+        <div id="add_pole" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form id="add_pole_form" action="{% url 'add_pole' %}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                        Add a new stage
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Добавить новый этап
+                                    {% else %}
+                                        Yangi bosqich qo'shish
+                                    {% endif %}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="p-1">
+                                <input name="name" type="text" maxlength="60" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                        Name
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Название
+                                    {% else %}
+                                        Nomi
+                                    {% endif %}" class="formStyle"
+                                       oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
+                                        Must be completed!
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Должен быть завершен!
+                                    {% else %}
+                                        To'ldirilishi shart!
+                                    {% endif %}`)"
+                                       oninput="setCustomValidity('')" required>
+                                {% csrf_token %}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">{% if LANGUAGE_CODE == 'en' %}
+                                        Add
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Добавлять
+                                    {% else %}
+                                        Qo'shish
+                                    {% endif %}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="edit_pole" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form id="edit_pole_form" action="{% url 'edit_pole' %}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                        Edit
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Редактировать
+                                    {% else %}
+                                        Taxrirlash
+                                    {% endif %}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="p-1">
+                                <input name="name" type="text" maxlength="60" class="formStyle"
+                                       oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
+                                        Must be completed!
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Должен быть завершен!
+                                    {% else %}
+                                        To'ldirilishi shart!
+                                    {% endif %}`)"
+                                       oninput="setCustomValidity('')" required>
+                                <input name="id" type="hidden">
+                                {% csrf_token %}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">{% if LANGUAGE_CODE == 'en' %}
+                                        Save
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Сохранять
+                                    {% else %}
+                                        Saqlash
+                                    {% endif %}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+</section>
+{% endblock content %}
+
+{% block js %}
+
+<script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+<script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+
+<script src="{% static 'crm/assets/vendor_components/easypiechart/dist/jquery.easypiechart.js' %}"></script>
+<script src="{% static 'crm/assets/vendor_components/apexcharts-bundle/irregular-data-series.js' %}"></script>
+<script src="{% static 'crm/assets/vendor_components/apexcharts-bundle/dist/apexcharts.js' %}"></script>
+
+<script src="{% static 'crm/assets/vendor_components/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'crm/assets/vendor_components/morris.js/morris.min.js' %}"></script>
+<script src="{% static 'crm/main/js/pages/widget-morris-charts.js' %}"></script>
+
+<script src="{% static 'crm/main/js/template.js' %}"></script>
+<script src="{% static 'crm/main/js/pages/dashboard.js' %}"></script>
+<script src="{% static 'crm/assets/vendor_components/select2/dist/js/select2.full.js' %}"></script>
+<script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.js' %}"></script>
+<script src="{% static 'crm/assets/vendor_components/moment/min/moment.min.js' %}"></script>
+<script src="{% static 'crm/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+<script src="{% static 'crm/main/js/pages/advanced-form-element.js' %}"></script>
+<script src="{% static 'crm/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js' %}"></script>
+
+<script src="{% static 'crm/assets/vendor_components/Flot/jquery.flot.js' %}"></script>
+<script src="{% static 'crm/assets/vendor_components/Flot/jquery.flot.resize.js' %}"></script>
+<script src="{% static 'crm/assets/vendor_components/Flot/jquery.flot.pie.js' %}"></script>
+<script src="{% static 'crm/assets/vendor_components/Flot/jquery.flot.categories.js' %}"></script>
+<script src="{% static 'crm/main/js/pages/widget-flot-charts.js' %}"></script>
+    <script>
+        let leads_all = {{ all_leads|safe }};
+        let currentUser = {{ user.id }};
+        let csrf_token = '{{ csrf_token }}';
+        let company_type = '{{ user.company.type }}';
+        let board_columns = [
+            {% for pole in lead_poles %}
+                {% if not forloop.first %},{% endif %}{
+            id:{{ pole.id }},
+            name: "{{ pole.name|safe }}"
+            }            {% endfor %}
+        ]
+        {% if user.is_director %}
+            let check_can_delete = "{% url 'check_pole_can_delete' %}"
+            let delete_pole = "{% url 'delete_pole' %}"
+        {% endif %}
+    </script>
+
+    <script src="{% static 'crm/board/script1.js' %}"></script>
+{% endblock js %}

@@ -8,12 +8,17 @@ class RegionAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'name')
 
 
+@admin.register(Instruktsya)
+class InstruktsyaAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'company')
+    list_display_links = ('id', 'title')
+    list_filter = ['company']
+
 @admin.register(LeadPoles)
 class LeadStatusAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'company', 'status')
     list_display_links = ('id', 'name')
     list_filter = ['company']
-
 
 @admin.register(District)
 class DistrictAdmin(admin.ModelAdmin):

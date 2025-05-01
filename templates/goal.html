@@ -168,7 +168,7 @@
                             <div class="col-6">
                                 <div class="inline-date">
                                     <button type="button" class="btn btn-primary" onclick="date_minus()"> <</button>
-                                    <input type="text" id="date_input" class="input-add-goal" value="Mart, 2021"
+                                    <input type="text" id="date_input" class="input-add-goal" 
                                            readonly>
                                     <button type="button" class="btn btn-primary" onclick="date_plus()"> ></button>
                                 </div>
@@ -176,6 +176,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col-12" id="servicer-data">
                         <div class="row">
                             <div class="col-4">
@@ -277,4 +278,19 @@
     <script src="{% static 'crm/main/js/template.js' %}"></script>
     <script src="{% static 'crm/mystatic/goal.js' %}"></script>
 
+    <script>
+        const monthNames = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"];
+    
+        function setCurrentMonth() {
+            // Get the current date
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth(); // Note: getMonth() returns 0-11
+    
+            const formattedMonthDisplay = document.getElementById("date_input");
+            formattedMonthDisplay.value = `${monthNames[month]}, ${year}`;
+        }
+    
+        setCurrentMonth();
+    </script>
 {% endblock js %}

@@ -1,5 +1,6 @@
 from django.db import models
 from account.models import Account, Company
+from datetime import datetime
 
 SMS_template_choise = (
     ("Ro'yxatdan o'tish uchun", "Ro'yxatdan o'tish uchun"),
@@ -115,6 +116,21 @@ class Lead(models.Model):
     phone2 = models.CharField(max_length=100, blank=True, null=True, default="")
     tg_id = models.CharField(max_length=100, blank=True, null=True)
 
+    validity_period = models.DateField(null=True, blank=True)
+    referral = models.ForeignKey('Referral', on_delete=models.CASCADE, null=True, blank=True)
+
+
+    @property
+    def get_validity_period(self):
+        if self.validity_period is None:
+            return True 
+        today = datetime.now().date() 
+        vald = self.validity_period
+        if today >= vald: 
+            return False
+        else:
+            return True
+
     def __str__(self):
         return self.name
 
@@ -181,12 +197,22 @@ class Task(models.Model):
         (2, "Bajarildi"),
         (3, "O'chirildi"),
     )
+    lead_types = (
+        (0, "Yangi"),
+        (1, "Aloqa"),
+        (2, "Uchrashuv"),
+        (3, "Boshqa"),
+    )
     name = models.CharField(max_length=255)
     note = models.TextField()
     status = models.IntegerField(default=0, choices=status_types)
+    lead_status = models.IntegerField(default=0, choices=lead_types)
     date = models.DateTimeField(auto_now_add=True)
     finishedDate = models.DateTimeField(null=True)
     created_user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Account, on_delete=models.CASCADE, null=True, blank=True, related_name="task_customer")
+    lead_action = models.ForeignKey(LeadAction, on_delete=models.CASCADE, null=True, blank=True)
+    lead_date_time = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -329,3 +355,38 @@ class AnswerQuestion(models.Model):
 
     def __str__(self):
         return self.text
+
+from urllib.parse import urlparse, parse_qs
+
+
+class Instruktsya(models.Model):
+    title = models.CharField(max_length=255)
+    video_file = models.FileField(upload_to="board_instruktsya/", blank=True, null=True)
+    photo = models.FileField(upload_to="board_instruktsya_photo/", blank=True, null=True)
+    video_link = models.CharField(max_length=255, blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    date_time = models.DateTimeField(default=datetime.now())
+    
+    @property
+    def youtube_id(self):
+        parsed_url = urlparse(self.video_link)
+        if parsed_url.hostname == "youtu.be":
+            return parsed_url.path[1:]
+        if parsed_url.hostname in ["www.youtube.com", "youtube.com"]:
+            query = parse_qs(parsed_url.query)
+            return query.get("v", [None])[0]
+        return None
+
+    @property
+    def embed_url(self):
+        video_id = self.youtube_id
+        if video_id:
+            return f"https://www.youtube.com/embed/{video_id}"
+        return ""
+
+
+class Referral(models.Model):
+    name = models.CharField(max_length=255)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    is_activate = models.BooleanField(default=True)
