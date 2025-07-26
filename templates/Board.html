@@ -55,6 +55,25 @@
             background-color: #272e48 !important;
         }
     </style>
+    <style>
+        .is-invalid {
+            border-color: #dc3545;
+        }
+
+        .invalid-feedback {
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 80%;
+            color: #dc3545;
+        }
+        .modal-backdrop.show {
+            z-index: 1050 !important;
+        }
+
+        .modal.show {
+            z-index: 1060 !important;
+        }
+    </style>
 {% endblock css %}
 {% block content %}
 <section class="content">
@@ -126,7 +145,7 @@
     <div id="dashboard_container">
         <div id="custom-content">
             <div class="main_container">
-                {% for pole in lead_poles %}
+                {% for pole in user.leadpoles.all %}
                     <div class="part-group">
                         <div class="group_header">
                             <div class="group_title text-wrap">{{ pole.name }}
@@ -173,9 +192,6 @@
                                                         data-validity="{{ lead.validity_period|date:'Y-m-d\\T00:00:00' }}"
                                                         id="timer_{{ lead.id }}">
                                                 </div>
-                                         
-
-                                                
                                                 
                                                 {% endif %}
                                                 {% if lead.phone %}
@@ -251,8 +267,7 @@
 
         <div id="dashboard_footer">
             <div class="footer_group">
-                <a style="font-size: 18px; margin-right: 20px; color: #fafff4; padding: 5px 30px 5px 7px;    transition: 0.3s; cursor: pointer;"
-                   href="{% url 'export_excel' %}">
+                <a  style="font-size: 18px; margin-right: 20px; color: #fafff4; padding: 5px 30px 5px 7px;    transition: 0.3s; cursor: pointer;" data-toggle="modal" data-target="#ExcelExportModal">
                     <i class="mdi mdi-file-excel mdi-24px"></i>
                     <span>{%if LANGUAGE_CODE == 'en' %}
                                         Excel export
@@ -262,6 +277,52 @@
                                         Excel eksporti
                                     {% endif %}</span>
                 </a>
+               <div id="ExcelExportModal" class="modal fade" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <form id="excelExportForm" method="post" enctype="multipart/form-data" action="{% url 'export_excel' %}">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            Excel Export
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Экспорт в Excel
+                                        {% else %}
+                                            Excel eksporti
+                                        {% endif %}
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        {% csrf_token %}
+                                        <input type="file" class="form-control" name="excel_file" accept=".xlsx,.xls" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            Close
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Закрыть
+                                        {% else %}
+                                            Yopish
+                                        {% endif %}
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            Export
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Экспорт
+                                        {% else %}
+                                            Eksport
+                                        {% endif %}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 {% if user.is_director %}
                     <div id="add_pole_btn">
                         <i class="fa fa-plus-circle fa-lg"></i>
@@ -310,13 +371,10 @@
                     <div class="modal-body">
 
                         <div class="p-1">
-                            <input name="form_name" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
-                                        Name
-                                    {% elif LANGUAGE_CODE == 'ru'%}
-                                        Hазвание
-                                    {% else %}
-                                        Nomi
-                                    {% endif %}" class="formStyle"
+                            <input name="form_name" type="text" class="form-control" placeholder="{% if LANGUAGE_CODE == 'en' %}Name
+                                    {% elif LANGUAGE_CODE == 'ru'%}Hазвание
+                                    {% else %}Nomi
+                                    {% endif %}" 
                                    oninvalid ="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
                                         Must be completed!
                                     {% elif LANGUAGE_CODE == 'ru'%}
@@ -327,17 +385,21 @@
                                    oninput="setCustomValidity('')" required>
                         </div>
                         <div class="p-1">
-                            <input name="form_phone" id="phone_tel" type="text" value="(998)" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-phone"></i>
+                                </div>
+                                <input type="text" class="form-control" name="form_phone" id="phone_tel" type="text" value="(998)" placeholder="{% if LANGUAGE_CODE == 'en' %}
                                     Phone
                                 {% elif LANGUAGE_CODE == 'ru'%}
                                     Телефон
                                 {% else %}
                                     Telefon
-                                {% endif %}"
-                                   class="formStyle">
+                                {% endif %}">
+                              </div>
                         </div>
                         <div class="p-1">
-                            <input name="form_price" type="number" placeholder="0" class="formStyle"
+                            <input name="form_price" type="text" placeholder="0" class="formStyle"
                                    oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
                                         Must be completed!
                                     {% elif LANGUAGE_CODE == 'ru'%}
@@ -347,17 +409,16 @@
                                     {% endif %}`)"
                                    oninput="setCustomValidity('')" required>
                         </div>
-                            <div class="p-1">
+                        <div class="p-1">
                                 <input name="form_campany" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
                                         Organization: name
                                     {% elif LANGUAGE_CODE == 'ru'%}
                                         Название организации
-                                    {% else %}
-                                        Tashkilot:nomi
-                                    {% endif %}" class="formStyle">
+                                    {% else %}Tashkilot:nomi
+                                    {% endif %}" class="form-control">
                             </div>
                             <div class="p-1">
-                                <select class="formStyle" data-style="btn-dark" onchange="getReg(this)" class="region"
+                                <select class="form-control region " data-style="btn-dark" onchange="getReg(this)"
                                                 name="region" style="
                                                 width: 100%;">
                                             <option value="">{% if LANGUAGE_CODE == 'en' %}
@@ -373,7 +434,7 @@
                                 </select>
                             </div>
                             <div class="p-1">
-                                <select data-style="btn btn-dark"  class="formStyle district"name="form_address"
+                                <select data-style="btn btn-dark"  class="form-control district"name="form_address"
                                                 style="width: 100%;">
                                             <option value="">{% if LANGUAGE_CODE == 'en' %}
                                             Select a region {% elif LANGUAGE_CODE == 'ru'%}     Выберите регион {% else %}     Hududni tanlang 
@@ -383,7 +444,7 @@
                                 </select>
                             </div>
                         <div class="p-1">
-                                <select data-style="btn btn-dark"  class="formStyle" name="referral"
+                                <select data-style="btn btn-dark"  class="form-control" name="referral"
                                                 style="width: 100%;">
                                             <option value="">{% if LANGUAGE_CODE == 'en' %}
                                                 Select a referral {% elif LANGUAGE_CODE == 'ru'%} Выберайте направления {% else %}     Yo'naltiruvchini tanlang 
@@ -395,14 +456,19 @@
                                 </select>
                         </div>
                         <div class="p-1">
-                            <input name="validity_period" id="validity_period" type="date" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-calendar"></i>
+                                </div>
+                                <input name="validity_period" id="validity_period" type="date" placeholder="{% if LANGUAGE_CODE == 'en' %}
                                 Validity period
                                 {% elif LANGUAGE_CODE == 'ru'%}
                                 Срок действия
                                 {% else %}
                                 Amal qilish muddati
                                 {% endif %}"
-                                   class="formStyle">
+                                   class="form-control ">
+                              </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -582,14 +648,12 @@
                     <div class="modal-body">
 
                         <div class="p-1">
-                            <input name="form_name" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
-                                        Name
-                                    {% elif LANGUAGE_CODE == 'ru'%}
-                                        Название
-                                    {% else %}
-                                        Nomi
-                                    {% endif %}" class="formStyle"
-                                   oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
+
+                            <input name="form_name" type="text" class="form-control" placeholder="{% if LANGUAGE_CODE == 'en' %}Name
+                                    {% elif LANGUAGE_CODE == 'ru'%}Hазвание
+                                    {% else %}Nomi
+                                    {% endif %}" 
+                                   oninvalid ="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
                                         Must be completed!
                                     {% elif LANGUAGE_CODE == 'ru'%}
                                         Должен быть завершен!
@@ -597,16 +661,22 @@
                                         To'ldirilishi shart!
                                     {% endif %}`)"
                                    oninput="setCustomValidity('')" required>
+
+                            
                         </div>
                         <div class="p-1">
-                            <input name="form_phone" id="phone_tel_edit" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                             <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-phone"></i>
+                                </div>
+                                <input type="text" class="form-control" name="form_phone" id="phone_tel_edit" value="(998)" placeholder="{% if LANGUAGE_CODE == 'en' %}
                                     Phone
                                 {% elif LANGUAGE_CODE == 'ru'%}
                                     Телефон
                                 {% else %}
                                     Telefon
-                                {% endif %}"
-                                   class="formStyle">
+                                {% endif %}">
+                              </div>
                         </div>
                         <div class="p-1">
                             <input name="form_price" type="number" placeholder="0" class="formStyle"
@@ -621,15 +691,14 @@
                         </div>
                             <div class="p-1">
                                 <input name="form_campany" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
-                                        Organization: name
-                                    {% elif LANGUAGE_CODE == 'ru'%}
-                                        Название организации
-                                    {% else %}
-                                        Tashkilot:nomi
-                                    {% endif %}" class="formStyle">
+                                    Organization: name
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                    Название организации
+                                {% else %}Tashkilot:nomi
+                                {% endif %}" class="form-control">
                             </div>
                             <div class="p-1">
-                                <select class="formStyle" data-style="btn-dark" onchange="getReg(this)" class="region"
+                                <select class="form-control region " data-style="btn-dark" onchange="getReg(this)"
                                                 name="region" style="
                                                 width: 100%;">
                                             <option value="">{% if LANGUAGE_CODE == 'en' %}
@@ -645,7 +714,7 @@
                                 </select>
                             </div>
                             <div class="p-1">
-                                <select  data-style="btn btn-dark"  class="formStyle district"name="form_address"
+                                <select data-style="btn btn-dark"  class="form-control district"name="form_address"
                                                 style="width: 100%;">
                                             <option value="">{% if LANGUAGE_CODE == 'en' %}
                                             Select a region {% elif LANGUAGE_CODE == 'ru'%}     Выберите регион {% else %}     Hududni tanlang 
@@ -654,8 +723,33 @@
                                         
                                 </select>
                             </div>
-                     
-
+                        <div class="p-1">
+                                <select data-style="btn btn-dark"  class="form-control" name="referral"
+                                                style="width: 100%;">
+                                            <option value="">{% if LANGUAGE_CODE == 'en' %}
+                                                Select a referral {% elif LANGUAGE_CODE == 'ru'%} Выберайте направления {% else %}     Yo'naltiruvchini tanlang 
+                                            {% endif %}
+                                </option>
+                                {% for refer in referral %}
+                                    <option value="{{ refer.id }}">{{ refer.name }}</option>
+                                {% endfor %}
+                                </select>
+                        </div>
+                        <div class="p-1">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-calendar"></i>
+                                </div>
+                                <input name="validity_period" id="validity_period" type="date" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                Validity period
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                Срок действия
+                                {% else %}
+                                Amal qilish muddati
+                                {% endif %}"
+                                   class="form-control ">
+                              </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">
@@ -747,6 +841,16 @@
                                         To'ldirilishi shart!
                                     {% endif %}`)"
                                        oninput="setCustomValidity('')" required>
+                                <br>
+                                <input placeholder="#" name="number" type="number" class="formStyle"
+                                       oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
+                                        Must be completed!
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Должен быть завершен!
+                                    {% else %}
+                                        To'ldirilishi shart!
+                                    {% endif %}`)"
+                                        required>
                                 <input name="id" type="hidden">
                                 {% csrf_token %}
                             </div>
@@ -773,12 +877,27 @@
 {% block js %}
     <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
     <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js'%}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js' %}"></script>
+	<script src="{% static 'crm/assets/vendor_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js'%}"></script>
+    <script src="{% static 'crm/assets/vendor_components/select2/dist/js/select2.full.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.extensions.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/moment/min/moment.min.js' %}"></script>
     <script src="{% static 'crm/main/js/template.js' %}"></script>
     <script src="{% static 'crm/assets/vendor_components/select2/dist/js/select2.full.js' %}"></script>
     <script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.js' %}"></script>
     <script src="{% static 'crm/assets/vendor_components/moment/min/moment.min.js' %}"></script>
     <script src="{% static 'crm/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
     <script src="{% static 'crm/main/js/pages/advanced-form-element.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/iCheck/icheck.min.js' %}"></script>
+	<script src="{% static 'crm/assets/vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js'%}"></script>
+
+	<script src="{% static 'crm/assets/vendor_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js'%}"></script>
+	<script src="{% static 'crm/assets/vendor_plugins/timepicker/bootstrap-timepicker.min.js'%}"></script>
+    
+
     <script>
         function getReg(item) {
             var id = item.value;
@@ -828,7 +947,7 @@
     </script>
     
     <script src="{% static 'crm/custom_js/jquery.mask.min.js' %}"></script>
-    <script>
+    <!-- <script>
         let leads_all = {{ all_leads|safe }};
         let currentUser = {{ user.id }};
         let csrf_token = '{{ csrf_token }}';
@@ -843,6 +962,27 @@
         {% if user.is_director %}
             let check_can_delete = "{% url 'check_pole_can_delete' %}"
             let delete_pole = "{% url 'delete_pole' %}"
+        {% endif %}
+    </script> -->
+    <script>
+    let leads_all = {{ all_leads|safe }};
+    let currentUser = {{ user.id }};
+    let csrf_token = '{{ csrf_token }}';
+    let company_type = '{{ user.company.type }}';
+    
+    let board_columns = [
+            {% for pole in lead_poles %}
+                {% if not forloop.first %},{% endif %}{
+                    id: {{ pole.id }},
+                    name: "{{ pole.name|safe }}",
+                    number: {{ pole.number }}
+                }
+            {% endfor %}
+        ];
+        
+        {% if user.is_director %}
+            let check_can_delete = "{% url 'check_pole_can_delete' %}";
+            let delete_pole = "{% url 'delete_pole' %}";
         {% endif %}
     </script>
     <script src="{% static 'crm/board/script1.js' %}"></script>
@@ -890,6 +1030,7 @@
             });
         }
         document.addEventListener("DOMContentLoaded", startCountdown);
+
     </script>
     
     

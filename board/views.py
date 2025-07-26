@@ -250,7 +250,7 @@ def create_lead(request):
                                        phone=phone,
                                        created_user_id=user,
                                        referral_id=referral,
-                                       validity_period=validity_period)
+                                       validity_period=validity_period if validity_period else None)
         else:
             
             lead = Lead.objects.create(name=name,
@@ -260,7 +260,7 @@ def create_lead(request):
                                        district_id=address,
                                        created_user_id=user,
                                        referral_id=referral,
-                                        validity_period=validity_period)
+                                        validity_period=validity_period if validity_period else None)
         LeadAction.objects.create(lead=lead, changer_id=user)
         register_lead_send_sms(lead)
 
@@ -280,18 +280,16 @@ def edit_lead(request):
         name = data['name']
         price = int(data['price'])
         user = int(data['user'])
-
+        phone = data.get('phone')
         lead = Lead.objects.get(id=leadId)
         lead.name = name
         lead.price = price
-        if is_B2B(request):
-            company = data['company']
-            address = data['address']
-            lead.company = company
-            lead.companyAddress = address
-        else:
-            phone = data['phone']
-            lead.phone = phone
+        company = data['company']
+        address = data['address']
+        lead.company = company
+        lead.companyAddress = address
+        print(phone)
+        lead.phone = phone
         LeadAction.objects.create(lead=lead, changer_id=user, status=1)
         lead.save()
 
@@ -477,6 +475,7 @@ def edit_pole(request):
         if request.user.is_director:
             pole = LeadPoles.objects.get(id=int(request.POST['id']))
             pole.name = request.POST['name']
+            pole.number = request.POST['number']
             pole.save()
     except:
         pass

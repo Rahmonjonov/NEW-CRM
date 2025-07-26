@@ -59,9 +59,13 @@ class District(models.Model):
 class LeadPoles(models.Model):
     name = models.CharField(max_length=255)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    number = models.IntegerField(default=0)
     status = models.IntegerField(default=-1)
 
     def __str__(self): return self.company.name + ' ' + self.name
+
+    class Meta:
+        ordering = ['number']
 
 
 class Lead(models.Model):
@@ -172,6 +176,7 @@ class LeadAction(models.Model):
     color = models.CharField(default="primary", max_length=255)
     emotsiya = models.IntegerField(choices=status_emotsiya, default=0)
     changer = models.ForeignKey(Account, on_delete=models.CASCADE)
+    ping = models.BooleanField(default=False)
 
 
 class Shopping(models.Model):

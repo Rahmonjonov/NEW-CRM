@@ -166,7 +166,6 @@ function updateLead(pk, name, price, company, address) {
     let index = leads_all.findIndex(i => i.id === pk);
     if (index !== -1) {
         leads_all[index]['name'] = name
-
         leads_all[index]['price'] = price
         leads_all[index]['company'] = company
         leads_all[index]['address'] = address

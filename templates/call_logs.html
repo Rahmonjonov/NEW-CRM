@@ -1,0 +1,449 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% if LANGUAGE_CODE == 'en' %}
+            CRM | Call Logs
+        {% elif LANGUAGE_CODE == 'ru'%}
+            CRM | Журнал звонков
+        {% else %}
+            CRM | Qo'ng'iroqlar jurnali
+        {% endif %}
+    </title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        .call-direction {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .incoming {
+            background-color: #28a745;
+        }
+        .outgoing {
+            background-color: #007bff;
+        }
+        .call-duration {
+            font-weight: bold;
+        }
+        .call-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .answered {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .missed {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .audio-player {
+            width: 100%;
+            max-width: 250px;
+        }
+        .date-filter {
+            margin-bottom: 20px;
+        }
+        .call-card {
+            border-left: 4px solid;
+            transition: all 0.3s;
+        }
+        .call-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .incoming-card {
+            border-left-color: #28a745;
+        }
+        .outgoing-card {
+            border-left-color: #007bff;
+        }
+        .flatpickr-input {
+            background-color: white;
+            cursor: pointer;
+        }
+        .filter-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+        .filter-group {
+            flex: 1;
+            min-width: 250px;
+        }
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-direction: column;
+            }
+            .filter-group {
+                width: 100%;
+            }
+        }
+    </style>
+{% endblock css %}
+
+{% block content %}
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">
+                            {% if LANGUAGE_CODE == 'en' %}
+                                Call Logs
+                            {% elif LANGUAGE_CODE == 'ru'%}
+                                Журнал звонков
+                            {% else %}
+                                Qo'ng'iroqlar jurnali
+                            {% endif %}
+                        </h4>
+                    </div>
+                    <div class="box-body">
+                        <div class="filter-container row">
+                            <div class="col-md-3">
+                                <div class="filter-group">
+                                    <label>
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            Start Date & Time
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Начальная дата и время
+                                        {% else %}
+                                            Boshlanish sanasi va vaqti
+                                        {% endif %}
+                                    </label>
+                                    <input type="text" id="startDate" class="form-control flatpickr-input" placeholder="{% if LANGUAGE_CODE == 'en' %}Select start date...{% elif LANGUAGE_CODE == 'ru'%}Выберите дату...{% else %}Boshlanish sanasini tanlang...{% endif %}">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="filter-group">
+                                    <label>
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            End Date & Time
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Конечная дата и время
+                                        {% else %}
+                                            Tugash sanasi va vaqti
+                                        {% endif %}
+                                    </label>
+                                    <input type="text" id="endDate" class="form-control flatpickr-input" placeholder="{% if LANGUAGE_CODE == 'en' %}Select end date...{% elif LANGUAGE_CODE == 'ru'%}Выберите дату...{% else %}Tugash sanasini tanlang...{% endif %}">
+                                </div>
+                            </div>
+                            <div class="filter-group">
+                                <button id="refreshBtn" class="btn btn-primary" style="height: 42px;">
+                                    <i class="fa fa-sync-alt"></i>
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                        Refresh
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Обновить
+                                    {% else %}
+                                        Yangilash
+                                    {% endif %}
+                                </button>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="table-responsive">
+                            <table id="callLogsTable" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th width="5%"></th>
+                                        <th>
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                                Client
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Клиент
+                                            {% else %}
+                                                Mijoz
+                                            {% endif %}
+                                        </th>
+                                        <th>
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                                Number
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Номер
+                                            {% else %}
+                                                Raqam
+                                            {% endif %}
+                                        </th>
+                                        <th>
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                                Time
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Время
+                                            {% else %}
+                                                Vaqt
+                                            {% endif %}
+                                        </th>
+                                        <th>
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                                Duration
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Длительность
+                                            {% else %}
+                                                Davomiylik
+                                            {% endif %}
+                                        </th>
+                                        <th>
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                                Status
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Статус
+                                            {% else %}
+                                                Holat
+                                            {% endif %}
+                                        </th>
+                                        <th>
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                                Recording
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Запись
+                                            {% else %}
+                                                Yozuv
+                                            {% endif %}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data will be loaded here via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="loadingSpinner" class="text-center my-5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                        Loading...
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        Загрузка...
+                                    {% else %}
+                                        Yuklanmoqda...
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div id="noResults" class="text-center my-5" style="display: none;">
+                            <h4>
+                                {% if LANGUAGE_CODE == 'en' %}
+                                    No call records found
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                    Записи звонков не найдены
+                                {% else %}
+                                    Qo'ng'iroq yozuvlari topilmadi
+                                {% endif %}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+{% endblock content %}
+
+{% block js %}
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/uz.js"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Set locale based on language
+            let flatpickrLocale = 'default';
+            if ('{{ LANGUAGE_CODE }}' === 'ru') {
+                flatpickrLocale = 'ru';
+            } else if ('{{ LANGUAGE_CODE }}' === 'uz') {
+                flatpickrLocale = 'uz';
+            }
+
+            // Initialize flatpickr with time support
+            const startDatePicker = flatpickr("#startDate", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                defaultDate: new Date().setHours(0, 0, 0, 0), // Today at 00:00
+                time_24hr: true,
+                locale: flatpickrLocale,
+                minuteIncrement: 1
+            });
+
+            const endDatePicker = flatpickr("#endDate", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                defaultDate: new Date().setHours(23, 59, 59, 0), // Today at 23:59
+                time_24hr: true,
+                locale: flatpickrLocale,
+                minuteIncrement: 1
+            });
+
+            // Load data on page load with default dates
+            const startDate = startDatePicker.input.value;
+            const endDate = endDatePicker.input.value;
+            loadCallLogs(startDate, endDate);
+            
+            // Filter by date change
+            $('#startDate, #endDate').change(function() {
+                const startDate = $('#startDate').val();
+                const endDate = $('#endDate').val();
+                loadCallLogs(startDate, endDate);
+            });
+            
+            // Refresh button click
+            $('#refreshBtn').click(function() {
+                const startDate = $('#startDate').val();
+                const endDate = $('#endDate').val();
+                loadCallLogs(startDate, endDate);
+            });
+            
+            function loadCallLogs(startDate, endDate) {
+                const loadingSpinner = $('#loadingSpinner');
+                const noResults = $('#noResults');
+                const tableBody = $('#callLogsTable tbody');
+                
+                // Show loading, hide table and no results message
+                loadingSpinner.show();
+                tableBody.empty();
+                noResults.hide();
+                
+                // Convert dates to timestamps
+                const startTimestamp = Math.floor(new Date(startDate).getTime() / 1000);
+                const endTimestamp = Math.floor(new Date(endDate).getTime() / 1000);
+                const api_key = "{{company.zvonki_api_key}}"
+                const user_name = "{{company.zvonki_user_name}}"
+                // API URL
+                const apiUrl = `https://algocrm.moizvonki.ru/api/v1/?user_name=${user_name}&api_key=${api_key}&action=calls.list&from_date=${startTimestamp}&to_date=${endTimestamp}`;
+                
+                // Fetch data from API
+                $.getJSON(apiUrl, function(data) {
+                    loadingSpinner.hide();
+                    
+                    if (data.results && data.results.length > 0) {
+                        // Sort by start_time (newest first)
+                        data.results.sort((a, b) => b.start_time - a.start_time);
+                        
+                        // Process each call record
+                        data.results.forEach(function(call) {
+                            const row = createCallRow(call);
+                            tableBody.append(row);
+                        });
+                    } else {
+                        noResults.show();
+                    }
+                }).fail(function() {
+                    loadingSpinner.hide();
+                    noResults.show();
+                    
+                    // Show error toast
+                    $.toast({
+                        heading: '{% if LANGUAGE_CODE == "en" %}Error{% elif LANGUAGE_CODE == "ru" %}Ошибка{% else %}Xato{% endif %}',
+                        text: '{% if LANGUAGE_CODE == "en" %}Failed to load call logs{% elif LANGUAGE_CODE == "ru" %}Не удалось загрузить журнал звонков{% else %}Qo\'ng\'iroqlar jurnalini yuklab bo\'lmadi{% endif %}',
+                        position: 'top-right',
+                        loaderBg: '#ff6849',
+                        icon: 'error',
+                        hideAfter: 5000,
+                        stack: 6
+                    });
+                });
+            }
+            
+            function createCallRow(call) {
+                // Determine direction (incoming/outgoing)
+                const isIncoming = call.direction === 1;
+                const directionIcon = isIncoming ? 'fa-arrow-down' : 'fa-arrow-up';
+                const directionClass = isIncoming ? 'incoming' : 'outgoing';
+                const directionText = isIncoming ? 
+                    '{% if LANGUAGE_CODE == "en" %}Incoming{% elif LANGUAGE_CODE == "ru" %}Входящий{% else %}Kiruvchi{% endif %}' : 
+                    '{% if LANGUAGE_CODE == "en" %}Outgoing{% elif LANGUAGE_CODE == "ru" %}Исходящий{% else %}Chiquvchi{% endif %}';
+                
+                // Format time
+                const callDate = new Date(call.start_time * 1000);
+                const callTime = callDate.toLocaleTimeString();
+                const callDateFormatted = callDate.toLocaleDateString();
+                
+                // Format duration
+                let durationText = '';
+                if (call.answered === 1) {
+                    const minutes = Math.floor(call.duration / 60);
+                    const seconds = call.duration % 60;
+                    durationText = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                } else {
+                    durationText = '{% if LANGUAGE_CODE == "en" %}Not answered{% elif LANGUAGE_CODE == "ru" %}Не отвечен{% else %}Javob berilmadi{% endif %}';
+                }
+                
+                // Determine status
+                const statusClass = call.answered === 1 ? 'answered' : 'missed';
+                const statusText = call.answered === 1 ? 
+                    '{% if LANGUAGE_CODE == "en" %}Answered{% elif LANGUAGE_CODE == "ru" %}Отвечен{% else %}Javob berildi{% endif %}' : 
+                    '{% if LANGUAGE_CODE == "en" %}Missed{% elif LANGUAGE_CODE == "ru" %}Пропущен{% else %}Qo\'ng\'iroq qoldirildi{% endif %}';
+                
+                // Create recording player if available
+                let recordingHtml = '{% if LANGUAGE_CODE == "en" %}No recording{% elif LANGUAGE_CODE == "ru" %}Нет записи{% else %}Yozuv yo\'q{% endif %}';
+                if (call.recording) {
+                    recordingHtml = `
+                        <audio controls class="audio-player">
+                            <source src="${call.recording}" type="audio/mp4">
+                            Your browser does not support the audio element.
+                        </audio>
+                    `;
+                }
+                
+                // Format client name or show "Unknown" if empty
+                const clientName = call.client_name || '{% if LANGUAGE_CODE == "en" %}Unknown{% elif LANGUAGE_CODE == "ru" %}Неизвестно{% else %}Noma\'lum{% endif %}';
+                
+                // Create the table row
+                return `
+                    <tr class="call-card ${isIncoming ? 'incoming-card' : 'outgoing-card'}">
+                        <td>
+                            <div class="call-direction ${directionClass}" title="${directionText}">
+                                <i class="fas ${directionIcon}"></i>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="font-weight-600">${clientName}</div>
+                            <div class="text-muted small">${callDateFormatted}</div>
+                        </td>
+                        <td>
+                            <div>${call.client_number}</div>
+                            <div class="text-muted small">${call.src_number}</div>
+                        </td>
+                        <td>
+                            <div>${callTime}</div>
+                        </td>
+                        <td class="call-duration">
+                            ${durationText}
+                        </td>
+                        <td>
+                            <span class="call-status ${statusClass}">${statusText}</span>
+                        </td>
+                        <td>
+                            ${recordingHtml}
+                        </td>
+                    </tr>
+                `;
+            }
+        });
+    </script>
+{% endblock js %}

@@ -250,14 +250,15 @@ function group_body_connections() {
 
 function updateLead(pk, name, price, company, address, phone) {
     let index = leads_all.findIndex(i => i.id === pk);
+    console.log(name)
+    console.log(phone)
     if (index !== -1) {
-        leads_all[index]['name'] = name
-        leads_all[index]['price'] = price
-        leads_all[index]['company'] = company
-        leads_all[index]['address'] = address
-        leads_all[index]['phone'] = phone
-    }
-    
+        leads_all[index]['name'] = name;
+        leads_all[index]['price'] = price;
+        leads_all[index]['company'] = company;
+        leads_all[index]['address'] = address;
+        leads_all[index]['phone'] = phone;
+    } else {
         leads_all.push({
             "id": pk,
             "name": name,
@@ -265,9 +266,10 @@ function updateLead(pk, name, price, company, address, phone) {
             "company": company,
             "address": address,
             "phone": phone,
-
-        })
+        });
+    }
 }
+
 
 function removeLead(pk) {
     let before_group = getBeforeGroup(pk)
@@ -333,12 +335,13 @@ function getFormData(unindexed_array) {
 
 
 function addLeadToGroupAndUpdateLabels(response) {
-
+    console.log(response)
     for (let i = 0; i < Groups.length; i++) {
         if (Groups[i].dom.id === `group_body_${response.pole}`) {
             let object;
             object = newLeadobject(response.id, response.name, response.date, response.price, response.company, response.phone, response.created_user.username, response.get_validity_period, response.validity_period)
-            updateLead(response.id, response.name, response.price, response.company, response.companyAddress, response.phone)
+            updateLead(response.id, response.name, response.price, response.company, response.district, response.phone)
+            console.log(response.phone)
             Groups[i].dom.append(object)
             Groups[i].data.count += 1
             Groups[i].data.summa += response.price
@@ -367,12 +370,23 @@ $(document).ready(function () {
         $('#add_pole_form')[0].reset();
         $('#add_pole').modal('show');
     })
+    // $('#excel_export_btn').on('click', function() {
+    //     $('#excel_export_form')[0].reset();
+    //     $('#ExcelExportModal').modal({
+    //         backdrop: 'static',
+    //         keyboard: false
+    //     }).modal('show');
+    // });
+
+    
     $('.edit_pole_pen').on('click', function () {
         let pole_pk = parseInt(this.getAttribute("column_pk"))
         for (const boardColumn of board_columns) {
             if (pole_pk === boardColumn.id) {
                 $('#edit_pole_form')[0].reset();
                 $('#edit_pole_form input[name="name"]').val(boardColumn.name);
+                $('#edit_pole_form input[name="number"]').val(boardColumn.number);
+                
                 $('#edit_pole_form input[name="id"]').val(boardColumn.id);
                 $('#edit_pole').modal('show');
                 break
@@ -437,6 +451,9 @@ $(document).ready(function () {
     $("#new_lead_modal").on('shown.bs.modal', function () {
         $("#new_lead_modal input").first().focus();
     });
+    $('#ExcelExportModal').on('shown.bs.modal', function () {
+        console.log("Modal to‘liq ochildi");
+    })
 
     $('#newLeadForm').submit(function (event) {
         let data = getFormData($(this).serializeArray())
@@ -475,9 +492,9 @@ $(document).ready(function () {
             },
             data: dataBody,
             success: function (response) {
-                addLeadToGroupAndUpdateLabels(response)
+                addLeadToGroupAndUpdateLabels(response);
                 $('#new_lead_modal').modal('hide');
-                console.log(dataBody)
+                console.log('succes')
             },
             error: function (error) {
                 console.log(error);
@@ -536,8 +553,11 @@ $(document).ready(function () {
 
     $(document).on('click', '.lead_name', function () {
         let pk = parseInt(this.closest(".lead_card").getAttribute('pk'))
-
         editingLead = leads_all.find(o => o.id === pk);
+        console.log(leads_all)
+        console.log(editingLead.phone)
+        console.log(editingLead.name)
+        console.log(editingLead.date)
         $('#edit_lead_modal').modal('show');
         $('#edit_lead_modal input[name="form_name"]').val(editingLead.name);
         $('#edit_lead_modal input[name="form_price"]').val(editingLead.price);

@@ -49,6 +49,12 @@
                             <div id="task_{{ task.id }}" pk={{ task.id }} class="task_card" draggable="true">
                                 <div class="task_date text-super">{{ task.date|date:'Y-m-d H:i' }}</div>
                                 <div class="task_name">{{ task.name }}</div>
+                                <div class="task_date text-super">{{ task.created_user }}   
+                                    {% if task.lead_action %}
+                                    <a href="{% url 'edit' %}?id={{ task.lead_action.lead.id }}">
+                                        <i class="fa fa-info-circle"></i></a>
+                                    {% endif %}
+                                </div>
                             </div>
                         {% endfor %}
                     </div>
@@ -71,6 +77,12 @@
                             <div id="task_{{ task.id }}" pk={{ task.id }} class="task_card" draggable="true">
                                 <div class="task_date text-super">{{ task.date|date:'Y-m-d H:i' }}</div>
                                 <div class="task_name">{{ task.name }}</div>
+                                <div class="task_date text-super">{{ task.created_user }}   
+                                    {% if task.lead_action %}
+                                    <a href="{% url 'edit' %}?id={{ task.lead_action.lead.id }}">
+                                        <i class="fa fa-info-circle"></i></a>
+                                    {% endif %}
+                                </div>
                             </div>
                         {% endfor %}
                     </div>

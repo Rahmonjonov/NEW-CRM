@@ -128,6 +128,31 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+                                    <div class="col-xl-2 col-6" data-toggle="modal" data-target="#modal-centermoizvonki">
+                                        <div class="box overflow-hidden pull-up hov-rs" style="margin: 0">
+                                            <div class="box-body text-center">
+                                                <div class="icon bg-warning-light rounded w-60 h-60 mx-auto">
+                                                    <i class="text-warning mr-0 font-size-24 mdi mdi-phone"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="text-mute mt-20 mb-0 font-size-16">
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                            Moizvonki
+                                                        {% elif LANGUAGE_CODE == 'ru' %}
+                                                            Мойзвонки
+                                                        {% else %}
+                                                            Moizvonki
+                                                        {% endif %}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
                                     <div class="col-xl-2 col-6" data-toggle="modal" data-target="#modal-centersms">
                                         <div class="box overflow-hidden pull-up hov-rs" style="margin: 0">
                                             <div class="box-body text-center">
@@ -153,6 +178,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -190,18 +216,21 @@
                                                 <th scope="col">Position</th>
                                                 <th scope="col">Delete</th>
                                                 <th scope="col">Edit</th>
+                                                <th scope="col">Leads board</th>
                                                 {% elif LANGUAGE_CODE == 'ru'%}
                                                 <th scope="col">Имя</th>
                                                 <th scope="col">Фамилия</th>
                                                 <th scope="col">Позиция</th>
                                                 <th scope="col">Удалить</th>
                                                 <th scope="col">Редактировать</th>
+                                                <th scope="col">Доска потенциальных клиентов</th>
                                                 {% else %}
                                                 <th scope="col">Ism</th>
                                                 <th scope="col">Familiya</th>
                                                 <th scope="col">Lavozim</th>
                                                 <th scope="col">O'chirish</th>
                                                 <th scope="col">Taxrirlash</th>
+                                                <th scope="col">Mo’ljaldagi potensiallar</th>
                                                 {% endif %}
 
                                             </tr>
@@ -239,6 +268,12 @@
                                                         data-target="#modal-center-edit{{u.id}}">
                                                         {% if u.is_director == True %}{% else %}
                                                             <i data-feather="edit-2" id="edit"></i>{% endif %}</td>
+
+                                                    <td onclick="edithodim({{ u.id }})" data-toggle="modal"
+                                                        data-target="#modal-opp-edit{{u.id}}">
+                                                        {% if u.is_director == True %}{% else %}
+                                                            <i data-feather="edit-2" id="edit"></i>{% endif %}</td>
+                                                            
                                                 </tr>
                                                 <div class="modal center-modal fade" id="modal-center-edit{{u.id}}" tabindex="-1">
                                                     <div class="modal-dialog">
@@ -344,6 +379,61 @@
                                                                             </select>
                                                                         </div>
                                                                     </div>
+                                                                    
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <button type="button" class="btn btn-rounded btn-secondary"
+                                                                            data-dismiss="modal">{% if LANGUAGE_CODE == 'en' %}
+                                                                                        Cancel
+                                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                        Отмена
+                                                                                    {% else %}
+                                                                                        Bekor qilish
+                                                                                    {% endif %}
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-rounded btn-primary float-right"
+                                                                   >{% if LANGUAGE_CODE == 'en' %}
+                                                                        Edit
+                                                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                                                        Редактировать
+                                                                    {% else %}
+                                                                        Taxrirlash
+                                                                    {% endif %}
+                                                                    </button>
+                                                                    
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="modal center-modal fade" id="modal-opp-edit{{u.id}}" tabindex="-1">
+                                                    <div class="modal-dialog" style="background-color:#fff;">
+                                                        <div class="modal-content" style="background-color:#fff;">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
+                                                                                            Leads board
+                                                                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                                                                            Доска потенциальных клиентов
+                                                                                        {% else %}
+                                                                                            Mo’ljaldagi potensiallar
+                                                                                        {% endif %}</span></h5>
+                                                                <button type="button" class="close" data-dismiss="modal">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <form action="{% url 'edit_userleadpoles' %}" method="post">
+                                                                <div class="modal-body">
+                                                                    <input type="hidden" name="id" value="{{u.id}}"></input>
+                                                                    {% csrf_token %}
+                                                                    
+                                                                    {% for lead in leads %}
+                                                                        <input id="lead_{{ lead.id }}_{{ u.id }}" name="lead_{{ lead.id }}" type="checkbox" {% if lead in u.leadpoles.all %}checked{% endif %}>
+                                                                        <label for="lead_{{lead.id}}_{{u.id}}">{{ lead.name }}</label>
+                                                                        <br>
+                                                                    {% endfor %}
+                                                                        
                                                                     
                                                                 </div>
                                                                 <div class="modal-body">
@@ -721,6 +811,63 @@
         </div>
     </div>
     <!-- /.modal -->
+
+    <div class="modal center-modal fade" id="modal-centermoizvonki" tabindex="-1">
+    <div class="modal-dialog">
+        <form action="{% url 'add_moizvonki' %}" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Moizvonki integratsiya</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        {% if company.zvonki_user_name or company.zvonki_api_key %}
+                            <label>
+                                {% if LANGUAGE_CODE == 'en' %}
+                                    Current data:
+                                {% elif LANGUAGE_CODE == 'ru' %}
+                                    Текущие данные:
+                                {% else %}
+                                    Hozirgi ma'lumotlar:
+                                {% endif %}
+                                <span style="color: green">
+                                    {{ company.zvonki_user_name }} | {{ company.zvonki_api_key|truncatechars:20 }}
+                                </span>
+                            </label>
+                        {% endif %}
+                        <input type="text" class="form-control mb-2" name="zvonki_user_name" placeholder="User name" value="{{ company.zvonki_user_name|default:'' }}">
+                        <input type="text" class="form-control" name="zvonki_api_key" placeholder="API key" value="{{ company.zvonki_api_key|default:'' }}">
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-uniform">
+                    <button type="button" class="btn btn-rounded btn-secondary" data-dismiss="modal">
+                        {% if LANGUAGE_CODE == 'en' %}
+                            Close
+                        {% elif LANGUAGE_CODE == 'ru' %}
+                            Закрыть
+                        {% else %}
+                            Yopish
+                        {% endif %}
+                    </button>
+                    <input type="submit" class="btn btn-rounded btn-primary float-right"
+                           value="{% if LANGUAGE_CODE == 'en' %}
+                                    Save
+                                {% elif LANGUAGE_CODE == 'ru' %}
+                                    Сохранить
+                                {% else %}
+                                    Saqlash
+                                {% endif %}">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
     <!-- Modal -->
     <div class="modal center-modal fade" id="modal-centersms" tabindex="-1">
         <div class="modal-dialog">

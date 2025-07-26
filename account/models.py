@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+# from board.models import LeadPoles
 
 Company_default_poles = [
     ("Boshlang'ich", 0),
@@ -59,6 +60,9 @@ class Company(models.Model):
     smsto_sender_id = models.CharField(max_length=11, null=True, blank=True)
     smsto_activated = models.BooleanField(default=False)
 
+    zvonki_user_name = models.CharField(max_length=200, null=True, blank=True)
+    zvonki_api_key = models.CharField(max_length=200, null=True, blank=True)
+
     def __str__(self):
         return self.name
 
@@ -79,6 +83,7 @@ class Account(AbstractUser):
     token = models.CharField(max_length=200, null=True, blank=True)
     phone = models.CharField(max_length=25, null=True, blank=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+    leadpoles = models.ManyToManyField("board.LeadPoles", blank=True)
 
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'

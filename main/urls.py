@@ -82,6 +82,18 @@ urlpatterns = [
     path('edit_referall/<int:id>/', edit_referall, name='edit_referall'),
     path('del_referall/<int:id>/', del_referall, name='del_referall'),
     path("chat/", chat_with_gpt, name="chat_with_gpt"),
+    path('notes_ping/<int:id>/', notes_ping, name='notes_ping'),
+    path('edit_userleadpoles', edit_userleadpoles, name='edit_userleadpoles'),
+
+    path('leads/<int:lead_id>/complaints/', complaints_list, name='complaints_list'),
+    path('complaints/add/', add_complaint, name='add_complaint'),
+    path('complaints/<int:complaint_id>/edit/', edit_complaint, name='edit_complaint'),
+    path('complaints/<int:pk>/delete/', delete_complaint, name='delete_complaint'),
+
+    path('call_logs', call_logs, name='call_logs'),
+    path('add-moizvonki/', add_moizvonki, name='add_moizvonki'),
+
+
 
 
 ]+urlpatterns_for_redirect

@@ -96,7 +96,11 @@ $(function () {
             maxboostedstep: 10000000,
             prefix: '$'
         });
-        $("input[name='demo3']").TouchSpin();
+        $("input[name='form_price']").TouchSpin(
+          {
+            max: 10000000000000000000000,
+          }
+        );
         $("input[name='demo3_1']").TouchSpin({
             initval: 40
         });

@@ -267,6 +267,21 @@
                                         {% endif %}</span>
                         </a>
                     </li>
+
+                    <li class="{% if 'call_logs' in request.path %}active{% endif %}">
+                        <a href="{% url 'call_logs' %}">
+                            <i data-feather="phone-call"></i>
+                            <span>
+                                {% if LANGUAGE_CODE == 'en' %}
+                                    Call Logs
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                    Журнал звонков
+                                {% else %}
+                                    Qo'ng'iroqlar jurnali
+                                {% endif %}
+                            </span>
+                        </a>
+                    </li>
                     <li class="{{ redirect }}">
                         <a href="{% url 'redirect_list' %}">
                             <i data-feather="link"></i>

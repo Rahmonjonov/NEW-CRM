@@ -1,5 +1,6 @@
 import json
 from datetime import datetime, timedelta
+from django.views.decorators.csrf import csrf_exempt
 
 import openpyxl
 import requests
@@ -26,7 +27,7 @@ from board.models import LeadPoles, LeadAction, CategoryProduct, Region, Lead, D
     SMS_template_choise, Payment_type, Shopping,Referral
 from board.views import is_B2B, register_lead_send_sms
 from goal.models import Goal
-from main.models import Calendar, Objections, ObjectionWrite, Script, Debtors, ImportTemplate
+from main.models import Calendar, Objections, ObjectionWrite, Script, Debtors, ImportTemplate, Complaint
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
 
@@ -613,6 +614,7 @@ class Setting(TemplateView, AccessMixin):
         context['users'] = Account.objects.filter(company=self.request.user.company)
         context['referral'] = Referral.objects.filter(company=self.request.user.company)
         context['company'] = self.request.user.company
+        context['leads'] = LeadPoles.objects.filter(company=self.request.user.company)
         
         return context
 
@@ -1307,17 +1309,19 @@ def Edit(request):
 
         context = {
             'status': Lead.objects.filter(id=id),
+            'lead_poles': LeadPoles.objects.filter(company=request.user.company),
             'userr': user,
             'step': step,
             'lead': lead,
             'region': Region.objects.all(),
             'district': District.objects.all(),
-            'notes': LeadAction.objects.filter(lead_id=id),
+            'notes': LeadAction.objects.filter(lead_id=id).order_by('-ping', '-date'),
             'products': Product.objects.filter(company=request.user.company),
             'payment_types': Payment_type.objects.filter(company=request.user.company),
             'shoppings': Shopping.objects.filter(lead=lead),
             'account':Account.objects.filter(company=request.user.company),
-            'referral' : Referral.objects.filter(company=request.user.company)
+            'referral' : Referral.objects.filter(company=request.user.company),
+            'complaints': Complaint.objects.filter(lead=lead)
         }
         context['company'] = Company.objects.get(id=request.user.company.id)
         return render(request, 'edit.html', context)
@@ -1387,12 +1391,26 @@ def Edit(request):
             u.referral_id = request.POST['referral']
         except:
             pass
+        try:
+            u.pole_id = request.POST['pole']
+        except:
+            pass
         u.save()
 
         return redirect('target')
 
+
+@csrf_exempt
+def notes_ping(request, id):
+    ping = request.POST.get('ping')
+    print(ping)
+    notes = LeadAction.objects.get(id=id)
+    notes.ping = True if ping == 'True' else False
+    notes.save()
+    return JsonResponse({"response": 'succes'})
+
+
 import openai
-from django.views.decorators.csrf import csrf_exempt
 
 
 from openai import OpenAI  
@@ -1416,6 +1434,7 @@ def chat_with_gpt(request):
         reply = chat_response.choices[0].message.content
         return JsonResponse({"response": reply})
     return JsonResponse({"error": "Only POST method allowed"}, status=405)
+
 
 def add_task_with_lead(request, id):
     lead = LeadAction.objects.get(id=id)
@@ -2028,6 +2047,29 @@ def EditHodim(request):
     return redirect('setting')
 
 
+def edit_userleadpoles(request):
+    if request.method == "POST":
+        user_id = request.POST.get("id")
+        user = Account.objects.get(id=user_id)
+
+        # lead_ids ni POST dan ajratib olish
+        lead_ids = [
+            int(key.split("_")[1])
+            for key in request.POST.keys()
+            if key.startswith("lead_")
+        ]
+        leads = LeadPoles.objects.filter(id__in=lead_ids)
+
+        # faqat leadpoles yangilanadi
+        user.leadpoles.set(leads)
+        user.save()
+
+        messages.success(request, "Hodimning ruhsatlari yangilandi")
+        return redirect("setting")
+
+
+
+
 import redis
 
 # r = redis.StrictRedis(host='localhost', port=6379, db=0)
@@ -2042,3 +2084,164 @@ import redis
 
 #     print(text)
 
+
+from django.shortcuts import render, redirect, get_object_or_404
+
+# def add_complaint(request):
+#     if request.method == 'POST':
+#         lead_id = request.POST.get('lead_id')
+#         complaint_type = request.POST.get('type')
+#         text = request.POST.get('text')
+#         date = request.POST.get('date')
+        
+#         lead = get_object_or_404(Lead, id=lead_id)
+#         Complaint.objects.create(
+#             lead=lead,
+#             type=complaint_type,
+#             text=text,
+#             date=date,
+#             status='pending'
+#         )
+#         messages.success(request, ('Complaint/objection added successfully'))
+#         return redirect(request.META.get('HTTP_REFERER', '/'))
+    
+#     return redirect('/')
+
+# def edit_complaint(request, complaint_id):
+#     complaint = get_object_or_404(Complaint, id=complaint_id)
+    
+#     if request.method == 'POST':
+#         complaint.type = request.POST.get('type', complaint.type)
+#         complaint.text = request.POST.get('text', complaint.text)
+#         complaint.date = request.POST.get('date', complaint.date)
+#         complaint.status = request.POST.get('status', complaint.status)
+#         complaint.save()
+        
+#         messages.success(request, ('Complaint updated successfully'))
+#         return redirect(request.META.get('HTTP_REFERER', '/'))
+    
+#     return redirect('/')
+
+# def delete_complaint(request, complaint_id):
+#     if request.method == 'POST':
+#         complaint = get_object_or_404(Complaint, id=complaint_id)
+#         complaint.delete()
+#         messages.success(request, ('Complaint deleted successfully'))
+#         return JsonResponse({'success': True})
+    
+#     return JsonResponse({'success': False}, status=400)
+
+
+def complaints_list(request, lead_id):
+    lead = get_object_or_404(Lead, id=lead_id)
+    complaints = lead.complaints.all().order_by('-date')
+    
+    context = {
+        'lead': lead,
+        'complaints': complaints,
+        'LANGUAGE_CODE': request.LANGUAGE_CODE
+    }
+    return render(request, 'complaints/complaints_list.html', context)
+
+def add_complaint(request):
+    if request.method == 'POST':
+        lead_id = request.POST.get('lead_id')
+        complaint_type = request.POST.get('type')
+        text = request.POST.get('text')
+        date = request.POST.get('date')
+        
+        lead = get_object_or_404(Lead, id=lead_id)
+        Complaint.objects.create(
+            lead=lead,
+            type=complaint_type,
+            text=text,
+            date=date,
+            status='pending'
+        )
+        
+        # Messages in all three languages
+        if request.LANGUAGE_CODE == 'en':
+            messages.success(request, 'Complaint/objection added successfully')
+        elif request.LANGUAGE_CODE == 'ru':
+            messages.success(request, 'Жалоба/возражение успешно добавлена')
+        else:
+            messages.success(request, 'Shikoyat/etiroz muvaffaqiyatli qo\'shildi')
+            
+    
+    return redirect(request.META['HTTP_REFERER'])
+
+def edit_complaint(request, complaint_id):
+    complaint = get_object_or_404(Complaint, id=complaint_id)
+    
+    if request.method == 'POST':
+        complaint.type = request.POST.get('type', complaint.type)
+        complaint.text = request.POST.get('text', complaint.text)
+        complaint.date = request.POST.get('date', complaint.date)
+        complaint.status = request.POST.get('status', complaint.status)
+        complaint.save()
+        
+        # Messages in all three languages
+        if request.LANGUAGE_CODE == 'en':
+            messages.success(request, 'Complaint updated successfully')
+        elif request.LANGUAGE_CODE == 'ru':
+            messages.success(request, 'Жалоба успешно обновлена')
+        else:
+            messages.success(request, 'Shikoyat muvaffaqiyatli yangilandi')
+            
+    
+    return redirect(request.META['HTTP_REFERER'])
+
+# def delete_complaint(request, complaint_id):
+#     if request.method == 'POST':
+#         complaint = get_object_or_404(Complaint, id=complaint_id)
+#         lead_id = complaint.lead.id
+#         complaint.delete()
+        
+#         # Messages in all three languages
+#         if request.LANGUAGE_CODE == 'en':
+#             messages.success(request, 'Complaint deleted successfully')
+#         elif request.LANGUAGE_CODE == 'ru':
+#             messages.success(request, 'Жалоба успешно удалена')
+#         else:
+#             messages.success(request, 'Shikoyat muvaffaqiyatli o\'chirildi')
+            
+    
+#     return redirect(request.META['HTTP_REFERER'])
+
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+
+@require_POST
+@csrf_exempt  # Faqat test uchun, ishlab chiqishda olib tashlang
+def delete_complaint(request, pk):
+    try:
+        complaint = Complaint.objects.get(pk=pk)
+        complaint.delete()
+        return JsonResponse({'status': 'success'})
+    except Complaint.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Shikoyat topilmadi'}, status=404)
+
+
+
+def call_logs(request):
+    context = {
+        'company': request.user.company
+    }
+    return render(request, 'call_logs.html', context)
+
+
+
+@login_required
+def add_moizvonki(request):
+    if request.method == 'POST':
+        user_name = request.POST.get('zvonki_user_name')
+        api_key = request.POST.get('zvonki_api_key')
+        
+        company = get_object_or_404(Company, id=request.user.company.id)
+        
+        company.zvonki_user_name = user_name
+        company.zvonki_api_key = api_key
+        company.save()
+        
+        messages.success(request, "Moizvonki ma'lumotlari muvaffaqiyatli saqlandi.")
+        return redirect(request.META.get('HTTP_REFERER'))

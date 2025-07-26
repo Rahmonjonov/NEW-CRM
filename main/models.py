@@ -6,6 +6,7 @@ from .tasks import send_to_bot
 from django_celery_beat.models import ClockedSchedule, PeriodicTask, PeriodicTasks
 from datetime import datetime
 import json
+from django.utils import timezone
 
 class Calendar(models.Model):
     col = (
@@ -47,9 +48,6 @@ class Calendar(models.Model):
                 "user_tg_id": f'{self.user.tg_id}'
             }),
         )
-
-
-
 
     class Meta:
         verbose_name_plural = 'Kalendar'
@@ -110,3 +108,45 @@ class ImportTemplate(models.Model):
 
     class Meta:
         verbose_name_plural = 'Excel'
+
+
+
+class Complaint(models.Model):
+    COMPLAINT_TYPE_CHOICES = [
+        ('complaint', ('Complaint')),
+        ('objection', ('Objection')),
+    ]
+    
+    STATUS_CHOICES = [
+        ('pending', ('Pending')),
+        ('in_progress', ('In Progress')),
+        ('resolved', ('Resolved')),
+        ('rejected', ('Rejected')),
+    ]
+    
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE, related_name='complaints', blank=True, null=True)
+    type = models.CharField(max_length=10, choices=COMPLAINT_TYPE_CHOICES, verbose_name=('Type'), default='complaint')
+    text = models.TextField(verbose_name=('Text'), blank=True, null=True)
+    date = models.DateTimeField(verbose_name=('Date'), default=timezone.now())
+    status = models.CharField(
+        max_length=11, 
+        choices=STATUS_CHOICES, 
+        default='pending',
+        verbose_name=('Status'))
+    
+    created_at = models.DateTimeField(default=timezone.now())
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-date']
+        verbose_name = ('Complaint')
+        verbose_name_plural = ('Complaints')
+    
+    def get_status_color(self):
+        colors = {
+            'pending': 'warning',
+            'in_progress': 'info',
+            'resolved': 'success',
+            'rejected': 'danger'
+        }
+        return colors.get(self.status, 'secondary')
