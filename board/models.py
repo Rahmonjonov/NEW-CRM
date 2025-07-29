@@ -395,3 +395,54 @@ class Referral(models.Model):
     name = models.CharField(max_length=255)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     is_activate = models.BooleanField(default=True)
+
+
+
+class NewComplaints(models.Model):
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE, null=True, blank=True)
+    complaint = models.TextField()
+    is_bot = models.BooleanField(default=False)
+    status = models.IntegerField(choices=((1, 'open'), (2, 'close')), default=1)
+    created_add = models.DateTimeField(auto_now_add=True)  
+    close_time = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return self.complaint
+    
+    def intermediate_date(self):
+        if self.created_add and self.close_time:
+            delta = self.close_time - self.created_add
+            total_minutes = int(delta.total_seconds() // 60)
+            hours = total_minutes // 60
+            minutes = total_minutes % 60
+            return f"{hours} soat {minutes} daqiqa"
+        return "Hali yopilmagan"
+
+
+class NewObjections(models.Model):
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
+    who_accepted = models.ForeignKey(Account, on_delete=models.CASCADE)
+    objection = models.TextField()
+    answer = models.TextField(null=True, blank=True)
+    created_add = models.DateTimeField(auto_now_add=True)  
+
+
+class ClientBenefits(models.Model):
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE, null=True, blank=True)
+    benefit = models.TextField()
+    who_accepted = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created_add = models.DateTimeField(auto_now_add=True)  
+
+    class Meta:
+        verbose_name_plural = 'Mijozlar olgan foydalar'
+
+
+
+class WhyBuy(models.Model):
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE, null=True, blank=True)
+    reason = models.TextField()
+    who_accepted = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created_add = models.DateTimeField(auto_now_add=True)  
+
+    class Meta:
+        verbose_name_plural = 'Nima uchun xarid qilishadi'

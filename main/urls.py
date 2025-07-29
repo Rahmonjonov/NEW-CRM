@@ -92,8 +92,26 @@ urlpatterns = [
 
     path('call_logs', call_logs, name='call_logs'),
     path('add-moizvonki/', add_moizvonki, name='add_moizvonki'),
+    path('add_new_complaint/', add_new_complaint, name='add_new_complaint'),
+    path('edit_new_complaint/<int:id>', edit_new_complaint, name='edit_new_complaint'),
+    path('del_new_complaint/<int:id>', del_new_complaint, name='del_new_complaint'),
+    path('change_status_new_complaint/<int:id>', change_status_new_complaint, name='change_status_new_complaint'),
 
+    path('add_new_objections/', add_new_objections, name='add_new_objections'),
+    path('edit_new_objections/<int:id>', edit_new_objections, name='edit_new_objections'),
+    path('del_new_objections/<int:id>', del_new_objections, name='del_new_objections'),
 
+    path('add_client_benefits/', add_client_benefits, name='add_client_benefits'),
+    path('edit_client_benefits/<int:id>', edit_client_benefits, name='edit_client_benefits'),
+    path('del_client_benefits/<int:id>', del_client_benefits, name='del_client_benefits'),
+
+    path('add_client_benefits/', add_client_benefits, name='add_client_benefits'),
+    path('edit_client_benefits/<int:id>', edit_client_benefits, name='edit_client_benefits'),
+    path('del_client_benefits/<int:id>', del_client_benefits, name='del_client_benefits'),
+
+    path('add_why_buy/', add_why_buy, name='add_why_buy'),
+    path('edit_why_buy/<int:id>', edit_why_buy, name='edit_why_buy'),
+    path('del_why_buy/<int:id>', del_why_buy, name='del_why_buy'),
 
 
 ]+urlpatterns_for_redirect

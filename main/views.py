@@ -24,7 +24,7 @@ from rest_framework.serializers import ModelSerializer
 from account.functions import checkPhone, sendSmsOneContact, sendSmsOneContact_from_sms_to
 from account.models import Plan, Invoice, Card, Company_default_poles, Company, Account, Company_type_choise
 from board.models import LeadPoles, LeadAction, CategoryProduct, Region, Lead, District, Task, Product, SMSTemplate, \
-    SMS_template_choise, Payment_type, Shopping,Referral
+    SMS_template_choise, Payment_type, Shopping,Referral, NewComplaints, NewObjections, ClientBenefits, WhyBuy
 from board.views import is_B2B, register_lead_send_sms
 from goal.models import Goal
 from main.models import Calendar, Objections, ObjectionWrite, Script, Debtors, ImportTemplate, Complaint
@@ -1321,7 +1321,11 @@ def Edit(request):
             'shoppings': Shopping.objects.filter(lead=lead),
             'account':Account.objects.filter(company=request.user.company),
             'referral' : Referral.objects.filter(company=request.user.company),
-            'complaints': Complaint.objects.filter(lead=lead)
+            'complaints': NewComplaints.objects.filter(lead=lead),
+            'new_objections':NewObjections.objects.filter(lead=lead),
+            'client_benefits':ClientBenefits.objects.filter(lead=lead),
+            'why_buy':WhyBuy.objects.filter(lead=lead),
+            
         }
         context['company'] = Company.objects.get(id=request.user.company.id)
         return render(request, 'edit.html', context)
@@ -2180,7 +2184,6 @@ def edit_complaint(request, complaint_id):
         complaint.status = request.POST.get('status', complaint.status)
         complaint.save()
         
-        # Messages in all three languages
         if request.LANGUAGE_CODE == 'en':
             messages.success(request, 'Complaint updated successfully')
         elif request.LANGUAGE_CODE == 'ru':
@@ -2247,3 +2250,92 @@ def add_moizvonki(request):
         
         messages.success(request, "Moizvonki ma'lumotlari muvaffaqiyatli saqlandi.")
         return redirect(request.META.get('HTTP_REFERER'))
+
+
+
+
+def add_new_complaint(request):
+    complaint = request.POST.get('complaint')
+    lead_id = request.POST.get('lead_id')
+    NewComplaints.objects.create(complaint=complaint, lead_id=lead_id)
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def edit_new_complaint(request, id):
+    complaint = request.POST.get('complaint')
+    NewComplaints.objects.filter(id=id).update(complaint=complaint)
+    return redirect(request.META.get('HTTP_REFERER'))
+
+def del_new_complaint(request, id):
+    NewComplaints.objects.get(id=id).delete()
+    return redirect(request.META.get('HTTP_REFERER'))
+
+@csrf_exempt
+def change_status_new_complaint(request, id):
+    status = request.POST.get('status')
+    new =  NewComplaints.objects.get(id=id)
+    new.status = status
+    new.close_time = datetime.now()
+    new.save()
+    return JsonResponse({'ok':'ok'})
+
+
+
+def add_new_objections(request):
+    objection = request.POST.get('objection')
+    answer = request.POST.get('answer')
+    lead_id = request.POST.get('lead_id')
+    NewObjections.objects.create(
+        objection=objection,
+        answer=answer,
+        who_accepted=request.user,
+        lead_id=lead_id,
+    )
+    return redirect(request.META.get('HTTP_REFERER'))
+
+def edit_new_objections(request, id):
+    objection = request.POST.get('objection')
+    answer = request.POST.get('answer')
+    NewObjections.objects.filter(id=id).update(
+        objection = objection,
+        answer = answer,
+    )
+    return redirect(request.META.get('HTTP_REFERER'))
+
+def del_new_objections(request, id):
+    NewObjections.objects.get(id=id).delete()
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def add_client_benefits(request):
+    benefit = request.POST.get('benefit')
+    lead_id = request.POST.get('lead_id')
+    ClientBenefits.objects.create(benefit=benefit, lead_id=lead_id, who_accepted=request.user,)
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def edit_client_benefits(request, id):
+    benefit = request.POST.get('benefit')
+    ClientBenefits.objects.filter(id=id).update(benefit=benefit)
+    return redirect(request.META.get('HTTP_REFERER'))
+
+def del_client_benefits(request, id):
+    ClientBenefits.objects.get(id=id).delete()
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def add_why_buy(request):
+    reason = request.POST.get('reason')
+    lead_id = request.POST.get('lead_id')
+    WhyBuy.objects.create(reason=reason, lead_id=lead_id, who_accepted=request.user,)
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def edit_why_buy(request, id):
+    reason = request.POST.get('reason')
+    WhyBuy.objects.filter(id=id).update(reason=reason)
+    return redirect(request.META.get('HTTP_REFERER'))
+
+def del_why_buy(request, id):
+    WhyBuy.objects.get(id=id).delete()
+    return redirect(request.META.get('HTTP_REFERER'))
