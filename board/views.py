@@ -1072,3 +1072,7 @@ def import_leads_from_excel(request):
                 continue
         
         return JsonResponse({'status': 'success', 'data': created_leads})
+    
+
+
+print('2222')
