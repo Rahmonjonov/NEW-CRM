@@ -62,6 +62,7 @@ class Company(models.Model):
 
     zvonki_user_name = models.CharField(max_length=200, null=True, blank=True)
     zvonki_api_key = models.CharField(max_length=200, null=True, blank=True)
+    zvonki_name = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.name

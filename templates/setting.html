@@ -823,7 +823,8 @@
                     </button>
                 </div>
                 {% csrf_token %}
-                <div class="modal-body">
+
+                <!-- <div class="modal-body">
                     <div class="form-group">
                         {% if company.zvonki_user_name or company.zvonki_api_key %}
                             <label>
@@ -841,6 +842,28 @@
                         {% endif %}
                         <input type="text" class="form-control mb-2" name="zvonki_user_name" placeholder="User name" value="{{ company.zvonki_user_name|default:'' }}">
                         <input type="text" class="form-control" name="zvonki_api_key" placeholder="API key" value="{{ company.zvonki_api_key|default:'' }}">
+                    </div>
+                </div> -->
+                
+                <div class="modal-body">
+                    <div class="form-group">
+                        {% if company.zvonki_user_name or company.zvonki_api_key %}
+                            <label>
+                                <!-- {% if LANGUAGE_CODE == 'en' %}
+                                    Current data:
+                                {% elif LANGUAGE_CODE == 'ru' %}
+                                    Текущие данные:
+                                {% else %}
+                                    Hozirgi ma'lumotlar:
+                                {% endif %}
+                                <span style="color: green">
+                                    {{ company.zvonki_user_name }} | {{ company.zvonki_api_key|truncatechars:20 }}
+                                </span> -->
+                            </label>
+                        {% endif %}
+                        <input type="text" class="form-control mb-2" name="zvonki_user_name" placeholder="User name" value="{{ company.zvonki_user_name|default:'' }}">
+                        <input type="text" class="form-control" name="zvonki_api_key" placeholder="API key" value="{{ company.zvonki_api_key|default:'' }}">
+                        <input type="text" class="form-control" name="zvonki_name" placeholder="Url" value="{{ company.zvonki_name|default:'' }}">
                     </div>
                 </div>
                 <div class="modal-footer modal-footer-uniform">
