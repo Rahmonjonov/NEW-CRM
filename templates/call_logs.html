@@ -329,8 +329,8 @@
                 noResults.hide();
                 
                 // Convert dates to timestamps
-                const startTimestamp = Math.floor(new Date(startDate).getTime() / 1000);
-                const endTimestamp = Math.floor(new Date(endDate).getTime() / 1000);
+                const startTimestamp = Math.floor(new Date('1990-01-01').getTime() / 1000);
+                const endTimestamp = Math.floor(new Date().getTime() / 1000);
                 const api_key = "{{company.zvonki_api_key}}"
                 const user_name = "{{company.zvonki_user_name}}"
                 const name = "{{company.zvonki_name}}"

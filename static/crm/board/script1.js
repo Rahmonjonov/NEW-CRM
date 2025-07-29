@@ -133,7 +133,7 @@ function newLeadobject(pk, name, date, summa, company, phone, created_user, vali
         <div class="other_lead">
             <div>
                 <a class="lead_other_price text-super">
-                ${validityText}: ${validation_date}
+                ${validityText}: ${validation_date ?? ''}
             </a>
             </div>
             <div>
@@ -369,6 +369,11 @@ $(document).ready(function () {
     $('#add_pole_btn').on('click', function () {
         $('#add_pole_form')[0].reset();
         $('#add_pole').modal('show');
+    })
+    $('#import_excel').on('click', function () {
+        $('#excelExportForm')[0].reset();
+        let excelModal = new bootstrap.Modal(document.getElementById('ExcelExportModal'));
+        excelModal.show();
     })
     // $('#excel_export_btn').on('click', function() {
     //     $('#excel_export_form')[0].reset();
@@ -643,5 +648,45 @@ $(document).ready(function () {
                 $('#edit_lead_modal').modal('hide');
             }
         });
+    });
+});
+
+
+
+$('#excelExportForm').submit(function(event) {
+    event.preventDefault();
+    
+    let formData = new FormData();
+    formData.append('excel_file', $('#excelFile')[0].files[0]);
+    formData.append('csrfmiddlewaretoken', csrf_token);
+    
+    $.ajax({
+        url: '/import_leads_from_excel/',  
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrf_token);
+        },
+        success: function(response) {
+            if (response.status === 'success') {
+                response.data.forEach(lead => {
+                    addLeadToGroupAndUpdateLabels(lead);
+
+                });
+                $('#excelExportForm')[0].reset();
+                document.getElementById('ExcelExportModal').style.display = 'none';
+                document.querySelector('.modal-backdrop').remove();
+                document.body.classList.remove('modal-open');
+                console.log(response.data.length)
+                console.log('aliii')
+            } else {
+               console.log(response.message)
+            }
+        },
+        error: function(xhr, status, error) {
+           console.log(error)
+        }
     });
 });

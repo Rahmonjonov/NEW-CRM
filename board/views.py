@@ -999,10 +999,76 @@ def instruktsya_add(request):
     return redirect(request.META["HTTP_REFERER"])
     
 
-
 def instruktsya_list_detail(request,id):
     context = {
         'item':Instruktsya.objects.get(id=id)
     }
     return render(request, 'instruktsya_list_detail.html', context)
-    
+
+
+
+import pandas as pd
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+
+@csrf_exempt
+def import_leads_from_excel(request):
+    print(1111)
+
+    if request.method == 'POST' and request.FILES.get('excel_file'):
+        print(222)
+        excel_file = request.FILES['excel_file']
+        print(3333)
+        df = pd.read_excel(excel_file)
+
+        column_mapping = {
+            'Nomi': 'name',
+            'Telefon Raqam': 'phone',
+            'Summa': 'price',
+            'Viloyat': 'region',
+            'Hudud': 'district'
+        }
+
+        df = df.rename(columns=column_mapping)
+
+        required_columns = ['name', 'phone', 'price', 'region', 'district']
+        if not all(col in df.columns for col in required_columns):
+            print('aaaaaaa')
+            return JsonResponse({'status': 'error', 'message': 'Missing required columns in Excel file'}, status=400)
+        
+        created_leads = []
+        
+        for index, row in df.iterrows():
+            try:
+                region, _ = Region.objects.get_or_create(name=row['region'])
+                district, _ = District.objects.get_or_create(name=row['district'], region=region)
+                lead = Lead.objects.create(
+                    name=row['name'],
+                    phone=row['phone'],
+                    price=row['price'],
+                    district=district,
+                    pole=request.user.leadpoles.first(), 
+                    created_user=request.user
+                )
+                created_leads.append({
+                    'id': lead.id,
+                    'name': lead.name,
+                    'phone': lead.phone,
+                    'price': lead.price,
+                    'district': lead.district.name,
+                    'date': lead.date.strftime('%Y-%m-%d %H:%M'),
+                    'created_user': {
+                        'username': lead.created_user.username
+                    },
+                    'pole': lead.pole.id,
+                    'company': lead.company,
+                    'get_validity_period': lead.get_validity_period,  
+                    'validity_period': lead.validity_period.strftime('%Y-%m-%d') if lead.validity_period else None
+                })
+
+            except Exception as e:
+                print(f"Error creating lead from row {index}: {str(e)}")
+                continue
+        
+        return JsonResponse({'status': 'success', 'data': created_leads})
