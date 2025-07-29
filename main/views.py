@@ -2236,11 +2236,13 @@ def add_moizvonki(request):
     if request.method == 'POST':
         user_name = request.POST.get('zvonki_user_name')
         api_key = request.POST.get('zvonki_api_key')
+        name = request.POST.get('zvonki_name')
         
         company = get_object_or_404(Company, id=request.user.company.id)
         
         company.zvonki_user_name = user_name
         company.zvonki_api_key = api_key
+        company.zvonki_name = name
         company.save()
         
         messages.success(request, "Moizvonki ma'lumotlari muvaffaqiyatli saqlandi.")

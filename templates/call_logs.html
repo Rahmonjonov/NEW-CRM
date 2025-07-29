@@ -333,8 +333,9 @@
                 const endTimestamp = Math.floor(new Date(endDate).getTime() / 1000);
                 const api_key = "{{company.zvonki_api_key}}"
                 const user_name = "{{company.zvonki_user_name}}"
+                const name = "{{company.zvonki_name}}"
                 // API URL
-                const apiUrl = `https://algocrm.moizvonki.ru/api/v1/?user_name=${user_name}&api_key=${api_key}&action=calls.list&from_date=${startTimestamp}&to_date=${endTimestamp}`;
+                const apiUrl = `https://${name}/api/v1/?user_name=${user_name}&api_key=${api_key}&action=calls.list&from_date=${startTimestamp}&to_date=${endTimestamp}`;
                 
                 // Fetch data from API
                 $.getJSON(apiUrl, function(data) {
