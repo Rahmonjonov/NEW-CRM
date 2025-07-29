@@ -8,19 +8,20 @@ from board.models import Lead, NewComplaints
 import requests
 
 TOKEN = '8237800951:AAERJeLeCWQ6NQCMcGrJ6YiZyl0B1vjTsb8'
-URL = f'https://api.telegram.org/bot{TOKEN}/'
 
 
 user_states = {}  
 
 def send_message(chat_id, text, reply_markup=None):
-    data = {
+    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+    payload = {
         'chat_id': chat_id,
         'text': text,
         'reply_markup': reply_markup,
         'parse_mode': 'HTML'
     }
-    requests.post(URL + 'sendMessage', json=data)
+    response = requests.post(url, json=payload)
+    return response.json()
 
 @csrf_exempt
 def telegram_webhook(request):
