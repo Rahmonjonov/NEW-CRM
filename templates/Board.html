@@ -281,53 +281,7 @@
                                     {% endif %}
                     </span>
                 </a>
-               <div id="" class="modal fade" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <form id="excelExportForm" method="post" enctype="multipart/form-data" action="{% url 'export_excel' %}">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">
-                                        {% if LANGUAGE_CODE == 'en' %}
-                                            Excel Export
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Экспорт в Excel
-                                        {% else %}
-                                            Excel eksporti
-                                        {% endif %}
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        {% csrf_token %}
-                                        <input type="file" class="form-control" name="excel_file" accept=".xlsx,.xls" required>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                        {% if LANGUAGE_CODE == 'en' %}
-                                            Close
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Закрыть
-                                        {% else %}
-                                            Yopish
-                                        {% endif %}
-                                    </button>
-                                    <button type="submit" class="btn btn-primary">
-                                        {% if LANGUAGE_CODE == 'en' %}
-                                            Export
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Экспорт
-                                        {% else %}
-                                            Eksport
-                                        {% endif %}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
+              
                 {% if user.is_director %}
                     <div id="add_pole_btn">
                         <i class="fa fa-plus-circle fa-lg"></i>
