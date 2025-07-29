@@ -336,7 +336,7 @@
                 const name = "{{company.zvonki_name}}"
                 // API URL
                 const apiUrl = `https://${name}/api/v1/?user_name=${user_name}&api_key=${api_key}&action=calls.list&from_date=${startTimestamp}&to_date=${endTimestamp}`;
-                
+                console.log(apiUrl)
                 // Fetch data from API
                 $.getJSON(apiUrl, function(data) {
                     loadingSpinner.hide();
