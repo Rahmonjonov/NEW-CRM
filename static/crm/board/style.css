@@ -99,9 +99,9 @@ a {
 
 .main_container {
     display: flex;
-    width: 1325px;
+    width: 100%;
     max-width: 1325px;
-    min-width: 1325px;
+    /* min-width: 1325px; */
     height: 100%;
     box-sizing: border-box;
     overflow: auto;

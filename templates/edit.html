@@ -937,6 +937,144 @@
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
             <script>
+
+                function loadCallLogsToTimeline(startDate, endDate) {
+                            const timelineContainer = $('.timeline'); 
+                            const loadingSpinner = $('#loadingSpinner');
+                            const noResults = $('#noResults');
+                            
+                            loadingSpinner.show();
+                            noResults.hide();
+                            
+                            const startTimestamp = Math.floor(new Date('1990-01-01').getTime() / 1000);
+                            const endTimestamp = Math.floor(new Date().getTime() / 1000);
+                            const api_key = "{{company.zvonki_api_key}}";
+                            const user_name = "{{company.zvonki_user_name}}";
+                            
+                            const apiUrl = `https://algocrm.moizvonki.ru/api/v1/?user_name=${user_name}&api_key=${api_key}&action=calls.list&from_date=${startTimestamp}&to_date=${endTimestamp}`;
+                            
+                            $.getJSON(apiUrl, function(data) {
+                                loadingSpinner.hide();
+                                
+                                if (data.results && data.results.length > 0) {
+                                    data.results.sort((a, b) => b.start_time - a.start_time);
+                                    
+                                    data.results.forEach(function(call) {
+                                        const timelineItem = createTimelineCallItem(call);
+                                        timelineContainer.prepend(timelineItem); 
+                                    });
+                                } else {
+                                    noResults.show();
+                                }
+                            }).fail(function() {
+                                loadingSpinner.hide();
+                                noResults.show();
+                                
+                                $.toast({
+                                    heading: '{% if LANGUAGE_CODE == "en" %}Error{% elif LANGUAGE_CODE == "ru" %}Ошибка{% else %}Xato{% endif %}',
+                                    text: '{% if LANGUAGE_CODE == "en" %}Failed to load call logs{% elif LANGUAGE_CODE == "ru" %}Не удалось загрузить журнал звонков{% else %}Qo\'ng\'iroqlar jurnalini yuklab bo\'lmadi{% endif %}',
+                                    position: 'top-right',
+                                    loaderBg: '#ff6849',
+                                    icon: 'error',
+                                    hideAfter: 5000,
+                                    stack: 6
+                                });
+                            });
+                        }
+                        function normalizePhoneNumber(phone) {
+                            let normalized = phone.replace(/\D/g, '');
+                            
+                            if (normalized.startsWith('998')) {
+                                return normalized;
+                            }
+                            else if (normalized.startsWith('+998')) {
+                                return normalized.substring(1);
+                            }
+                            else if (normalized.length === 9) {
+                                return '998' + normalized;
+                            }
+                            return normalized;
+                        }
+
+                        function createTimelineCallItem(call) {
+                            let lead_phone = document.getElementById('lead_phone').value || document.getElementById('lead_phone').textContent;
+                            let normalizedLeadPhone = normalizePhoneNumber(lead_phone);
+                            let normalizedCallPhone = normalizePhoneNumber(call.client_number);
+                            if (normalizedCallPhone === normalizedLeadPhone) {
+                                const isIncoming = call.direction === 1;
+                                const directionIcon = isIncoming ? 'fa-arrow-down' : 'fa-arrow-up';
+                                const directionClass = isIncoming ? 'incoming' : 'outgoing';
+                                const directionText = isIncoming ? 
+                                    '{% if LANGUAGE_CODE == "en" %}Incoming{% elif LANGUAGE_CODE == "ru" %}Входящий{% else %}Kiruvchi{% endif %}' : 
+                                    '{% if LANGUAGE_CODE == "en" %}Outgoing{% elif LANGUAGE_CODE == "ru" %}Исходящий{% else %}Chiquvchi{% endif %}';
+                                
+                                const callDate = new Date(call.start_time * 1000);
+                                const callTime = callDate.toLocaleTimeString();
+                                const callDateFormatted = callDate.toLocaleDateString();
+                                
+                                let durationText = '';
+                                if (call.answered === 1) {
+                                    const minutes = Math.floor(call.duration / 60);
+                                    const seconds = call.duration % 60;
+                                    durationText = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                                } else {
+                                    durationText = '{% if LANGUAGE_CODE == "en" %}Not answered{% elif LANGUAGE_CODE == "ru" %}Не отвечен{% else %}Javob berilmadi{% endif %}';
+                                }
+                                
+                                const statusClass = call.answered === 1 ? 'answered' : 'missed';
+                                const statusText = call.answered === 1 ? 
+                                    '{% if LANGUAGE_CODE == "en" %}Answered{% elif LANGUAGE_CODE == "ru" %}Отвечен{% else %}Javob berildi{% endif %}' : 
+                                    '{% if LANGUAGE_CODE == "en" %}Missed{% elif LANGUAGE_CODE == "ru" %}Пропущен{% else %}Qo\'ng\'iroq qoldirildi{% endif %}';
+                                
+                                let recordingHtml = '';
+                                if (call.recording) {
+                                    recordingHtml = `
+                                        <div class="mt-2">
+                                            <audio controls class="audio-player" style="width: 100%">
+                                                <source src="${call.recording}" type="audio/mp4">
+                                                Your browser does not support the audio element.
+                                            </audio>
+                                        </div>
+                                    `;
+                                }
+                                
+                                const clientName = call.client_name || '{% if LANGUAGE_CODE == "en" %}Unknown{% elif LANGUAGE_CODE == "ru" %}Неизвестно{% else %}Noma\'lum{% endif %}';
+                                
+                                const colorClass = call.answered === 1 ? 'success' : 'danger';
+                                
+                                return `
+                                    <div class="timeline-item">
+                                        <div class="timeline-point timeline-point-${colorClass}">
+                                            <i class="fas ${directionIcon}"></i>
+                                        </div>
+                                        <div class="timeline-event timeline-event-${colorClass}">
+                                            <div class="timeline-heading">
+                                                <h5 class="timeline-title text-right">
+                                                    ${directionText} ${statusText}
+                                                </h5>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p style="color:white; font-size: 20px;">
+                                                    <strong>${clientName}</strong><br>
+                                                    ${call.client_number}<br>
+                                                    Duration: ${durationText}
+                                                </p>
+                                                ${recordingHtml}
+                                            </div>
+                                            <div class="timeline-footer">
+                                                <p class="text-right">${callDateFormatted} ${callTime}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                        }
+
+                        $(document).ready(function() {
+                            loadCallLogsToTimeline();
+                        });
+
+
                 const pinnedItems = {};
             
                 $('.ping-btn').click(function () {
@@ -1227,7 +1365,7 @@
                                 <div class="form-group">
                                     <label>{% trans "Telefon" %}</label><span
                                         style="float:right; color: green">{% trans "Namuna" %}: 998901234567</span>
-                                    <input type="text" class="form-control" name="phone" placeholder=""
+                                    <input type="text" class="form-control" name="phone" id="lead_phone" placeholder=""
                                            value="{{ userr.phone }}">
                                 </div>
                             </div>
@@ -1406,7 +1544,7 @@
 
 <script>
 $(document).ready(function() {
-    // Edit complaint button handler
+
     $('.edit-complaint').click(function() {
         var complaintId = $(this).data('id');
         var complaintType = $(this).data('type');
@@ -1423,14 +1561,12 @@ $(document).ready(function() {
         $('#editComplaintModal').modal('show');
     });
 
-    // Delete complaint button handler
     var complaintToDelete;
     $('.delete-complaint').click(function() {
         complaintToDelete = $(this).data('id');
         $('#deleteModal').modal('show');
     });
 
-    // Confirm delete button handler
     $('#confirmDelete').click(function() {
         $.ajax({
             url: '/complaints/' + complaintToDelete + '/delete/',
@@ -1446,7 +1582,6 @@ $(document).ready(function() {
         });
     });
 
-    // Edit form submission
     $('#editComplaintForm').submit(function(e) {
         e.preventDefault();
         var formData = $(this).serialize();
@@ -1468,13 +1603,12 @@ $(document).ready(function() {
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    // Barcha o'chirish tugmalarini topamiz
+
     const deleteButtons = document.querySelectorAll('.delete-btn');
-    
-    // Har bir tugma uchun hodisani qo'shamiz
+
     deleteButtons.forEach(button => {
         button.addEventListener('click', function() {
-            // Tilga mos tasdiq xabari
+
             let confirmationMessage;
             const lang = "{{ LANGUAGE_CODE }}";
             
@@ -1485,10 +1619,9 @@ $(document).ready(function() {
             } else {
                 confirmationMessage = 'Haqiqatan ham o\'chirmoqchimisiz?';
             }
-            
-            // Tasdiq so'rami
+
             if (confirm(confirmationMessage)) {
-                // AJAX so'rovini yuborish
+            
                 fetch(button.dataset.deleteUrl, {
                     method: 'POST',
                     headers: {
@@ -1499,7 +1632,7 @@ $(document).ready(function() {
                 })
                 .then(response => {
                     if (response.ok) {
-                        // Muvaffaqiyatli o'chirilganda sahifani yangilash
+    
                         window.location.reload();
                     } else {
                         alert('O\'chirishda xatolik yuz berdi');

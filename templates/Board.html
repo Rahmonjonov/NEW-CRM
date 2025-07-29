@@ -73,6 +73,9 @@
         .modal.show {
             z-index: 1060 !important;
         }
+        .main_container {
+            width: 100%;
+        }
     </style>
 {% endblock css %}
 {% block content %}
@@ -261,68 +264,24 @@
                             {% endif %}
                         </div>
                     </div>
-                {% endfor %}
+                {% endfor %}3
             </div>
         </div>
 
         <div id="dashboard_footer">
             <div class="footer_group">
-                <a  style="font-size: 18px; margin-right: 20px; color: #fafff4; padding: 5px 30px 5px 7px;    transition: 0.3s; cursor: pointer;" data-toggle="modal" data-target="#ExcelExportModal">
+                <a  style="font-size: 18px; margin-right: 20px; color: #fafff4; padding: 5px 30px 5px 7px;    transition: 0.3s; cursor: pointer;" id="import_excel">
                     <i class="mdi mdi-file-excel mdi-24px"></i>
                     <span>{%if LANGUAGE_CODE == 'en' %}
                                         Excel export
                                     {% elif LANGUAGE_CODE == 'ru'%}
-                                        Экспорт в Excel
+                                        Экспорт в Excel 
                                     {% else %}
                                         Excel eksporti
-                                    {% endif %}</span>
+                                    {% endif %}
+                    </span>
                 </a>
-               <div id="ExcelExportModal" class="modal fade" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <form id="excelExportForm" method="post" enctype="multipart/form-data" action="{% url 'export_excel' %}">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">
-                                        {% if LANGUAGE_CODE == 'en' %}
-                                            Excel Export
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Экспорт в Excel
-                                        {% else %}
-                                            Excel eksporti
-                                        {% endif %}
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        {% csrf_token %}
-                                        <input type="file" class="form-control" name="excel_file" accept=".xlsx,.xls" required>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                        {% if LANGUAGE_CODE == 'en' %}
-                                            Close
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Закрыть
-                                        {% else %}
-                                            Yopish
-                                        {% endif %}
-                                    </button>
-                                    <button type="submit" class="btn btn-primary">
-                                        {% if LANGUAGE_CODE == 'en' %}
-                                            Export
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Экспорт
-                                        {% else %}
-                                            Eksport
-                                        {% endif %}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+              
                 {% if user.is_director %}
                     <div id="add_pole_btn">
                         <i class="fa fa-plus-circle fa-lg"></i>
@@ -766,7 +725,55 @@
             </div>
         </div>
     </div>
-
+    <div id="ExcelExportModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="excelExportForm" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            {% if LANGUAGE_CODE == 'en' %}
+                                Add from Excel
+                            {% elif LANGUAGE_CODE == 'ru'%}
+                                Добавить из Excel
+                            {% else %}
+                                Excel dan qo'shish
+                            {% endif %}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <a href="{% static 'example.xlsx' %}" download class="btn btn-success" style="width: 100%;">
+                            <i class="bi bi-download"></i> {% if LANGUAGE_CODE == 'en' %}Download Example{% elif LANGUAGE_CODE == 'ru'%}Скачать пример{% else %}Namuna yuklab olish{% endif %}
+                        </a>
+                        <div class="form-group">
+                            <br>
+                            <label for="excelFile">
+                                {% if LANGUAGE_CODE == 'en' %}
+                                    Upload Excel file
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                    Загрузить Excel файл
+                                {% else %}
+                                    Excel faylni yuklash
+                                {% endif %}
+                            </label>
+                            <input type="file" name="excel_file" id="excelFile" class="form-control" accept=".xlsx, .xls" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            {% if LANGUAGE_CODE == 'en' %}
+                                Import
+                            {% elif LANGUAGE_CODE == 'ru'%}
+                                Импортировать
+                            {% else %}
+                                Import qilish
+                            {% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     {% if user.is_director %}
         <div id="add_pole" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -947,23 +954,7 @@
     </script>
     
     <script src="{% static 'crm/custom_js/jquery.mask.min.js' %}"></script>
-    <!-- <script>
-        let leads_all = {{ all_leads|safe }};
-        let currentUser = {{ user.id }};
-        let csrf_token = '{{ csrf_token }}';
-        let company_type = '{{ user.company.type }}';
-        let board_columns = [
-            {% for pole in lead_poles %}
-                {% if not forloop.first %},{% endif %}{
-            id:{{ pole.id }},
-            name: "{{ pole.name|safe }}"
-            }            {% endfor %}
-        ]
-        {% if user.is_director %}
-            let check_can_delete = "{% url 'check_pole_can_delete' %}"
-            let delete_pole = "{% url 'delete_pole' %}"
-        {% endif %}
-    </script> -->
+
     <script>
     let leads_all = {{ all_leads|safe }};
     let currentUser = {{ user.id }};
