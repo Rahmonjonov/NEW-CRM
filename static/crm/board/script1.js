@@ -43,7 +43,6 @@ function thousand_separator(x) {
 }
 
 function define_groups_leads() {
-
     lead_card.forEach((one) => {
         let pk = parseInt(one.getAttribute('pk'))
         let obj = leads_all.find(o => o.id === pk);
@@ -335,7 +334,7 @@ function getFormData(unindexed_array) {
 
 
 function addLeadToGroupAndUpdateLabels(response) {
-    console.log(response)
+
     for (let i = 0; i < Groups.length; i++) {
         if (Groups[i].dom.id === `group_body_${response.pole}`) {
             let object;
@@ -351,7 +350,27 @@ function addLeadToGroupAndUpdateLabels(response) {
     }
     update_info_labels()
 }
+$('#new_lead_button').on('click', function () {
+        console.log('2312312')
+        $('#newLeadForm')[0].reset();
+        $('#new_lead_modal').modal('show');
+})
 
+define_groups_leads()
+
+$(document).on('click', '.lead_name', function () {
+        let pk = parseInt(this.closest(".lead_card").getAttribute('pk'))
+        editingLead = leads_all.find(o => o.id === pk);
+        $('#edit_lead_modal').modal('show');
+        $('#edit_lead_modal input[name="form_name"]').val(editingLead.name);
+        $('#edit_lead_modal input[name="form_price"]').val(editingLead.price);
+        $('#edit_lead_modal input[name="form_campany"]').val(editingLead.company);
+        $('#edit_lead_modal input[name="form_address"]').val(editingLead.address);
+        $('#edit_lead_modal input[name="form_phone"]').val(editingLead.phone);
+        $('#phone_tel_edit').trigger('input');
+
+
+});
 
 $(document).ready(function () {
     define_column_groups()
@@ -362,6 +381,7 @@ $(document).ready(function () {
     $('#phone_tel_edit').mask('(000) 00 000 00 00');
 
     $('#new_lead_button').on('click', function () {
+        console.log('2312312')
         $('#newLeadForm')[0].reset();
         $('#new_lead_modal').modal('show');
     })
@@ -375,14 +395,6 @@ $(document).ready(function () {
         let excelModal = new bootstrap.Modal(document.getElementById('ExcelExportModal'));
         excelModal.show();
     })
-    // $('#excel_export_btn').on('click', function() {
-    //     $('#excel_export_form')[0].reset();
-    //     $('#ExcelExportModal').modal({
-    //         backdrop: 'static',
-    //         keyboard: false
-    //     }).modal('show');
-    // });
-
     
     $('.edit_pole_pen').on('click', function () {
         let pole_pk = parseInt(this.getAttribute("column_pk"))
@@ -559,10 +571,6 @@ $(document).ready(function () {
     $(document).on('click', '.lead_name', function () {
         let pk = parseInt(this.closest(".lead_card").getAttribute('pk'))
         editingLead = leads_all.find(o => o.id === pk);
-        console.log(leads_all)
-        console.log(editingLead.phone)
-        console.log(editingLead.name)
-        console.log(editingLead.date)
         $('#edit_lead_modal').modal('show');
         $('#edit_lead_modal input[name="form_name"]').val(editingLead.name);
         $('#edit_lead_modal input[name="form_price"]').val(editingLead.price);
@@ -649,6 +657,8 @@ $(document).ready(function () {
             }
         });
     });
+    define_groups_leads()
+
 });
 
 
@@ -660,7 +670,6 @@ $('#import_excel').on('click', function() {
 
 $('#excelExportForm').submit(function(event) {
     event.preventDefault();
-    console.log(123123)
     let formData = new FormData();
     formData.append('excel_file', $('#excelFile')[0].files[0]);
     formData.append('csrfmiddlewaretoken', csrf_token);
@@ -695,5 +704,3 @@ $('#excelExportForm').submit(function(event) {
         }
     });
 });
-
-console.log(222)

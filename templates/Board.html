@@ -158,7 +158,8 @@
                                     <a href="#"><i
                                             class="fa fa-close fa-sm pl-10 delete_pole_pen"
                                             column_pk="{{ pole.id }}"></i></a>
-                                {% endif %}</div>
+                                {% endif %}
+                            </div>
                             <div id="info_group_{{ pole.id }}" class="group_info"></div>
                         </div>
                         <div id="group_body_{{ pole.id }}" class="group_body">
@@ -728,19 +729,21 @@
     <div id="ExcelExportModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {% if LANGUAGE_CODE == 'en' %}
+                        Add from Excel
+                        {% elif LANGUAGE_CODE == 'ru'%}
+                        Добавить из Excel
+                        {% else %}
+                        Excel dan qo'shish
+                        {% endif %}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 <form id="excelExportForm" enctype="multipart/form-data">
-                    <div class="modal-header">
-                        <h5 class="modal-title">
-                            {% if LANGUAGE_CODE == 'en' %}
-                                Add from Excel
-                            {% elif LANGUAGE_CODE == 'ru'%}
-                                Добавить из Excel
-                            {% else %}
-                                Excel dan qo'shish
-                            {% endif %}
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
                     <div class="modal-body">
                         <a href="{% static 'example.xlsx' %}" download class="btn btn-success" style="width: 100%;">
                             <i class="bi bi-download"></i> {% if LANGUAGE_CODE == 'en' %}Download Example{% elif LANGUAGE_CODE == 'ru'%}Скачать пример{% else %}Namuna yuklab olish{% endif %}

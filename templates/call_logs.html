@@ -337,15 +337,12 @@
                 // API URL
                 const apiUrl = `https://${name}/api/v1/?user_name=${user_name}&api_key=${api_key}&action=calls.list&from_date=${startTimestamp}&to_date=${endTimestamp}`;
                 console.log(apiUrl)
-                // Fetch data from API
                 $.getJSON(apiUrl, function(data) {
                     loadingSpinner.hide();
                     
                     if (data.results && data.results.length > 0) {
-                        // Sort by start_time (newest first)
                         data.results.sort((a, b) => b.start_time - a.start_time);
                         
-                        // Process each call record
                         data.results.forEach(function(call) {
                             const row = createCallRow(call);
                             tableBody.append(row);
@@ -357,7 +354,6 @@
                     loadingSpinner.hide();
                     noResults.show();
                     
-                    // Show error toast
                     $.toast({
                         heading: '{% if LANGUAGE_CODE == "en" %}Error{% elif LANGUAGE_CODE == "ru" %}Ошибка{% else %}Xato{% endif %}',
                         text: '{% if LANGUAGE_CODE == "en" %}Failed to load call logs{% elif LANGUAGE_CODE == "ru" %}Не удалось загрузить журнал звонков{% else %}Qo\'ng\'iroqlar jurnalini yuklab bo\'lmadi{% endif %}',
@@ -371,7 +367,7 @@
             }
             
             function createCallRow(call) {
-                // Determine direction (incoming/outgoing)
+
                 const isIncoming = call.direction === 1;
                 const directionIcon = isIncoming ? 'fa-arrow-down' : 'fa-arrow-up';
                 const directionClass = isIncoming ? 'incoming' : 'outgoing';
@@ -379,12 +375,10 @@
                     '{% if LANGUAGE_CODE == "en" %}Incoming{% elif LANGUAGE_CODE == "ru" %}Входящий{% else %}Kiruvchi{% endif %}' : 
                     '{% if LANGUAGE_CODE == "en" %}Outgoing{% elif LANGUAGE_CODE == "ru" %}Исходящий{% else %}Chiquvchi{% endif %}';
                 
-                // Format time
                 const callDate = new Date(call.start_time * 1000);
                 const callTime = callDate.toLocaleTimeString();
                 const callDateFormatted = callDate.toLocaleDateString();
                 
-                // Format duration
                 let durationText = '';
                 if (call.answered === 1) {
                     const minutes = Math.floor(call.duration / 60);
@@ -394,13 +388,11 @@
                     durationText = '{% if LANGUAGE_CODE == "en" %}Not answered{% elif LANGUAGE_CODE == "ru" %}Не отвечен{% else %}Javob berilmadi{% endif %}';
                 }
                 
-                // Determine status
                 const statusClass = call.answered === 1 ? 'answered' : 'missed';
                 const statusText = call.answered === 1 ? 
                     '{% if LANGUAGE_CODE == "en" %}Answered{% elif LANGUAGE_CODE == "ru" %}Отвечен{% else %}Javob berildi{% endif %}' : 
                     '{% if LANGUAGE_CODE == "en" %}Missed{% elif LANGUAGE_CODE == "ru" %}Пропущен{% else %}Qo\'ng\'iroq qoldirildi{% endif %}';
                 
-                // Create recording player if available
                 let recordingHtml = '{% if LANGUAGE_CODE == "en" %}No recording{% elif LANGUAGE_CODE == "ru" %}Нет записи{% else %}Yozuv yo\'q{% endif %}';
                 if (call.recording) {
                     recordingHtml = `
@@ -411,15 +403,25 @@
                     `;
                 }
                 
-                // Format client name or show "Unknown" if empty
                 const clientName = call.client_name || '{% if LANGUAGE_CODE == "en" %}Unknown{% elif LANGUAGE_CODE == "ru" %}Неизвестно{% else %}Noma\'lum{% endif %}';
-                
-                // Create the table row
+                let lead_id = ''
+                $.ajax({
+                    url: `/search_phone_number_lead/?phone=${call.client_number}`,
+                    method:'GET',
+                    success: function(data) {
+                        lead_id = data.id
+                    }
+                })
+                let html = `<i class="fas ${directionIcon}" ></i>`
+                if (lead_id) {
+                    html = `<a href="{% url 'edit' %}?phone=${lead_id}" ><i class="fas ${directionIcon}" ></i></a>`
+                }
+                console.log(html)
                 return `
                     <tr class="call-card ${isIncoming ? 'incoming-card' : 'outgoing-card'}">
                         <td>
                             <div class="call-direction ${directionClass}" title="${directionText}">
-                                <i class="fas ${directionIcon}"></i>
+                                ${html}
                             </div>
                         </td>
                         <td>
