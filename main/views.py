@@ -2240,7 +2240,9 @@ def call_logs(request):
 def search_phone_number_lead(request):
     phone = request.GET.get('phone')[-9:]
     lead = Lead.objects.filter(Q(phone__endswith=phone) | Q(phone2__endswith=phone)| Q(telegram_phone_number__endswith=phone)).last()
-    return JsonResponse({'id':lead.id})
+    if lead:
+        return JsonResponse({'id':lead.id})
+    return JsonResponse({'id':''})
 
 
 @login_required

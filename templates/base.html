@@ -322,6 +322,18 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{% url 'customer_analysis' %}">
+                        <i data-feather="list"></i>
+                        <span>{%if LANGUAGE_CODE == 'en' %}
+                            Customer analysis
+                            {% elif LANGUAGE_CODE == 'ru'%}
+                            Анализ клиентов
+                            {% else %}
+                            Mijozlar tahlili
+                            {% endif %}</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{% url 'logout' %}">
                         <i data-feather="lock"></i>
                         <span>{%if LANGUAGE_CODE == 'en' %}
