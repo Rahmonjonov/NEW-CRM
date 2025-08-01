@@ -6,9 +6,9 @@ class NewComplaintsAdmin(admin.ModelAdmin):
     list_display = ('id', 'complaint')
 
 
-@admin.register(NewComplaints)
+@admin.register(Region)
 class RegionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'complaint')
+    list_display = ('id', 'name')
 
 @admin.register(Instruktsya)
 class InstruktsyaAdmin(admin.ModelAdmin):
