@@ -168,6 +168,15 @@
                                         <th width="5%"></th>
                                         <th>
                                             {% if LANGUAGE_CODE == 'en' %}
+                                                Worker
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Рабочий
+                                            {% else %}
+                                                Ishchi
+                                            {% endif %}
+                                        </th>
+                                        <th>
+                                            {% if LANGUAGE_CODE == 'en' %}
                                                 Client
                                             {% elif LANGUAGE_CODE == 'ru'%}
                                                 Клиент
@@ -355,7 +364,6 @@
                 // Clear the table
                 callLogsTable.clear().draw();
                 
-                // Convert dates to timestamps
                 const startTimestamp = Math.floor(new Date(startDate).getTime() / 1000);
                 const endTimestamp = Math.floor(new Date(endDate).getTime() / 1000);
                 const api_key = "{{company.zvonki_api_key}}"
@@ -370,7 +378,6 @@
                     if (data.results && data.results.length > 0) {
                         data.results.sort((a, b) => b.start_time - a.start_time);
                         
-                        // Create an array to store all promises for lead searches
                         const leadSearchPromises = data.results.map(call => {
                             return searchLeadByPhone(call.client_number).then(leadId => {
                                 call.leadId = leadId;
@@ -378,7 +385,6 @@
                             });
                         });
 
-                        // Wait for all lead searches to complete
                         Promise.all(leadSearchPromises).then(callsWithLeads => {
                             callsWithLeads.forEach(function(call) {
                                 const row = createCallRow(call);
@@ -404,7 +410,6 @@
                 });
             }
             
-            // Function to search lead by phone number
             function searchLeadByPhone(phoneNumber) {
                 return new Promise((resolve) => {
                     if (!phoneNumber) {
@@ -463,18 +468,34 @@
                 
                 const clientName = call.client_name || '{% if LANGUAGE_CODE == "en" %}Unknown{% elif LANGUAGE_CODE == "ru" %}Неизвестно{% else %}Noma\'lum{% endif %}';
                 
-                // Create direction icon with or without link
                 let directionIconHtml = `<i class="fas ${directionIcon}"></i>`;
                 if (call.leadId) {
                     directionIconHtml = `<a href="{% url 'edit' %}?phone=${call.leadId}">${directionIconHtml}</a>`;
                 }
                 
+
+                const src_number = `<div id="src-name-${call.start_time}" class="text-muted small">${call.src_number}</div>`;
+
+
+                $.ajax({
+                    url:`/search_phone_number_employee/?phone=${call.src_number}`,
+                    method:'GET',
+                    success: function(data) {
+                        if (data.full_name) {
+                            $(`#src-name-${call.start_time}`).text(data.full_name);
+                        }
+                    }
+                });
+                console.log(src_number)
                 return `
                     <tr class="call-card ${isIncoming ? 'incoming-card' : 'outgoing-card'}">
                         <td>
                             <div class="call-direction ${directionClass}" title="${directionText}">
                                 ${directionIconHtml}
                             </div>
+                        </td>
+                        <td>
+                            <div class="font-weight-900" style="font-size:17px">${src_number}</div>
                         </td>
                         <td>
                             <div class="font-weight-600">${clientName}</div>

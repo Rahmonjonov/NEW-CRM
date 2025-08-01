@@ -127,14 +127,14 @@ class Complaint(models.Model):
     lead = models.ForeignKey(Lead, on_delete=models.CASCADE, related_name='complaints', blank=True, null=True)
     type = models.CharField(max_length=10, choices=COMPLAINT_TYPE_CHOICES, verbose_name=('Type'), default='complaint')
     text = models.TextField(verbose_name=('Text'), blank=True, null=True)
-    date = models.DateTimeField(verbose_name=('Date'), default=timezone.now())
+    date = models.DateTimeField(verbose_name=('Date'), default=timezone.now)
     status = models.CharField(
         max_length=11, 
         choices=STATUS_CHOICES, 
         default='pending',
         verbose_name=('Status'))
     
-    created_at = models.DateTimeField(default=timezone.now())
+    created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
@@ -150,3 +150,5 @@ class Complaint(models.Model):
             'rejected': 'danger'
         }
         return colors.get(self.status, 'secondary')
+
+
