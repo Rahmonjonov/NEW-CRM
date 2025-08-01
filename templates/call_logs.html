@@ -268,10 +268,36 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/uz.js"></script>
+    <!-- Add DataTables CSS and JS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
     <script src="{% static 'crm/main/js/template.js' %}"></script>
 
     <script>
         $(document).ready(function() {
+            // Initialize DataTable
+            let callLogsTable = $('#callLogsTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "language": {
+                    {% if LANGUAGE_CODE == 'ru' %}
+                        "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/ru.json"
+                    {% elif LANGUAGE_CODE == 'uz' %}
+                        "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/uz.json"
+                    {% endif %}
+                },
+                "columnDefs": [
+                    { "orderable": false, "targets": [0, 6] }, // Disable sorting for first and last columns
+                    { "className": "dt-center", "targets": [0, 4, 5] } // Center align these columns
+                ]
+            });
+
             // Set locale based on language
             let flatpickrLocale = 'default';
             if ('{{ LANGUAGE_CODE }}' === 'ru') {
@@ -321,12 +347,13 @@
             function loadCallLogs(startDate, endDate) {
                 const loadingSpinner = $('#loadingSpinner');
                 const noResults = $('#noResults');
-                const tableBody = $('#callLogsTable tbody');
                 
-                // Show loading, hide table and no results message
+                // Show loading, hide no results message
                 loadingSpinner.show();
-                tableBody.empty();
                 noResults.hide();
+                
+                // Clear the table
+                callLogsTable.clear().draw();
                 
                 // Convert dates to timestamps
                 const startTimestamp = Math.floor(new Date(startDate).getTime() / 1000);
@@ -336,19 +363,27 @@
                 const name = "{{company.zvonki_name}}"
                 // API URL
                 const apiUrl = `https://${name}/api/v1/?user_name=${user_name}&api_key=${api_key}&action=calls.list&from_date=${startTimestamp}&to_date=${endTimestamp}`;
-                console.log(apiUrl)
-                // Fetch data from API
+                
                 $.getJSON(apiUrl, function(data) {
                     loadingSpinner.hide();
                     
                     if (data.results && data.results.length > 0) {
-                        // Sort by start_time (newest first)
                         data.results.sort((a, b) => b.start_time - a.start_time);
                         
-                        // Process each call record
-                        data.results.forEach(function(call) {
-                            const row = createCallRow(call);
-                            tableBody.append(row);
+                        // Create an array to store all promises for lead searches
+                        const leadSearchPromises = data.results.map(call => {
+                            return searchLeadByPhone(call.client_number).then(leadId => {
+                                call.leadId = leadId;
+                                return call;
+                            });
+                        });
+
+                        // Wait for all lead searches to complete
+                        Promise.all(leadSearchPromises).then(callsWithLeads => {
+                            callsWithLeads.forEach(function(call) {
+                                const row = createCallRow(call);
+                                callLogsTable.row.add($(row)).draw();
+                            });
                         });
                     } else {
                         noResults.show();
@@ -357,7 +392,6 @@
                     loadingSpinner.hide();
                     noResults.show();
                     
-                    // Show error toast
                     $.toast({
                         heading: '{% if LANGUAGE_CODE == "en" %}Error{% elif LANGUAGE_CODE == "ru" %}Ошибка{% else %}Xato{% endif %}',
                         text: '{% if LANGUAGE_CODE == "en" %}Failed to load call logs{% elif LANGUAGE_CODE == "ru" %}Не удалось загрузить журнал звонков{% else %}Qo\'ng\'iroqlar jurnalini yuklab bo\'lmadi{% endif %}',
@@ -370,8 +404,28 @@
                 });
             }
             
+            // Function to search lead by phone number
+            function searchLeadByPhone(phoneNumber) {
+                return new Promise((resolve) => {
+                    if (!phoneNumber) {
+                        resolve(null);
+                        return;
+                    }
+                    
+                    $.ajax({
+                        url: `/search_phone_number_lead/?phone=${encodeURIComponent(phoneNumber)}`,
+                        method: 'GET',
+                        success: function(data) {
+                            resolve(data.id || null);
+                        },
+                        error: function() {
+                            resolve(null);
+                        }
+                    });
+                });
+            }
+            
             function createCallRow(call) {
-                // Determine direction (incoming/outgoing)
                 const isIncoming = call.direction === 1;
                 const directionIcon = isIncoming ? 'fa-arrow-down' : 'fa-arrow-up';
                 const directionClass = isIncoming ? 'incoming' : 'outgoing';
@@ -379,12 +433,10 @@
                     '{% if LANGUAGE_CODE == "en" %}Incoming{% elif LANGUAGE_CODE == "ru" %}Входящий{% else %}Kiruvchi{% endif %}' : 
                     '{% if LANGUAGE_CODE == "en" %}Outgoing{% elif LANGUAGE_CODE == "ru" %}Исходящий{% else %}Chiquvchi{% endif %}';
                 
-                // Format time
                 const callDate = new Date(call.start_time * 1000);
                 const callTime = callDate.toLocaleTimeString();
                 const callDateFormatted = callDate.toLocaleDateString();
                 
-                // Format duration
                 let durationText = '';
                 if (call.answered === 1) {
                     const minutes = Math.floor(call.duration / 60);
@@ -394,13 +446,11 @@
                     durationText = '{% if LANGUAGE_CODE == "en" %}Not answered{% elif LANGUAGE_CODE == "ru" %}Не отвечен{% else %}Javob berilmadi{% endif %}';
                 }
                 
-                // Determine status
                 const statusClass = call.answered === 1 ? 'answered' : 'missed';
                 const statusText = call.answered === 1 ? 
                     '{% if LANGUAGE_CODE == "en" %}Answered{% elif LANGUAGE_CODE == "ru" %}Отвечен{% else %}Javob berildi{% endif %}' : 
                     '{% if LANGUAGE_CODE == "en" %}Missed{% elif LANGUAGE_CODE == "ru" %}Пропущен{% else %}Qo\'ng\'iroq qoldirildi{% endif %}';
                 
-                // Create recording player if available
                 let recordingHtml = '{% if LANGUAGE_CODE == "en" %}No recording{% elif LANGUAGE_CODE == "ru" %}Нет записи{% else %}Yozuv yo\'q{% endif %}';
                 if (call.recording) {
                     recordingHtml = `
@@ -411,15 +461,19 @@
                     `;
                 }
                 
-                // Format client name or show "Unknown" if empty
                 const clientName = call.client_name || '{% if LANGUAGE_CODE == "en" %}Unknown{% elif LANGUAGE_CODE == "ru" %}Неизвестно{% else %}Noma\'lum{% endif %}';
                 
-                // Create the table row
+                // Create direction icon with or without link
+                let directionIconHtml = `<i class="fas ${directionIcon}"></i>`;
+                if (call.leadId) {
+                    directionIconHtml = `<a href="{% url 'edit' %}?phone=${call.leadId}">${directionIconHtml}</a>`;
+                }
+                
                 return `
                     <tr class="call-card ${isIncoming ? 'incoming-card' : 'outgoing-card'}">
                         <td>
                             <div class="call-direction ${directionClass}" title="${directionText}">
-                                <i class="fas ${directionIcon}"></i>
+                                ${directionIconHtml}
                             </div>
                         </td>
                         <td>

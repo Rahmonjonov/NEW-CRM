@@ -10,6 +10,9 @@ class RegionAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     list_display_links = ('id', 'name')
 
+@admin.register(NewComplaints)
+class RegionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'complaint')
 
 @admin.register(Instruktsya)
 class InstruktsyaAdmin(admin.ModelAdmin):

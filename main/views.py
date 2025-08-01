@@ -1392,6 +1392,10 @@ def Edit(request):
         except:
             pass
         try:
+            u.telegram_phone_number = request.POST['telegram_phone_number']
+        except:
+            pass
+        try:
             u.referral_id = request.POST['referral']
         except:
             pass
@@ -2215,7 +2219,7 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 
 @require_POST
-@csrf_exempt  # Faqat test uchun, ishlab chiqishda olib tashlang
+@csrf_exempt 
 def delete_complaint(request, pk):
     try:
         complaint = Complaint.objects.get(pk=pk)
@@ -2232,6 +2236,13 @@ def call_logs(request):
     }
     return render(request, 'call_logs.html', context)
 
+
+def search_phone_number_lead(request):
+    phone = request.GET.get('phone')[-9:]
+    lead = Lead.objects.filter(Q(phone__endswith=phone) | Q(phone2__endswith=phone)| Q(telegram_phone_number__endswith=phone)).last()
+    if lead:
+        return JsonResponse({'id':lead.id})
+    return JsonResponse({'id':''})
 
 
 @login_required
@@ -2257,7 +2268,7 @@ def add_moizvonki(request):
 def add_new_complaint(request):
     complaint = request.POST.get('complaint')
     lead_id = request.POST.get('lead_id')
-    NewComplaints.objects.create(complaint=complaint, lead_id=lead_id)
+    NewComplaints.objects.create(complaint=complaint, lead_id=lead_id, who_accepted=request.user)
     return redirect(request.META.get('HTTP_REFERER'))
 
 
@@ -2339,3 +2350,84 @@ def edit_why_buy(request, id):
 def del_why_buy(request, id):
     WhyBuy.objects.get(id=id).delete()
     return redirect(request.META.get('HTTP_REFERER'))
+
+from django.db.models import ExpressionWrapper, DurationField, Avg
+
+import time
+
+def customer_analysis(request):
+    complaints = NewComplaints.objects.filter(who_accepted__company_id=request.user.company.id)
+    objections = NewObjections.objects.filter(who_accepted__company_id=request.user.company.id)
+    benefits = ClientBenefits.objects.filter(who_accepted__company_id=request.user.company.id)
+    why_buy = WhyBuy.objects.filter(who_accepted__company_id=request.user.company.id)
+
+    total_time_avg = complaints.filter(close_time__isnull=False).annotate(
+        time_diff = ExpressionWrapper(F('close_time')-F('created_add'), output_field=DurationField())
+    ).aggregate(avg=Avg('time_diff'))['avg']
+
+    total_time_com = complaints.filter(close_time__isnull=False).annotate(
+        time_diff=ExpressionWrapper(F('close_time') - F('created_add'), output_field=DurationField())
+    ).aggregate(total=Sum('time_diff'))['total']
+
+    formatted_avg = "00:00:00"
+    if total_time_avg:
+        total_secund_avg = int(total_time_avg.total_seconds())
+        avg_hour, ramend = divmod(total_secund_avg, 3600)
+        avg_minut, seconds = divmod(total_secund_avg, 60)
+        formatted_avg = f"{avg_hour:02}:{avg_minut:02}:{seconds:02}"
+        
+
+    format_total = "00:00:00"
+    if total_time_com:
+        total_second = int(total_time_com.total_seconds())
+        total_hour_comp, remand = divmod(total_second, 3600)
+        total_minut_comp, total_second_comp = divmod(total_second, 60)
+        format_total = f"{total_hour_comp:02}:{total_minut_comp:02}:{total_second_comp:02}"
+
+
+    if benefits.count() >= 2:
+        one_first = benefits[0].created_add
+        two_first = benefits[1].created_add
+        delta = one_first - two_first
+        total_minutes = int(delta.total_seconds() // 60)
+        hours = total_minutes // 60
+        minutes = total_minutes % 60
+        time_diff = f"{hours} soat {minutes} daqiqa"
+    else:
+        time_diff = ""
+
+    data = [
+        {
+            'category':1,
+            'count':complaints.count(),
+            'lead_count':complaints.values('lead').count(),
+            'total_time_avg':formatted_avg,
+            'format_total':format_total,
+        },
+        {
+            'category':2,
+            'count':objections.count(),
+            'lead_count':objections.values('lead').count(),
+        },
+        {
+            'category':3,
+            'count':benefits.count(),
+            'lead_count':benefits.values('lead').count(),
+            'first':benefits.first(),
+            'tow':time_diff,
+        },
+        {
+            'category':4,
+            'count':why_buy.count(),
+            'lead_count':why_buy.values('lead').count(),
+        },
+    ]
+    context = {
+        'complaints': complaints,
+        'new_objections':objections,
+        'client_benefits':benefits,
+        'why_buy':why_buy,
+        'data':data,
+    }
+               
+    return render(request, 'customer_analysis.html', context)

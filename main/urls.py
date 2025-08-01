@@ -112,6 +112,9 @@ urlpatterns = [
     path('add_why_buy/', add_why_buy, name='add_why_buy'),
     path('edit_why_buy/<int:id>', edit_why_buy, name='edit_why_buy'),
     path('del_why_buy/<int:id>', del_why_buy, name='del_why_buy'),
+    path('customer_analysis/', customer_analysis, name='customer_analysis'),
+    path('search_phone_number_lead/', search_phone_number_lead, name='search_phone_number_lead'),
+
 
 
 ]+urlpatterns_for_redirect

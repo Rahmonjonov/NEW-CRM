@@ -118,6 +118,7 @@ class Lead(models.Model):
 
     join_from = models.CharField(max_length=150, blank=True, null=True, default="")
     phone2 = models.CharField(max_length=100, blank=True, null=True, default="")
+    telegram_phone_number = models.CharField(max_length=100, blank=True, null=True, default="")
     tg_id = models.CharField(max_length=100, blank=True, null=True)
 
     validity_period = models.DateField(null=True, blank=True)
@@ -400,6 +401,7 @@ class Referral(models.Model):
 
 class NewComplaints(models.Model):
     lead = models.ForeignKey(Lead, on_delete=models.CASCADE, null=True, blank=True)
+    who_accepted = models.ForeignKey(Account, on_delete=models.CASCADE, null=True, blank=True)
     complaint = models.TextField()
     is_bot = models.BooleanField(default=False)
     status = models.IntegerField(choices=((1, 'open'), (2, 'close')), default=1)
@@ -435,6 +437,7 @@ class ClientBenefits(models.Model):
 
     class Meta:
         verbose_name_plural = 'Mijozlar olgan foydalar'
+
 
 
 
