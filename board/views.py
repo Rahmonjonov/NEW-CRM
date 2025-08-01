@@ -1014,10 +1014,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def import_leads_from_excel(request):
-    print(1111)
 
     if request.method == 'POST' and request.FILES.get('excel_file'):
-        print(222)
         excel_file = request.FILES['excel_file']
         print(3333)
         df = pd.read_excel(excel_file)

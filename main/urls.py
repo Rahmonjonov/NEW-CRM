@@ -114,6 +114,7 @@ urlpatterns = [
     path('del_why_buy/<int:id>', del_why_buy, name='del_why_buy'),
     path('customer_analysis/', customer_analysis, name='customer_analysis'),
     path('search_phone_number_lead/', search_phone_number_lead, name='search_phone_number_lead'),
+    path('search_phone_number_employee/', search_phone_number_employee, name='search_phone_number_employee'),
 
 
 

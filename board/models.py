@@ -450,6 +450,3 @@ class WhyBuy(models.Model):
     class Meta:
         verbose_name_plural = 'Nima uchun xarid qilishadi'
 
-
-
-print(222)

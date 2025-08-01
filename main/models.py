@@ -150,3 +150,5 @@ class Complaint(models.Model):
             'rejected': 'danger'
         }
         return colors.get(self.status, 'secondary')
+
+

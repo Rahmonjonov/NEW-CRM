@@ -2244,6 +2244,15 @@ def search_phone_number_lead(request):
         return JsonResponse({'id':lead.id})
     return JsonResponse({'id':''})
 
+def search_phone_number_employee(request):
+    phone = request.GET.get('phone')[-9:]
+    account = Account.objects.filter(phone__endswith=phone).last()
+    print(account)
+    if account:
+        return JsonResponse({'full_name':f"{account.username} {account.last_name}"})
+    
+    return JsonResponse({'full_name':''})
+
 
 @login_required
 def add_moizvonki(request):
