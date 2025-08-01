@@ -652,10 +652,15 @@ $(document).ready(function () {
 });
 
 
+$('#import_excel').on('click', function() {
+    $('#excelExportForm')[0].reset();
+    const excelModal = new bootstrap.Modal(document.getElementById('ExcelExportModal'));
+    excelModal.show();
+});
 
 $('#excelExportForm').submit(function(event) {
     event.preventDefault();
-    
+    console.log(123123)
     let formData = new FormData();
     formData.append('excel_file', $('#excelFile')[0].files[0]);
     formData.append('csrfmiddlewaretoken', csrf_token);

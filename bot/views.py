@@ -8,19 +8,20 @@ from board.models import Lead, NewComplaints
 import requests
 
 TOKEN = '8237800951:AAERJeLeCWQ6NQCMcGrJ6YiZyl0B1vjTsb8'
-URL = f'https://api.telegram.org/bot{TOKEN}/'
 
 
 user_states = {}  
 
 def send_message(chat_id, text, reply_markup=None):
-    data = {
+    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+    payload = {
         'chat_id': chat_id,
         'text': text,
         'reply_markup': reply_markup,
         'parse_mode': 'HTML'
     }
-    requests.post(URL + 'sendMessage', json=data)
+    response = requests.post(url, json=payload)
+    return response.json()
 
 @csrf_exempt
 def telegram_webhook(request):
@@ -33,13 +34,14 @@ def telegram_webhook(request):
         text = message.get('text', '').strip()
 
         if contact:
-            phone = contact.get('phone_number')
-            try:
-                lead = Lead.objects.filter(phone=phone).last()
+            phone = contact.get('phone_number')[-9:]  
+            lead = Lead.objects.filter(phone__endswith=phone).last()
+
+            if lead:
                 user_states[chat_id] = {"phone": phone}
                 send_message(chat_id, "✅ Raqamingiz tasdiqlandi.")
                 send_menu(chat_id)
-            except Lead.DoesNotExist:
+            else:
                 send_message(chat_id, "❌ Bu raqam bazada mavjud emas.")
         
         elif text == "/start":
@@ -67,8 +69,9 @@ def telegram_webhook(request):
 
         elif chat_id in user_states and user_states[chat_id].get("waiting_for_complaint"):
             phone = user_states[chat_id]["phone"]
-            try:
-                lead = Lead.objects.filter(phone=phone).last()
+            lead = Lead.objects.filter(phone__endswith=phone).last()
+
+            if lead:
                 NewComplaints.objects.create(
                     lead=lead,
                     complaint=text,
@@ -77,11 +80,13 @@ def telegram_webhook(request):
                 user_states[chat_id]["waiting_for_complaint"] = False
                 send_message(chat_id, "✅ Shikoyatingiz qabul qilindi.")
                 send_menu(chat_id)
-            except Lead.DoesNotExist:
-                send_message(chat_id, "❌ Raqam topilmadi.")
+            else:
+                send_message(chat_id, "❌ Sizning raqamingiz bo‘yicha ma’lumot topilmadi.")
 
         return JsonResponse({"ok": True})
+    
     return JsonResponse({"message": "Webhook ishlayapti"}, status=200)
+
 
 def send_menu(chat_id):
     keyboard = {
@@ -124,4 +129,8 @@ def add_bot(request):
     os.system("supervisorctl restart bot_{}".format(user_id))
 
     return redirect('setting')
+
+
+
+
 

@@ -1,6 +1,9 @@
 from django.contrib import admin
 from board.models import *
 
+@admin.register(NewComplaints)
+class RegionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'complaint')
 
 @admin.register(Region)
 class RegionAdmin(admin.ModelAdmin):
