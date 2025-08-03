@@ -334,6 +334,20 @@
                             {% endif %}</span>
                     </a>
                 </li>
+                <li class="{% if 'last_seen' in request.path %}active{% endif %}">
+                    <a href="{% url 'last_seen' %}">
+                        <i data-feather="user-check"></i>
+
+
+                        <span>{%if LANGUAGE_CODE == 'en' %}
+                            Last Seen
+                            {% elif LANGUAGE_CODE == 'ru'%}
+                            Последний раз видели
+                            {% else %}
+                            Oxirgi koʻrish
+                            {% endif %}</span>
+                    </a>
+                </li>
                 <li>
                     <a href="{% url 'logout' %}">
                         <i data-feather="lock"></i>
