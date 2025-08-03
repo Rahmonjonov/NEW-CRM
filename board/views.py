@@ -492,7 +492,7 @@ class Board(TemplateView, AccessMixin):
         district = self.request.GET.get('district')
         users = self.request.GET.get('users')
         date_range = self.request.GET.get('date')
-        print(date_range)
+
         if self.request.user.is_director:
             leads = Lead.objects.filter(is_active=True, status__lt=4, created_user__company=self.request.user.company)
         else:

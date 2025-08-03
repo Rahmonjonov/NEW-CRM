@@ -97,7 +97,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <select class="form-control" id="pole" name="pole" style="width: 100%;">
-                                            {% for pol in lead_poles %}
+                                            {% for pol in user.leadpoles.all %}
                                             <option value="{{ pol.id }}" {% if lead.pole == pol %} selected {% endif %}>{{ pol.name }}</option>
                                             {% endfor %}
                                         </select>

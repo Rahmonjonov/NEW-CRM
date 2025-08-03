@@ -1468,19 +1468,20 @@ def AddUser(request):
     u = request.user
     if request.method == "POST":
         r = request.POST
-        ism = r['ism']
-        fam = r['fam']
-        phone = r['tel']
-        phone2 = r['tel2']
-        birthday = r['birth']
-        dis = r['district']
-        abc = r['abc']
-        price = r['price']
-        join_from = r['join_from']
+        ism = r.get('ism')
+        fam = r.get('fam')
+        phone = r.get('tel')
+        phone2 = r.get('tel2')
+        birthday = r.get('birth')
+        dis = r.get('district')
+        abc = r.get('abc')
+        price = r.get('price')
+        join_from = r.get('join_from')
         try:
             Lead.objects.get(phone=phone, created_user__company=request.user.company)
             messages.add_message(request, messages.ERROR, f"{ism} avval ro'yxatdan o'tgan")
-            return redirect('adduser')
+            return redirect(request.META['HTTP_REFERER'])
+            # return redirect('adduser')
         except:
             u = Lead.objects.create(name=ism,
                                     surname=fam,
@@ -1492,15 +1493,16 @@ def AddUser(request):
                                     created_user=u,
                                     price=price,
                                     join_from=join_from,
-                                    pole_id=int(r['lead_pole']))
+                                    pole_id=int(r.get('lead_pole')))
             if is_B2B(request):
-                u.company = r['com']
-                u.companyAddress = r['comadd']
+                u.company = r.get('com')
+                u.companyAddress = r.get('comadd')
                 u.save()
             u.save()
             register_lead_send_sms(u)
             messages.add_message(request, messages.SUCCESS, f"{phone} Qo'shildi")
-        return redirect('target')
+        return redirect(request.META['HTTP_REFERER'])
+        # return redirect('target')
     else:
         context = {
             'region': Region.objects.all(),

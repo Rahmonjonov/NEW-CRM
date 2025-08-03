@@ -147,7 +147,7 @@
 
     <div id="dashboard_container">
         <div id="custom-content">
-            <div class="main_container">
+            <div class="main_container" style="margin-left:2rem;">
                 {% for pole in user.leadpoles.all %}
                     <div class="part-group">
                         <div class="group_header">
@@ -317,7 +317,8 @@
     <div id="new_lead_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form id="newLeadForm">
+                <form id="newLeadForm" method="post" action="{% url 'adduser' %}">
+                    {% csrf_token %}
                     <div class="modal-header">
                         <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}
                                         Add
@@ -326,12 +327,12 @@
                                     {% else %}
                                         Yangi qo'shish
                                     {% endif %}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
 
                         <div class="p-1">
-                            <input name="form_name" type="text" class="form-control" placeholder="{% if LANGUAGE_CODE == 'en' %}Name
+                            <input name="ism" type="text" class="form-control" placeholder="{% if LANGUAGE_CODE == 'en' %}Name
                                     {% elif LANGUAGE_CODE == 'ru'%}Hазвание
                                     {% else %}Nomi
                                     {% endif %}" 
@@ -349,7 +350,7 @@
                                 <div class="input-group-addon">
                                   <i class="fa fa-phone"></i>
                                 </div>
-                                <input type="text" class="form-control" name="form_phone" id="phone_tel" type="text" value="(998)" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                <input type="text" class="form-control" name="phone" id="phone_tel" type="text" value="(998)" placeholder="{% if LANGUAGE_CODE == 'en' %}
                                     Phone
                                 {% elif LANGUAGE_CODE == 'ru'%}
                                     Телефон
@@ -359,7 +360,7 @@
                               </div>
                         </div>
                         <div class="p-1">
-                            <input name="form_price" type="text" placeholder="0" class="formStyle"
+                            <input name="price" type="text" placeholder="0" class="formStyle"
                                    oninvalid="this.setCustomValidity(`{% if LANGUAGE_CODE == 'en' %}
                                         Must be completed!
                                     {% elif LANGUAGE_CODE == 'ru'%}
@@ -370,7 +371,7 @@
                                    oninput="setCustomValidity('')" required>
                         </div>
                         <div class="p-1">
-                                <input name="form_campany" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                <input name="campany" type="text" placeholder="{% if LANGUAGE_CODE == 'en' %}
                                         Organization: name
                                     {% elif LANGUAGE_CODE == 'ru'%}
                                         Название организации
@@ -394,7 +395,7 @@
                                 </select>
                             </div>
                             <div class="p-1">
-                                <select data-style="btn btn-dark"  class="form-control district"name="form_address"
+                                <select data-style="btn btn-dark"  class="form-control district"name="district"
                                                 style="width: 100%;">
                                             <option value="">{% if LANGUAGE_CODE == 'en' %}
                                             Select a region {% elif LANGUAGE_CODE == 'ru'%}     Выберите регион {% else %}     Hududni tanlang 
@@ -403,7 +404,21 @@
                                         
                                 </select>
                             </div>
-                        <div class="p-1">
+
+                            <div class="p-1">
+                                <select data-style="btn btn-dark"  class="form-control lead_pole" name="lead_pole"
+                                                style="width: 100%;">
+                                            <option value="">{% if LANGUAGE_CODE == 'en' %}
+                                            Leads board {% elif LANGUAGE_CODE == 'ru'%} Доска потенциальных клиентов {% else %}     Mo’ljaldagi potensiallar 
+                                            {% endif %}
+                                </option>
+                                {% for t in user.leadpoles.all %}
+                                    <option value="{{ t.id }}">{{ t.name }}</option>
+                                {% endfor %}
+                                        
+                                </select>
+                            </div>
+                        <!-- <div class="p-1">
                                 <select data-style="btn btn-dark"  class="form-control" name="referral"
                                                 style="width: 100%;">
                                             <option value="">{% if LANGUAGE_CODE == 'en' %}
@@ -414,13 +429,13 @@
                                     <option value="{{ refer.id }}">{{ refer.name }}</option>
                                 {% endfor %}
                                 </select>
-                        </div>
+                        </div> -->
                         <div class="p-1">
                             <div class="input-group">
                                 <div class="input-group-addon">
                                   <i class="fa fa-calendar"></i>
                                 </div>
-                                <input name="validity_period" id="validity_period" type="date" placeholder="{% if LANGUAGE_CODE == 'en' %}
+                                <input name="birth" id="validity_period" type="date" placeholder="{% if LANGUAGE_CODE == 'en' %}
                                 Validity period
                                 {% elif LANGUAGE_CODE == 'ru'%}
                                 Срок действия
