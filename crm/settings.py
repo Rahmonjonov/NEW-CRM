@@ -45,11 +45,14 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'crm.middleware.default_language_middleware.DefaultLanguageMiddleware',  # Add your custom middleware here
+    'crm.middleware.default_language_middleware.DefaultLanguageMiddleware',  
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'crm.middleware.default_language_middleware.LogRequestMiddleware',  
+
+
 ]
 REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%d %H:%M",

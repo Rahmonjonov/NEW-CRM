@@ -1,6 +1,8 @@
 from django.contrib import admin
 from board.models import *
 
+admin.site.register(LastSeen)
+
 @admin.register(NewComplaints)
 class NewComplaintsAdmin(admin.ModelAdmin):
     list_display = ('id', 'complaint')
