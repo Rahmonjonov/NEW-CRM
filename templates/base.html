@@ -309,7 +309,7 @@
                         </a>
                     </li>
                 {% endif %}
-                <li>
+                <li class="{% if 'instruktsya' in request.path %}active{% endif %}">
                     <a href="{% url 'instruktsya' %}">
                         <i data-feather="list"></i>
                         <span>{%if LANGUAGE_CODE == 'en' %}
@@ -321,7 +321,7 @@
                             {% endif %}</span>
                     </a>
                 </li>
-                <li>
+                <li class="{% if 'customer_analysis' in request.path %}active{% endif %}">
                     <a href="{% url 'customer_analysis' %}">
                         <i data-feather="bar-chart"></i>
 

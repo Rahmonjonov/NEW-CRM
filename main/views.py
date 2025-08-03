@@ -24,7 +24,7 @@ from rest_framework.serializers import ModelSerializer
 from account.functions import checkPhone, sendSmsOneContact, sendSmsOneContact_from_sms_to
 from account.models import Plan, Invoice, Card, Company_default_poles, Company, Account, Company_type_choise
 from board.models import LeadPoles, LeadAction, CategoryProduct, Region, Lead, District, Task, Product, SMSTemplate, \
-    SMS_template_choise, Payment_type, Shopping,Referral, NewComplaints, NewObjections, ClientBenefits, WhyBuy
+    SMS_template_choise, Payment_type, Shopping,Referral, NewComplaints, NewObjections, ClientBenefits, WhyBuy, LastSeen
 from board.views import is_B2B, register_lead_send_sms
 from goal.models import Goal
 from main.models import Calendar, Objections, ObjectionWrite, Script, Debtors, ImportTemplate, Complaint
@@ -1110,7 +1110,7 @@ def CalenEditForm(request):
         context = {
             'calen': c
         }
-    context['company'] = Company.objects.get(id=self.request.user.company.id)
+    context['company'] = Company.objects.get(id=request.user.company.id)
     return render(request, 'caleneditform.html', context)
 
 
@@ -1593,7 +1593,7 @@ def DebtHistory(request):
             'berilgan': ber,
             'usr': id,
         }
-        context['company'] = Company.objects.get(id=self.request.user.company.id)
+        context['company'] = Company.objects.get(id=request.user.company.id)
         return render(request, 'debthistory.html', context)
 
 
@@ -2247,7 +2247,6 @@ def search_phone_number_lead(request):
 def search_phone_number_employee(request):
     phone = request.GET.get('phone')[-9:]
     account = Account.objects.filter(phone__endswith=phone).last()
-    print(account)
     if account:
         return JsonResponse({'full_name':f"{account.username} {account.last_name}"})
     
@@ -2440,3 +2439,25 @@ def customer_analysis(request):
     }
                
     return render(request, 'customer_analysis.html', context)
+
+
+
+
+def last_seen_view(request):
+    start_date = request.GET.get('start_date', datetime.today().date().replace(day=1))
+    end_date = request.GET.get('end_date', datetime.today().date())
+    account = request.GET.get('account')
+    last_seen = LastSeen.objects.filter(company=request.user.company, created_add__date__range=(start_date, end_date)).select_related('company', 'account')
+    if account:
+        last_seen = last_seen.filter(account_id=account)
+    filters = {
+        'start_date':str(start_date),
+        'end_date':str(end_date),
+        'account':account,
+    }
+    context = {
+        'account': Account.objects.filter(company=request.user.company),
+        'last_seen':last_seen,
+        'filters':filters,
+    }
+    return render(request, 'last_seen.html', context)

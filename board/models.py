@@ -450,3 +450,10 @@ class WhyBuy(models.Model):
     class Meta:
         verbose_name_plural = 'Nima uchun xarid qilishadi'
 
+
+
+class LastSeen(models.Model):
+    what_did = models.CharField(max_length=355)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    created_add = models.DateTimeField(auto_now_add=True)  

@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>{%if LANGUAGE_CODE == 'en' %}
+                CRM | Client Base
+            {% elif LANGUAGE_CODE == 'ru'%}
+                CRM | Клиентская база
+            {% else %}
+                CRM | Client Base
+            {% endif %}</title>
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+{% endblock css %}
+{% block content %}
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-body">
+                        <form action="">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>
+                                           {% if LANGUAGE_CODE == 'en' %}
+                                                Users
+                                            {% elif LANGUAGE_CODE == 'ru' %}
+                                                Пользователи
+                                            {% else %}
+                                                Foydalanuvchilar
+                                            {% endif %}
+                                    </label>
+                                    <select name="account" class="form-control">
+                                        <option value="" disabled selected>Foydalanuvchini tanglang</option>
+                                        {% for i in account %}
+                                            <option value="{{i.id}}" {% if i.id|stringformat:"s" == filters.account %} selected {% endif %} >{{ i }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                                ..Dan
+                                            {% elif LANGUAGE_CODE == 'ru' %}
+                                                ..Dan
+                                            {% else %}
+                                                ..Dan
+                                            {% endif %}
+                                    </label>
+                                    <input type="date" class="form-control" name="start_date" value="{{filters.start_date}}">
+                                </div>
+                                <div class="col-md-4">
+                                    <label>
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            ..Gacha
+                                        {% elif LANGUAGE_CODE == 'ru' %}
+                                            ..Gacha
+                                        {% else %}
+                                            ..Gacha
+                                        {% endif %}
+                                    </label>
+                                    <input type="date" class="form-control" name="end_date" value="{{filters.end_date}}">
+                                </div>
+                                <div class="col-md-1">
+                                    <br>
+                                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            Filter
+                                        {% elif LANGUAGE_CODE == 'ru' %}
+                                            Фильтр
+                                        {% else %}
+                                            Filtr
+                                        {% endif %}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="box-body" style="padding: 0">
+                    <div class="tab-content">
+                        <br>
+                        <div class="col-12" style="padding: 0">
+                            <div class="box">
+                                <div class="box-body">
+                                    <div class="table-responsive">
+                                        <table id="example" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>№</th>
+                                                    {% if LANGUAGE_CODE == 'en' %}
+                                                        <th>User</th>
+                                                        <th>Action</th>
+                                                        <th>Date & Time</th>
+                                                    {% elif LANGUAGE_CODE == 'ru' %}
+                                                        <th>Пользователь</th>
+                                                        <th>Что сделал</th>
+                                                        <th>Дата и время</th>
+                                                    {% else %}
+                                                        <th>Foydalanuvchi</th>
+                                                        <th>Nima qildi</th>
+                                                        <th>Sana va Vaqt</th>
+                                                    {% endif %}
+                                                </tr>
+                                            </thead>
+                                                <tbody>
+                                                {% for t in last_seen %}
+                                                    <tr class="text-center">
+                                                        <td>{{forloop.counter}}</a></td>
+                                                        <td>{{t.account}}</td>
+                                                        <td>{{t.what_did}}</td>
+                                                        <td>{{t.created_add|date:'Y-m-d H:i'}}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+     
+{% endblock content %}
+{% block js %}
+
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/datatable/datatables.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/data-table.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+{% endblock js %}

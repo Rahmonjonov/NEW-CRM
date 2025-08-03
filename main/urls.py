@@ -115,6 +115,7 @@ urlpatterns = [
     path('customer_analysis/', customer_analysis, name='customer_analysis'),
     path('search_phone_number_lead/', search_phone_number_lead, name='search_phone_number_lead'),
     path('search_phone_number_employee/', search_phone_number_employee, name='search_phone_number_employee'),
+    path('last_seen/', last_seen_view, name='last_seen'),
 
 
 
