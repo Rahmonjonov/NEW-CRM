@@ -268,6 +268,19 @@
                         </a>
                     </li>
 
+                    <li class="{{ redirect }}">
+                        <a href="{% url 'redirect_list' %}">
+                            <i data-feather="link"></i>
+                            <span>{%if LANGUAGE_CODE == 'en' %}
+                                            Link
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Связь
+                                        {% else %}
+                                            Havola
+                                        {% endif %}</span>
+                        </a>
+                    </li>
+                {% endif %}
                     <li class="{% if 'call_logs' in request.path %}active{% endif %}">
                         <a href="{% url 'call_logs' %}">
                             <i data-feather="phone-call"></i>
@@ -282,19 +295,6 @@
                             </span>
                         </a>
                     </li>
-                    <li class="{{ redirect }}">
-                        <a href="{% url 'redirect_list' %}">
-                            <i data-feather="link"></i>
-                            <span>{%if LANGUAGE_CODE == 'en' %}
-                                            Link
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Связь
-                                        {% else %}
-                                            Havola
-                                        {% endif %}</span>
-                        </a>
-                    </li>
-                {% endif %}
                 {% if user.is_director %}
                     <li class="{{ setting }}">
                         <a href="{% url 'setting' %}">

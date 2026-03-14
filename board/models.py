@@ -68,6 +68,14 @@ class LeadPoles(models.Model):
         ordering = ['number']
 
 
+class ServiceType(models.Model):
+    name = models.CharField(max_length=200)
+    number = models.IntegerField(default=0)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['number']
+
 class Lead(models.Model):
     status_types = (
         (0, "Lead boardda"),
@@ -85,15 +93,25 @@ class Lead(models.Model):
         (0, "Odatiy"),
         (1, "Telegram orqali")
     )
+
+    valutas = (
+        (1, "So'm"),
+        (2, "Dollar")
+    )
+
     name = models.CharField(max_length=255)
+    business_type = models.CharField(max_length=255, null=True, blank=True)
     surname = models.CharField(max_length=255, null=True, blank=True)
     price = models.IntegerField(default=0)
+    investment_price = models.IntegerField(default=0)
+    investment_valuta = models.IntegerField(default=1, choices=valutas)
     is_active = models.BooleanField(default=True)
     finishedPrice = models.IntegerField(default=0)
     company = models.CharField(max_length=255, null=True, blank=True)
     companyAddress = models.CharField(max_length=255, null=True, blank=True)
     status = models.IntegerField(default=0, choices=status_types)
-    pole = models.ForeignKey(LeadPoles, on_delete=models.CASCADE, null=True, blank=True, default=None)
+    pole = models.ForeignKey(LeadPoles, on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    service_type = models.ForeignKey(ServiceType, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     date = models.DateTimeField(auto_now_add=True)
     finishedDate = models.DateTimeField(null=True, blank=True)
     created_user = models.ForeignKey(Account, on_delete=models.CASCADE)

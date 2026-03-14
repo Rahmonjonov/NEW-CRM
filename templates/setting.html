@@ -378,6 +378,23 @@
                                                                                 </option>
                                                                             </select>
                                                                         </div>
+
+                                                                        <div class="col-6 mt-2">
+                                                                            <label for="">
+                                                                                {% if LANGUAGE_CODE == 'en' %}
+                                                                                    Phone number
+                                                                                {% elif LANGUAGE_CODE == 'ru' %}
+                                                                                    Номер телефона
+                                                                                {% else %}
+                                                                                    Telefon raqami
+                                                                                {% endif %}
+                                                                            </label>
+                                                                            <input type="tel" name="phone" class="form-control" 
+                                                                                placeholder="{% if LANGUAGE_CODE == 'en' %}Enter phone number{% elif LANGUAGE_CODE == 'ru' %}Введите номер телефона{% else %}Telefon raqamini kiriting{% endif %}"
+                                                                                value="{{ u.phone|default_if_none:'' }}" required
+                                                                                pattern="^\+?[0-9\s\-\(\)]{7,15}$"
+                                                                                title="{% if LANGUAGE_CODE == 'en' %}Enter a valid phone number{% elif LANGUAGE_CODE == 'ru' %}Введите правильный номер телефона{% else %}To‘g‘ri telefon raqamini kiriting{% endif %}">
+                                                                        </div>
                                                                     </div>
                                                                     
                                                                 </div>
@@ -788,6 +805,23 @@
                             <input type="text" class="form-control" name="token" placeholder="Token">
                         </div>
                     </div>
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>
+                                {% if LANGUAGE_CODE == 'en' %}
+                                    Group ID:
+                                {% elif LANGUAGE_CODE == 'ru'%}
+                                    ID группы:
+                                {% else %}
+                                    Guruh ID:
+                                {% endif %}
+                            </label>
+                            <input type="text" class="form-control" name="group_id" placeholder="Group ID" value="{{ group_id|default:'' }}">
+                        </div>
+                    </div>
+
+                    
                     <div class="modal-footer modal-footer-uniform">
                         <button type="button" class="btn btn-rounded btn-secondary"
                                 data-dismiss="modal">{% if LANGUAGE_CODE == 'en' %}

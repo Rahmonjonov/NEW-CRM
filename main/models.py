@@ -4,7 +4,7 @@ from board.models import Lead
 from django.db import models
 from .tasks import send_to_bot
 from django_celery_beat.models import ClockedSchedule, PeriodicTask, PeriodicTasks
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 from django.utils import timezone
 
@@ -25,29 +25,48 @@ class Calendar(models.Model):
     def __str__(self):
         return str(self.date)
 
+
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        # print('hhhhhh')
-        # print(self.date)
-        # send_to_bot.apply_async(args=[self.event])
-        text = "Eslatma \n"
-        text += f"\nMijoz: {self.user.name}"
-        text += f"\nYaratti: {self.created_user.first_name}"
-        text += f"\nEslatma: {self.event}"
-        clocked_schedule = ClockedSchedule.objects.create(clocked_time=self.date)
+        # Agar date string bo‘lsa, datetime ga aylantiramiz
+        if isinstance(self.date, str):
+            try:
+                # Agar format "2025-09-22 14:30" bo‘lsa
+                self.date = datetime.strptime(self.date, "%Y-%m-%d %H:%M")
+            except ValueError:
+                try:
+                    # Agar format "2025-09-22T14:30" (datetime-local inputdan keladigan) bo‘lsa
+                    self.date = datetime.strptime(self.date, "%Y-%m-%dT%H:%M")
+                except ValueError:
+                    raise ValueError("Date format noto‘g‘ri!")
+
+        text = "📅 *Hodisa eslatmasi*\n"
+        text += f"\n👤 *Mijoz:* {self.user.name}"
+        text += f"\n📝 *Hodisa:* {self.event}"
+        text += f"\n👨‍💼 *Yaratgan:* {self.created_user.first_name}"
+        text += f"\n⏰ *Vaqt:* {self.date.strftime('%Y-%m-%d %H:%M')}"
+
+        remind_time = self.date - timedelta(hours=1)
+
+        clocked_schedule = ClockedSchedule.objects.create(clocked_time=remind_time)
+
         PeriodicTask.objects.create(
-            name=f"Message is sending to Telegram Bot: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+            name=f"Message is sending to Telegram Bot_{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
             clocked=clocked_schedule,
             task="main.tasks.send_to_bot",
-            enabled=True,
             one_off=True,
             kwargs=json.dumps({
                 "text": text,
-                "bot_token": f'{self.created_user.company.bot_token}',
-                "group_id": f'{self.created_user.company.group_chat_id}',
-                "user_tg_id": f'{self.user.tg_id}'
+                "bot_token": str(self.created_user.company.tg_token),
+                "group_id": str(self.created_user.company.group_id),
+                "user_tg_id": str(self.user.tg_id) if self.user.tg_id else None,
+                "parse_mode": "Markdown"
             }),
         )
+
+        super().save(*args, **kwargs)
+
+
+
 
     class Meta:
         verbose_name_plural = 'Kalendar'

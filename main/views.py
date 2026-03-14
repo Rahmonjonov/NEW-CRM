@@ -20,6 +20,10 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
+
+
 
 from account.functions import checkPhone, sendSmsOneContact, sendSmsOneContact_from_sms_to
 from account.models import Plan, Invoice, Card, Company_default_poles, Company, Account, Company_type_choise
@@ -341,19 +345,22 @@ class Home_new_class(TemplateView, AccessMixin):
             list = []
             for a in accounts:
                 lc = mijoz.filter(is_active=True, created_user=a).count()
-                try:
-                    goal = Goal.objects.get(user=a, oy=datetime.today().month, yil=datetime.today().year)
-                    actions = Lead.objects.filter(finishedDate__month=datetime.today().month, finishedDate__year=datetime.today().year, created_user=a)
-                    act_sum = sum([i.finishedPrice for i in actions])
+                # try:
+                goal = Goal.objects.filter(user=a, oy=datetime.today().month, yil=datetime.today().year).last()
+                actions = Lead.objects.filter(finishedDate__month=datetime.today().month, finishedDate__year=datetime.today().year, created_user=a)
+                act_sum = sum([i.finishedPrice for i in actions])
+                if goal:
                     t = {
                         'name': a.first_name,
                         'surname': a.last_name,
-                        'foiz': int((lc / (goal.mijoz_soni if goal.mijoz_soni else 0)) * 100),
-                        'foiz_summa': int(100 / (goal.savdo if goal.savdo else 1) * (act_sum if act_sum != 0 else 1)),
+                        'foiz': int((lc / goal.mijoz_soni) * 100) if goal.mijoz_soni else 0,
+                        'foiz_summa': int((act_sum / goal.savdo) * 100) if goal.savdo else 0,
                         'summa': act_sum,
                         'plan_summa': goal.savdo,
+                        'plan_mijoz': goal.mijoz_soni,
+                        'mijoz': lc,
                     }
-                except:
+                else:
                     t = {
                         'name': a.first_name,
                         'surname': a.last_name,
@@ -361,6 +368,8 @@ class Home_new_class(TemplateView, AccessMixin):
                         'foiz_summa': 0,
                         'summa': 0,
                         'plan_summa': 0,
+                        'plan_mijoz': 0,
+                        'mijoz': 0,
                     }
                 list.append(t)
             context['acc'] = list
@@ -496,22 +505,90 @@ class Etiroz(TemplateView, AccessMixin):
 
 from django.db.models import Q
 
+# class Target(TemplateView, AccessMixin):
+#     template_name = 'target.html'
+
+#     def get_context_data(self, *args, **kwargs):
+#         context = super(Target, self).get_context_data(**kwargs)
+#         context['target'] = 'active'
+#         lead = Lead.objects.filter(is_active=True,created_user__company=self.request.user.company)
+#         district = self.request.GET.get('district')
+#         start_date = self.request.GET.get('start_date')
+#         end_date = self.request.GET.get('end_date')
+#         emotsiya = self.request.GET.get('emotsiya')
+#         context['today'] = datetime.today().date()
+#         context['first_day_of_month'] = datetime.today().date().replace(day=1)
+#         context['region'] = Region.objects.all()
+#         context['district'] = District.objects.all()
+
+#         if district:
+#             lead = lead.filter(district_id=district)
+#             district_obj = District.objects.get(id=district)
+#             context['district'] = District.objects.filter(region=district_obj.region)
+        
+#         if start_date and end_date:
+#             lead = lead.filter(date__date__gte=start_date, date__date__lte=end_date)
+#         else:
+#             lead = lead.filter(date__date__gte=context['first_day_of_month'])
+        
+#         if emotsiya:
+#                 for i in LeadAction.objects.select_related('lead__created_user__company', 'lead').filter(emotsiya=emotsiya,
+#                  lead__created_user__company=self.request.user.company).values('lead', 'lead__created_user__company').distinct():
+#                     lead = lead.filter(id=i['lead'])
+
+#         if self.request.user.is_director:
+#             context['company'] = Company.objects.get(id=self.request.user.company.id)
+#             context['lead'] = lead.filter(status__gte=1, status__lte=4)
+#             context['mijoz'] = lead.filter(status=5)
+#             context['lead0'] = lead.filter(status=0)
+#             context['promouter'] = lead.filter(status=6)
+#             context['lead_count'] = lead.filter(status__gte=1, status__lte=4).count()
+#             context['mijoz_count'] = lead.filter(status=5).count()
+#             context['lead0_count'] = lead.filter(status=0).count()
+#             context['promouter_count'] = lead.filter(status=6).count()
+
+#         else:
+#             context['lead'] = lead.filter(status__gte=1, status__lte=4)
+#             context['mijoz'] = lead.filter(is_active=True, status=5, created_user=self.request.user)
+#             context['lead0'] = lead.filter(is_active=True, status=0, created_user=self.request.user)
+#             context['promouter'] = lead.filter(is_active=True, status=6, created_user=self.request.user)
+#             context['lead_count'] = lead.filter(is_active=True, status__gte=1, status__lte=4,created_user=self.request.user).count()
+#             context['mijoz_count'] = lead.filter(is_active=True, status=5, created_user=self.request.user).count()
+#             context['lead0_count'] = lead.filter(is_active=True, status=0, created_user=self.request.user).count()
+#             context['promouter_count'] = lead.filter(is_active=True, status=6,created_user=self.request.user).count()
+
+#         return context
+
+#     def dispatch(self, request, *args, **kwargs):
+#         if not request.user.is_authenticated:
+#             return self.handle_no_permission()
+
+#         return super().dispatch(request, *args, **kwargs)
+
+
 class Target(TemplateView, AccessMixin):
     template_name = 'target.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super(Target, self).get_context_data(**kwargs)
         context['target'] = 'active'
-        lead = Lead.objects.filter(is_active=True,created_user__company=self.request.user.company)
+        
+        # Filter parametrlari
         district = self.request.GET.get('district')
         start_date = self.request.GET.get('start_date')
         end_date = self.request.GET.get('end_date')
         emotsiya = self.request.GET.get('emotsiya')
+        pole_id = self.request.GET.get('pole')
+        
         context['today'] = datetime.today().date()
         context['first_day_of_month'] = datetime.today().date().replace(day=1)
         context['region'] = Region.objects.all()
         context['district'] = District.objects.all()
-
+        
+        # Asosiy queryset
+        lead = Lead.objects.filter(is_active=True, created_user__company=self.request.user.company)
+        
+        # Filtrlarni qo'llash
         if district:
             lead = lead.filter(district_id=district)
             district_obj = District.objects.get(id=district)
@@ -519,41 +596,57 @@ class Target(TemplateView, AccessMixin):
         
         if start_date and end_date:
             lead = lead.filter(date__date__gte=start_date, date__date__lte=end_date)
-        else:
-            lead = lead.filter(date__date__gte=context['first_day_of_month'])
-        
+        # else:
+            # lead = lead.filter(date__date__gte=context['first_day_of_month'])
+           
         if emotsiya:
-                for i in LeadAction.objects.select_related('lead__created_user__company', 'lead').filter(emotsiya=emotsiya,
-                 lead__created_user__company=self.request.user.company).values('lead', 'lead__created_user__company').distinct():
-                    lead = lead.filter(id=i['lead'])
-
+            for i in LeadAction.objects.select_related('lead__created_user__company', 'lead').filter(
+                emotsiya=emotsiya,
+                lead__created_user__company=self.request.user.company
+            ).values('lead', 'lead__created_user__company').distinct():
+                lead = lead.filter(id=i['lead'])
+        
+        # Pole (tab) ma'lumotlari
+        poles = LeadPoles.objects.filter(company=self.request.user.company).order_by('number')
+        context['poles'] = poles
+        
+        # Har bir pole uchun leadlar
+        poles_data = []
+        for pole in poles:
+            pole_leads = {
+                'pole': pole,
+                'leads': lead.filter(pole=pole, status__lte=4),
+                'leads_count': lead.filter(pole=pole, status__lte=4).count()
+            }
+            poles_data.append(pole_leads)
+        
+        context['poles_data'] = poles_data
+        
+        # Boshqa kategoriyalar (o'zgarmaydi)
         if self.request.user.is_director:
             context['company'] = Company.objects.get(id=self.request.user.company.id)
             context['lead'] = lead.filter(status__gte=1, status__lte=4)
             context['mijoz'] = lead.filter(status=5)
             context['lead0'] = lead.filter(status=0)
             context['promouter'] = lead.filter(status=6)
-            context['lead_count'] = lead.filter(status__gte=1, status__lte=4).count()
-            context['mijoz_count'] = lead.filter(status=5).count()
-            context['lead0_count'] = lead.filter(status=0).count()
-            context['promouter_count'] = lead.filter(status=6).count()
-
         else:
-            context['lead'] = lead.filter(status__gte=1, status__lte=4)
+            context['lead'] = lead.filter(status__gte=1, status__lte=4, created_user=self.request.user)
             context['mijoz'] = lead.filter(is_active=True, status=5, created_user=self.request.user)
             context['lead0'] = lead.filter(is_active=True, status=0, created_user=self.request.user)
             context['promouter'] = lead.filter(is_active=True, status=6, created_user=self.request.user)
-            context['lead_count'] = lead.filter(is_active=True, status__gte=1, status__lte=4,created_user=self.request.user).count()
-            context['mijoz_count'] = lead.filter(is_active=True, status=5, created_user=self.request.user).count()
-            context['lead0_count'] = lead.filter(is_active=True, status=0, created_user=self.request.user).count()
-            context['promouter_count'] = lead.filter(is_active=True, status=6,created_user=self.request.user).count()
-
+        
+        # Countlar
+        context['lead_count'] = context['lead'].count()
+        context['mijoz_count'] = context['mijoz'].count()
+        context['lead0_count'] = context['lead0'].count()
+        context['promouter_count'] = context['promouter'].count()
+        context['company_accounts'] = Account.objects.filter(company=self.request.user.company)
+        
         return context
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return self.handle_no_permission()
-
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -603,6 +696,47 @@ class Clients(TemplateView, AccessMixin):
         #     return redirect('cabinet')
         return super().dispatch(request, *args, **kwargs)
 
+class EditCreatedUserView(LoginRequiredMixin, View):
+    """Leadlarning created_user'larini o'zgartirish"""
+    
+    def post(self, request, *args, **kwargs):
+        try:
+            data = json.loads(request.body)
+            lead_ids = data.get('lead_ids', [])
+            new_user_id = data.get('new_user_id')
+            
+            if not lead_ids or not new_user_id:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Lead IDs va yangi foydalanuvchi ID si kerak'
+                }, status=400)
+            
+            # Yangi user tekshirish
+            try:
+                new_user = Account.objects.get(id=new_user_id, company=request.user.company)
+            except Account.DoesNotExist:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Foydalanuvchi topilmadi'
+                }, status=404)
+            
+            # Leadlarni yangilash
+            updated_count = Lead.objects.filter(
+                id__in=lead_ids,
+                created_user__company=request.user.company
+            ).update(created_user=new_user)
+            
+            return JsonResponse({
+                'status': 'success',
+                'message': f'{updated_count} ta lead muvaffaqiyatli yangilandi',
+                'updated_count': updated_count
+            })
+            
+        except Exception as e:
+            return JsonResponse({
+                'status': 'error',
+                'message': str(e)
+            }, status=500)
 
 class Setting(TemplateView, AccessMixin):
     template_name = 'setting.html'
@@ -611,6 +745,7 @@ class Setting(TemplateView, AccessMixin):
         context = super(Setting, self).get_context_data(**kwargs)
         context['setting'] = 'active'
         context['token'] = self.request.user.company.tg_token
+        context['group_id'] = self.request.user.company.group_id
         context['users'] = Account.objects.filter(company=self.request.user.company)
         context['referral'] = Referral.objects.filter(company=self.request.user.company)
         context['company'] = self.request.user.company
@@ -1251,6 +1386,28 @@ def Ckeditor(request):
         return redirect('etiroz')
 
 
+
+def delete_lead_action(request):
+    id = request.POST.get('id')
+    LeadAction.objects.filter(id=id).delete()
+    return JsonResponse({
+        "success": True,
+    })
+
+
+def edit_lead_action(request):
+    id = request.POST.get('id')
+    LeadAction.objects.filter(id=id).update(
+        emotsiya=request.POST.get('emotsiya'),
+        note=request.POST.get('note'),
+        color=request.POST.get('color'),
+    )
+    return JsonResponse({
+        "success": True,
+    })
+
+
+
 def Edit(request):
     if not request.user.company.active:
         return redirect('cabinet')
@@ -1287,6 +1444,7 @@ def Edit(request):
                 'step5': lead.step5,
                 'note': lead.note,
                 'tg_id': lead.tg_id,
+                'created_user_id': lead.created_user.id
             }
         except:
             user = {
@@ -1305,6 +1463,7 @@ def Edit(request):
                 'step5': lead.step5,
                 'note': lead.note,
                 'tg_id': lead.tg_id,
+                'created_user_id': lead.created_user.id
             }
 
         context = {
@@ -1331,81 +1490,140 @@ def Edit(request):
         return render(request, 'edit.html', context)
 
     elif request.method == 'POST':
-        id = int(request.POST['id'])
+        id = int(request.POST.get('id'))
         u = Lead.objects.get(id=id)
-        try:
-            surname = request.POST['surname']
-            u.surname = surname
-        except:
-            pass
-        try:
-            phone = request.POST['phone']
-            u.phone = phone
-        except:
-            pass
-        try:
-            email = request.POST['email']
-            u.email = email
-        except:
-            pass
-        try:
-            region = request.POST['region']
-            u.region = region
-        except:
-            pass
-        try:
-            district = request.POST['district']
-            u.district = district
-        except:
-            pass
-        try:
-            birthday = request.POST['birthday']
-            u.birthday = birthday
-        except:
-            pass
-        try:
-            district = request.POST['district']
-            u.district_id = district
-        except:
-            pass
-        try:
-            abc = request.POST['abc']
-            u.abcxyz = abc
-        except:
-            pass
-        try:
-            status = request.POST['status']
-            u.status = status
-        except:
-            pass
-        try:
-            notes = request.POST['notes']
-            u.note = notes
-        except:
-            pass
-        try:
-            u.join_from = request.POST['join_from']
-        except:
-            pass
-        try:
-            u.phone2 = request.POST['phone2']
-        except:
-            pass
-        try:
-            u.telegram_phone_number = request.POST['telegram_phone_number']
-        except:
-            pass
-        try:
-            u.referral_id = request.POST['referral']
-        except:
-            pass
-        try:
-            u.pole_id = request.POST['pole']
-        except:
-            pass
-        u.save()
 
-        return redirect('target')
+        u.surname = request.POST.get('surname') or u.surname
+        investment_price = request.POST.get('investment_price', str(u.investment_price)).replace('.', '')
+        u.investment_price = investment_price
+        u.investment_valuta = request.POST.get('investment_valuta') or u.investment_valuta
+        u.business_type = request.POST.get('business_type') or u.business_type
+        u.phone = request.POST.get('phone') or u.phone
+        u.email = request.POST.get('email') or u.email
+        u.region = request.POST.get('region') or u.region
+        u.created_user_id = request.POST.get('created_user') or u.created_user.id
+
+        district = request.POST.get('district')
+        if district and district.isdigit():
+            u.district_id = int(district)
+
+        u.birthday = request.POST.get('birthday') or u.birthday
+        u.abcxyz = request.POST.get('abc') or u.abcxyz
+        u.status = request.POST.get('status') or u.status
+        u.note = request.POST.get('notes') or u.note
+        u.join_from = request.POST.get('join_from') or u.join_from
+        u.phone2 = request.POST.get('phone2') or u.phone2
+        u.telegram_phone_number = request.POST.get('telegram_phone_number') or u.telegram_phone_number
+        u.referral_id = request.POST.get('referral') or u.referral_id
+        u.pole_id = request.POST.get('pole') or u.pole_id
+
+        u.save()
+        return redirect('board')
+        # return redirect(request.META['HTTP_REFERER'])
+
+
+
+    # elif request.method == 'POST':
+    #     id = int(request.POST['id'])
+    #     u = Lead.objects.get(id=id)
+    #     try:
+    #         surname = request.POST['surname']
+    #         u.surname = surname
+    #     except:
+    #         pass
+
+        
+    #     try:
+    #         investment_price = request.POST['investment_price']
+    #         u.investment_price = investment_price
+    #     except:
+    #         pass
+
+    #     try:
+    #         investment_valuta = request.POST['investment_valuta']
+    #         u.investment_valuta = investment_valuta
+    #     except:
+    #         pass
+
+        
+    #     try:
+    #         business_type = request.POST['business_type']
+    #         u.business_type = business_type
+    #     except:
+    #         pass
+
+
+    #     try:
+    #         phone = request.POST['phone']
+    #         u.phone = phone
+    #     except:
+    #         pass
+    #     try:
+    #         email = request.POST['email']
+    #         u.email = email
+    #     except:
+    #         pass
+    #     try:
+    #         region = request.POST['region']
+    #         u.region = region
+    #     except:
+    #         pass
+    #     try:
+    #         district = request.POST.get('district')
+    #         if district and district.isdigit():  # faqat son bo‘lsa
+    #             u.district = int(district)
+    #     except Exception as e:
+    #         print(e)
+
+    #     try:
+    #         birthday = request.POST['birthday']
+    #         u.birthday = birthday
+    #     except:
+    #         pass
+    #     try:
+    #         district = request.POST.get('district')
+    #         if district and district.isdigit():  # faqat raqam bo‘lsa
+    #             u.district_id = int(district)
+    #     except Exception as e:
+    #         print(e)
+    #     try:
+    #         abc = request.POST['abc']
+    #         u.abcxyz = abc
+    #     except:
+    #         pass
+    #     try:
+    #         status = request.POST['status']
+    #         u.status = status
+    #     except:
+    #         pass
+    #     try:
+    #         notes = request.POST['notes']
+    #         u.note = notes
+    #     except:
+    #         pass
+    #     try:
+    #         u.join_from = request.POST['join_from']
+    #     except:
+    #         pass
+    #     try:
+    #         u.phone2 = request.POST['phone2']
+    #     except:
+    #         pass
+    #     try:
+    #         u.telegram_phone_number = request.POST['telegram_phone_number']
+    #     except:
+    #         pass
+    #     try:
+    #         u.referral_id = request.POST['referral']
+    #     except:
+    #         pass
+    #     try:
+    #         u.pole_id = request.POST['pole']
+    #     except:
+    #         pass
+    #     u.save()
+
+    #     return redirect('target')
 
 
 @csrf_exempt
@@ -1672,8 +1890,8 @@ def PostEvent(request):
     title = data['title']
     time = data['start']
     className = data['className']
-    Calendar.objects.create(user_id=user, event=title, date=time, color=className, created_user=request.user)
-    return JsonResponse({})
+    obj = Calendar.objects.create(user_id=user, event=title, date=time, color=className, created_user=request.user)
+    return JsonResponse({"id": obj.id})
 
 
 def DelEvent(request):
@@ -1818,7 +2036,7 @@ def main_is_influencer(request):
         type = int(request.GET.get('type'))
         sana = datetime.today().date()
         if type == 1:
-            sana1 = datetime(snaa.year, sana.month, sana.day)
+            sana1 = datetime(sana.year, sana.month, sana.day)
             sana2 = datetime.fromordinal(sana.toordinal() + 1)
         elif type == 2:
             sana1 = datetime.fromordinal(sana.toordinal() - 6)
@@ -1904,7 +2122,7 @@ def main_is_influencer(request):
             },
             'finished': {
                 'count': Query.filter(status=5).count(),
-                'summa': Query.filter(status=5).aggregate(Sum('finishedPrice'))['finishedPrice__sum'],
+                'summa': Query.filter(status=5).aggregate(Sum('finishedPrice'))['finishedPrice__sum'] or 0,
             },
             'task': {
                 'register': TQ.filter(status=0).count(),
@@ -1916,8 +2134,8 @@ def main_is_influencer(request):
             'users': users_data
         }
         return JsonResponse(dt)
-    except:
-        return JsonResponse({"message": "error"})
+    except Exception as e:
+        return JsonResponse({"message": "error", 'error': f'{e}'})
 
 
 def addtoken(request):
@@ -2037,12 +2255,13 @@ def EditHodim(request):
     username = r['username']
     password = r['password']
     status = r['status']
+    phone = r['phone']
     us = Account.objects.get(id=id)
-    try:
-        Account.objects.get(username=username)
+    
+    if Account.objects.exclude(id=id).filter(username=username):
         messages.error(request, 'Loginni o`zgartiring')
         return redirect('setting')
-    except:
+    else:
         us.username = username
     if status == 'is_director':
         us.is_director = True
@@ -2051,6 +2270,7 @@ def EditHodim(request):
         
     us.first_name = ism
     us.last_name = fam
+    us.phone = phone
     us.password = make_password(password)
     us.save()
     messages.success(request, 'Hodim taxrirlandi')
@@ -2233,8 +2453,12 @@ def delete_complaint(request, pk):
 
 
 def call_logs(request):
+    leads = Lead.objects.filter(created_user__company=request.user.company)
+
     context = {
-        'company': request.user.company
+        'company': request.user.company,
+        'users' : Account.objects.filter(company=request.user.company),
+        'leads': leads
     }
     return render(request, 'call_logs.html', context)
 
@@ -2463,3 +2687,7 @@ def last_seen_view(request):
         'filters':filters,
     }
     return render(request, 'last_seen.html', context)
+
+# leads = Lead.objects.filter(created_user__id__exact=43, status=0, degree=1, joinBy=0, referral__isnull=True, is_active=True).distinct()
+# print(leads.count())
+# leads.delete()

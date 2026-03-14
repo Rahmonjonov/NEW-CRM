@@ -1,0 +1,1485 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load i18n %}
+
+{% block title %}
+    <title> 
+        {% if LANGUAGE_CODE == 'en' %}CRM | Board
+        {% elif LANGUAGE_CODE == 'ru'%}CRM | Доска
+        {% else %}CRM | Kengash{% endif %}
+    </title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/board/bootstrap/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/board/style.css' %}">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+        #dashboard_footer {
+            width: 100%;
+            height: 5rem;
+            padding: 8px;
+        }
+
+        .footer_group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            overflow-x: auto;
+        }
+
+        .text-mute { color: #ffffff !important; }
+        h3 > span { color: #ffffff !important; }
+        .theme-primary .text-primary { color: #6B778D; }
+        .dark-skin h1, .dark-skin h2, .dark-skin h3,
+        .dark-skin h4, .dark-skin h5, .dark-skin h6 { color: #ffffff; }
+        .text-dark { color: #ffffff !important; }
+        .dark-skin .table { color: #ffffff; }
+        .btn-dark { background-color: #272e48 !important; }
+        .is-invalid { border-color: #dc3545; }
+        .invalid-feedback {
+            width: 100%; margin-top: 0.25rem;
+            font-size: 80%; color: #dc3545;
+        }
+        .modal-backdrop.show { z-index: 1050 !important; }
+        .modal.show { z-index: 1060 !important; }
+
+        /* ─── FILTER PANEL ─── */
+        #filter_wrapper {
+            width: 90%;
+            padding: 6px 0;
+        }
+
+        /* Mobile filter toggle button */
+        #filter_toggle_btn {
+            display: none;
+            width: 100%;
+            background: #272e48;
+            color: #fff;
+            border: 1px solid #3a4268;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 14px;
+            cursor: pointer;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        #filter_toggle_btn i { font-size: 16px; }
+        #filter_toggle_btn .filter_badge {
+            background: #4a6fa5;
+            color: #fff;
+            border-radius: 12px;
+            font-size: 11px;
+            padding: 2px 7px;
+            margin-left: auto;
+        }
+
+        #filter_group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+        }
+
+        #filter_group .btn,
+        #filter_group select,
+        #filter_group input[type="text"],
+        #filter_group input[type="number"] {
+            background: #272e48;
+            color: #fff;
+            border: 1px solid #3a4268;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 13px;
+            height: 36px;
+        }
+
+        /* Search input */
+        /* #lead_search_wrap {
+            position: relative;
+            flex: 1 1 180px;
+            min-width: 150px;
+        } */
+        #lead_search_input {
+            width: 100%;
+            background: #272e48;
+            color: #fff;
+            border: 1px solid #4a6fa5 !important;
+            border-radius: 6px;
+            padding: 6px 10px 6px 32px;
+            font-size: 13px;
+            height: 36px;
+        }
+        #lead_search_input::placeholder { color: #6b778d; }
+        /* #lead_search_wrap .search-icon {
+            position: absolute;
+            left: 9px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b778d;
+            font-size: 14px;
+            pointer-events: none;
+        } */
+        #search_clear_btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6b778d;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 0;
+            display: none;
+        }
+
+        /* Filter loading overlay */
+        #board_loading {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.35);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        #board_loading.active { display: flex; }
+        .board_spinner {
+            width: 42px; height: 42px;
+            border: 4px solid rgba(255,255,255,0.2);
+            border-top-color: #4a6fa5;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ─── Batafsil toggle ─── */
+        .toggle-fields-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 6px 0 8px 0;
+            padding: 7px 12px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .toggle-label-text {
+            margin: 0;
+            color: #8896b3;
+            font-size: 12px;
+            cursor: pointer;
+            user-select: none;
+            letter-spacing: 0.3px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            width: 38px;
+            height: 22px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        .toggle-switch input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+        }
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            background: #3a4268;
+            border-radius: 22px;
+            transition: background .25s;
+        }
+        .toggle-slider:before {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 3px;
+            top: 3px;
+            background: #8896b3;
+            border-radius: 50%;
+            transition: transform .25s, background .25s;
+        }
+        .toggle-switch.is-on .toggle-slider { background: #4a6fa5; }
+        .toggle-switch.is-on .toggle-slider:before {
+            transform: translateX(16px);
+            background: #fff;
+        }
+
+        .extra-fields {
+            overflow: hidden;
+            transition: max-height .3s ease, opacity .25s ease;
+        }
+        .extra-fields.hidden { max-height: 0; opacity: 0; pointer-events: none; }
+        .extra-fields.visible { max-height: 1200px; opacity: 1; pointer-events: auto; }
+
+        /* ─── Telefon duplicate card ─── */
+        #phone_duplicate_info {
+            display: none;
+            background: rgba(74, 111, 165, 0.15);
+            border: 1px solid #4a6fa5;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin: 6px 4px;
+            font-size: 13px;
+            color: #a0aec0;
+        }
+        #phone_duplicate_info .dup-name {
+            font-weight: 600;
+            color: #e2e8f0;
+            font-size: 14px;
+        }
+        #phone_duplicate_info .dup-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3px;
+        }
+
+        /* ─── ServiceType badge in modal ─── */
+        .service-type-select {
+            width: 100%;
+            background: #1e2540;
+            color: #e2e8f0;
+            border: 1px solid #3a4268;
+            border-radius: 6px;
+            padding: 7px 10px;
+            font-size: 13px;
+        }
+        .service-type-select option { background: #1e2540; }
+
+        /* ─── ServiceType management modal ─── */
+        .st-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 7px 10px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            background: rgba(255,255,255,0.05);
+        }
+        .st-item span { font-size: 13px; color: #e2e8f0; }
+        .st-item .st-actions { display: flex; gap: 6px; }
+        .st-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #a0aec0;
+            font-size: 13px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: .2s;
+        }
+        .st-actions .st-edit:hover { color: #63b3ed; background: rgba(99,179,237,.15); }
+        .st-actions .st-del:hover  { color: #fc8181; background: rgba(252,129,129,.15); }
+
+        /* ─── Call button on lead card ─── */
+        .lead_call_btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: rgba(72, 187, 120, 0.15);
+            color: #48bb78;
+            text-decoration: none;
+            flex-shrink: 0;
+            transition: background .2s, transform .15s;
+        }
+        .lead_call_btn:hover {
+            background: rgba(72, 187, 120, 0.3);
+            color: #48bb78;
+            transform: scale(1.1);
+        }
+        .lead_call_btn i { font-size: 12px; }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 992px) {
+            #filter_toggle_btn { display: flex; }
+            #filter_group {
+                display: none;
+                flex-direction: column;
+                gap: 6px;
+            }
+            #filter_group.mobile-open { display: flex; }
+            #filter_group .btn,
+            #filter_group select,
+            #filter_group input[type="text"],
+            #filter_group input[type="number"] {
+                width: 100%;
+                flex: none;
+            }
+            #lead_search_wrap { width: 100%; }
+        }
+
+        @media (max-width: 576px) {
+            .modal-dialog { margin: 8px; }
+            .modal-body .p-1 { padding: 4px !important; }
+        }
+
+        /* Lead card */
+        .lead_card {
+            box-sizing: border-box;
+            overflow: hidden;
+            word-break: break-word;
+            height: auto !important;
+            max-height: 250px !important;
+            overflow-y: auto;  /* Vertikal skroll agar matn ko'paysa chiqadi */
+            overflow-x: hidden; /* Gorizontal skrollni taqiqlaymiz */
+            
+            /* Skrollni chiroyli ko'rsatish (Chrome, Safari uchun) */
+            scrollbar-width: thin;
+            scrollbar-color: #4a5568 transparent;
+        }
+        .lead_card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 6px;
+            flex-wrap: nowrap;
+        }
+        .lead_name {
+            flex: 1 1 0;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+        .lead_datediv {
+            flex-shrink: 0;
+            text-align: right;
+            font-size: 11px;
+            line-height: 1.4;
+            color: #8896b3;
+        }
+        .lead_date  { white-space: nowrap; }
+        .created    { white-space: nowrap; color: #6b778d; }
+
+        .other_lead {
+            margin-top: 4px;
+            margin-bottom: 2px;
+        }
+        .lead_other_price {
+            display: block !important;
+            font-size: 12px !important;
+            line-height: 1.5;
+            color: #8896b3 !important;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .lead_other_price strong { color: #c8d3e8; font-weight: 600; }
+
+        .lead_card-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+            flex-wrap: nowrap;
+        }
+        .lead_price {
+            font-size: 13px;
+            font-weight: 700;
+            color: #e2e8f0 !important;
+            white-space: nowrap;
+        }
+        .lead_note {
+            flex: 1 1 0;
+            min-width: 0;
+            font-size: 12px;
+            color: #8896b3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: right;
+        }
+
+        /* Board */
+        .main_container {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            gap: 16px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .part-group {
+            flex: 0 0 auto;
+            width: 280px;
+        }
+        select, input, textarea { max-width: 100%; box-sizing: border-box; }
+        .form-control { width: 100%; }
+
+        /* Filter active indicator */
+        .filter-active-dot {
+            display: inline-block;
+            width: 7px; height: 7px;
+            background: #4a6fa5;
+            border-radius: 50%;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+    </style>
+{% endblock css %}
+
+{% block content %}
+<!-- Loading overlay -->
+<div id="board_loading">
+    <div class="board_spinner"></div>
+</div>
+
+<section class="content">
+    <div class="row">
+        <div class="box bg-transparent no-shadow b-0">
+            <div class="box-body text-center p-0">
+                <div id="filter_wrapper">
+                    <!-- Mobile toggle button -->
+                    <button id="filter_toggle_btn" type="button">
+                        <i class="fa fa-filter"></i>
+                        <span>
+                            {% if LANGUAGE_CODE == 'en' %}Filters{% elif LANGUAGE_CODE == 'ru' %}Фильтры{% else %}Filtrlar{% endif %}
+                        </span>
+                        <span class="filter_badge" id="active_filter_count" style="display:none;">0</span>
+                    </button>
+
+                    <div id="filter_group">
+                        <!-- Search -->
+                        <div id="lead_search_wrap">
+                            <input type="text" id="lead_search_input" value="{{filters.search|default:''}}"
+                                   placeholder="{% if LANGUAGE_CODE == 'en' %}Search by name...{% elif LANGUAGE_CODE == 'ru' %}Поиск по имени...{% else %}Ism bo'yicha qidirish...{% endif %}">
+                            <button id="search_clear_btn" type="button"><i class="fa fa-times"></i></button>
+                        </div>
+
+                        <!-- Date range -->
+                        <input name="date" type="text" class="btn btn-dark btn-rounded" id="reservation" onchange="applyFilters()"
+                               placeholder="{% if LANGUAGE_CODE == 'en' %}Date range{% elif LANGUAGE_CODE == 'ru' %}Диапазон дат{% else %}Sana oralig'i{% endif %}"
+                               style="min-width:160px;" readonly>
+
+                        {% if user.is_director %}
+                            <select id="filter_user" name="user" style="min-width:130px;">
+                                <option value="0">{% if LANGUAGE_CODE == 'en' %}All{% elif LANGUAGE_CODE == 'ru'%}Bce{% else %}Barchasi{% endif %}</option>
+                                {% for u in users %}
+                                    {% if not u.is_director %}
+                                    <option value="{{ u.id }}" {% if filters.user == u.id %}selected{% endif %}>
+                                        {{ u.last_name|default_if_none:'' }} {{ u.first_name|default_if_none:'' }} {{ u.username|default_if_none:'' }}
+                                    </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+
+                        <select id="filter_region" name="region" style="min-width:130px;" onchange="filterRegionChange()">
+                            <option value="">{% if LANGUAGE_CODE == 'en' %}Region{% elif LANGUAGE_CODE == 'ru'%}Регион{% else %}Viloyat{% endif %}</option>
+                            {% for t in region %}<option value="{{ t.id }}" {% if filters.region == t.id %}selected{% endif %}>{{ t.name }}</option>{% endfor %}
+                        </select>
+
+                        <select id="filter_district" name="district" style="min-width:130px;">
+                            <option value="">{% if LANGUAGE_CODE == 'en' %}District{% elif LANGUAGE_CODE == 'ru'%}Район{% else %}Hudud{% endif %}</option>
+                            {% for t in district %}<option value="{{ t.id }}" {% if filters.district == t.id %}selected{% endif %}>{{ t.name }}</option>{% endfor %}
+                        </select>
+
+                        <select id="filter_business_type" name="business_type" style="min-width:130px;">
+                            <option value="">{% if LANGUAGE_CODE == 'en' %}Business type{% elif LANGUAGE_CODE == 'ru'%}Тип бизнеса{% else %}Biznes turi{% endif %}</option>
+                            {% for b in business_types %}<option value="{{ b }}" {% if filters.business_type == b %}selected{% endif %}>{{ b }}</option>{% endfor %}
+                        </select>
+
+                        <select id="filter_investment_valuta" name="investment_valuta" style="min-width:110px;">
+                            <option value="">{% if LANGUAGE_CODE == 'en' %}Currency{% elif LANGUAGE_CODE == 'ru'%}Валюта{% else %}Valyuta{% endif %}</option>
+                            <option value="1" {% if filters.investment_valuta == 1 %}selected{% endif %}>So'm</option>
+                            <option value="2" {% if filters.investment_valuta == 2 %}selected{% endif %}>Dollar</option>
+                        </select>
+
+                        <input type="number" id="filter_price_min" name="price_min" style="width:90px;" placeholder="Min" value="{{ filters.price_min|default:'' }}">
+                        <input type="number" id="filter_price_max" name="price_max" style="width:90px;" placeholder="Max" value="{{ filters.price_max|default:'' }}">
+
+                        <button type="button" id="filter_reset_btn" class="btn btn-dark" style="color:#fc8181;border-color:#3a4268;" title="Tozalash">
+                            <i class="fa fa-times-circle"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard_container">
+        <div id="custom-content">
+            <div class="main_container" id="board_main_container">
+                {% for pole in user.leadpoles.all %}
+                    <div class="part-group" style="margin-right:2rem;">
+                        <div class="group_header">
+                            <div class="group_title text-wrap">{{ pole.name }}
+                                {% if user.is_director %}
+                                    <a href="#"><i class="fa fa-edit fa-sm pl-10 edit_pole_pen" column_pk="{{ pole.id }}"></i></a>
+                                    <a href="#"><i class="fa fa-close fa-sm pl-10 delete_pole_pen" column_pk="{{ pole.id }}"></i></a>
+                                {% endif %}
+                            </div>
+                            <div id="info_group_{{ pole.id }}" class="group_info"></div>
+                        </div>
+                        <div id="group_body_{{ pole.id }}" class="group_body">
+                            {% if forloop.first %}
+                                <div id="new_lead_button">
+                                    {% if LANGUAGE_CODE == 'en' %}Add{% elif LANGUAGE_CODE == 'ru' %}Добавлять{% else %}Yangi qo'shish{% endif %}
+                                </div>
+                            {% endif %}
+                            <!-- Leadlar AJAX orqali yuklanadi -->
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+                <div id="dashboard_footer">
+            <div class="footer_group">
+                <a style="font-size:18px;color:#fafff4;padding:5px 10px;transition:.3s;cursor:pointer;" id="import_excel">
+                    <i class="mdi mdi-file-excel mdi-24px"></i>
+                    <span>{% if LANGUAGE_CODE == 'en' %}Excel export{% elif LANGUAGE_CODE == 'ru'%}Экспорт в Excel{% else %}Excel eksporti{% endif %}</span>
+                </a>
+
+                {% if user.is_director %}
+                    <div id="add_pole_btn">
+                        <i class="fa fa-plus-circle fa-lg"></i>
+                        <span>{% if LANGUAGE_CODE == 'en' %}Add a new stage{% elif LANGUAGE_CODE == 'ru'%}Добавить новый этап{% else %}Yangi bosqich qo'shish{% endif %}</span>
+                    </div>
+
+                    <div id="manage_service_types_btn" style="cursor:pointer;color:#fafff4;font-size:18px;padding:5px 10px;">
+                        <i class="fa fa-tags fa-lg"></i>
+                        <span style="font-size:14px;">{% if LANGUAGE_CODE == 'en' %}Service Types{% elif LANGUAGE_CODE == 'ru'%}Типы услуг{% else %}Xizmat turlari{% endif %}</span>
+                    </div>
+                {% endif %}
+
+                <div id="lead_losed_footer" class="footer_item footer_losed">
+                    {% if LANGUAGE_CODE == 'en' %}Lost{% elif LANGUAGE_CODE == 'ru'%}Потерял{% else %}Yo'qotildi{% endif %}
+                </div>
+                <div id="lead_woned_footer" class="footer_item footer_won">
+                    {% if LANGUAGE_CODE == 'en' %}It's over{% elif LANGUAGE_CODE == 'ru'%}Закончилось{% else %}Yakunlandi{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════ MODALS ════════ -->
+
+    <!-- YANGI LEAD -->
+    <div id="new_lead_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="newLeadForm" method="post" action="{% url 'adduser' %}">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h5 class="modal-title">{% if LANGUAGE_CODE == 'en' %}Add{% elif LANGUAGE_CODE == 'ru'%}Добавлять{% else %}Yangi qo'shish{% endif %}</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="p-1">
+                            <input name="ism" type="text" class="form-control"
+                                   placeholder="{% if LANGUAGE_CODE == 'en' %}Name{% elif LANGUAGE_CODE == 'ru'%}Имя Фамилия{% else %}Ism Familiya{% endif %}"
+                                   oninvalid="this.setCustomValidity('To\'ldirilishi shart!')"
+                                   oninput="setCustomValidity('')" required>
+                        </div>
+                        <div class="p-1">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                                <input type="text" class="form-control" name="phone" id="phone_tel" value="(998)"
+                                       placeholder="Telefon">
+                            </div>
+                        </div>
+                        <div id="phone_duplicate_info">
+                            <div class="dup-name" id="dup_name"></div>
+                            <div class="dup-row"><span id="dup_phone"></span><span id="dup_company"></span></div>
+                            <div class="dup-row"><span id="dup_price"></span><span id="dup_pole"></span></div>
+                            <div style="margin-top:6px;font-size:12px;color:#63b3ed;">Bu telefon raqam bazada mavjud. Ma'lumotlar yuklandi.</div>
+                        </div>
+                        <div class="p-1">
+                            <select name="service_type" class="service-type-select">
+                                <option value="">Xizmat turini tanlang</option>
+                                {% for st in service_types %}
+                                    <option value="{{ st.id }}">{{ st.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="toggle-fields-row">
+                            <label class="toggle-switch" id="toggle_switch_wrap" for="toggle_extra_fields">
+                                <input type="checkbox" id="toggle_extra_fields">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <label class="toggle-label-text" for="toggle_extra_fields">Batafsil</label>
+                        </div>
+                        <div class="extra-fields hidden" id="extra_fields_new">
+                            <div class="p-1">
+                                <input name="price" type="text" placeholder="0" class="formStyle">
+                            </div>
+                            <div class="p-1">
+                                <input name="campany" type="text" class="form-control" placeholder="Tashkilot nomi">
+                            </div>
+                            <div class="p-1">
+                                <select class="form-control region" onchange="getReg(this)" name="region" style="width:100%;">
+                                    <option value="">Viloyatni tanlang</option>
+                                    {% for t in region %}<option value="{{ t.id }}">{{ t.name }}</option>{% endfor %}
+                                </select>
+                            </div>
+                            <div class="p-1">
+                                <select class="form-control district" name="district" style="width:100%;">
+                                    <option value="">Hududni tanlang</option>
+                                </select>
+                            </div>
+                            <div class="p-1">
+                                <select class="form-control lead_pole" name="lead_pole" style="width:100%;">
+                                    <option value="">Mo'ljaldagi potensiallar</option>
+                                    {% for t in user.leadpoles.all %}<option value="{{ t.id }}">{{ t.name }}</option>{% endfor %}
+                                </select>
+                            </div>
+                            <div class="p-1">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                    <input name="validity_period" id="validity_period" type="date" class="form-control"
+                                           placeholder="Amal qilish muddati">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Qo'shish</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- LEAD IZOH -->
+    <div id="lead_note_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="lead_note_form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Izoh</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="p-1">
+                            <textarea class="formStyle" placeholder="Izoh" name="izoh" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Saqlash</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- YAKUNLASH -->
+    <div id="lead_finished_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="lead_finished_form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Yakunlash</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="p-1">
+                            <input name="price" type="number" placeholder="Yakunlangan summa..." class="formStyle" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Saqlash</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- YO'QOTISH -->
+    <div id="lead_lose_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="lead_lose_form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Yo'qotilish sababi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="p-1">
+                            <textarea class="formStyle" placeholder="Izoh" name="izoh" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Saqlash</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAHRIRLASH -->
+    <div id="edit_lead_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="edit_lead_form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Taxrirlash</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="p-1">
+                            <input name="form_name" type="text" class="form-control" placeholder="Nomi" required>
+                        </div>
+                        <div class="p-1">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                                <input type="text" class="form-control" name="form_phone" id="phone_tel_edit" value="(998)" placeholder="Telefon">
+                            </div>
+                        </div>
+                        <div class="p-1">
+                            <input name="form_price" type="number" placeholder="0" class="formStyle" required>
+                        </div>
+                        <div class="p-1">
+                            <input name="form_campany" type="text" class="form-control" placeholder="Tashkilot nomi">
+                        </div>
+                        <div class="p-1">
+                            <select class="form-control region" onchange="getReg(this)" name="region" style="width:100%;">
+                                <option value="">Viloyatni tanlang</option>
+                                {% for t in region %}<option value="{{ t.id }}">{{ t.name }}</option>{% endfor %}
+                            </select>
+                        </div>
+                        <div class="p-1">
+                            <select class="form-control district" name="form_address" style="width:100%;">
+                                <option value="">Hududni tanlang</option>
+                            </select>
+                        </div>
+                        <div class="p-1">
+                            <select class="form-control" name="referral" style="width:100%;">
+                                <option value="">Yo'naltiruvchini tanlang</option>
+                                {% for refer in referral %}<option value="{{ refer.id }}">{{ refer.name }}</option>{% endfor %}
+                            </select>
+                        </div>
+                        <div class="p-1">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                <input name="validity_period" id="validity_period_edit" type="date" class="form-control" placeholder="Amal qilish muddati">
+                            </div>
+                        </div>
+                        <div class="p-1">
+                            <select name="service_type" class="service-type-select">
+                                <option value="">Xizmat turini tanlang</option>
+                                {% for st in service_types %}
+                                    <option value="{{ st.id }}">{{ st.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Saqlash</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXCEL IMPORT -->
+    <div id="ExcelExportModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Excel dan qo'shish</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form id="excelExportForm" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <a href="{% static 'example.xlsx' %}" download class="btn btn-success" style="width:100%;">
+                            <i class="bi bi-download"></i> Namuna yuklab olish
+                        </a>
+                        <div class="form-group">
+                            <br>
+                            <label for="excelFile">Excel faylni yuklash</label>
+                            <input type="file" name="excel_file" id="excelFile" class="form-control" accept=".xlsx,.xls" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Import qilish</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% if user.is_director %}
+    <!-- YANGI BOSQICH -->
+    <div id="add_pole" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="add_pole_form" action="{% url 'add_pole' %}" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Yangi bosqich qo'shish</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="p-1">
+                            <input name="name" type="text" maxlength="60" class="formStyle" placeholder="Nomi" required>
+                            {% csrf_token %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Qo'shish</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOSQICH TAHRIRLASH -->
+    <div id="edit_pole" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="edit_pole_form" action="{% url 'edit_pole' %}" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Taxrirlash</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="p-1">
+                            <input name="name" type="text" maxlength="60" class="formStyle" required>
+                            <br>
+                            <input placeholder="#" name="number" type="number" class="formStyle" required>
+                            <input name="id" type="hidden">
+                            {% csrf_token %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Saqlash</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- SERVICE TYPE BOSHQARUV -->
+    <div id="service_type_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xizmat turlari</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div style="display:flex;gap:8px;margin-bottom:14px;">
+                        <input type="text" id="st_name_input" class="form-control" style="flex:1;" placeholder="Xizmat turi nomi">
+                        <input type="number" id="st_number_input" class="form-control" style="width:70px;" placeholder="#">
+                        <input type="hidden" id="st_edit_id" value="">
+                        <button class="btn btn-primary btn-sm" id="st_save_btn" style="white-space:nowrap;">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                    <div id="st_list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</section>
+
+<script>
+    let leads_all = [];  // sahifa ochilganda AJAX bilan to'ldiriladi
+    let currentUser = {{ user.id }};
+    let csrf_token = '{{ csrf_token }}';
+    let company_type = '{{ user.company.type }}';
+    let board_ajax_url = "{% url 'boardv2' %}";  /* Xuddi shu view — AJAX kelsa JSON qaytaradi */
+
+    let board_columns = [
+        {% for pole in user.leadpoles.all %}
+            {% if not forloop.first %},{% endif %}{
+                id: {{ pole.id }},
+                name: "{{ pole.name|safe }}",
+                number: {{ pole.number }}
+            }
+        {% endfor %}
+    ];
+
+    let service_types_data = [
+        {% for st in service_types %}
+            {% if not forloop.first %},{% endif %}{ id: {{ st.id }}, name: "{{ st.name|safe }}", number: {{ st.number }} }
+        {% endfor %}
+    ];
+
+    {% if user.is_director %}
+        let check_can_delete = "{% url 'check_pole_can_delete' %}";
+        let delete_pole = "{% url 'delete_pole' %}";
+    {% endif %}
+
+    let url_check_phone = "/board/check_lead_phone/";
+    let url_create_st   = "/board/service_type/create/";
+    let url_edit_st     = "/board/service_type/edit/";
+    let url_delete_st   = "/board/service_type/delete/";
+
+    /* ══════════════════════════════════════════
+       AJAX FILTER ENGINE
+       Barcha filtrlar shu funksiya orqali ishlaydi
+    ══════════════════════════════════════════ */
+    let filterDebounceTimer = null;
+    let currentSearchQuery  = '';
+
+    function getCurrentFilters() {
+        return {
+            search:             document.getElementById('lead_search_input').value.trim(),
+            date:               document.getElementById('reservation').value || '',
+            user:               document.getElementById('filter_user')               ? document.getElementById('filter_user').value               : '',
+            region:             document.getElementById('filter_region').value             || '',
+            district:           document.getElementById('filter_district').value           || '',
+            business_type:      document.getElementById('filter_business_type').value      || '',
+            investment_valuta:  document.getElementById('filter_investment_valuta').value  || '',
+            price_min:          document.getElementById('filter_price_min').value          || '',
+            price_max:          document.getElementById('filter_price_max').value          || '',
+        };
+    }
+
+    function countActiveFilters() {
+        const f = getCurrentFilters();
+        let count = 0;
+        if (f.search)            count++;
+        if (f.date)              count++;
+        if (f.user && f.user !== '0') count++;
+        if (f.region)            count++;
+        if (f.district)          count++;
+        if (f.business_type)     count++;
+        if (f.investment_valuta) count++;
+        if (f.price_min)         count++;
+        if (f.price_max)         count++;
+        return count;
+    }
+
+    function updateFilterBadge() {
+        const count = countActiveFilters();
+        const badge = document.getElementById('active_filter_count');
+        if (count > 0) {
+            badge.textContent = count;
+            badge.style.display = 'inline-block';
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+
+    function applyFilters(delay = 0) {
+        clearTimeout(filterDebounceTimer);
+        filterDebounceTimer = setTimeout(function () {
+            updateFilterBadge();
+            const filters = getCurrentFilters();
+
+            // URL ni yangilash — o'qishga qulay ko'rinish
+            const paramParts = [];
+            for (const [k, v] of Object.entries(filters)) {
+                if (v && v !== '0') {
+                    paramParts.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
+                }
+            }
+            const newUrl = paramParts.length ? '?' + paramParts.join('&') : window.location.pathname;
+            history.replaceState(null, '', newUrl);
+
+            // Loading ko'rsatish
+            document.getElementById('board_loading').classList.add('active');
+
+            $.ajax({
+                type: 'GET',
+                url: board_ajax_url,
+                data: Object.assign({}, filters, {ajax: '1'}),
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrf_token);
+                    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                },
+                success: function (response) {
+                    // Agar server JSON emas HTML qaytarsa — xato ko'rsatamiz
+                    if (!response || !response.leads) {
+                        console.error('Server JSON qaytarmadi. Kelgan javob:', response);
+                        document.getElementById('board_loading').classList.remove('active');
+                        return;
+                    }
+                    leads_all = response.leads;
+
+                    // Barcha group_body larni tozalash (new_lead_button ni saqlab)
+                    for (const col of board_columns) {
+                        const body = document.getElementById(`group_body_${col.id}`);
+                        if (!body) continue;
+                        const newBtn = body.querySelector('#new_lead_button');
+                        body.innerHTML = '';
+                        if (newBtn) body.appendChild(newBtn);
+                    }
+
+                    // Grouplarni reset
+                    for (const g of Groups) {
+                        g.data.count = 0;
+                        g.data.summa = 0;
+                        g.data.elements = [];
+                    }
+
+                    // Leadlarni qayta render
+                    response.leads.forEach(lead => {
+                        for (let i = 0; i < Groups.length; i++) {
+                            if (Groups[i].dom && Groups[i].dom.id === `group_body_${lead.pole}`) {
+                                const obj = newLeadobject(
+                                    lead.id, lead.name, lead.date, lead.price,
+                                    lead.company || '', lead.phone || '',
+                                    lead.created_user ? lead.created_user.username : '',
+                                    lead.get_validity_period,
+                                    lead.validity_period || '',
+                                    lead.service_type_name || '',
+                                    lead.district_name || '',
+                                    lead.business_type || '',
+                                    lead.investment_price || 0,
+                                    lead.investment_valuta_display || '',
+                                    lead.referral_name || ''
+                                );
+                                Groups[i].dom.appendChild(obj);
+                                Groups[i].data.count += 1;
+                                Groups[i].data.summa += lead.price || 0;
+                                Groups[i].data.elements.push(lead);
+
+                                if (lead.validity_period) {
+                                    const timerEl = document.getElementById(`timer_${lead.id}`);
+                                    if (timerEl) startSingleCountdown(timerEl);
+                                }
+                                break;
+                            }
+                        }
+                    });
+
+                    update_info_labels();
+                    document.getElementById('board_loading').classList.remove('active');
+                },
+                error: function (err) {
+                    console.error('Filter AJAX error:', err);
+                    document.getElementById('board_loading').classList.remove('active');
+                }
+            });
+        }, delay);
+    }
+
+    /* ══════════════════════════════════════════
+       FILTER EVENTS
+    ══════════════════════════════════════════ */
+    document.addEventListener("DOMContentLoaded", function () {
+
+        /* Mobile toggle */
+        document.getElementById('filter_toggle_btn').addEventListener('click', function () {
+            const group = document.getElementById('filter_group');
+            group.classList.toggle('mobile-open');
+        });
+
+        /* Region → district AJAX */
+        window.filterRegionChange = function () {
+            const regionId = document.getElementById('filter_region').value;
+            const districtSel = document.getElementById('filter_district');
+            if (!regionId) {
+                districtSel.innerHTML = '<option value="">Hudud</option>';
+                applyFilters(300);
+                return;
+            }
+            $.ajax({
+                type: 'GET', url: `/getregion/?id=${regionId}`,
+                success: function (r) {
+                    districtSel.innerHTML = '<option value="">Hududni tanlang</option>';
+                    r['district'].forEach(d => {
+                        districtSel.innerHTML += `<option value="${d.id}">${d.name}</option>`;
+                    });
+                    applyFilters(300);
+                }
+            });
+        };
+
+        /* Select change → filter */
+        ['filter_user', 'filter_district', 'filter_business_type', 'filter_investment_valuta'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('change', () => applyFilters(200));
+        });
+
+        /* Price inputs — debounce 700ms */
+        ['filter_price_min', 'filter_price_max'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('input', () => applyFilters(700));
+        });
+
+        /* Search input — debounce 1000ms */
+        const searchInput = document.getElementById('lead_search_input');
+        const clearBtn    = document.getElementById('search_clear_btn');
+
+        searchInput.addEventListener('input', function () {
+            clearBtn.style.display = this.value ? 'block' : 'none';
+            applyFilters(1000);
+        });
+
+        clearBtn.addEventListener('click', function () {
+            searchInput.value = '';
+            this.style.display = 'none';
+            applyFilters(0);
+        });
+
+        /* Reset button */
+        document.getElementById('filter_reset_btn').addEventListener('click', function () {
+            document.getElementById('lead_search_input').value = '';
+            document.getElementById('reservation').val ? $('#reservation').val('').trigger('change') : (document.getElementById('reservation').value = '');
+            const ids = ['filter_user','filter_region','filter_district','filter_business_type','filter_investment_valuta'];
+            ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+            document.getElementById('filter_price_min').value = '';
+            document.getElementById('filter_price_max').value = '';
+            clearBtn.style.display = 'none';
+            applyFilters(0);
+        });
+
+        /* Badge init */
+        updateFilterBadge();
+    });
+</script>
+
+{% endblock content %}
+
+{% block js %}
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js'%}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js'%}"></script>
+    <script src="{% static 'crm/assets/vendor_components/select2/dist/js/select2.full.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.extensions.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/moment/min/moment.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/advanced-form-element.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/iCheck/icheck.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js'%}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js'%}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/timepicker/bootstrap-timepicker.min.js'%}"></script>
+    <script src="{% static 'crm/custom_js/jquery.mask.min.js' %}"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{% static 'crm/board/script1v2.js' %}"></script>
+
+    <script>
+        /* ── Region/district AJAX (modal ichida) ── */
+        function getReg(item) {
+            var id = item.value;
+            const container = item.closest('.p-1').parentElement;
+            const districtSelect = container.querySelector('.district');
+            $.ajax({
+                type: 'get', url: `/getregion/?id=${id}`,
+                success: function(r) {
+                    districtSelect.innerHTML = '';
+                    for (let d of r['district']) {
+                        const op = document.createElement('option');
+                        op.value = d.id; op.textContent = d.name;
+                        districtSelect.appendChild(op);
+                    }
+                }
+            });
+        }
+
+        /* ── Countdown timers ── */
+        function startCountdown() {
+            document.querySelectorAll('.lead_timer').forEach(timer => {
+                const deadline = new Date(timer.dataset.validity);
+                function tick() {
+                    const diff = deadline - new Date();
+                    if (diff <= 0) { timer.innerText = ""; return; }
+                    const days    = Math.floor(diff / 86400000);
+                    const hours   = Math.floor((diff / 3600000) % 24);
+                    const minutes = Math.floor((diff / 60000) % 60);
+                    let parts = [];
+                    if (days > 0) parts.push(`${days} kun`);
+                    if (hours > 0 || days > 0) parts.push(`${hours} soat`);
+                    parts.push(`${minutes} daqiqa`);
+                    timer.innerText = parts.join(' ');
+                }
+                tick();
+                setInterval(tick, 60000);
+            });
+        }
+        document.addEventListener("DOMContentLoaded", startCountdown);
+
+        /* ── Date range picker — filter bilan bog'liq ── */
+        document.addEventListener("DOMContentLoaded", function () {
+            
+
+            $('#reservation').daterangepicker({
+                autoUpdateInput: false, // Avtomatik bugungi sanani qo'yishni o'chiramiz
+                locale: { 
+                    cancelLabel: 'Clear', 
+                    format: 'YYYY-MM-DD' // Formatingizga moslang
+                }
+            });
+
+            // Saqlangan qiymatni restore
+            let dateRange = "{{ filters.date }}";
+            if (dateRange && dateRange.includes(" - ")) {
+                $('#reservation').val(dateRange);
+            }
+            else {
+                $('#reservation').val(''); // Agar context bo'sh bo'lsa, aniq bo'shatish
+            }
+
+            // 3. Sana tanlanganda inputni yangilash
+            $('#reservation').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+                applyFilters();
+            });
+
+            
+
+            // 4. Tozalash (Cancel) bosilganda
+            $('#reservation').on('cancel.daterangepicker', function() {
+                $(this).val('');
+                applyFilters();
+            });
+            
+
+            const initialFilters = {
+                date: "{{ filters.date|default:'' }}",
+                user: "{{ filters.user|default:0 }}",
+                region: "{{ filters.region|default:'' }}",
+                district: "{{ filters.district|default:'' }}",
+                business_type: "{{ filters.business_type|default:'' }}",
+                investment_valuta: "{{ filters.investment_valuta|default:'' }}",
+                price_min: "{{ filters.price_min|default:'' }}",
+                price_max: "{{ filters.price_max|default:'' }}",
+                search: "{{ search|default:'' }}"
+            };
+
+            // 1. Qiymatlarni input/select'larga joylashtirish
+            // if (initialFilters.date && initialFilters.date.includes(" - ")) {
+            //     $('#reservation').val(initialFilters.date);
+            // }
+            if (initialFilters.user != 0) $('#filter_user').val(initialFilters.user);
+            if (initialFilters.region) $('#filter_region').val(initialFilters.region);
+            if (initialFilters.district) $('#filter_district').val(initialFilters.district);
+            if (initialFilters.business_type) $('#filter_business_type').val(initialFilters.business_type);
+            if (initialFilters.investment_valuta) $('#filter_investment_valuta').val(initialFilters.investment_valuta);
+            if (initialFilters.price_min) $('#filter_price_min').val(initialFilters.price_min);
+            if (initialFilters.price_max) $('#filter_price_max').val(initialFilters.price_max);
+            if (initialFilters.search) $('#lead_search_input').val(initialFilters.search);
+
+
+        });
+
+        /* ══════════════════════════════════════════
+           BATAFSIL TOGGLE
+        ══════════════════════════════════════════ */
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggle     = document.getElementById('toggle_extra_fields');
+            const switchWrap = document.getElementById('toggle_switch_wrap');
+            const extra      = document.getElementById('extra_fields_new');
+            if (!toggle || !extra || !switchWrap) return;
+
+            const STORE_KEY = 'board_show_extra_fields';
+            const saved  = localStorage.getItem(STORE_KEY);
+            const isOpen = saved === null ? true : saved === 'true';
+
+            function applyState(open) {
+                toggle.checked = open;
+                if (open) {
+                    switchWrap.classList.add('is-on');
+                    extra.classList.remove('hidden');
+                    extra.classList.add('visible');
+                } else {
+                    switchWrap.classList.remove('is-on');
+                    extra.classList.add('hidden');
+                    extra.classList.remove('visible');
+                }
+            }
+
+            applyState(isOpen);
+
+            toggle.addEventListener('change', function () {
+                const open = this.checked;
+                localStorage.setItem(STORE_KEY, String(open));
+                applyState(open);
+            });
+
+            window._openExtraFields = function () {
+                if (!toggle.checked) {
+                    localStorage.setItem(STORE_KEY, 'true');
+                    applyState(true);
+                }
+            };
+        });
+
+        /* ══════════════════════════════════════════
+           TELEFON TEKSHIRISH
+        ══════════════════════════════════════════ */
+        let phoneCheckTimer = null;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const phoneInput = document.getElementById('phone_tel');
+            if (!phoneInput) return;
+
+            phoneInput.addEventListener('input', function () {
+                clearTimeout(phoneCheckTimer);
+                const raw = this.value.replace(/\D/g, '');
+                if (raw.length < 9) {
+                    document.getElementById('phone_duplicate_info').style.display = 'none';
+                    return;
+                }
+                phoneCheckTimer = setTimeout(() => {
+                    $.ajax({
+                        type: 'GET',
+                        url: url_check_phone + '?phone=' + encodeURIComponent(raw),
+                        success: function (res) {
+                            if (res.found) {
+                                const info = document.getElementById('phone_duplicate_info');
+                                document.getElementById('dup_name').textContent    = res.name    || '';
+                                document.getElementById('dup_phone').textContent   = res.phone   || '';
+                                document.getElementById('dup_company').textContent = res.company || '';
+                                document.getElementById('dup_price').textContent   = res.price   != null ? res.price : '';
+                                document.getElementById('dup_pole').textContent    = res.pole    || '';
+                                info.style.display = 'block';
+                                $('#newLeadForm input[name="ism"]').val(res.name || '');
+                                $('#newLeadForm input[name="campany"]').val(res.company || '');
+                                $('#newLeadForm input[name="price"]').val(res.price || '');
+                                if (window._openExtraFields) window._openExtraFields();
+                            } else {
+                                document.getElementById('phone_duplicate_info').style.display = 'none';
+                            }
+                        }
+                    });
+                }, 500);
+            });
+        });
+
+        /* ══════════════════════════════════════════
+           SERVICE TYPE (Director)
+        ══════════════════════════════════════════ */
+        {% if user.is_director %}
+        document.addEventListener("DOMContentLoaded", function () {
+            const manageBtn = document.getElementById('manage_service_types_btn');
+            if (!manageBtn) return;
+
+            manageBtn.addEventListener('click', function () {
+                renderStList();
+                $('#service_type_modal').modal('show');
+            });
+
+            function renderStList() {
+                const list = document.getElementById('st_list');
+                list.innerHTML = '';
+                if (!service_types_data.length) {
+                    list.innerHTML = '<div style="color:#a0aec0;font-size:13px;text-align:center;padding:10px;">Hozircha yo\'q</div>';
+                    return;
+                }
+                service_types_data.forEach(st => {
+                    const row = document.createElement('div');
+                    row.className = 'st-item';
+                    row.innerHTML = `
+                        <span>${st.name} <small style="color:#718096;">#${st.number}</small></span>
+                        <div class="st-actions">
+                            <button class="st-edit" data-id="${st.id}"><i class="fa fa-edit"></i></button>
+                            <button class="st-del"  data-id="${st.id}"><i class="fa fa-trash"></i></button>
+                        </div>`;
+                    list.appendChild(row);
+                });
+            }
+
+            document.getElementById('st_save_btn').addEventListener('click', function () {
+                const name   = document.getElementById('st_name_input').value.trim();
+                const number = document.getElementById('st_number_input').value.trim();
+                const editId = document.getElementById('st_edit_id').value;
+                if (!name) return;
+
+                const url  = editId ? url_edit_st  : url_create_st;
+                const data = { name: name, number: number || 0, csrfmiddlewaretoken: csrf_token };
+                if (editId) data.id = editId;
+
+                $.ajax({
+                    type: 'POST', url: url,
+                    beforeSend: xhr => xhr.setRequestHeader("X-CSRFToken", csrf_token),
+                    data: data,
+                    success: function (res) {
+                        if (editId) {
+                            const idx = service_types_data.findIndex(s => s.id == editId);
+                            if (idx !== -1) service_types_data[idx] = res;
+                        } else {
+                            service_types_data.push(res);
+                        }
+                        refreshServiceTypeSelects();
+                        document.getElementById('st_name_input').value  = '';
+                        document.getElementById('st_number_input').value = '';
+                        document.getElementById('st_edit_id').value     = '';
+                        document.getElementById('st_save_btn').innerHTML = '<i class="fa fa-plus"></i>';
+                        renderStList();
+                    }
+                });
+            });
+
+            document.getElementById('st_list').addEventListener('click', function (e) {
+                const editBtn = e.target.closest('.st-edit');
+                const delBtn  = e.target.closest('.st-del');
+
+                if (editBtn) {
+                    const id = editBtn.dataset.id;
+                    const st = service_types_data.find(s => s.id == id);
+                    if (!st) return;
+                    document.getElementById('st_name_input').value   = st.name;
+                    document.getElementById('st_number_input').value = st.number;
+                    document.getElementById('st_edit_id').value      = st.id;
+                    document.getElementById('st_save_btn').innerHTML = '<i class="fa fa-save"></i>';
+                }
+
+                if (delBtn) {
+                    const id = delBtn.dataset.id;
+                    swal({ title: "O'chirmoqchimisiz?", icon: "warning", buttons: ["Yo'q", "Ha"] })
+                        .then(ok => {
+                            if (!ok) return;
+                            $.ajax({
+                                type: 'POST', url: url_delete_st,
+                                beforeSend: xhr => xhr.setRequestHeader("X-CSRFToken", csrf_token),
+                                data: { id: id, csrfmiddlewaretoken: csrf_token },
+                                success: function () {
+                                    service_types_data = service_types_data.filter(s => s.id != id);
+                                    refreshServiceTypeSelects();
+                                    renderStList();
+                                }
+                            });
+                        });
+                }
+            });
+
+            function refreshServiceTypeSelects() {
+                document.querySelectorAll('select[name="service_type"]').forEach(sel => {
+                    const cur = sel.value;
+                    sel.innerHTML = '<option value="">Xizmat turini tanlang</option>';
+                    service_types_data.forEach(st => {
+                        const op = document.createElement('option');
+                        op.value = st.id; op.textContent = st.name;
+                        if (st.id == cur) op.selected = true;
+                        sel.appendChild(op);
+                    });
+                });
+            }
+        });
+        {% endif %}
+    </script>
+    <script>
+        // Sahifa ochilganda leadlarni AJAX bilan yuklaymiz
+        // script1.js dan keyin ishlaydi, shuning uchun bu yerda
+        $(document).ready(function () {
+            applyFilters(0);
+        });
+    </script>
+{% endblock js %}

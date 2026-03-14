@@ -117,6 +117,11 @@ urlpatterns = [
     path('search_phone_number_employee/', search_phone_number_employee, name='search_phone_number_employee'),
     path('last_seen/', last_seen_view, name='last_seen'),
 
+    path('delete_lead_action/', delete_lead_action, name='delete_lead_action'),
+    path('edit_lead_action/', edit_lead_action, name='edit_lead_action'),
+        path('edit_created_user/', EditCreatedUserView.as_view(), name='edit_created_user'),
+
+
 
 
 ]+urlpatterns_for_redirect

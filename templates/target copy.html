@@ -1,0 +1,641 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+    <title>CRM | Pipeline</title>
+{% endblock title %}
+{% block css %}
+    <!-- Vendors Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+
+    <!-- Style-->
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+
+    <!-- Style-->
+{% endblock css %}
+{% block content %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+
+    <!-- Main content -->
+    <section class="content">
+    <div class="row">
+            <div class="box bg-transparent no-shadow b-0">
+                <div class="box-body text-center p-0">
+                    <form>
+
+                    <div class="btn-group" id="filter_group">
+<!--                        value="{{ today|date:'Y-m-d' }}"-->
+                        <input type="date" value="{{first_day_of_month|date:'Y-m-d'}}" name="start_date" class="btn btn-dark">
+                        <input type="date" value="{{today|date:'Y-m-d'}}" name="end_date" class="btn btn-dark">
+                        <select class="btn btn-dark" data-style="btn btn-dark" onchange="getReg()" id="region"
+                                                name="region" style="
+                                                width: 100%;">
+                                            <option value="1">{% if LANGUAGE_CODE == 'en' %}
+                                            Select a region
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Выберите регион
+                                        {% else %}
+                                            Viloyatni tanlang
+                                        {% endif %}</option>
+                                            {% for t in region %}
+                                                <option value="{{ t.id }}">{{ t.name }}</option>
+                                            {% endfor %}
+                        </select>
+                        <select class="btn btn-dark"  id="district" name="district"
+                                                style="width: 100%;">
+                                            <option value="">{% if LANGUAGE_CODE == 'en' %}
+                                            Select a region
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Выберите регион
+                                        {% else %}
+                                            Hududni tanlang
+                                        {% endif %}</option>
+                                        {% for t in district %}
+                                                <option value="{{ t.id }}">{{ t.name }}</option>
+                                            {% endfor %}
+                        </select>
+                          <select name="emotsiya"  class="btn btn-dark">
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                        <option value="">--</option>
+                                        <option value="1">🤔 Undecided </option>
+                                        <option value="2">🤗 Will reappear </option>
+                                        <option value="3">😋 A case of information</option>
+                                        <option value="4">🤓 Need to influence</option>
+                                        <option value="5">👏🏻 Need to sell quickly </option>
+                                        <option value="6">🤩 Consumer </option>
+                                        <option value="7">✍🏻 Additional increases</option>
+                                        <option value="8">🙃 Undesirable</option>
+                                        <option value="9">😖 Complaint</option>
+
+                                    {% elif LANGUAGE_CODE == 'ru'%}
+                                        <option value="">--</option>
+                                        <option value="1">🤔 Не определился</option>
+                                        <option value="2">🤗 Появляйтесь снова</option>
+                                        <option value="3">😋 Речь идет об информации</option>
+                                        <option value="4">🤓 Надо влиять</option>
+                                        <option value="5">👏🏻 Надо быстро продать</option>
+                                        <option value="6">🤩 Потребитель </option>
+                                        <option value="7">✍🏻Дополнительное увеличение</option>
+                                        <option value="8">🙃 Нежелательно</option>
+                                        <option value="9">😖 Жалоба</option>
+
+                                    {% else %}
+                                        <option value="">--</option>
+                                        <option value="1">🤔 Qarorsiz</option>
+                                        <option value="2">🤗 Qayta kelishuv</option>
+                                        <option value="3">😋 Info ehtiyoj</option>
+                                        <option value="4">🤓 Tasir etish kerak</option>
+                                        <option value="5">👏🏻 Tezkor sotish kerak</option>
+                                        <option value="6">🤩 Istemolchi </option>
+                                        <option value="7">✍🏻 Qo’shimcha kelishuv</option>
+                                        <option value="8">🙃 Etirozli</option>
+                                        <option value="9">😖 Shikoyatli</option>
+
+                                    {% endif %}
+                                </select>
+                        <button onclick="saveInputsToLocal()"  class="btn btn-dark ">{% if LANGUAGE_CODE == 'en' %}
+                                            Confirmation
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Подтверждение
+                                        {% else %}
+                                            Tasdiqlash
+                                        {% endif %}</a></button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                {% if messages %}
+                    {% for message in messages %}
+                        <span style="color: green">{{ message }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="col-6">
+                <a href="{% url 'adduser' %}" class="btn btn-rounded btn-success float-right"
+                   style="margin-bottom: 10px;">{% if LANGUAGE_CODE == 'en' %}
+                                            Add
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Добавлять
+                                        {% else %}
+                                            Qo'shish
+                                        {% endif %}</a>
+                
+
+                <a class="btn btn-rounded btn-danger float-right"
+                    style="margin-bottom: 10px;" 
+                    onclick="deleteSelectedLeads()">
+                    {% if LANGUAGE_CODE == 'en' %}
+                        Delete
+                    {% elif LANGUAGE_CODE == 'ru' %}
+                        Удалить
+                    {% else %}
+                        O'chirish
+                    {% endif %}
+                </a>
+            </div>
+            <div class="col-12">
+                <div class="box">
+                    <div class="box-body" style="padding: 0.5rem 0.5rem">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-pills rounded nav-justified">
+                            <li class="nav-item"><a href="#navpills-1" class="nav-link active" data-toggle="tab"
+                                                    aria-expanded="false">{% if LANGUAGE_CODE == 'en' %}
+                                            Visitor
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Посетитель
+                                        {% else %}
+                                            Tashrif buyuruvchi
+                                        {% endif %}
+                                | {{ lead0_count }}</a></li>
+                            <li class="nav-item"><a href="#navpills-2" class="nav-link" data-toggle="tab"
+                                                    aria-expanded="true">{% if LANGUAGE_CODE == 'en' %}
+                                            Leads
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Лед
+                                        {% else %}
+                                            Leads
+                                        {% endif %} | {{ lead_count }}</a></li>
+                            <li class="nav-item"><a href="#navpills-3" class="nav-link" data-toggle="tab"
+                                                    aria-expanded="true">{% if LANGUAGE_CODE == 'en' %}
+                                            Clients
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Клиенты
+                                        {% else %}
+                                            Mijozlar
+                                        {% endif %} | {{ mijoz_count }}</a></li>
+                            <li class="nav-item"><a href="#navpills-4" class="nav-link" data-toggle="tab"
+                                                    aria-expanded="true">{% if LANGUAGE_CODE == 'en' %}
+                                            Promoters
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Промоутеры
+                                        {% else %}
+                                            Promouterlar
+                                        {% endif %} | {{ promouter_count }}</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+                <div class="box">
+                    <div class="box-body" style="padding: 0">
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div id="navpills-1" class="tab-pane active">
+                                <div class="col-12" style="padding: 0">
+                                    <div class="box">
+                                        <div class="box-body">
+                                            <div class="table-responsive">
+                                                <table id="example1" class="table table-bordered table-striped">
+                                                    <thead>
+                                                    <tr class="text-center">
+                                                        <th>
+                                                            <!-- Hammasini tanlash uchun checkbox -->
+                                                            <input type="checkbox" id="select_all">
+                                                            <label for="select_all"> </label>
+                                                        </th>
+                                                        <th>№</th>
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                        <th>First name</th>
+                                                        <th>Last name</th>
+                                                        <th>Birthsday</th>
+                                                        <th>Address</th>
+                                                        <th>Phone</th>
+                                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                                        <th>Имя</th>
+                                                        <th>Фамилия</th>
+                                                        <th>Дата рождения</th>
+                                                        <th>Адрес</th>
+                                                        <th>Телефон</th>
+                                                        {% else %}
+                                                        <th>Ism</th>
+                                                        <th>Familiya</th>
+                                                        <th>Tug'ilgan sana</th>
+                                                        <th>Manzil</th>
+                                                        <th>Telefon</th>
+                                                        {% endif %}
+                                                        <th>ABC</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for t in lead0 %}
+                                                        <tr class="text-center">
+                                                            <td>
+                                                                <!-- Har bir qatordagi checkbox -->
+                                                                <input id="lead{{t.id}}" type="checkbox" class="row_checkbox" value="{{ t.id }}">
+                                                                <label for="lead{{t.id}}"> </label>
+                                                            </td>
+                                                            <td>{{ forloop.counter }}</td>
+                                                            <td>
+                                                                <a href="{% url 'edit' %}?id={{ t.id }}">{{ t.name }}</a>
+                                                            </td>
+                                                            <td>{% if t.surname is not None %}
+                                                                <a href="{% url 'edit' %}?id={{ t.id }}">{{ t.surname }}</a>{% else %}{% endif %}
+                                                            </td>
+                                                            <td>{{ t.birthday|date:'d.m.Y' }}</td>
+                                                            <td>{% if t.district is not None %}
+                                                                {{ t.district.region.name }}
+                                                                {{ t.district }}  {% else %}{% endif %}</td>
+                                                            <td>{% if t.phone is not None %}
+                                                                {{ t.phone }}{% else %}{% endif %}</td>
+                                                            <td>{% if t.abcxyz is not None %}
+                                                                {{ t.abcxyz }}{% else %}{% endif %}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+                            </div>
+                            <div id="navpills-2" class="tab-pane">
+                                <div class="col-12" style="padding: 0">
+                                    <div class="box">
+                                        <div class="box-body">
+                                            <div class="table-responsive">
+                                                <table id="example11" class="table table-bordered table-striped">
+                                                    <thead>
+                                                    <tr class="text-center">
+                                                        <th>№</th>
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                        <th>First name</th>
+                                                        <th>Last name</th>
+                                                        <th>Birthsday</th>
+                                                        <th>Address</th>
+                                                        <th>Phone</th>
+                                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                                        <th>Имя</th>
+                                                        <th>Фамилия</th>
+                                                        <th>Дата рождения</th>
+                                                        <th>Адрес</th>
+                                                        <th>Телефон</th>
+                                                        {% else %}
+                                                        <th>Ism</th>
+                                                        <th>Familiya</th>
+                                                        <th>Tug'ilgan sana</th>
+                                                        <th>Manzil</th>
+                                                        <th>Telefon</th>
+                                                        {% endif %}
+                                                        <th>ABC</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for t in lead %}
+                                                        <tr class="text-center">
+                                                            <td>{{ forloop.counter }}</td>
+                                                            <td>
+                                                                <a href="{% url 'edit' %}?id={{ t.id }}">{{ t.name }}</a>
+                                                            </td>
+                                                            <td>{% if t.surname is not None %}
+                                                                <a href="{% url 'edit' %}?id={{ t.id }}">{{ t.surname }}</a>{% else %}{% endif %}
+                                                            </td>
+                                                            <td>{{ t.birthday|date:'d.m.Y' }}</td>
+                                                            <td>{% if t.district is not None %}
+                                                                {{ t.district.region.name }}
+                                                                {{ t.district }}  {% else %}{% endif %}</td>
+                                                            <td>{% if t.phone is not None %}
+                                                                {{ t.phone }}{% else %}{% endif %}</td>
+                                                            <td>{% if t.abcxyz is not None %}
+                                                                {{ t.abcxyz }}{% else %}{% endif %}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+                            </div>
+                            <div id="navpills-3" class="tab-pane">
+                                <div class="col-12" style="padding: 0">
+                                    <div class="box">
+                                        <div class="box-body">
+                                            <div class="table-responsive">
+                                                <table id="example111" class="table table-bordered table-striped">
+                                                    <thead>
+                                                    <tr class="text-center">
+                                                        <th>№</th>
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                        <th>First name</th>
+                                                        <th>Last name</th>
+                                                        <th>Birthsday</th>
+                                                        <th>Address</th>
+                                                        <th>Phone</th>
+                                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                                        <th>Имя</th>
+                                                        <th>Фамилия</th>
+                                                        <th>Дата рождения</th>
+                                                        <th>Адрес</th>
+                                                        <th>Телефон</th>
+                                                        {% else %}
+                                                        <th>Ism</th>
+                                                        <th>Familiya</th>
+                                                        <th>Tug'ilgan sana</th>
+                                                        <th>Manzil</th>
+                                                        <th>Telefon</th>
+                                                        {% endif %}
+                                                        <th>ABC</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for t in mijoz %}
+                                                        <tr class="text-center">
+                                                            <td>{{ forloop.counter }}</td>
+
+                                                            <td>
+                                                                <a href="{% url 'edit' %}?id={{ t.id }}">{{ t.name }}</a>
+                                                            </td>
+                                                            <td>{% if t.surname is not None %}
+                                                                <a href="{% url 'edit' %}?id={{ t.id }}">{{ t.surname }}</a>{% endif %}
+                                                            </td>
+                                                            <td>{{ t.birthday|date:'d.m.Y' }}</td>
+                                                            <td>{% if t.district is not None %}
+                                                                {{ t.district.region.name }}
+                                                                {{ t.district }}  {% else %}{% endif %}</td>
+                                                            <td>{{ t.phone }}</td>
+                                                            <td>{{ t.abcxyz }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+                            </div>
+                            <div id="navpills-4" class="tab-pane">
+                                <div class="col-12" style="padding: 0">
+                                    <div class="box">
+                                        <div class="box-body">
+                                            <div class="table-responsive">
+                                                <table id="example111" class="table table-bordered table-striped">
+                                                    <thead>
+                                                    <tr class="text-center">
+                                                        <th>№</th>
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                        <th>First name</th>
+                                                        <th>Last name</th>
+                                                        <th>Birthsday</th>
+                                                        <th>Address</th>
+                                                        <th>Phone</th>
+                                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                                        <th>Имя</th>
+                                                        <th>Фамилия</th>
+                                                        <th>Дата рождения</th>
+                                                        <th>Адрес</th>
+                                                        <th>Телефон</th>
+                                                        {% else %}
+                                                        <th>Ism</th>
+                                                        <th>Familiya</th>
+                                                        <th>Tug'ilgan sana</th>
+                                                        <th>Manzil</th>
+                                                        <th>Telefon</th>
+                                                        {% endif %}
+                                                        <th>ABC</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for t in promouter %}
+                                                        <tr class="text-center">
+                                                            <td>{{ forloop.counter }}</td>
+
+                                                            <td>
+                                                                <a href="{% url 'edit' %}?id={{ t.id }}">{{ t.name }}</a>
+                                                            </td>
+                                                            <td>{% if t.surname is not None %}
+                                                                <a href="{% url 'edit' %}?id={{ t.id }}">{{ t.surname }}</a>{% endif %}
+                                                            </td>
+                                                            <td>{{ t.birthday|date:'d.m.Y' }}</td>
+                                                            <td>{% if t.district is not None %}
+                                                                {{ t.district.region.name }}
+                                                                {{ t.district }}  {% else %}{% endif %}</td>
+                                                            <td>{% if t.phone is not None %}
+                                                                {{ t.phone }}{% else %}{% endif %}</td>
+                                                            <td>{{ t.abcxyz }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+        <!-- /.row -->
+
+    </section>
+    <!-- /.content -->
+{% endblock content %}
+{% block js %}
+    <!-- Vendor JS -->
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+
+    <script src="{% static 'crm/assets/vendor_components/easypiechart/dist/jquery.easypiechart.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/apexcharts-bundle/irregular-data-series.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/apexcharts-bundle/dist/apexcharts.js' %}"></script>
+
+    <script src="{% static 'crm/assets/vendor_components/raphael/raphael.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/morris.js/morris.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/widget-morris-charts.js' %}"></script>
+
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/dashboard.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/select2/dist/js/select2.full.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/moment/min/moment.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/advanced-form-element.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js' %}"></script>
+
+    <script src="{% static 'crm/assets/vendor_components/Flot/jquery.flot.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/Flot/jquery.flot.resize.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/Flot/jquery.flot.pie.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/Flot/jquery.flot.categories.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/widget-flot-charts.js' %}"></script>
+
+
+    <!-- Sunny Admin App -->
+
+<script>
+        function getReg() {
+            var id = document.getElementById("region").value;
+            console.log(id)
+            $.ajax({
+                type: 'get',
+                url: `/getregion/?id=` + String(id),
+                success: function (r) {
+                    $("#district").empty();
+                    for (d of r['district']) {
+                        var op = `<option value="` + d.id + `">` + d.name + `</option>`
+                        $('#district').append(op);
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
+    </script>
+
+
+
+
+
+<!-- <script>
+    function saveInputsToLocal() {
+        const filterGroup = document.getElementById("filter_group");
+        const inputs = filterGroup.querySelectorAll("input, select");
+    
+        inputs.forEach((input) => {
+            if (input.name) {
+                localStorage.setItem(`filterGroup-${input.name}`, input.value);
+            }
+        });
+    }
+    
+    
+    function loadInputsFromLocal() {
+        const filterGroup = document.getElementById("filter_group");
+        const inputs1 = filterGroup.querySelectorAll("input, select, textarea");
+    
+        inputs1.forEach((input) => {
+            if (input.name) {
+                const savedValue = localStorage.getItem(`filterGroup-${input.name}`);
+                if (savedValue !== null) {
+                    input.value = savedValue;
+                }
+            }
+        });
+    }
+    
+    
+        // Load the content when the page is loaded
+        window.onload = loadInputsFromLocal;
+    </script> -->
+
+
+
+    <script>
+        function saveInputsToLocal() {
+            const filterGroup = document.getElementById("filter_group");
+            const inputs = filterGroup.querySelectorAll("input, select");
+    
+            inputs.forEach((input) => {
+                if (input.name) {
+                    localStorage.setItem(`filterGroup-${input.name}`, input.value);
+                }
+            });
+        }
+    
+        function loadInputsFromLocal() {
+            const filterGroup = document.getElementById("filter_group");
+            const inputs = filterGroup.querySelectorAll("input, select, textarea");
+    
+            // Parse URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+    
+            inputs.forEach((input) => {
+                if (input.name) {
+                    // Set from URL parameter if available
+                    if (urlParams.has(input.name)) {
+                        input.value = urlParams.get(input.name);
+                    } 
+                    // else {
+                    //     // Otherwise, load from localStorage
+                    //     const savedValue = localStorage.getItem(`filterGroup-${input.name}`);
+                    //     if (savedValue !== null) {
+                    //         input.value = savedValue;
+                    //     }
+                    // }
+                }
+            });
+        }
+    
+        // Load the content when the page is loaded
+        window.onload = loadInputsFromLocal;
+    </script>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const selectAll = document.getElementById("select_all");
+    const checkboxes = document.querySelectorAll(".row_checkbox");
+
+    selectAll.addEventListener("change", function () {
+        checkboxes.forEach(cb => cb.checked = selectAll.checked);
+    });
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener("change", function () {
+            if (!cb.checked) {
+                selectAll.checked = false;
+            } else if (document.querySelectorAll(".row_checkbox:checked").length === checkboxes.length) {
+                selectAll.checked = true;
+            }
+        });
+    });
+});
+
+
+// Delete tugmasi uchun funksiya
+function deleteSelectedLeads() {
+    const selectedCheckboxes = document.querySelectorAll('.row_checkbox:checked');
+    const selectedIds = Array.from(selectedCheckboxes).map(cb => cb.value);
+    
+    if (selectedIds.length === 0) {
+        alert("{% if LANGUAGE_CODE == 'en' %}Please select leads to delete{% elif LANGUAGE_CODE == 'ru' %}Пожалуйста, выберите лиды для удаления{% else %}Iltimos, o'chirish uchun leadlarni tanlang{% endif %}");
+        return;
+    }
+    
+    // Confirmation dialog
+    const confirmMessage = "{% if LANGUAGE_CODE == 'en' %}Are you sure you want to delete selected leads?{% elif LANGUAGE_CODE == 'ru' %}Вы уверены, что хотите удалить выбранные лиды?{% else %}Tanlangan leadlarni o'chirishni istaysizmi?{% endif %}";
+    
+    if (confirm(confirmMessage)) {
+        // AJAX so'rov
+        fetch(`/delete_leads/?ids=${selectedIds.join(',')}`, {
+            method: 'GET',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Sahifani yangilash
+                location.reload();
+            } else {
+                alert("{% if LANGUAGE_CODE == 'en' %}Error deleting leads{% elif LANGUAGE_CODE == 'ru' %}Ошибка при удалении лидов{% else %}Leadlarni o'chirishda xatolik{% endif %}");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("{% if LANGUAGE_CODE == 'en' %}Network error{% elif LANGUAGE_CODE == 'ru' %}Сетевая ошибка{% else %}Tarmoq xatosi{% endif %}");
+        });
+    }
+}
+</script>
+{% endblock js %}

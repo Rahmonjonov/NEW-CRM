@@ -35,6 +35,7 @@ class Company(models.Model):
     about = models.TextField(null=True)
 
     tg_token = models.TextField(null=True)
+    group_id = models.TextField(null=True)
 
     bot_token = models.TextField(null=True)
     group_chat_id = models.TextField(null=True)

@@ -221,7 +221,12 @@ a {
 }
 
 .lead_card-body {
-    height: 70%;
+    height: 60%;
+    display: flex;
+    padding-top: 5px;
+}
+
+.lead_card-footer {
     display: flex;
     padding-top: 5px;
 }

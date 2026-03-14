@@ -1,0 +1,955 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}<title>CRM · AI Assistant</title>{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+<link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg:         #08090e;
+    --surface:    #0d0f18;
+    --surface2:   #111420;
+    --surface3:   #161928;
+    --border:     #1c2038;
+    --border2:    #252a45;
+    --accent:     #4f6ef7;
+    --accent2:    #7b52f5;
+    --accent-rgb: 79,110,247;
+    --accent2-rgb:123,82,245;
+    --green:      #10d07a;
+    --green-rgb:  16,208,122;
+    --red:        #f74a4a;
+    --red-rgb:    247,74,74;
+    --text:       #d8dff5;
+    --text2:      #7a829e;
+    --muted:      #3a4060;
+    --r-xl:       20px;
+    --r-lg:       13px;
+    --r-md:       9px;
+    --font:       'Inter', sans-serif;
+    --mono:       'JetBrains Mono', monospace;
+    --nav:        60px;
+  }
+
+  @media (max-width: 768px) {
+    :root { --nav: 56px; }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: var(--font);
+    color: var(--text);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Ambient ── */
+  .amb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+  .amb-1 { width:500px;height:500px;top:-100px;left:-150px;background:radial-gradient(circle,rgba(var(--accent-rgb),.05) 0%,transparent 65%); }
+  .amb-2 { width:400px;height:400px;bottom:-50px;right:-100px;background:radial-gradient(circle,rgba(var(--accent2-rgb),.04) 0%,transparent 65%); }
+
+  /* ── Layout ── */
+  .chat-shell {
+    position: fixed;
+    top: var(--nav);
+    left: 0; right: 0; bottom: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+  }
+  .chat-wrapper {
+    width: 100%;
+    max-width: 820px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+  }
+
+  @media (max-width: 480px) {
+    .chat-wrapper { padding: 0 12px; }
+  }
+
+  /* ── Header ── */
+  .chat-header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hdr-logo {
+    width: 38px; height: 38px;
+    border-radius: 12px;
+    background: linear-gradient(140deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 18px rgba(var(--accent-rgb),.30);
+  }
+
+  .hdr-info { flex: 1; min-width: 0; }
+  .hdr-name { font-size: 14px; font-weight: 600; letter-spacing: -.01em; }
+  .hdr-sub {
+    font-size: 11px; color: var(--text2);
+    margin-top: 2px; display: flex; align-items: center; gap: 6px;
+  }
+  .pulse-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px rgba(var(--green-rgb),.5);
+    animation: pdot 2.8s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes pdot { 0%,100%{opacity:1;}50%{opacity:.35;} }
+
+  .hdr-stats { display: flex; gap: 6px; flex-shrink: 0; }
+  .hdr-stat {
+    padding: 5px 11px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    text-align: right; line-height: 1.3;
+  }
+  .hdr-stat .sv { display: block; font-size: 12px; font-weight: 600; font-family: var(--mono); }
+  .hdr-stat .sl { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; }
+
+  @media (max-width: 480px) {
+    .hdr-stats { display: none; }
+    .hdr-name { font-size: 13px; }
+  }
+
+  /* ── Chat scroll ── */
+  .chat-scroll {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 20px 0 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    scroll-behavior: smooth;
+  }
+  .chat-scroll::-webkit-scrollbar { width: 2px; }
+  .chat-scroll::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  /* ── Welcome ── */
+  .welcome {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding-bottom: 24px;
+    transition: opacity .3s ease;
+  }
+
+  .wlc-icon {
+    width: 52px; height: 52px;
+    border-radius: 18px;
+    background: linear-gradient(140deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 32px rgba(var(--accent-rgb),.35);
+    animation: icon-float 5s ease-in-out infinite;
+  }
+  @keyframes icon-float { 0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);} }
+
+  .wlc-title { font-size: 20px; font-weight: 600; margin-bottom: 8px; letter-spacing: -.02em; }
+  .wlc-desc { font-size: 13px; color: var(--text2); max-width: 360px; line-height: 1.7; margin-bottom: 24px; }
+
+  .sug-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  @media (max-width: 480px) {
+    .sug-grid { grid-template-columns: 1fr 1fr; max-width: 100%; }
+    .wlc-title { font-size: 17px; }
+    .wlc-desc { font-size: 12px; }
+  }
+
+  .sug-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 13px 14px;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color .18s, background .18s, transform .15s;
+  }
+  .sug-card:hover { border-color: var(--border2); background: var(--surface3); transform: translateY(-1px); }
+  .sug-card .sc-icon { font-size: 18px; display: block; margin-bottom: 7px; }
+  .sug-card .sc-title { font-size: 12.5px; font-weight: 600; color: var(--text); display: block; margin-bottom: 2px; }
+  .sug-card .sc-desc { font-size: 11px; color: var(--text2); line-height: 1.5; }
+
+  /* ── Divider ── */
+  .divider { display: flex; align-items: center; gap: 10px; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .divider span { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-family: var(--mono); white-space: nowrap; }
+
+  /* ── Messages ── */
+  .msg-row { display: flex; gap: 10px; animation: msg-in .24s cubic-bezier(.22,1,.36,1) both; }
+  @keyframes msg-in { from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);} }
+  .msg-row.user { flex-direction: row-reverse; }
+
+  .msg-av {
+    width: 32px; height: 32px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0; margin-top: 20px;
+  }
+  .msg-row.ai   .msg-av { background: linear-gradient(140deg,var(--accent),var(--accent2)); box-shadow: 0 3px 12px rgba(var(--accent-rgb),.28); }
+  .msg-row.user .msg-av { background: var(--surface3); border: 1px solid var(--border2); font-size: 16px; }
+
+  @media (max-width: 480px) {
+    .msg-av { display: none; }
+  }
+
+  .msg-body { max-width: 78%; display: flex; flex-direction: column; gap: 3px; }
+  .msg-row.user .msg-body { align-items: flex-end; }
+
+  @media (max-width: 480px) {
+    .msg-body { max-width: 90%; }
+  }
+
+  .msg-who { font-size: 10px; font-weight: 500; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; padding: 0 2px; }
+
+  .bubble {
+    padding: 11px 15px;
+    border-radius: var(--r-lg);
+    font-size: 13.5px;
+    line-height: 1.72;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin-bottom: 1.5rem;
+  }
+  .msg-row.ai .bubble {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-top-left-radius: 4px;
+    color: var(--text);
+  }
+  .msg-row.user .bubble {
+    background: #141d5a;
+    border: 1px solid #1e2870;
+    border-top-right-radius: 4px;
+    color: #bcc5ff;
+  }
+
+  /* Audio bubble */
+  .audio-bubble {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    border-top-right-radius: 4px;
+    margin-bottom: 1.5rem;
+  }
+  .audio-bubble .ab-icon { font-size: 20px; flex-shrink: 0; }
+  .audio-bubble .ab-name { font-size: 13px; font-weight: 600; color: var(--text); display: block; margin-bottom: 1px; }
+  .audio-bubble .ab-size { font-size: 11px; color: var(--text2); }
+
+  .typing-cursor::after {
+    content: '▋';
+    animation: cur-blink .7s step-end infinite;
+    color: var(--accent); font-size: 11px; margin-left: 2px;
+  }
+  @keyframes cur-blink { 0%,100%{opacity:1;}50%{opacity:0;} }
+
+  .typing-dots {
+    display: flex; align-items: center; gap: 4px;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    border-top-left-radius: 4px;
+    width: fit-content;
+  }
+  .typing-dots span { width: 5px; height: 5px; border-radius: 50%; animation: tdot 1.4s ease-in-out infinite; }
+  .typing-dots span:nth-child(1) { background: var(--accent); }
+  .typing-dots span:nth-child(2) { background: var(--accent); animation-delay: .22s; opacity: .6; }
+  .typing-dots span:nth-child(3) { background: var(--accent2); animation-delay: .44s; }
+  @keyframes tdot { 0%,60%,100%{transform:translateY(0);opacity:.3;}30%{transform:translateY(-7px);opacity:1;} }
+
+  /* ── Input zone ── */
+  .input-zone {
+    flex-shrink: 0;
+    padding: 10px 0 16px;
+    border-top: 1px solid var(--border);
+    position: relative;
+  }
+  .input-zone::before {
+    content: '';
+    position: absolute; top: -36px; left: 0; right: 0; height: 36px;
+    background: linear-gradient(to top, var(--bg) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .input-box {
+    display: flex; align-items: flex-end; gap: 7px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl);
+    padding: 5px 5px 5px 16px;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .input-box:focus-within {
+    border-color: var(--border2);
+    box-shadow: 0 0 0 3px rgba(var(--accent-rgb),.08);
+  }
+
+  #user-input {
+    flex: 1; background: transparent; border: none; outline: none;
+    color: var(--text); font-family: var(--font);
+    font-size: 13.5px; line-height: 1.6;
+    resize: none; min-height: 22px; max-height: 120px;
+    overflow-y: auto; padding: 9px 0;
+  }
+  #user-input::placeholder { color: var(--muted); }
+  #user-input:disabled { opacity: .4; cursor: not-allowed; }
+
+  .icon-btn {
+    width: 40px; height: 40px; flex-shrink: 0;
+    border: none; border-radius: 13px;
+    background: var(--surface3);
+    border: 1px solid var(--border2);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: var(--text2);
+    transition: all .18s;
+  }
+  .icon-btn:hover { background: rgba(var(--accent-rgb),.12); border-color: rgba(var(--accent-rgb),.4); color: var(--accent); }
+  .icon-btn:disabled { opacity: .25; cursor: not-allowed; }
+
+  #send-btn {
+    width: 40px; height: 40px; flex-shrink: 0;
+    border: none; border-radius: 13px;
+    background: linear-gradient(140deg, var(--accent), var(--accent2));
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    color: #fff; transition: opacity .18s, transform .15s;
+    box-shadow: 0 4px 18px rgba(var(--accent-rgb),.36);
+  }
+  #send-btn svg { width: 16px; height: 16px; }
+  #send-btn:hover { opacity: .84; }
+  #send-btn:active { transform: scale(.88); }
+  #send-btn:disabled { opacity: .2; cursor: not-allowed; box-shadow: none; }
+
+  /* Input footer */
+  .input-footer {
+    display: flex; align-items: center; justify-content: flex-end;
+    margin-top: 7px; padding: 0 3px;
+  }
+  .input-hint { font-size: 10px; color: var(--muted); }
+  .input-hint kbd {
+    padding: 1px 5px; background: var(--surface3);
+    border: 1px solid var(--border2); border-radius: 4px;
+    font-family: var(--mono); font-size: 9px; color: var(--text2);
+  }
+  @media (max-width: 480px) { .input-footer { display: none; } }
+
+  /* ── Upload toast ── */
+  .upload-toast {
+    position: fixed;
+    bottom: 24px; right: 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 12px 16px;
+    display: flex; align-items: center; gap: 12px;
+    min-width: 220px; max-width: 300px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.5);
+    z-index: 500;
+    transform: translateY(80px); opacity: 0;
+    transition: transform .3s cubic-bezier(.22,1,.36,1), opacity .3s;
+    pointer-events: none;
+  }
+  .upload-toast.show { transform: translateY(0); opacity: 1; }
+
+  @media (max-width: 480px) {
+    .upload-toast { left: 12px; right: 12px; bottom: 80px; min-width: unset; max-width: unset; }
+  }
+
+  .toast-spinner {
+    width: 20px; height: 20px; flex-shrink: 0;
+    border: 2px solid var(--border2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .toast-info { flex: 1; min-width: 0; }
+  .toast-label { font-size: 11px; color: var(--text2); }
+  .toast-file { font-size: 12.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .prog-bar { height: 2px; background: var(--border); border-radius: 2px; margin-top: 7px; overflow: hidden; }
+  .prog-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 2px; width: 0%; transition: width .35s ease; }
+
+  /* ── Audio Modal ── */
+  .audio-modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 1000;
+    display: none; align-items: center; justify-content: center;
+    padding: 16px;
+  }
+  .audio-modal-backdrop.open { display: flex; }
+
+  .audio-modal {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    padding: 24px;
+    width: 100%; max-width: 400px;
+    box-shadow: 0 20px 70px rgba(0,0,0,.55);
+    animation: modal-in .26s cubic-bezier(.22,1,.36,1);
+  }
+  @keyframes modal-in { from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);} }
+
+  .modal-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+  .modal-desc { font-size: 12.5px; color: var(--text2); margin-bottom: 18px; line-height: 1.6; }
+
+  .drop-zone {
+    border: 1.5px dashed var(--border2);
+    border-radius: 14px;
+    padding: 28px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .18s;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .drop-zone:hover, .drop-zone.dragover { border-color: var(--accent); background: rgba(var(--accent-rgb),.04); }
+  .drop-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .drop-zone .dz-icon { font-size: 30px; margin-bottom: 7px; }
+  .drop-zone .dz-text { font-size: 13px; color: var(--text2); }
+  .drop-zone .dz-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  .selected-file {
+    display: none; align-items: center; gap: 10px;
+    padding: 10px 14px;
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    margin-bottom: 14px;
+  }
+  .selected-file.visible { display: flex; }
+  .selected-file .sf-icon { font-size: 22px; }
+  .selected-file .sf-info { flex: 1; min-width: 0; }
+  .selected-file .sf-name { font-size: 12.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .selected-file .sf-size { font-size: 11px; color: var(--muted); }
+  .selected-file .sf-rm { cursor: pointer; color: var(--muted); font-size: 16px; flex-shrink: 0; transition: color .18s; }
+  .selected-file .sf-rm:hover { color: var(--red); }
+
+  .modal-actions { display: flex; gap: 8px; }
+  .btn-cancel {
+    flex: 1; padding: 11px;
+    border: 1px solid var(--border2); border-radius: 11px;
+    background: transparent; color: var(--text2);
+    font-family: var(--font); font-size: 13.5px;
+    cursor: pointer; transition: all .18s;
+  }
+  .btn-cancel:hover { background: var(--surface3); }
+  .btn-analyze {
+    flex: 1; padding: 11px;
+    border: none; border-radius: 11px;
+    background: linear-gradient(140deg, var(--accent), var(--accent2));
+    color: #fff; font-family: var(--font);
+    font-size: 13.5px; font-weight: 600;
+    cursor: pointer; transition: opacity .18s;
+    box-shadow: 0 4px 18px rgba(var(--accent-rgb),.32);
+  }
+  .btn-analyze:hover { opacity: .86; }
+  .btn-analyze:disabled { opacity: .3; cursor: not-allowed; }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="amb amb-1"></div>
+<div class="amb amb-2"></div>
+
+<!-- ══════════════ AUDIO MODAL ══════════════ -->
+<div class="audio-modal-backdrop" id="audio-modal">
+  <div class="audio-modal">
+    <div class="modal-title">🎙️ Suhbat tahlili</div>
+    <div class="modal-desc">
+      Mijoz bilan bo'lgan audio suhbatni yuklang — AI batafsil hisobot beradi.
+    </div>
+
+    <div class="drop-zone" id="drop-zone">
+      <input type="file" id="audio-file-input" accept="audio/*,.amr,.mp3,.wav,.ogg,.m4a,.flac,.webm">
+      <div class="dz-icon">🎵</div>
+      <div class="dz-text">Audio faylni shu yerga tashlang yoki tanlang</div>
+      <div class="dz-sub">AMR · MP3 · WAV · M4A · FLAC · Maks. 50 MB</div>
+    </div>
+
+    <div class="selected-file" id="selected-file">
+      <span class="sf-icon">🎧</span>
+      <div class="sf-info">
+        <div class="sf-name" id="sf-name">—</div>
+        <div class="sf-size" id="sf-size">—</div>
+      </div>
+      <span class="sf-rm" id="sf-remove">✕</span>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" id="modal-cancel">Bekor qilish</button>
+      <button class="btn-analyze" id="btn-analyze" disabled>Tahlil qilish</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ UPLOAD TOAST ══════════════ -->
+<div class="upload-toast" id="upload-toast">
+  <div class="toast-spinner"></div>
+  <div class="toast-info">
+    <div class="toast-label">Tahlil qilinmoqda</div>
+    <div class="toast-file" id="toast-filename">—</div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+  </div>
+</div>
+
+<!-- ══════════════ CHAT ══════════════ -->
+<section class="content" style="height:100%;overflow:hidden;">
+<div class="chat-shell">
+<div class="chat-wrapper">
+
+  <header class="chat-header">
+    <div class="hdr-logo">✦</div>
+    <div class="hdr-info">
+      <div class="hdr-name">AI Assistant</div>
+      <div class="hdr-sub">
+        <span class="pulse-dot"></span>
+        Faol &nbsp;·&nbsp; CRM tizimi bilan ulangan
+      </div>
+    </div>
+    <div class="hdr-stats">
+      <div class="hdr-stat">
+        <span class="sv" id="msg-count">0</span>
+        <span class="sl">Xabarlar</span>
+      </div>
+      <div class="hdr-stat">
+        <span class="sv" id="session-time">00:00</span>
+        <span class="sl">Sessiya</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="chat-scroll" id="chat-box">
+    <div class="welcome" id="welcome-screen">
+      <div class="wlc-icon">✦</div>
+      <h2 class="wlc-title">Assalomu alaykum</h2>
+      <p class="wlc-desc">
+        CRM tizimingizga integratsiya qilingan AI yordamchiman.<br>
+        Savol bering, tahlil so'rang yoki audio yuklang.
+      </p>
+      <div class="sug-grid">
+        <div class="sug-card" onclick="sendChip('Bugungi tug\u02bcilgan kuni bo\u02bclgan mijozlar')">
+          <span class="sc-icon">🎂</span>
+          <span class="sc-title">Tug'ilgan kunlar</span>
+          <span class="sc-desc">Bugun tug'ilgan kunli mijozlar</span>
+        </div>
+        <div class="sug-card" onclick="sendChip('Jami mijozlar soni va umumiy statistika')">
+          <span class="sc-icon">📊</span>
+          <span class="sc-title">Statistika</span>
+          <span class="sc-desc">Mijozlar va moliyaviy ko'rsatkichlar</span>
+        </div>
+        <div class="sug-card" onclick="sendChip('Muvaffaqiyatli yakunlangan mijozlar ro\u02bclxati')">
+          <span class="sc-icon">🏆</span>
+          <span class="sc-title">Muvaffaqiyatlilar</span>
+          <span class="sc-desc">Yakunlangan leadlar ro'yxati</span>
+        </div>
+        <div class="sug-card" onclick="openAudioModal()">
+          <span class="sc-icon">🎧</span>
+          <span class="sc-title">Audio tahlil</span>
+          <span class="sc-desc">Suhbatni yuklang va tahlil qiling</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-zone">
+    <div class="input-box">
+      <textarea
+        id="user-input"
+        placeholder="Savolingizni yozing…"
+        rows="1"
+        aria-label="Xabar"
+      ></textarea>
+      <button class="icon-btn" id="audio-btn" title="Audio tahlil" onclick="openAudioModal()">🎧</button>
+      <button id="send-btn" title="Yuborish" aria-label="Yuborish">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+    <div class="input-footer">
+      <div class="input-hint"><kbd>Enter</kbd> yuborish &nbsp; <kbd>Shift+Enter</kbd> yangi qator</div>
+    </div>
+  </div>
+
+</div>
+</div>
+</section>
+{% endblock %}
+
+
+{% block js %}
+<script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+<script src="{% static 'crm/main/js/template.js' %}"></script>
+<script>
+/* ─── Refs ─────────────────────────────────────────────────── */
+const chatBox  = document.getElementById('chat-box');
+const input    = document.getElementById('user-input');
+const sendBtn  = document.getElementById('send-btn');
+const audioBtn = document.getElementById('audio-btn');
+const welcome  = document.getElementById('welcome-screen');
+const CSRF     = '{{ csrf_token }}';
+
+let chatHistory = [];
+let isStreaming = false;
+let isAnalyzing = false;
+let totalMsgs   = 0;
+
+/* ─── Session timer ─────────────────────────────────────────── */
+const t0 = Date.now();
+setInterval(() => {
+  const s = Math.floor((Date.now() - t0) / 1000);
+  document.getElementById('session-time').textContent =
+    `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}, 1000);
+
+/* ─── Textarea auto-resize ──────────────────────────────────── */
+input.addEventListener('input', () => {
+  input.style.height = 'auto';
+  input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+});
+
+input.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+});
+
+sendBtn.addEventListener('click', send);
+
+function sendChip(text) { input.value = text; send(); }
+
+function setInputLocked(locked) {
+  input.disabled = locked;
+  sendBtn.disabled = locked;
+  audioBtn.disabled = locked;
+}
+
+/* ─── Helpers ───────────────────────────────────────────────── */
+function hideWelcome() {
+  if (welcome && welcome.style.display !== 'none') {
+    welcome.style.opacity = '0';
+    setTimeout(() => { welcome.style.display = 'none'; }, 300);
+  }
+}
+
+function addDivider() {
+  const el = document.createElement('div');
+  el.className = 'divider';
+  const d = new Date();
+  el.innerHTML = `<span>${d.toLocaleDateString('uz-UZ',{day:'numeric',month:'long',year:'numeric'})}</span>`;
+  chatBox.appendChild(el);
+}
+
+function incMsgCount() {
+  totalMsgs++;
+  document.getElementById('msg-count').textContent = totalMsgs;
+}
+
+/* ─── Toast helpers ─────────────────────────────────────────── */
+const uploadToast = document.getElementById('upload-toast');
+const toastFilename = document.getElementById('toast-filename');
+const progFill = document.getElementById('prog-fill');
+
+function showToast(filename) {
+  toastFilename.textContent = filename;
+  progFill.style.width = '0%';
+  uploadToast.classList.add('show');
+  setTimeout(() => { progFill.style.width = '60%'; }, 100);
+}
+
+function progressToast(pct) {
+  progFill.style.width = pct + '%';
+}
+
+function hideToast() {
+  progFill.style.width = '100%';
+  setTimeout(() => { uploadToast.classList.remove('show'); progFill.style.width = '0%'; }, 600);
+}
+
+/* ─── Typing indicator ──────────────────────────────────────── */
+function appendTyping() {
+  const row = document.createElement('div');
+  row.className = 'msg-row ai';
+  const av = document.createElement('div');
+  av.className = 'msg-av'; av.textContent = '✦';
+  const body = document.createElement('div');
+  body.className = 'msg-body';
+  const who = document.createElement('div');
+  who.className = 'msg-who'; who.textContent = 'AI Assistant';
+  const dots = document.createElement('div');
+  dots.className = 'typing-dots';
+  dots.innerHTML = '<span></span><span></span><span></span>';
+  body.appendChild(who); body.appendChild(dots);
+  row.appendChild(av); row.appendChild(body);
+  chatBox.appendChild(row);
+  chatBox.scrollTop = chatBox.scrollHeight;
+  return row;
+}
+
+/* ─── Append text bubble ────────────────────────────────────── */
+function appendBubble(text, who) {
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + who;
+  const av = document.createElement('div');
+  av.className = 'msg-av'; av.textContent = who === 'ai' ? '✦' : '👤';
+  const body = document.createElement('div');
+  body.className = 'msg-body';
+  const name = document.createElement('div');
+  name.className = 'msg-who';
+  name.textContent = who === 'ai' ? 'AI Assistant' : 'Siz';
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble'; bubble.textContent = text;
+  body.appendChild(name); body.appendChild(bubble);
+  row.appendChild(av); row.appendChild(body);
+  chatBox.appendChild(row);
+  chatBox.scrollTop = chatBox.scrollHeight;
+  return bubble;
+}
+
+/* ─── Append audio bubble ───────────────────────────────────── */
+function appendAudioBubble(filename, size) {
+  const row = document.createElement('div');
+  row.className = 'msg-row user';
+  const av = document.createElement('div');
+  av.className = 'msg-av'; av.textContent = '👤';
+  const body = document.createElement('div');
+  body.className = 'msg-body';
+  const who = document.createElement('div');
+  who.className = 'msg-who'; who.textContent = 'Siz';
+  const ab = document.createElement('div');
+  ab.className = 'audio-bubble';
+  ab.innerHTML = `
+    <span class="ab-icon">🎧</span>
+    <div>
+      <span class="ab-name">${filename}</span>
+      <span class="ab-size">${size}</span>
+    </div>`;
+  body.appendChild(who); body.appendChild(ab);
+  row.appendChild(av); row.appendChild(body);
+  chatBox.appendChild(row);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+/* ─── MAIN SEND ─────────────────────────────────────────────── */
+async function send() {
+  const text = input.value.trim();
+  if (!text || isStreaming || isAnalyzing) return;
+
+  hideWelcome();
+  if (totalMsgs === 0) addDivider();
+
+  appendBubble(text, 'user');
+  chatHistory.push({ role: 'user', content: text });
+  incMsgCount();
+
+  input.value = '';
+  input.style.height = 'auto';
+
+  const typingRow = appendTyping();
+  isStreaming = true;
+  setInputLocked(true);
+
+  let fullText = '';
+  let aiBubble = null;
+
+  try {
+    const res = await fetch('{% url "ai_send" %}', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
+      body: JSON.stringify({ message: text, history: chatHistory.slice(0, -1) }),
+    });
+
+    typingRow.remove();
+    aiBubble = appendBubble('', 'ai');
+    aiBubble.classList.add('typing-cursor');
+
+    const reader  = res.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      for (const line of decoder.decode(value, { stream: true }).split('\n')) {
+        if (!line.startsWith('data: ')) continue;
+        try {
+          const p = JSON.parse(line.slice(6));
+          if (p.token) {
+            fullText = p.replace ? p.token : fullText + p.token;
+            aiBubble.textContent = fullText;
+            chatBox.scrollTop = chatBox.scrollHeight;
+          }
+          if (p.done) {
+            aiBubble.classList.remove('typing-cursor');
+            chatHistory.push({ role: 'assistant', content: fullText });
+            incMsgCount();
+          }
+          if (p.error) {
+            aiBubble.textContent = '⚠️ Xatolik: ' + p.error;
+            aiBubble.classList.remove('typing-cursor');
+          }
+        } catch (_) {}
+      }
+    }
+  } catch (err) {
+    if (typingRow.parentNode) typingRow.remove();
+    appendBubble("⚠️ Ulanishda xatolik yuz berdi.", 'ai');
+    console.error(err);
+  }
+
+  isStreaming = false;
+  setInputLocked(false);
+  input.focus();
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   AUDIO MODAL
+═══════════════════════════════════════════════════════════════ */
+const audioModal   = document.getElementById('audio-modal');
+const audioInput   = document.getElementById('audio-file-input');
+const dropZone     = document.getElementById('drop-zone');
+const selectedFile = document.getElementById('selected-file');
+const sfName       = document.getElementById('sf-name');
+const sfSize       = document.getElementById('sf-size');
+const sfRemove     = document.getElementById('sf-remove');
+const btnAnalyze   = document.getElementById('btn-analyze');
+const modalCancel  = document.getElementById('modal-cancel');
+
+let selectedAudioFile = null;
+
+function openAudioModal() {
+  if (isStreaming || isAnalyzing) return;
+  audioModal.classList.add('open');
+}
+
+function closeAudioModal() {
+  audioModal.classList.remove('open');
+  clearAudioSelection();
+}
+
+modalCancel.addEventListener('click', closeAudioModal);
+audioModal.addEventListener('click', e => { if (e.target === audioModal) closeAudioModal(); });
+
+function formatBytes(b) {
+  if (b >= 1048576) return (b / 1048576).toFixed(1) + ' MB';
+  return (b / 1024).toFixed(0) + ' KB';
+}
+
+function setAudioFile(file) {
+  selectedAudioFile = file;
+  sfName.textContent = file.name;
+  sfSize.textContent = formatBytes(file.size);
+  selectedFile.classList.add('visible');
+  btnAnalyze.disabled = false;
+}
+
+function clearAudioSelection() {
+  selectedAudioFile = null;
+  audioInput.value = '';
+  selectedFile.classList.remove('visible');
+  btnAnalyze.disabled = true;
+}
+
+audioInput.addEventListener('change', () => {
+  if (audioInput.files[0]) setAudioFile(audioInput.files[0]);
+});
+sfRemove.addEventListener('click', clearAudioSelection);
+
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('audio/')) setAudioFile(file);
+  else alert("Iltimos audio fayl tanlang.");
+});
+
+/* ─── Audio yuborish ────────────────────────────────────────── */
+btnAnalyze.addEventListener('click', async () => {
+  if (!selectedAudioFile) return;
+
+  const filename = selectedAudioFile.name;
+  const size = formatBytes(selectedAudioFile.size);
+  const formData = new FormData();
+  formData.append('audio', selectedAudioFile);
+
+  // Modalni darhol yopish, toast ko'rsatish
+  closeAudioModal();
+  hideWelcome();
+  if (totalMsgs === 0) addDivider();
+
+  appendAudioBubble(filename, size);
+  incMsgCount();
+
+  isAnalyzing = true;
+  setInputLocked(true);
+  showToast(filename);
+
+  try {
+    progressToast(70);
+
+    const res = await fetch('{% url "analyze_audio" %}', {
+      method: 'POST',
+      headers: { 'X-CSRFToken': CSRF },
+      body: formData
+    });
+
+    hideToast();
+    const data = await res.json();
+
+    const aiBubble = appendBubble('', 'ai');
+    if (data.status === 'success') {
+      aiBubble.textContent = data.result;
+      chatHistory.push({ role: 'user', content: `[Audio tahlil: ${filename}]` });
+      chatHistory.push({ role: 'assistant', content: data.result });
+    } else {
+      aiBubble.textContent = '⚠️ Tahlilda xatolik: ' + (data.message || 'Noma\'lum xato');
+    }
+    incMsgCount();
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+  } catch (err) {
+    hideToast();
+    appendBubble("⚠️ Audio yuklashda xatolik yuz berdi.", 'ai');
+    console.error(err);
+  }
+
+  isAnalyzing = false;
+  setInputLocked(false);
+  input.focus();
+});
+</script>
+{% endblock %}

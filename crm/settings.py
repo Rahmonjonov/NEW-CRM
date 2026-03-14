@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'orders',
     'paycom',
     "django_celery_beat",
+    'ai'
 ]
 
 MIDDLEWARE = [

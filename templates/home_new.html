@@ -848,7 +848,7 @@
                                             Maqsad
                                         {% endif %}
                                     </h4>
-                                    <span style="padding-left: 15px;">
+                                    <!-- <span style="padding-left: 15px;">
                                         {%if LANGUAGE_CODE == 'en' %}
                                             (relative to the number of customers)
                                         {% elif LANGUAGE_CODE == 'ru'%}
@@ -856,30 +856,60 @@
                                         {% else %}
                                             (mijoz soniga nisbatan)
                                         {% endif %}
-                                    </span>
+                                    </span> -->
+
+                                    <!-- <span style="padding-left: 15px;">
+                                        {%if LANGUAGE_CODE == 'en' %}
+                                            (relative to the trade)
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            (относительно торговли)
+                                        {% else %}
+                                            (savdoga nisbatan)
+                                        {% endif %}
+                                    </span> -->
+
                                 </div>
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
                                 {% for a in acc %}
                                     <div class="row">
-                                        <div class="col-6">{{ a.surname }} {{ a.name }}</div>
+                                        <div class="col-6">
+                                            {{ a.surname }} {{ a.name }} - 
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                                Clients ({{ a.plan_mijoz|intcomma }} - {{ a.mijoz|intcomma }})
+                                            {% elif LANGUAGE_CODE == 'ru' %}
+                                                Клиенты ({{ a.plan_mijoz|intcomma }} - {{ a.mijoz|intcomma }})
+                                            {% else %}
+                                                Mijoz soni ({{ a.plan_mijoz|intcomma }} - {{ a.mijoz|intcomma }})
+                                            {% endif %}
+                                        </div>
                                         <div class="col-6" style="text-align: right">{{ a.foiz }}%</div>
                                     </div>
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-primary" role="progressbar"
-                                             aria-valuenow="{{ a.foiz }}" aria-valuemin="0" aria-valuemax="100"
-                                             style="width: {{ a.foiz }}%">
+                                            aria-valuenow="{{ a.foiz }}" aria-valuemin="0" aria-valuemax="100"
+                                            style="width: {{ a.foiz }}%">
                                         </div>
                                     </div>
+
                                     <div class="row">
-                                        <div class="col-6">Plan: {{ a.plan_summa|intcomma }} - {{ a.summa|intcomma }}</div>
+                                        <div class="col-6">
+                                            {{ a.surname }} {{ a.name }} - 
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                                Sales ({{ a.plan_summa|intcomma }} - {{ a.summa|intcomma }})
+                                            {% elif LANGUAGE_CODE == 'ru' %}
+                                                Продажа ({{ a.plan_summa|intcomma }} - {{ a.summa|intcomma }})
+                                            {% else %}
+                                                Sotuv ({{ a.plan_summa|intcomma }} - {{ a.summa|intcomma }})
+                                            {% endif %}
+                                        </div>
                                         <div class="col-6" style="text-align: right">{{ a.foiz_summa }}%</div>
                                     </div>
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-danger" role="progressbar"
-                                             aria-valuenow="{{ a.foiz_summa }}" aria-valuemin="0" aria-valuemax="100"
-                                             style="width: {{ a.foiz_summa }}%">
+                                            aria-valuenow="{{ a.foiz_summa }}" aria-valuemin="0" aria-valuemax="100"
+                                            style="width: {{ a.foiz_summa }}%">
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -1311,40 +1341,86 @@
             $.ajax({
                 type: 'get',
                 url: url,
+                // success: function (response) {
+                //     console.log(response.lead_poles_data, ';aaaaa')
+                //     for (let pole of response['lead_poles_data']) {
+                //         let pk = pole["pole"];
+                //         $(`#summa_pole_${pk}`).html(th_sep(pole['summa']))
+                //         $(`#count_pole_${pk}`).html(th_sep(pole['count']))
+                //         $(`#losed_summa_pole_${pk}`).html(th_sep(pole['losed_summa']))
+                //         $(`#losed_count_pole_${pk}`).html(th_sep(pole['losed_count']))
+                //     }
+                //     $(`#losed_summa`).html(isNull_0(response['losed']['summa']))
+                //     $(`#losed_count`).html(th_sep(response['losed']['count']))
+
+                //     $(`#finished_summa`).html(isNull_0(response['finished']['summa']))
+                //     $(`#finished_count`).html(th_sep(response['finished']['count']))
+
+                //     $(`#task0`).html(th_sep(response['task']['register']))
+                //     $(`#task1`).html(th_sep(response['task']['doing']))
+                //     $(`#task2`).html(th_sep(response['task']['done']))
+                //     $(`#task3`).html(th_sep(response['task']['deleted']))
+
+                //     $("#trr").empty();
+                //     for (let d of response['users']) {
+                //         $("#trr").append(`<tr>
+                //                     <td style="padding: 0.5rem;">
+                //                         ${d['last_name']} ${d['first_name']}
+                //                     </td>
+                //                     <td style="padding: 0.5rem;">
+                //                         ${th_sep(d['count'])}
+                //                     </td>
+                //                     <td style="padding: 0.5rem;">
+                //                         ${th_sep(d['summ'])}
+                //                     </td>
+                //                 </tr>`);
+                //     }
+                // },
+
                 success: function (response) {
-                    for (let pole of response['lead_poles_data']) {
-                        let pk = pole["pole"];
-                        $(`#summa_pole_${pk}`).html(th_sep(pole['summa']))
-                        $(`#count_pole_${pk}`).html(th_sep(pole['count']))
-                        $(`#losed_summa_pole_${pk}`).html(th_sep(pole['losed_summa']))
-                        $(`#losed_count_pole_${pk}`).html(th_sep(pole['losed_count']))
+                    console.log(response.lead_poles_data, ';aaaaa')
+
+                    // lead_poles_data
+                    for (let pole of response.lead_poles_data) {
+                        let pk = pole.pole;
+                        $(`#summa_pole_${pk}`).html(th_sep(pole.summa || 0))
+                        $(`#count_pole_${pk}`).html(th_sep(pole.count || 0))
+                        $(`#losed_summa_pole_${pk}`).html(th_sep(pole.losed_summa || 0))
+                        $(`#losed_count_pole_${pk}`).html(th_sep(pole.losed_count || 0))
                     }
-                    $(`#losed_summa`).html(isNull_0(response['losed']['summa']))
-                    $(`#losed_count`).html(th_sep(response['losed']['count']))
 
-                    $(`#finished_summa`).html(isNull_0(response['finished']['summa']))
-                    $(`#finished_count`).html(th_sep(response['finished']['count']))
+                    // umumiy lose/finished
+                    $(`#losed_summa`).html(th_sep(response.losed?.summa || 0))
+                    $(`#losed_count`).html(th_sep(response.losed?.count || 0))
 
-                    $(`#task0`).html(th_sep(response['task']['register']))
-                    $(`#task1`).html(th_sep(response['task']['doing']))
-                    $(`#task2`).html(th_sep(response['task']['done']))
-                    $(`#task3`).html(th_sep(response['task']['deleted']))
+                    $(`#finished_summa`).html(th_sep(response.finished?.summa || 0))
+                    $(`#finished_count`).html(th_sep(response.finished?.count || 0))
 
+                    // tasklar
+                    $(`#task0`).html(th_sep(response.task?.register || 0))
+                    $(`#task1`).html(th_sep(response.task?.doing || 0))
+                    $(`#task2`).html(th_sep(response.task?.done || 0))
+                    $(`#task3`).html(th_sep(response.task?.deleted || 0))
+
+                    // foydalanuvchilar jadvali
                     $("#trr").empty();
-                    for (let d of response['users']) {
-                        $("#trr").append(`<tr>
-                                    <td style="padding: 0.5rem;">
-                                        ${d['last_name']} ${d['first_name']}
-                                    </td>
-                                    <td style="padding: 0.5rem;">
-                                        ${th_sep(d['count'])}
-                                    </td>
-                                    <td style="padding: 0.5rem;">
-                                        ${th_sep(d['summ'])}
-                                    </td>
-                                </tr>`);
+                    for (let d of response.users) {
+                        $("#trr").append(`
+                            <tr>
+                                <td style="padding: 0.5rem;">
+                                    ${d.last_name || ''} ${d.first_name || ''}
+                                </td>
+                                <td style="padding: 0.5rem;">
+                                    ${th_sep(d.count || 0)}
+                                </td>
+                                <td style="padding: 0.5rem;">
+                                    ${th_sep(d.summ || 0)}
+                                </td>
+                            </tr>
+                        `);
                     }
                 },
+
                 error: function (e) {
                     //console.log(e);
                 }
@@ -1360,26 +1436,52 @@
             $.ajax({
                 type: 'get',
                 url: url,
+                // success: function (response) {
+                //     for (let pole of response['lead_poles_data']) {
+                //         let pk = pole["pole"];
+                //         $(`#summa_pole_influser_${pk}`).html(th_sep(pole['summa']))
+                //         $(`#count_pole_influser_${pk}`).html(th_sep(pole['count']))
+                //         $(`#losed_summa_pole_influser_${pk}`).html(th_sep(pole['losed_summa']))
+                //         $(`#losed_count_pole_influser_${pk}`).html(th_sep(pole['losed_count']))
+                //     }
+                //     $(`#losed_summa`).html(isNull_0(response['losed']['summa']))
+                //     $(`#losed_count`).html(th_sep(response['losed']['count']))
+
+                //     $(`#finished_summa`).html(isNull_0(response['finished']['summa']))
+                //     $(`#finished_count`).html(th_sep(response['finished']['count']))
+
+                //     $(`#task0`).html(th_sep(response['task']['register']))
+                //     $(`#task1`).html(th_sep(response['task']['doing']))
+                //     $(`#task2`).html(th_sep(response['task']['done']))
+                //     $(`#task3`).html(th_sep(response['task']['deleted']))
+
+
+                // }
+                
+                
                 success: function (response) {
-                    for (let pole of response['lead_poles_data']) {
-                        let pk = pole["pole"];
-                        $(`#summa_pole_influser_${pk}`).html(th_sep(pole['summa']))
-                        $(`#count_pole_influser_${pk}`).html(th_sep(pole['count']))
-                        $(`#losed_summa_pole_influser_${pk}`).html(th_sep(pole['losed_summa']))
-                        $(`#losed_count_pole_influser_${pk}`).html(th_sep(pole['losed_count']))
+                    // lead_poles_data
+                    console.log(response, 'qqqqqq')
+                    for (let pole of response.lead_poles_data || []) {
+                        let pk = pole.pole;
+                        $(`#summa_pole_influser_${pk}`).html(th_sep(pole.summa || 0))
+                        $(`#count_pole_influser_${pk}`).html(th_sep(pole.count || 0))
+                        $(`#losed_summa_pole_influser_${pk}`).html(th_sep(pole.losed_summa || 0))
+                        $(`#losed_count_pole_influser_${pk}`).html(th_sep(pole.losed_count || 0))
                     }
-                    $(`#losed_summa`).html(isNull_0(response['losed']['summa']))
-                    $(`#losed_count`).html(th_sep(response['losed']['count']))
 
-                    $(`#finished_summa`).html(isNull_0(response['finished']['summa']))
-                    $(`#finished_count`).html(th_sep(response['finished']['count']))
+                    // umumiy lose/finished
+                    $(`#losed_summa`).html(th_sep(response.losed?.summa || 0))
+                    $(`#losed_count`).html(th_sep(response.losed?.count || 0))
 
-                    $(`#task0`).html(th_sep(response['task']['register']))
-                    $(`#task1`).html(th_sep(response['task']['doing']))
-                    $(`#task2`).html(th_sep(response['task']['done']))
-                    $(`#task3`).html(th_sep(response['task']['deleted']))
+                    $(`#finished_summa`).html(th_sep(response.finished?.summa || 0))
+                    $(`#finished_count`).html(th_sep(response.finished?.count || 0))
 
-
+                    // tasklar
+                    $(`#task0`).html(th_sep(response.task?.register || 0))
+                    $(`#task1`).html(th_sep(response.task?.doing || 0))
+                    $(`#task2`).html(th_sep(response.task?.done || 0))
+                    $(`#task3`).html(th_sep(response.task?.deleted || 0))
                 },
                 error: function (e) {
                     //console.log(e);

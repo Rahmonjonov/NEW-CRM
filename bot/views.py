@@ -102,14 +102,20 @@ def send_menu(chat_id):
 
 def add_bot(request):
     token = request.POST.get('token')
+    group_id = request.POST.get('group_id')
     user_id = request.user.id
     comp = request.user.company
     comp.tg_token = token
+    comp.group_id = group_id
     comp.save()
     bot_path = str(settings.BASE_DIR)+'/bot/bot/bot_father.py'
     bot_new = f'/bot/bots/bot_{user_id}.py'.format(user_id)
     bot_conf = str(settings.BASE_DIR)+"/bot/conf/bot_conf.conf"
     bot_conf_new = "/etc/supervisor/conf.d/bot_conf_{}.conf".format(user_id)
+
+    os.makedirs(os.path.dirname(bot_new), exist_ok=True)
+    os.makedirs(os.path.dirname(bot_conf_new), exist_ok=True)
+
 
     with open(bot_path) as f:
         newText = f.read().replace('TOKEN = None', 'TOKEN = "'+token+'"')

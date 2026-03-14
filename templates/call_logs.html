@@ -147,6 +147,45 @@
                                     <input type="text" id="endDate" class="form-control flatpickr-input" placeholder="{% if LANGUAGE_CODE == 'en' %}Select end date...{% elif LANGUAGE_CODE == 'ru'%}Выберите дату...{% else %}Tugash sanasini tanlang...{% endif %}">
                                 </div>
                             </div>
+
+                            <div class="col-md-3">
+                                <div class="filter-group">
+                                    <label>
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            Employee
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            Работник
+                                        {% else %}
+                                            Ishchi
+                                        {% endif %}
+                                    </label>
+                                    <select id="userFilter" name="user" class="form-control select2" required>
+                                        {% if request.user.is_director %}
+                                            <option value="">
+                                                {% if LANGUAGE_CODE == 'en' %}
+                                                    All
+                                                {% elif LANGUAGE_CODE == 'ru'%}
+                                                    Все
+                                                {% else %}
+                                                    Barchasi
+                                                {% endif %}
+                                            </option>
+                                            {% for user in users %}
+                                                {% if not user.is_director %}
+                                                    <option value="{{ user.id }}" {% if request.GET.user == user.id|stringformat:"s" %}selected{% endif %}>
+                                                        {{ user.first_name }} {{ user.last_name }} - {{user.phone|default:''}}
+                                                    </option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <option value="{{ request.user.id }}" selected>
+                                                {{ request.user.first_name }} {{ request.user.last_name }}
+                                            </option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                            
                             <div class="filter-group">
                                 <button id="refreshBtn" class="btn btn-primary" style="height: 42px;">
                                     <i class="fa fa-sync-alt"></i>
@@ -284,6 +323,27 @@
     <script src="{% static 'crm/main/js/template.js' %}"></script>
 
     <script>
+        // Users ma'lumotlarini JavaScript obyektiga o'tkazamiz
+        const usersData = {
+            {% for user in users %}
+                "{{ user.id }}": {
+                    "phone": "{{ user.phone|default:'' }}",
+                    "full_name": "{{ user.first_name }} {{ user.last_name }}"
+                },
+            {% endfor %}
+        };
+
+        const leadsData = {
+            {% for user in leads %}
+                "{{ user.id }}": {
+                    "phone": "{{ user.phone|default:'' }}",
+                    "full_name": "{{ user.name }}"
+                },
+            {% endfor %}
+        };
+
+        
+
         $(document).ready(function() {
             // Initialize DataTable
             let callLogsTable = $('#callLogsTable').DataTable({
@@ -345,6 +405,13 @@
                 const endDate = $('#endDate').val();
                 loadCallLogs(startDate, endDate);
             });
+
+            // User filter change
+            $('#userFilter').change(function() {
+                const startDate = $('#startDate').val();
+                const endDate = $('#endDate').val();
+                loadCallLogs(startDate, endDate);
+            });
             
             // Refresh button click
             $('#refreshBtn').click(function() {
@@ -356,6 +423,7 @@
             function loadCallLogs(startDate, endDate) {
                 const loadingSpinner = $('#loadingSpinner');
                 const noResults = $('#noResults');
+                const selectedUserId = $('#userFilter').val();
                 
                 // Show loading, hide no results message
                 loadingSpinner.show();
@@ -378,7 +446,18 @@
                     if (data.results && data.results.length > 0) {
                         data.results.sort((a, b) => b.start_time - a.start_time);
                         
-                        const leadSearchPromises = data.results.map(call => {
+                        // Agar user tanlangan bo'lsa, faqat shu userning call log'larini filter qilamiz
+                        let filteredResults = data.results;
+                        if (selectedUserId) {
+                            const selectedUserPhone = usersData[selectedUserId]?.phone;
+                            if (selectedUserPhone) {
+                                filteredResults = data.results.filter(call => 
+                                    call.src_number === selectedUserPhone
+                                );
+                            }
+                        }
+
+                        const leadSearchPromises = filteredResults.map(call => {
                             return searchLeadByPhone(call.client_number).then(leadId => {
                                 call.leadId = leadId;
                                 return call;
@@ -390,6 +469,11 @@
                                 const row = createCallRow(call);
                                 callLogsTable.row.add($(row)).draw();
                             });
+                            
+                            // Agar filter qilingan va natija bo'lmasa
+                            if (callsWithLeads.length === 0) {
+                                noResults.show();
+                            }
                         });
                     } else {
                         noResults.show();
@@ -429,7 +513,29 @@
                     });
                 });
             }
+
+            function findUserByPhone(phoneNumber) {
+                // UsersData ichidan telefon raqami orqali userni topamiz
+                for (const userId in usersData) {
+                    if (usersData[userId].phone === phoneNumber) {
+                        return usersData[userId];
+                    }
+                }
+                return null;
+            }
             
+
+            function findClientByPhone(phoneNumber) {
+                // UsersData ichidan telefon raqami orqali userni topamiz
+                for (const userId in leadsData) {
+                    if (leadsData[userId].phone === phoneNumber) {
+                        return leadsData[userId];
+                    }
+                }
+                return null;
+            }
+
+
             function createCallRow(call) {
                 const isIncoming = call.direction === 1;
                 const directionIcon = isIncoming ? 'fa-arrow-down' : 'fa-arrow-up';
@@ -458,35 +564,25 @@
                 
                 let recordingHtml = '{% if LANGUAGE_CODE == "en" %}No recording{% elif LANGUAGE_CODE == "ru" %}Нет записи{% else %}Yozuv yo\'q{% endif %}';
                 if (call.recording) {
-                    recordingHtml = `
-                        <audio controls class="audio-player">
+                    recordingHtml = 
+                        `<audio controls class="audio-player">
                             <source src="${call.recording}" type="audio/mp4">
                             Your browser does not support the audio element.
-                        </audio>
-                    `;
+                        </audio>`;
                 }
                 
-                const clientName = call.client_name || '{% if LANGUAGE_CODE == "en" %}Unknown{% elif LANGUAGE_CODE == "ru" %}Неизвестно{% else %}Noma\'lum{% endif %}';
+                client = findClientByPhone(call.client_number)
+                const clientName = client ? user.full_name: 'Nomalum';
                 
                 let directionIconHtml = `<i class="fas ${directionIcon}"></i>`;
                 if (call.leadId) {
-                    directionIconHtml = `<a href="{% url 'edit' %}?phone=${call.leadId}">${directionIconHtml}</a>`;
+                    directionIconHtml = `<a >${directionIconHtml}</a>`;
                 }
-                
 
-                const src_number = `<div id="src-name-${call.start_time}" class="text-muted small">${call.src_number}</div>`;
+                // Ishchi nomini telefon raqami orqali topamiz
+                const user = findUserByPhone(call.src_number);
+                const employeeName = user ? user.full_name: '';
 
-
-                $.ajax({
-                    url:`/search_phone_number_employee/?phone=${call.src_number}`,
-                    method:'GET',
-                    success: function(data) {
-                        if (data.full_name) {
-                            $(`#src-name-${call.start_time}`).text(data.full_name);
-                        }
-                    }
-                });
-                console.log(src_number)
                 return `
                     <tr class="call-card ${isIncoming ? 'incoming-card' : 'outgoing-card'}">
                         <td>
@@ -495,7 +591,8 @@
                             </div>
                         </td>
                         <td>
-                            <div class="font-weight-900" style="font-size:17px">${src_number}</div>
+                            <div class="employee-name">${employeeName}</div>
+                            <div class="phone-number">${call.src_number}</div>
                         </td>
                         <td>
                             <div class="font-weight-600">${clientName}</div>

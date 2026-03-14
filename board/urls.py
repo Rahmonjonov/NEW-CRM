@@ -1,15 +1,10 @@
 from django.urls import path
 
-from .views import (Board, create_lead, change_lead_status, lead_finished, lead_losed, edit_lead,
-                    get_lead_count, create_lead_by_tg, telegram_bot_get_company, telegram_bot_add_phone,
-                    telegram_bot_add_company,
-                    telegram_bot_add_company_address, telegram_bot_add_name, add_pole, edit_pole, check_pole_can_delete,
-                    delete_pole, export_excel, redirect_view, Redirect_class, NewUrlRedirect_class,
-                    EditUrlRedirect_class, PublicNoteForm_class, NewFormRedirect_class, ShowFormResults_class,
-                    AddShopping_class, EditShopping_class, delete_simple_redirect, delete_form_redirect, InstruktsyaList, instruktsya_add, instruktsya_list_detail, import_leads_from_excel)
+from .views import *
 
 urlpatterns = [
     path("", Board.as_view(), name="board"),
+    path("v2/", BoardV2.as_view(), name="boardv2"),
     path("instruktsya/", InstruktsyaList.as_view(), name="instruktsya"),
     path("instruktsya_list_detail/<int:id>", instruktsya_list_detail, name="instruktsya_list_detail"),
     path("instruktsya_add/", instruktsya_add, name="instruktsya_add"),
@@ -18,6 +13,11 @@ urlpatterns = [
     path("lead_finished/", lead_finished),
     path("lead_losed/", lead_losed),
     path("edit_lead/", edit_lead),
+    path('check_lead_phone/',       check_lead_phone,       name='check_lead_phone'),
+    path('service_type/create/',    service_type_create,    name='service_type_create'),
+    path('service_type/edit/',      service_type_edit,      name='service_type_edit'),
+    path('service_type/delete/',    service_type_delete,    name='service_type_delete'),
+
     path("add_pole/", add_pole, name="add_pole"),
     path("edit_pole/", edit_pole, name="edit_pole"),
     path("check_can_delete_pole/", check_pole_can_delete, name="check_pole_can_delete"),
@@ -53,5 +53,8 @@ urlpatterns_for_redirect = [
     path('redirect/simple/delete/<int:pk>/', delete_simple_redirect, name='delete_simple_redirect'),
     path('redirect/form/delete/<int:pk>/', delete_form_redirect, name='delete_form_redirect'),
     path('import_leads_from_excel/', import_leads_from_excel, name='import_leads_from_excel'),
+    path('delete_leads/', delete_leads, name='delete_leads'),
+
+    
 
 ]

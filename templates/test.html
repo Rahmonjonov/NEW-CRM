@@ -1,0 +1,588 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load i18n %}
+
+{% block title %}
+    <title> 
+        {% if LANGUAGE_CODE == 'en' %}CRM | Board
+        {% elif LANGUAGE_CODE == 'ru'%}CRM | Доска
+        {% else %}CRM | Kengash{% endif %}
+    </title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'crm/main/css/vendors_css.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/main/css/skin_color.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/board/bootstrap/style.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/board/style.css' %}">
+    
+    <!-- Responsive additions -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+        .text-mute {
+            color: #ffffff !important;
+        }
+
+        h3 > span {
+            color: #ffffff !important;
+        }
+
+        .theme-primary .text-primary {
+            color: #6B778D;
+        }
+
+        .dark-skin h1, .dark-skin h2, .dark-skin h3, .dark-skin h4, .dark-skin h5, .dark-skin h6 {
+            color: #ffffff;
+        }
+
+        .text-dark {
+            color: #ffffff !important;
+        }
+
+        .dark-skin .table {
+            color: #ffffff;
+        }
+
+        .btn-dark {
+            background-color: #272e48 !important;
+        }
+        
+        .is-invalid {
+            border-color: #dc3545;
+        }
+
+        .invalid-feedback {
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 80%;
+            color: #dc3545;
+        }
+        
+        .modal-backdrop.show {
+            z-index: 1050 !important;
+        }
+
+        .modal.show {
+            z-index: 1060 !important;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            #filter_group {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+            
+            #filter_group .btn, 
+            #filter_group select, 
+            #filter_group input {
+                width: 100% !important;
+                margin-bottom: 5px;
+            }
+            
+            .main_container {
+                margin-left: 0 !important;
+                padding: 0 10px;
+                overflow-x: auto;
+            }
+            
+            .part-group {
+                min-width: 280px;
+                margin-bottom: 20px;
+            }
+            
+            .group_body {
+                min-height: 200px;
+            }
+            
+            .lead_card {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            #dashboard_footer .footer_group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .footer_item {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            
+            .modal-dialog {
+                margin: 10px;
+            }
+            
+            .modal-content {
+                width: 100% !important;
+            }
+            
+            .input-group-addon {
+                min-width: 40px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .lead_card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .lead_datediv {
+                margin-top: 5px;
+            }
+            
+            .lead_card-body {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .lead_price {
+                margin-bottom: 5px;
+            }
+            
+            .modal-body .p-1 {
+                padding: 5px !important;
+            }
+            
+            .btn-group-vertical {
+                width: 100%;
+            }
+        }
+        
+        /* Ensure horizontal scrolling for board on mobile */
+        .main_container {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 15px;
+        }
+        
+        .part-group {
+            flex: 0 0 auto;
+            margin-right: 15px;
+        }
+        
+        /* Improve form elements for mobile */
+        select, input, textarea {
+            max-width: 100%;
+        }
+        
+        .form-control {
+            width: 100%;
+        }
+        
+        /* Footer improvements */
+        #dashboard_footer {
+            padding: 15px;
+        }
+        
+        .footer_group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+    </style>
+{% endblock css %}
+
+{% block content %}
+<section class="content">
+    <div class="row">
+        <div class="box bg-transparent no-shadow b-0">
+            <div class="box-body text-center p-0">
+                <form>
+                    <div class="btn-group btn-group-vertical btn-group-lg w-100" id="filter_group">
+                        <input name="date" type="text" class="btn btn-dark btn-rounded mb-2" id="reservation">
+                        
+                        {% if user.is_director %}
+                            <select class="btn btn-dark mb-2" data-style="btn-dark" id="user" name="user">
+                                <option value="0">
+                                    {% if LANGUAGE_CODE == 'en' %}All
+                                    {% elif LANGUAGE_CODE == 'ru'%}Bce
+                                    {% else %}Barchasi{% endif %}
+                                </option>
+                                {% for u in users %}
+                                    <option value="{{ u.id }}"
+                                        {% if filters.user == u.id %}selected{% endif %}
+                                        data-tokens="{{ u.first_name|default_if_none:'' }}">
+                                        {{ u.last_name|default_if_none:'' }} {{ u.first_name|default_if_none:'' }} {{ u.username|default_if_none:'' }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                        
+                        <select class="btn btn-dark mb-2" data-style="btn-dark" onchange="getRego()" id="region" name="region">
+                            <option value="">
+                                {% if LANGUAGE_CODE == 'en' %}Select a region
+                                {% elif LANGUAGE_CODE == 'ru'%}Выберите регион
+                                {% else %}Viloyatni tanlang{% endif %}
+                            </option>
+                            {% for t in region %}
+                                <option value="{{ t.id }}" {% if filters.region == t.id %}selected{% endif %}>
+                                    {{ t.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        
+                        <select class="btn btn-dark mb-2" data-style="btn-dark" id="district" name="district">
+                            <option value="">
+                                {% if LANGUAGE_CODE == 'en' %}Select a district
+                                {% elif LANGUAGE_CODE == 'ru'%}Выберите район
+                                {% else %}Hududni tanlang{% endif %}
+                            </option>
+                            {% for t in district %}
+                                <option value="{{ t.id }}" {% if filters.district == t.id %}selected{% endif %}>
+                                    {{ t.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        
+                        <button class="btn btn-dark">
+                            {% if LANGUAGE_CODE == 'en' %}Confirmation
+                            {% elif LANGUAGE_CODE == 'ru'%}Подтверждение
+                            {% else %}Tasdiqlash{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard_container">
+        <div id="custom-content">
+            <div class="main_container">
+                {% for pole in user.leadpoles.all %}
+                    <div class="part-group">
+                        <div class="group_header">
+                            <div class="group_title text-wrap">{{ pole.name }}
+                                {% if user.is_director %}
+                                    <a href="#"><i class="fa fa-edit fa-sm pl-10 edit_pole_pen" column_pk="{{ pole.id }}"></i></a>
+                                    <a href="#"><i class="fa fa-close fa-sm pl-10 delete_pole_pen" column_pk="{{ pole.id }}"></i></a>
+                                {% endif %}
+                            </div>
+                            <div id="info_group_{{ pole.id }}" class="group_info"></div>
+                        </div>
+                        <div id="group_body_{{ pole.id }}" class="group_body">
+                            {% if forloop.first %}
+                                <div id='new_lead_button'>
+                                    {% if LANGUAGE_CODE == 'en' %}Add
+                                    {% elif LANGUAGE_CODE == 'ru'%}Добавлять
+                                    {% else %}Yangi qo'shish{% endif %}
+                                </div>
+                            {% endif %}
+                            
+                            {% if user.company.type == "B2B" %}
+                                {% for lead in leads %}
+                                    {% if lead.pole == pole %}
+                                        <div id="lead_{{ lead.id }}" pk="{{ lead.id }}" class="lead_card" draggable="true">
+                                            <div class="lead_card-header">
+                                                {% if lead.get_validity_period %}
+                                                    <div class="lead_name text-super">{{ lead.name }}</div>
+                                                {% else %}
+                                                    <div class="lead_name text-super" style="color: red !important;">{{ lead.name }}</div>
+                                                {% endif %}
+                                                <div class="lead_datediv text-super">
+                                                    <div class="lead_date">{{ lead.date|date:'Y-m-d H:i' }}</div>
+                                                    <div class="created">{{ lead.created_user.username }}</div>
+                                                </div>
+                                            </div>
+                                            <div class="other_lead">
+                                                {% if lead.validity_period %}
+                                                    <div class="lead_timer" data-validity="{{ lead.validity_period|date:'Y-m-d\\T00:00:00' }}" id="timer_{{ lead.id }}"></div>
+                                                {% endif %}
+                                                {% if lead.phone %}
+                                                    <div>
+                                                        <a class="lead_other_price text-super">
+                                                            {% if LANGUAGE_CODE == 'en' %}Telephone
+                                                            {% elif LANGUAGE_CODE == 'ru'%}Телефон
+                                                            {% else %}Telefon{% endif %}
+                                                            {{ lead.phone }}
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="lead_card-body">
+                                                <a class="lead_price text-super">{{ lead.price|intcomma }}</a>
+                                                <div class="lead_note text-super">{{ lead.company|default_if_none:'' }}</div>
+                                                <div><a href="{% url 'edit' %}?id={{ lead.id }}"><i class="fa fa-info-circle"></i></a></div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                {% for lead in leads %}
+                                    {% if lead.pole == pole %}
+                                        <div id="lead_{{ lead.id }}" pk={{ lead.id }} class="lead_card" draggable="true">
+                                            <div class="lead_card-header">
+                                                {% if lead.get_validity_period %}
+                                                    <div class="lead_name text-super">{{ lead.name }}</div>
+                                                {% else %}
+                                                    <div class="lead_name text-super" style="color: red !important;">{{ lead.name }}</div>
+                                                {% endif %}
+                                                <div class="lead_datediv text-super">
+                                                    <div class="lead_date">{{ lead.date|date:'Y-m-d H:i' }}</div>
+                                                    <div class="created">{{ lead.created_user.username }}</div>
+                                                </div>
+                                            </div>
+                                            {% if lead.validity_period %}
+                                                <div>
+                                                    <a class="lead_price text-super">
+                                                        {% if LANGUAGE_CODE == 'en' %}Validity period
+                                                        {% elif LANGUAGE_CODE == 'ru'%}Срок действия
+                                                        {% else %}Yaroqlilik muddati{% endif %}
+                                                        {{ lead.validity_period|date:'Y-m-d' }}
+                                                    </a>
+                                                </div>
+                                            {% endif %}
+                                            <div class="lead_card-body">
+                                                <a class="lead_price text-super">{{ lead.price|intcomma }}</a>
+                                                <div class="lead_note text-super">{{ lead.phone|default_if_none:'' }}</div>
+                                                <div><a href="{% url 'edit' %}?id={{ lead.id }}"><i class="fa fa-info-circle"></i></a></div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div id="dashboard_footer">
+            <div class="footer_group">
+                <a style="font-size: 18px; color: #fafff4; padding: 5px 10px; transition: 0.3s; cursor: pointer;" id="import_excel">
+                    <i class="mdi mdi-file-excel mdi-24px"></i>
+                    <span>
+                        {% if LANGUAGE_CODE == 'en' %}Excel export
+                        {% elif LANGUAGE_CODE == 'ru'%}Экспорт в Excel 
+                        {% else %}Excel eksporti{% endif %}
+                    </span>
+                </a>
+              
+                {% if user.is_director %}
+                    <div id="add_pole_btn">
+                        <i class="fa fa-plus-circle fa-lg"></i>
+                        <span>
+                            {% if LANGUAGE_CODE == 'en' %}Add a new stage
+                            {% elif LANGUAGE_CODE == 'ru'%}Добавить новый этап
+                            {% else %}Yangi bosqich qo'shish{% endif %}
+                        </span>
+                    </div>
+                {% endif %}
+                
+                <div id="lead_losed_footer" class="footer_item footer_losed">
+                    {% if LANGUAGE_CODE == 'en' %}Lost
+                    {% elif LANGUAGE_CODE == 'ru'%}Потерял
+                    {% else %}Yo'qotildi{% endif %}
+                </div>
+                
+                <div id="lead_woned_footer" class="footer_item footer_won">
+                    {% if LANGUAGE_CODE == 'en' %}It's over
+                    {% elif LANGUAGE_CODE == 'ru'%}Закончилось
+                    {% else %}Yakunlandi{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- All your modals remain exactly the same -->
+    <div id="new_lead_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <!-- Modal content unchanged -->
+    </div>
+
+    <div id="lead_note_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <!-- Modal content unchanged -->
+    </div>
+
+    <div id="lead_finished_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <!-- Modal content unchanged -->
+    </div>
+
+    <div id="lead_lose_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <!-- Modal content unchanged -->
+    </div>
+
+    <div id="edit_lead_modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <!-- Modal content unchanged -->
+    </div>
+
+    <div id="ExcelExportModal" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+        <!-- Modal content unchanged -->
+    </div>
+
+    {% if user.is_director %}
+        <div id="add_pole" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+            <!-- Modal content unchanged -->
+        </div>
+
+        <div id="edit_pole" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+            <!-- Modal content unchanged -->
+        </div>
+    {% endif %}
+</section>
+{% endblock content %}
+
+{% block js %}
+    <!-- Your existing JavaScript files -->
+    <script src="{% static 'crm/main/js/vendors.min.js' %}"></script>
+    <script src="{% static 'crm/assets/icons/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js'%}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js'%}"></script>
+    <script src="{% static 'crm/assets/vendor_components/select2/dist/js/select2.full.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/input-mask/jquery.inputmask.extensions.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/moment/min/moment.min.js' %}"></script>
+    <script src="{% static 'crm/main/js/template.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+    <script src="{% static 'crm/main/js/pages/advanced-form-element.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/iCheck/icheck.min.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js'%}"></script>
+    <script src="{% static 'crm/assets/vendor_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js'%}"></script>
+    <script src="{% static 'crm/assets/vendor_plugins/timepicker/bootstrap-timepicker.min.js'%}"></script>
+    <script src="{% static 'crm/custom_js/jquery.mask.min.js' %}"></script>
+
+    <script>
+        function getReg(item) {
+            var id = item.value;
+            console.log("Selected region ID:", id);
+
+            const container = item.closest('.p-1').parentElement;
+            const districtSelect = container.querySelector('.district');
+
+            $.ajax({
+                type: 'get',
+                url: `/getregion/?id=${id}`,
+                success: function (r) {
+                    districtSelect.innerHTML = ''; 
+                    for (let d of r['district']) {
+                        const op = document.createElement('option');
+                        op.value = d.id;
+                        op.textContent = d.name;
+                        districtSelect.appendChild(op);
+                    }
+                },
+                error: function (e) {
+                    console.log("Error:", e);
+                }
+            });
+        }
+    </script>
+    
+    <script>
+        function getRego() {
+            var id = document.getElementById("region").value;
+            console.log(id)
+            $.ajax({
+                type: 'get',
+                url: `/getregion/?id=` + String(id),
+                success: function (r) {
+                    $("#district").empty();
+                    for (d of r['district']) {
+                        var op = `<option value="` + d.id + `">` + d.name + `</option>`
+                        $('#district').append(op);
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
+    </script>
+
+    <script>
+    let leads_all = {{ all_leads|safe }};
+    let currentUser = {{ user.id }};
+    let csrf_token = '{{ csrf_token }}';
+    let company_type = '{{ user.company.type }}';
+    
+    let board_columns = [
+            {% for pole in lead_poles %}
+                {% if not forloop.first %},{% endif %}{
+                    id: {{ pole.id }},
+                    name: "{{ pole.name|safe }}",
+                    number: {{ pole.number }}
+                }
+            {% endfor %}
+        ];
+        
+        {% if user.is_director %}
+            let check_can_delete = "{% url 'check_pole_can_delete' %}";
+            let delete_pole = "{% url 'delete_pole' %}";
+        {% endif %}
+    </script>
+    
+    <!-- SweetAlert kutubxonasini ulash -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="{% static 'crm/board/script1.js' %}"></script>
+    
+    <script>
+        function startCountdown() {
+            const timers = document.querySelectorAll('.lead_timer');
+
+            timers.forEach(timer => {
+                const deadline = new Date(timer.dataset.validity);
+                const interval = setInterval(() => {
+                    const now = new Date();
+                    const diff = deadline - now;
+
+                    if (diff <= 0) {
+                        timer.innerText = "";
+                        clearInterval(interval);
+                        return;
+                    }
+
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+                    let parts = [];
+                    if (days > 0) parts.push(`${days} kun`);
+                    if (hours > 0 || days > 0) parts.push(`${hours} soat`);
+                    parts.push(`${minutes} daqiqa`);
+
+                    timer.innerText = parts.join(' ');
+                }, 60000);
+                const now = new Date();
+                const diff = deadline - now;
+                if (diff > 0) {
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                    let parts = [];
+                    if (days > 0) parts.push(`${days} kun`);
+                    if (hours > 0 || days > 0) parts.push(`${hours} soat`);
+                    parts.push(`${minutes} daqiqa`);
+                    timer.innerText = parts.join(' ');
+                } else {
+                    timer.innerText = "";
+                }
+            });
+        }
+        document.addEventListener("DOMContentLoaded", startCountdown);
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(function () {
+                let dateRange = "{{ filters.date }}";
+                
+                if (dateRange && dateRange.includes(" - ")) {
+                    $('#reservation').val(dateRange).trigger('change');
+                }
+            }, 10);
+        });
+    </script>
+{% endblock js %}

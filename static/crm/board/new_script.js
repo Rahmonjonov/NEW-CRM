@@ -23,11 +23,13 @@ function define_groups_leads() {
         let pk = parseInt(one.getAttribute('pk'))
         let obj = leads_all.find(o => o.id === pk);
         for (let i = 0; i < Groups.length; i++) {
-            if (one.parentNode.id === Groups[i].dom.id) {
-                Groups[i].data.count += 1
-                Groups[i].data.summa += obj.price
-                Groups[i].data.elements.push(obj)
-                break
+            if (one.parentNode) {
+                if (one.parentNode.id === Groups[i].dom.id) {
+                    Groups[i].data.count += 1
+                    Groups[i].data.summa += obj.price
+                    Groups[i].data.elements.push(obj)
+                    break
+                }
             }
         }
     })

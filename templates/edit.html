@@ -101,6 +101,13 @@
                                             <option value="{{ pol.id }}" {% if lead.pole == pol %} selected {% endif %}>{{ pol.name }}</option>
                                             {% endfor %}
                                         </select>
+
+                                        <select class="form-control mt-2" id="created_user" name="created_user" style="width: 100%;">
+                                            {% for acc in account %}
+                                            <option value="{{ acc.id }} " {% if userr.created_user_id == acc.id %} selected {% endif %}>{{ acc.first_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        
                                     </div>
                                     <div class="col-lg-2">
                                         <a href="{% url 'up' %}?s=5&id={{ userr.id }}"
@@ -150,10 +157,8 @@
                                         {% endif %} </p>
                                             </div>
                                             <div class="col-6">
-                                                {% if lead.phone is not None %}{{ lead.phone }}{% else %}
                                                     <input type="text" name="phone" class="form-control"
-                                                           placeholder="998901234567">
-                                                {% endif %}
+                                                           value="{{ lead.phone|default:'' }}">
                                             </div>
                                         </div>
                                         <div class="row" style="margin-top: 5px;">
@@ -167,9 +172,8 @@
                                         {% endif %} </p>
                                             </div>
                                             <div class="col-6">
-                                                {% if userr.email is not None %}{{ userr.email }}{% else %}
                                                     <input type="email" name="email" class="form-control"
-                                                           placeholder="123@gmail.com">{% endif %}
+                                                           value="{{ userr.email|default:'' }}">
                                             </div>
                                         </div>
                                         <div class="row" style="margin-top: 5px;">
@@ -184,11 +188,7 @@
                                             </p>
                                             </div>
                                             <div class="col-6">
-                                                {% if lead.phone2  %}
-                                                {{ lead.phone2 }}
-                                                {% else %}
-                                                    <input type="text" name="phone2" class="form-control">
-                                                {% endif %}
+                                                <input type="text" name="phone2" class="form-control" value="{{ lead.phone2|default:'' }}">
                                             </div>
                                         </div>
                                         <div class="row" style="margin-top: 5px;">
@@ -222,15 +222,6 @@
                                         {% endif %}</p>
                                             </div>
                                             <div class="col-6">
-                                                {% if userr.district is not None %}
-                                                    <p>{{ userr.region }} {% if LANGUAGE_CODE == 'en' %}
-                                            region
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            область
-                                        {% else %}
-                                            viloyati
-                                        {% endif %}</p>
-                                                {% else %}
                                                     <select class="form-control select2" onchange="getRegion()"
                                                             id="region" name="region" style="width: 100%;">
                                                         <option value="1">{% if LANGUAGE_CODE == 'en' %}
@@ -240,11 +231,14 @@
                                         {% else %}
                                             Viloyatni tanlang
                                         {% endif %}</option>
-                                                        {% for t in region %}
-                                                            <option value="{{ t.id }}">{{ t.name }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                {% endif %}
+                                                {% for t in region %}
+                                                    <option value="{{ t.id }}" 
+                                                    {% if userr.region == t.name %}
+                                                        selected
+                                                    {% endif %}
+                                                        >{{ t.name }}</option>
+                                                {% endfor %}
+                                            </select>
                                             </div>
                                         </div>
                                         <div class="row" style="margin-top: 5px;">
@@ -260,21 +254,13 @@
                                             </div>
                                             <div class="col-6">
 
-                                                {% if userr.district is not None %}
-                                                    <p>{{ userr.district }} {% if LANGUAGE_CODE == 'en' %}
-                                                        district
-                                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                                            oкруг
-                                                        {% else %}
-                                                            tumani
-                                                        {% endif %}
-                                                    </p>
-                                                {% else %}
                                                     <select class="form-control select2" id="district" name="district"
                                                             style="width: 100%;">
                                                         <option value="">---</option>
+                                                        {% if userr.district is not None %}
+                                                            <option value="{{ userr.district }}" selected>{{ userr.district }}</option>
+                                                        {% endif %}
                                                     </select>
-                                                {% endif %}
                                             </div>
                                         </div>
                                         <div class="row" style="margin-top: 5px;">
@@ -289,20 +275,17 @@
                                             </p>
                                             </div>
                                             <div class="col-6">
-                                                {% if lead.referral%}
-                                                    <p>
-                                                        {{ lead.referral.name }}
-                                                    </p>
-                                                {% else %}
-                                                
-                                                    <select class="form-control" id="referral" name="referral"
-                                                            style="width: 100%;">
-                                                            {% for ref in referral %}
-                                                        <option value="{{ ref.id }}">{{ ref.name }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                    
-                                                {% endif %}
+                                                <select class="form-control" id="referral" name="referral"
+                                                        style="width: 100%;">
+                                                    <option value="">Tanlang </option>
+                                                    {% for ref in referral %}
+                                                    <option value="{{ ref.id }}" 
+                                                            {% if lead.referral.id == ref.id %}
+                                                                selected
+                                                            {% endif %}
+                                                        >{{ ref.name }}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="row" style="margin-top: 5px;">
@@ -316,9 +299,7 @@
                                         {% endif %}</p>
                                             </div>
                                             <div class="col-6">
-                                                <p>{% if userr.birthday is not None %}{{ userr.birthday }}{% else %}
-                                                    <input type="date" name="birthday" class="form-control"
-                                                           required>{% endif %}</p>
+                                                    <input value="{{ userr.birthday|date:'Y-m-d' }}" type="date" name="birthday" class="form-control">
                                             </div>
                                         </div>
                                         <div class="row" style="margin-top: 5px;">
@@ -330,7 +311,7 @@
                                                     {% if userr.abcxyz is not None %}
                                                         {{ userr.abcxyz }}
                                                     {% else %}
-                                                        <select name="abc" required class="form-control">
+                                                        <select name="abc" class="form-control">
                                                             <option value="A">A</option>
                                                             <option value="B">B</option>
                                                             <option value="C">C</option>
@@ -346,7 +327,7 @@
                                             <div class="col-6">
                                                 <p>
 
-                                                        <select name="status" required class="form-control">
+                                                        <select name="status" class="form-control">
                                                             {% if LANGUAGE_CODE == 'en' %}
                                                             {% for i in status %}
                                                                 {% if i.status == 0%}
@@ -426,36 +407,76 @@
                                                 </p>
                                             </div>
                                         </div>
+
+                                        <div class="row" style="margin-top: 5px;">
+                                            <div class="col-6">
+                                                <p>
+                                                    {% if LANGUAGE_CODE == 'en' %}
+                                                        Business type
+                                                    {% elif LANGUAGE_CODE == 'ru' %}
+                                                        Тип бизнеса
+                                                    {% else %}
+                                                        Biznes turi
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" name="business_type" class="form-control" value="{{ lead.business_type|default:'' }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="row" style="margin-top: 5px;">
+                                            <div class="col-6">
+                                                <p>
+                                                    {% if LANGUAGE_CODE == 'en' %}
+                                                        Investment amount
+                                                    {% elif LANGUAGE_CODE == 'ru' %}
+                                                        Сумма инвестиций
+                                                    {% else %}
+                                                        Investitsiya summasi
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+                                            <div class="col-6 d-flex gap-2">
+                                                <input type="number" name="investment_price" class="form-control" value="{{ lead.investment_price|default:'' }}" placeholder="{% if LANGUAGE_CODE == 'en' %}Amount{% elif LANGUAGE_CODE == 'ru' %}Сумма{% else %}Summani kiriting{% endif %}" step="any">
+                                                <select name="investment_valuta" class="form-select" style="max-width:120px;">
+                                                    <option value="1" {% if lead.investment_valuta == 1 %}selected{% endif %}>so'm</option>
+                                                    <option value="2" {% if lead.investment_valuta == 2 %}selected{% endif %}>$</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
                                         <div class="row" style="margin-top: 5px;">
                                             <div class="col-6">
                                                 <p>{% if LANGUAGE_CODE == 'en' %}
-                                            Where the customer came from
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            Откуда пришел клиент
-                                        {% else %}
-                                            Mijoz kelgan joy
-                                        {% endif %}</p>
+                                                Where the customer came from
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                Откуда пришел клиент
+                                            {% else %}
+                                                Mijoz kelgan joy
+                                            {% endif %}</p>
                                             </div>
                                             <div class="col-6">
-                                                {% if lead.join_from is not None %}{{ lead.join_from }}{% else %}
-                                                    <input type="text" name="join_from" class="form-control">{% endif %}
+                                                <input type="text" name="join_from" class="form-control" value="{{ lead.join_from|default:'' }}">
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="form-group">
                                             <label>{% if LANGUAGE_CODE == 'en' %}
                                             About the client
-                                        {% elif LANGUAGE_CODE == 'ru'%}
-                                            О клиент
-                                        {% else %}
-                                            Mijoz Haqida
-                                        {% endif %}</label>
+                                            {% elif LANGUAGE_CODE == 'ru'%}
+                                                О клиент
+                                            {% else %}
+                                                Mijoz Haqida
+                                            {% endif %}</label>
                                             <textarea rows="5" cols="5" class="form-control"
                                                       name="notes">{{ userr.note }}</textarea>
                                         </div>
                                         <input type="hidden" name="id" value="{{ userr.id }}">
                                         <input type="hidden" name="step" value="{{ step }}">
-                                    </div>
+                                </div>
+                                
                                     
 
                                 </div>
@@ -559,12 +580,14 @@
                                             <div class="timeline">
                                                 {% for n in notes %}
                                                     <div class="timeline-item" id="timeline-item-{{ n.id }}">
-                                                        <div class="timeline-point timeline-point {{ n.color }}">
+                                                        <!-- <div class="timeline-point timeline-point {{ n.color|default:'bg-primary' }}">
                                                             <i class="fa fa-star"></i>
                                                         </div>
-                                                        <div class="timeline-event timeline-event-{{ n.color }}">
+                                                        <div class="timeline-event timeline-event-{{ n.color|default:'bg-primary' }}">
                                                             <div class="timeline-heading">
-                                                                <a type="button" style="padding-right: 84%;" class="text-right" data-toggle="modal" data-target="#exampleModal{{n.id}}"><i class="fa-solid fa-ellipsis"></i></a>
+                                                                <a type="button" style="padding-right: 84%;" class="text-right text-success" data-toggle="modal" data-target="#exampleModal{{n.id}}"><i class="fa-solid fa-plus"></i></a>
+                                                                <a type="button" style="padding-right: 84%;" class="text-right text-secondary"><i class="fa-solid fa-edit"></i></a>
+                                                                <a type="button" style="padding-right: 84%;" class="text-right text-danger"><i class="fa-solid fa-trash"></i></a>
                                                                 <a class="ping-btn" type="button" data-id="{{ n.id }}" data-ping="{{ n.ping|yesno:'1,0' }}">
                                                                     📌
                                                                 </a>
@@ -577,7 +600,40 @@
                                                             <div class="timeline-footer">
                                                                <p class="text-right">{{ n.changer}}</p><p class="text-right">{{ n.date }}</p>
                                                             </div>
+                                                        </div> -->
+
+                                                        <div class="timeline-point timeline-point {{ n.color|default:'bg-primary' }}">
+                                                            <i class="fa fa-star"></i>
                                                         </div>
+                                                        <div class="timeline-event timeline-event-{{ n.color|default:'bg-primary' }}">
+                                                            <div class="timeline-point timeline-point {{ n.color|default:'bg-primary' }}">
+                                                                <!-- <i class="fa fa-star"></i> -->
+                                                            </div>
+                                                            
+                                                            <div class="timeline-heading">
+                                                                <a type="button" style="padding-right: 84%;" class="text-right text-success" data-toggle="modal" data-target="#exampleModal{{n.id}}">
+                                                                    <i class="fa-solid fa-plus"></i>
+                                                                </a>
+                                                                <a type="button" style="padding-right: 84%;" class="text-right text-secondary edit-action-btn">
+                                                                    <i class="fa-solid fa-edit"></i>
+                                                                </a>
+                                                                <a type="button" style="padding-right: 84%;" class="text-right text-danger delete-action-btn">
+                                                                    <i class="fa-solid fa-trash"></i>
+                                                                </a>
+                                                                <a class="ping-btn" type="button" data-id="{{ n.id }}" data-ping="{{ n.ping|yesno:'1,0' }}">
+                                                                    📌
+                                                                </a>
+                                                                <br>
+                                                                <h3 class="timeline-title text-right" data-emotion="{{ n.emotsiya }}">{{ n.get_emotsiya_display }}</h3>
+                                                            </div>
+                                                            <div class="timeline-body">
+                                                                <p style="color:white; font-size: 20px;">{{ n.note }}</p>
+                                                            </div>
+                                                            <div class="timeline-footer">
+                                                                <p class="text-right">{{ n.changer}}</p><p class="text-right">{{ n.date }}</p>
+                                                            </div>
+                                                        </div>
+                                                        
                                                         <div class="modal fade" id="exampleModal{{n.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog" role="document">
                                                                 <form action="{% url 'add_task_with_lead' n.id %}" method="post">
@@ -679,6 +735,161 @@
                     </div>
                 
             </div>
+
+
+
+            <!-- Delete Confirmation Modal -->
+            <div class="modal fade" id="deleteActionModal" tabindex="-1" role="dialog" aria-labelledby="deleteActionModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteActionModalLabel">
+                                {% if LANGUAGE_CODE == 'en' %}Delete Note
+                                {% elif LANGUAGE_CODE == 'ru' %}Удалить заметку
+                                {% else %}Eslatmani o'chirish{% endif %}
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                {% if LANGUAGE_CODE == 'en' %}Are you sure you want to delete this note?
+                                {% elif LANGUAGE_CODE == 'ru' %}Вы уверены, что хотите удалить эту заметку?
+                                {% else %}Haqiqatan ham bu eslatmani o'chirmoqchimisiz?{% endif %}
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                {% if LANGUAGE_CODE == 'en' %}Cancel
+                                {% elif LANGUAGE_CODE == 'ru' %}Отмена
+                                {% else %}Bekor qilish{% endif %}
+                            </button>
+                            <button type="button" class="btn btn-danger" id="confirmDeleteAction">
+                                {% if LANGUAGE_CODE == 'en' %}Delete
+                                {% elif LANGUAGE_CODE == 'ru' %}Удалить
+                                {% else %}O'chirish{% endif %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Edit Lead Action Modal -->
+            <div class="modal fade" id="editActionModal" tabindex="-1" role="dialog" aria-labelledby="editActionModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form id="editActionForm">
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editActionModalLabel">
+                                    {% if LANGUAGE_CODE == 'en' %}Edit Note
+                                    {% elif LANGUAGE_CODE == 'ru' %}Редактировать заметку
+                                    {% else %}Eslatmani tahrirlash{% endif %}
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" id="editActionId" name="id">
+                                <div class="form-group">
+                                    <label for="editNote">
+                                        {% if LANGUAGE_CODE == 'en' %}Note
+                                        {% elif LANGUAGE_CODE == 'ru' %}Заметка
+                                        {% else %}Eslatma{% endif %}
+                                    </label>
+                                    <textarea class="form-control" id="editNote" name="note" rows="5" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editColor">
+                                        {% if LANGUAGE_CODE == 'en' %}Color
+                                        {% elif LANGUAGE_CODE == 'ru' %}Цвет
+                                        {% else %}Rang{% endif %}
+                                    </label>
+                                    <select class="form-control" id="editColor" name="color" required>
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            <option value="bg-primary">Blue</option>
+                                            <option value="bg-warning">Yellow</option>
+                                            <option value="bg-info">Violet</option>
+                                            <option value="bg-success">Green</option>
+                                            <option value="bg-danger">Red</option>
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            <option value="bg-primary">Синий</option>
+                                            <option value="bg-warning">Желтый</option>
+                                            <option value="bg-info">Фиолетовый</option>
+                                            <option value="bg-success">Зеленый</option>
+                                            <option value="bg-danger">Красный</option>
+                                        {% else %}
+                                            <option value="bg-primary">Ko'k</option>
+                                            <option value="bg-warning">Sariq</option>
+                                            <option value="bg-info">Binafsha</option>
+                                            <option value="bg-success">Yashil</option>
+                                            <option value="bg-danger">Qizil</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editEmotsiya">
+                                        {% if LANGUAGE_CODE == 'en' %}Emotion
+                                        {% elif LANGUAGE_CODE == 'ru' %}Эмоция
+                                        {% else %}Emotsiya{% endif %}
+                                    </label>
+                                    <select class="form-control" id="editEmotsiya" name="emotsiya" required>
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            <option value="1">🤔 Undecided</option>
+                                            <option value="2">🤗 Will reappear</option>
+                                            <option value="3">😋 A case of information</option>
+                                            <option value="4">🤓 Need to influence</option>
+                                            <option value="5">👏🏻 Need to sell quickly</option>
+                                            <option value="6">🤩 Consumer</option>
+                                            <option value="7">✍🏻 Additional increases</option>
+                                            <option value="8">🙃 Undesirable</option>
+                                            <option value="9">😖 Complaint</option>
+                                        {% elif LANGUAGE_CODE == 'ru'%}
+                                            <option value="1">🤔 Не определился</option>
+                                            <option value="2">🤗 Появляйтесь снова</option>
+                                            <option value="3">😋 Речь идет об информации</option>
+                                            <option value="4">🤓 Надо влиять</option>
+                                            <option value="5">👏🏻 Надо быстро продать</option>
+                                            <option value="6">🤩 Потребитель</option>
+                                            <option value="7">✍🏻 Дополнительное увеличение</option>
+                                            <option value="8">🙃 Нежелательно</option>
+                                            <option value="9">😖 Жалоба</option>
+                                        {% else %}
+                                            <option value="1">🤔 Qarorsiz</option>
+                                            <option value="2">🤗 Qayta kelishuv</option>
+                                            <option value="3">😋 Info ehtiyoj</option>
+                                            <option value="4">🤓 Tasir etish kerak</option>
+                                            <option value="5">👏🏻 Tezkor sotish kerak</option>
+                                            <option value="6">🤩 Istemolchi</option>
+                                            <option value="7">✍🏻 Qo'shimcha kelishuv</option>
+                                            <option value="8">🙃 Etirozli</option>
+                                            <option value="9">😖 Shikoyatli</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    {% if LANGUAGE_CODE == 'en' %}Cancel
+                                    {% elif LANGUAGE_CODE == 'ru' %}Отмена
+                                    {% else %}Bekor qilish{% endif %}
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    {% if LANGUAGE_CODE == 'en' %}Save Changes
+                                    {% elif LANGUAGE_CODE == 'ru' %}Сохранить изменения
+                                    {% else %}O'zgarishlarni saqlash{% endif %}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
             <script>
@@ -1682,7 +1893,7 @@
                                 <div class="form-group">
                                     <label>{% trans "Tug'ilgan sana" %}</label><span style="float:right;">{{ userr.birthday }}</span>
                                     <input type="date" class="form-control" name="date" placeholder=""
-                                           value="{{ userr.birthday|date:'Y-m-d' }}" required>
+                                           value="{{ userr.birthday|date:'Y-m-d' }}">
                                     <input type="hidden" class="form-control" name="id" placeholder=""
                                            value="{{ userr.id }}">
                                 </div>
@@ -1692,7 +1903,7 @@
                                 <div class="form-group">
                                     <label>Telegram</label><span style="float:right;"></span>
                                     <input type="text" class="form-control" name="tg_id" placeholder=""
-                                           value="{{ userr.tg_id }}" required>
+                                           value="{{ userr.tg_id }}">
                                     <input type="hidden" class="form-control" name="id" placeholder=""
                                            value="{{ userr.id }}">
                                 </div>
@@ -2184,4 +2395,224 @@ $(document).ready(function() {
     });
 });
 </script>
+
+
+
+<script>
+$(document).ready(function() {
+    let currentActionId = null;
+
+    // Delete functionality
+    $('.text-danger').click(function() {
+        currentActionId = $(this).closest('.timeline-event').find('.ping-btn').data('id');
+        $('#deleteActionModal').modal('show');
+    });
+
+    $('#confirmDeleteAction').click(function() {
+        if (currentActionId) {
+            $.ajax({
+                url: "{% url 'delete_lead_action' %}",
+                type: "POST",
+                data: {
+                    'id': currentActionId,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Remove the timeline item from DOM
+                        $('#timeline-item-' + currentActionId).remove();
+                        $('#deleteActionModal').modal('hide');
+                        
+                        // Show success message
+                        showAlert(
+                            "{% if LANGUAGE_CODE == 'en' %}Note deleted successfully{% elif LANGUAGE_CODE == 'ru' %}Заметка успешно удалена{% else %}Eslatma muvaffaqiyatli o'chirildi{% endif %}",
+                            'success'
+                        );
+                    } else {
+                        showAlert(
+                            "{% if LANGUAGE_CODE == 'en' %}Error deleting note{% elif LANGUAGE_CODE == 'ru' %}Ошибка при удалении заметки{% else %}Eslatmani o'chirishda xatolik{% endif %}",
+                            'error'
+                        );
+                    }
+                },
+                error: function() {
+                    showAlert(
+                        "{% if LANGUAGE_CODE == 'en' %}Error deleting note{% elif LANGUAGE_CODE == 'ru' %}Ошибка при удалении заметки{% else %}Eslatmani o'chirishda xatolik{% endif %}",
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+
+    // Edit functionality
+    $('.text-secondary').click(function() {
+        const timelineEvent = $(this).closest('.timeline-event');
+        currentActionId = timelineEvent.find('.ping-btn').data('id');
+        
+        // Get current values
+        const noteText = timelineEvent.find('.timeline-body p').text();
+        const emotionValue = timelineEvent.find('.timeline-title').data('emotion') || 
+                           getEmotionValueFromText(timelineEvent.find('.timeline-title').text());
+        const colorClass = timelineEvent.find('.timeline-point').attr('class').split(' ').find(cls => cls.startsWith('timeline-point-'));
+        const colorValue = colorClass ? colorClass.replace('timeline-point-', 'bg-') : 'bg-primary';
+        
+        // Populate the edit form
+        $('#editActionId').val(currentActionId);
+        $('#editNote').val(noteText);
+        $('#editColor').val(colorValue);
+        $('#editEmotsiya').val(emotionValue);
+        
+        $('#editActionModal').modal('show');
+    });
+
+    // Handle edit form submission
+    $('#editActionForm').submit(function(e) {
+        e.preventDefault();
+        
+        const formData = $(this).serialize();
+        
+        $.ajax({
+            url: "{% url 'edit_lead_action' %}",
+            type: "POST",
+            data: formData,
+            success: function(response) {
+                if (response.success) {
+                    // Update the timeline item in DOM
+                    updateTimelineItem(currentActionId, formData);
+                    $('#editActionModal').modal('hide');
+                    
+                    // Show success message
+                    showAlert(
+                        "{% if LANGUAGE_CODE == 'en' %}Note updated successfully{% elif LANGUAGE_CODE == 'ru' %}Заметка успешно обновлена{% else %}Eslatma muvaffaqiyatli yangilandi{% endif %}",
+                        'success'
+                    );
+                } else {
+                    showAlert(
+                        "{% if LANGUAGE_CODE == 'en' %}Error updating note{% elif LANGUAGE_CODE == 'ru' %}Ошибка при обновлении заметки{% else %}Eslatmani yangilashda xatolik{% endif %}",
+                        'error'
+                    );
+                }
+            },
+            error: function() {
+                showAlert(
+                    "{% if LANGUAGE_CODE == 'en' %}Error updating note{% elif LANGUAGE_CODE == 'ru' %}Ошибка при обновлении заметки{% else %}Eslatmani yangilashda xatolik{% endif %}",
+                    'error'
+                );
+            }
+        });
+    });
+
+    // Helper function to extract emotion value from display text
+    function getEmotionValueFromText(text) {
+        const emotionMap = {
+            {% if LANGUAGE_CODE == 'en' %}
+                "🤔 Undecided": "1",
+                "🤗 Will reappear": "2",
+                "😋 A case of information": "3",
+                "🤓 Need to influence": "4",
+                "👏🏻 Need to sell quickly": "5",
+                "🤩 Consumer": "6",
+                "✍🏻 Additional increases": "7",
+                "🙃 Undesirable": "8",
+                "😖 Complaint": "9"
+            {% elif LANGUAGE_CODE == 'ru' %}
+                "🤔 Не определился": "1",
+                "🤗 Появляйтесь снова": "2",
+                "😋 Речь идет об информации": "3",
+                "🤓 Надо влиять": "4",
+                "👏🏻 Надо быстро продать": "5",
+                "🤩 Потребитель": "6",
+                "✍🏻 Дополнительное увеличение": "7",
+                "🙃 Нежелательно": "8",
+                "😖 Жалоба": "9"
+            {% else %}
+                "🤔 Qarorsiz": "1",
+                "🤗 Qayta kelishuv": "2",
+                "😋 Info ehtiyoj": "3",
+                "🤓 Tasir etish kerak": "4",
+                "👏🏻 Tezkor sotish kerak": "5",
+                "🤩 Istemolchi": "6",
+                "✍🏻 Qo'shimcha kelishuv": "7",
+                "🙃 Etirozli": "8",
+                "😖 Shikoyatli": "9"
+            {% endif %}
+        };
+        
+        return emotionMap[text.trim()] || "1";
+    }
+
+    // Helper function to update timeline item after edit
+    function updateTimelineItem(actionId, formData) {
+        const params = new URLSearchParams(formData);
+        const note = params.get('note');
+        const color = params.get('color');
+        const emotsiya = params.get('emotsiya');
+        
+        const timelineItem = $('#timeline-item-' + actionId);
+        const timelineEvent = timelineItem.find('.timeline-event');
+        const timelinePoint = timelineItem.find('.timeline-point');
+        
+        // Update note text
+        timelineEvent.find('.timeline-body p').text(note);
+        
+        // Update color
+        const newColorClass = color.replace('bg-', 'timeline-point-');
+        timelinePoint.removeClass().addClass('timeline-point ' + newColorClass);
+        timelineEvent.removeClass().addClass('timeline-event ' + newColorClass);
+        
+        // Update emotion
+        const emotionText = getEmotionTextFromValue(emotsiya);
+        timelineEvent.find('.timeline-title').text(emotionText);
+    }
+
+    // Helper function to get emotion display text from value
+    function getEmotionTextFromValue(value) {
+        const emotionTextMap = {
+            {% if LANGUAGE_CODE == 'en' %}
+                "1": "🤔 Undecided",
+                "2": "🤗 Will reappear",
+                "3": "😋 A case of information",
+                "4": "🤓 Need to influence",
+                "5": "👏🏻 Need to sell quickly",
+                "6": "🤩 Consumer",
+                "7": "✍🏻 Additional increases",
+                "8": "🙃 Undesirable",
+                "9": "😖 Complaint"
+            {% elif LANGUAGE_CODE == 'ru' %}
+                "1": "🤔 Не определился",
+                "2": "🤗 Появляйтесь снова",
+                "3": "😋 Речь идет об информации",
+                "4": "🤓 Надо влиять",
+                "5": "👏🏻 Надо быстро продать",
+                "6": "🤩 Потребитель",
+                "7": "✍🏻 Дополнительное увеличение",
+                "8": "🙃 Нежелательно",
+                "9": "😖 Жалоба"
+            {% else %}
+                "1": "🤔 Qarorsiz",
+                "2": "🤗 Qayta kelishuv",
+                "3": "😋 Info ehtiyoj",
+                "4": "🤓 Tasir etish kerak",
+                "5": "👏🏻 Tezkor sotish kerak",
+                "6": "🤩 Istemolchi",
+                "7": "✍🏻 Qo'shimcha kelishuv",
+                "8": "🙃 Etirozli",
+                "9": "😖 Shikoyatli"
+            {% endif %}
+        };
+        
+        return emotionTextMap[value] || emotionTextMap["1"];
+    }
+
+    // Helper function to show alerts
+    function showAlert(message, type) {
+        // You can implement your own alert system here
+        // For example, using toastr or a simple alert
+        //alert(message);
+    }
+});
+</script>
+
+
 {% endblock js %}

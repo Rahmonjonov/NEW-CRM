@@ -35,7 +35,7 @@ class DistrictAdmin(admin.ModelAdmin):
 class LeadAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'price', 'company', 'companyAddress', 'status', 'pole', 'date', 'created_user',
                     'phone', 'is_active', 'created_user']
-    list_filter = ['created_user__company', 'status', 'pole']
+    list_filter = ['created_user__company', 'status', 'pole', 'created_user']
     list_display_links = ['id', 'name']
     search_fields = ['name', 'phone']
 

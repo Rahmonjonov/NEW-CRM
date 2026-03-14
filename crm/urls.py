@@ -16,7 +16,8 @@ urlpatterns = [
     path('task/', include('board.task_urls')),
     path('paycom/', include('paycom.urls')),
     path('check_company/', check_company),
-    path('i18n/', include('django.conf.urls.i18n'))
+    path('i18n/', include('django.conf.urls.i18n')),
+    path('ai/', include('ai.urls')),
 ]
 urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
